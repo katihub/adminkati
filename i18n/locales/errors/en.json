@@ -1,0 +1,15 @@
+{
+  "errors": {
+    "badRequest": "We could not process that request.",
+    "unauthorized": "Your session has ended. Sign in again.",
+    "forbidden": "You do not have permission to do that.",
+    "deactivated": "Your access has been withdrawn. Contact your manager.",
+    "notFound": "That no longer exists.",
+    "conflict": "Someone changed this before you did.",
+    "tooLarge": "That file is too large.",
+    "tooManyRequests": "Too many requests. Wait a moment and try again.",
+    "server": "The service had a problem. Try again shortly.",
+    "unreachable": "The service is unreachable. Check your connection.",
+    "unknown": "Something went wrong."
+  }
+}

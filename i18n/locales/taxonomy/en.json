@@ -1,0 +1,143 @@
+{
+  "taxonomy": {
+    "heading": "Taxonomy",
+    "tabs": { "categories": "Categories", "departments": "Departments", "brands": "Brands" },
+    "seo": {
+      "title": "Taxonomy · NowTech Admin",
+      "description": "Catalogue taxonomy administration for the NowTech admin panel."
+    },
+    "toolbar": {
+      "searchLabel": "Categories",
+      "searchOperatorContains": "has",
+      "searchPlaceholder": "Search",
+      "departmentLabel": "Department",
+      "departmentOperatorIs": "is",
+      "allDepartments": "All",
+      "visibilityLabel": "Visibility",
+      "visibilityOperatorIs": "is",
+      "clear": "Clear",
+      "expand": "Expand all",
+      "collapse": "Collapse all",
+      "add": "Add",
+      "new": "New"
+    },
+    "visibility": { "all": "All", "visible": "Visible", "hidden": "Hidden" },
+    "tree": {
+      "name": "Name",
+      "department": "Department",
+      "products": "Products",
+      "visibility": "Visibility",
+      "empty": "No categories yet.",
+      "noResults": "No categories match these filters.",
+      "expand": "Expand {name}",
+      "collapse": "Collapse {name}"
+    },
+    "departments": {
+      "title": "Department details",
+      "newTitle": "New department",
+      "description": "View and manage this department.",
+      "searchLabel": "Departments",
+      "searchOperator": "has",
+      "name": "Name",
+      "shortName": "Short name",
+      "accroche": "Tagline",
+      "accrochePlaceholder": "One sentence introducing this department on the storefront",
+      "accrocheHint": "Optional · 300 characters max. Shown at the top of the department on the shop.",
+      "validation": {
+        "format": "Lowercase letters, digits and single hyphens only — no spaces, accents, capitals, or leading/trailing hyphen. Example: gros-electromenager",
+        "tooLong": "{max} characters maximum.",
+        "useSuggestion": "Use “{slug}”"
+      },
+      "id": "Identifier",
+      "identifier": "Backend identifier",
+      "identifierValue": "Identifier: {id} · Slug: {slug}",
+      "products": "Products",
+      "empty": "No departments yet.",
+      "noResults": "No departments match this search.",
+      "productsEmpty": "No products in this department",
+      "productsEmptyHint": "Products appear here once they are filed under this department.",
+      "add": "Add department",
+      "new": "New",
+      "clear": "Clear",
+      "save": "Save changes",
+      "notFound": "This department could not be found. It may have been removed.",
+      "deleteTitle": "Delete this department?",
+      "deleteDescription": "This permanently deletes {name} when no categories use it.",
+      "deleteConfirm": "Delete department"
+    },
+    "brands": {
+      "title": "Brand details",
+      "description": "View this brand and its products.",
+      "searchLabel": "Brands",
+      "searchOperator": "has",
+      "name": "Name",
+      "slug": "Slug",
+      "products": "Products",
+      "productSummary": "active products",
+      "empty": "No brands yet.",
+      "noResults": "No brands match this search.",
+      "productsEmpty": "No products for this brand",
+      "productsEmptyHint": "Products appear here when their brand matches.",
+      "clear": "Clear",
+      "notFound": "This brand could not be found. It may have been removed."
+    },
+    "panel": {
+      "title": "Category details",
+      "newTitle": "New category",
+      "description": "View and manage this category.",
+      "overview": "Overview",
+      "products": "Products",
+      "subcategories": "Subcategories",
+      "noSubcategories": "No subcategories.",
+      "notFound": "This category could not be found. It may have been removed.",
+      "close": "Close",
+      "edit": "Edit",
+      "hide": "Hide",
+      "show": "Show",
+      "delete": "Delete",
+      "cancel": "Cancel"
+    },
+    "products": {
+      "empty": "No products in this category",
+      "emptyHint": "Products in its subcategories show up here too."
+    },
+    "productsTab": {
+      "count": "{count} product | {count} products",
+      "countOf": "{loaded} of {total} products",
+      "loadFailed": "Could not load more products.",
+      "loadingMore": "Loading more products…",
+      "addProduct": "Add a product"
+    },
+    "form": {
+      "name": "Name",
+      "slug": "Slug",
+      "parent": "Parent category",
+      "noParent": "No parent category",
+      "department": "Department",
+      "chooseDepartment": "Choose a department",
+      "inheritedDepartment": "Department inherited from {department}",
+      "save": "Save changes"
+    },
+    "delete": {
+      "title": "Delete this category?",
+      "description": "This permanently deletes {name} when it has no products or child categories.",
+      "cancel": "Cancel",
+      "confirm": "Delete category"
+    },
+    "recalculate": {
+      "trigger": "Recalculate counters",
+      "title": "Recalculate counters?",
+      "description": "Product counters for categories, departments and brands are recounted from the catalogue. Nothing else changes.",
+      "cancel": "Cancel",
+      "confirm": "Recalculate",
+      "toastSuccess": "Counters recalculated.",
+      "toastError": "Could not recalculate counters."
+    },
+    "discard": {
+      "title": "Discard unsaved changes?",
+      "description": "Your edits will be lost if you continue.",
+      "keep": "Keep editing",
+      "confirm": "Discard changes"
+    }
+  }
+}

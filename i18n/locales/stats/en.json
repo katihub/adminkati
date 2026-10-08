@@ -1,0 +1,176 @@
+{
+  "stats": {
+    "actions": {
+      "openOrders": "Open orders",
+      "openProducts": "Open products",
+      "period": "Period",
+      "refresh": "Refresh overview",
+      "updated": "Updated at {time}",
+      "viewMore": "View more"
+    },
+    "aria": {
+      "loading": "Loading overview"
+    },
+    "blocks": {
+      "aTraiter": "To process",
+      "caisse": "Cash health",
+      "encaissements": "Cash collected",
+      "mix": "Order mix",
+      "operations": "Operations",
+      "produits": "Top products",
+      "salesStatistics": "Sales Statistics",
+      "totalProfit": "Total Profit"
+    },
+    "kpis": {
+      "totalSales": "Total Products Sales",
+      "totalStock": "Total Products in stock",
+      "returnProducts": "Return Products",
+      "productRevenue": "Product Revenue",
+      "totalStockSubtitle": "on hand",
+      "periodLabels": {
+        "aujourdhui": "Today so far",
+        "7j": "Over 7 days",
+        "30j": "Over 30 days",
+        "3mois": "Over 3 months",
+        "12mois": "Over 12 months",
+        "stock": "Net movement"
+      }
+    },
+    "chart": {
+      "aria": "Chart of cash collected and billed over the selected period",
+      "commandes": "Orders closed",
+      "current": "Current",
+      "encaisse": "Collected",
+      "facture": "Billed",
+      "previous": "Previous"
+    },
+    "tabs": {
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Last year"
+    },
+    "catalogue": {
+      "title": "Catalogue",
+      "totalProducts": "Total products",
+      "totalBrands": "Total brands",
+      "totalDepartments": "Total departments",
+      "totalCategories": "Total categories"
+    },
+    "profit": {
+      "totalProfit": "Total Profit",
+      "totalRevenue": "Total revenue",
+      "cout": "Cost of goods"
+    },
+    "transactions": {
+      "title": "Recent Transactions",
+      "subtitle": "Stay updated with the latest customer orders.",
+      "orderId": "Order ID",
+      "productName": "Product Name",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status",
+      "action": "Action"
+    },
+    "status": {
+      "inProgress": "In progress",
+      "delivered": "Delivered",
+      "canceled": "Canceled",
+      "unverified": "Unverified"
+    },
+    "chargement": "Updating",
+    "caisse": {
+      "aria": "Cash health: {taux}",
+      "clotures": "No-variance closings: {sansEcart} of {remises}",
+      "ecartCumule": "Cumulative variance",
+      "litiges": "Disputed cash closings: {count}",
+      "sansRemise": "No cash closings to measure"
+    },
+    "delta": {
+      "baisse": "Down {valeur} versus the previous period",
+      "hausse": "Up {valeur} versus the previous period",
+      "indisponible": "No comparison: the previous period had nothing to measure",
+      "stable": "Unchanged versus the previous period"
+    },
+    "indisponible": "N/A",
+    "hero": {
+      "headline": "Cash collected"
+    },
+    "livraison": {
+      "aria": "Successful delivery rate: {taux}, {reussies} successful out of {cloturees} closed",
+      "sansCloture": "No deliveries closed in the period"
+    },
+    "mix": {
+      "barAria": "{label}: {percentage}",
+      "dimension": "Choose order mix dimension",
+      "dimensions": {
+        "modePaiementSouhaite": "Requested payment mode",
+        "modeRemise": "Delivery mode",
+        "momentPaiement": "Payment timing",
+        "statut": "Status"
+      },
+      "values": {
+        "agence": "Agency",
+        "a_la_livraison": "On delivery",
+        "annulation_demandee": "Cancellation requested",
+        "annulee": "Cancelled",
+        "close": "Closed",
+        "confirmee": "Confirmed",
+        "domicile": "Home delivery",
+        "en_preparation": "Being prepared",
+        "en_remise": "Being handed over",
+        "especes_comptoir": "Cash at counter",
+        "especes_livraison": "Cash on delivery",
+        "mobile_livraison": "Mobile money on delivery",
+        "mobile_plateforme": "Mobile money platform",
+        "maintenant": "Now",
+        "prete_au_retrait": "Ready for pickup",
+        "retrait": "Pickup",
+        "retour_ouvert": "Open return",
+        "soumise": "Submitted"
+      },
+      "total": "{count} orders"
+    },
+    "operations": {
+      "aPreparer": "To prepare",
+      "closes": "Closed in period",
+      "enRemise": "Being handed over",
+      "pretesAuRetrait": "Ready for pickup"
+    },
+    "pourcentage": "{valeur} %",
+    "periods": {
+      "12mois": "12 months",
+      "30j": "30 days",
+      "3mois": "3 months",
+      "7j": "7 days",
+      "aujourdhui": "Today"
+    },
+    "products": {
+      "columnEarnings": "Earnings",
+      "columnProducts": "Products",
+      "columnSales": "Sales",
+      "sparkline": "Daily units trend",
+      "thumbnailAlt": "Product image for {nom}",
+      "topSellingTitle": "Top selling products",
+      "units": "{count} units"
+    },
+    "tiles": {
+      "especes": "Cash",
+      "mobileMoney": "Mobile money",
+      "resteAPayer": "Outstanding",
+      "virement": "Bank transfer"
+    },
+    "queue": {
+      "now": "Open actions right now",
+      "rows": {
+        "annulations_demandees": "Cancellations requested",
+        "caisses_litige": "Disputed cash closings",
+        "membres_jamais_connectes": "Members who never signed in",
+        "propositions_attente": "Catalogue proposals pending",
+        "retours_ouverts": "Open returns"
+      }
+    },
+    "retry": "Try again",
+    "vide": "No data for this period",
+    "unites": "pcs"
+  }
+}

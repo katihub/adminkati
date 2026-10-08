@@ -1,0 +1,107 @@
+{
+  "users": {
+    "page": {
+      "heading": "Clients",
+      "empty": "Sélectionnez un client pour voir les détails du compte.",
+      "loading": "Chargement des détails du client…",
+      "back": "Retour aux clients",
+      "seo": {
+        "title": "Clients · Administration NowTech",
+        "description": "Administration des comptes clients pour le panneau NowTech."
+      }
+    },
+    "filterBar": {
+      "searchLabel": "Rechercher des clients",
+      "searchPlaceholder": "Nom, courriel ou téléphone…",
+      "searchOperatorContains": "Contient",
+      "statusLabel": "Statut",
+      "statusOperatorIs": "Est",
+      "statusAll": "Tous les statuts",
+      "sortLabel": "Trier",
+      "sortOperatorIs": "Est",
+      "sortRecent": "Plus récents",
+      "sortName": "Nom",
+      "clear": "Effacer les filtres"
+    },
+    "listPanel": {
+      "empty": "Aucun client",
+      "loadMore": "Charger plus de clients"
+    },
+    "listItem": {
+      "incomplete": "Profil incomplet",
+      "lastAccess": "Dernier accès : {value}",
+      "neverAccessed": "Jamais connecté",
+      "status": {
+        "actif": "Actif",
+        "suspendu": "Suspendu",
+        "supprime": "Supprimé"
+      }
+    },
+    "tabs": {
+      "profile": "Profil",
+      "orders": "Commandes"
+    },
+    "orders": {
+      "emptyTitle": "Aucune commande",
+      "emptyHint": "Les commandes de ce client apparaîtront ici.",
+      "itemCount": "{count} commandes",
+      "loadingMore": "Chargement d’autres commandes…",
+      "loadFailed": "Impossible de charger plus de commandes.",
+      "columns": {
+        "reference": "Référence",
+        "status": "Statut",
+        "date": "Date",
+        "items": "Articles",
+        "amount": "Montant"
+      }
+    },
+    "detail": {
+      "account": "Compte",
+      "profile": "Profil",
+      "profileOverview": "Profil client",
+      "addresses": "Adresses",
+      "created": "Créé le",
+      "lastAccess": "Dernier accès",
+      "status": "Statut",
+      "name": "Nom",
+      "phone": "Téléphone",
+      "backupPhone": "Téléphone de secours",
+      "recipientPhone": "À appeler",
+      "pickupCounter": "Comptoir de retrait",
+      "counter": "Comptoir préféré",
+      "company": "Entreprise",
+      "updated": "Mis à jour le",
+      "defaultAddress": "Par défaut",
+      "noValue": "Non renseigné",
+      "noAddresses": "Aucune adresse enregistrée",
+      "addressMode": {
+        "retrait": "Retrait au comptoir",
+        "domicile": "Livraison à domicile",
+        "agence": "Agence"
+      },
+      "incompleteTitle": "Profil incomplet",
+      "incompleteBody": "Ce compte n’a pas encore terminé son profil. Son statut de compte reste disponible ici.",
+      "email": "Courriel"
+    },
+    "actions": {
+      "suspend": "Suspendre",
+      "reactivate": "Réactiver"
+    },
+    "suspend": {
+      "title": "Suspendre {name} ?",
+      "description": "Ce client ne pourra plus se connecter ni commander. Vous pourrez le réactiver plus tard.",
+      "cancel": "Garder actif",
+      "confirm": "Suspendre le client"
+    },
+    "reactivate": {
+      "title": "Réactiver {name} ?",
+      "description": "Ce client retrouvera l’accès à son compte et pourra commander de nouveau.",
+      "cancel": "Garder suspendu",
+      "confirm": "Réactiver le client"
+    },
+    "toast": {
+      "suspended": "Client suspendu.",
+      "reactivated": "Client réactivé."
+    }
+  }
+}

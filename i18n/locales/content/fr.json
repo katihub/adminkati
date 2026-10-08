@@ -1,0 +1,221 @@
+{
+  "content": {
+    "heading": "Contenu",
+    "tabs": {
+      "banners": {
+        "label": "Bannières"
+      },
+      "propositions": {
+        "label": "Propositions"
+      },
+      "pointsOfSale": {
+        "label": "Points de vente"
+      }
+    },
+    "seo": {
+      "title": "Contenu · Administration NowTech",
+      "description": "Administration du contenu de la boutique pour le panneau NowTech."
+    },
+    "propositions": {
+      "status": {
+        "en_attente": "En attente",
+        "acceptee": "Acceptées",
+        "refusee": "Refusées",
+        "toutes": "Toutes"
+      },
+      "type": {
+        "creation": "Création",
+        "modification": "Modification",
+        "disparition": "Disparition"
+      },
+      "list": {
+        "changedFields": "aucun champ modifié | 1 champ modifié | {count} champs modifiés",
+        "resultCount": "aucune proposition | 1 proposition | {count} propositions",
+        "empty": "Aucune proposition"
+      },
+      "pagination": {
+        "previous": "Précédente",
+        "next": "Suivante",
+        "page": "Page {page} sur {total}"
+      },
+      "detail": {
+        "loading": "Chargement de la proposition…",
+        "empty": "Sélectionnez une proposition pour examiner ses changements.",
+        "detected": "Détectée le {date}",
+        "disappearanceWarning": "L'acceptation de cette proposition retirera le produit du catalogue.",
+        "creationNotice": "L'acceptation de cette proposition créera le produit dans le catalogue.",
+        "decidedBy": "Décidée par",
+        "decidedAt": "Décidée le",
+        "status": "Statut",
+        "reason": "Motif",
+        "readOnly": "Seule la Direction peut accepter ou refuser une proposition."
+      },
+      "changes": {
+        "field": "Champ",
+        "before": "Actuel",
+        "after": "Proposé"
+      },
+      "values": {
+        "empty": "Non renseigné",
+        "no": "Non",
+        "yes": "Oui"
+      },
+      "fields": {
+        "nom": "Nom",
+        "prix": "Prix",
+        "prix_reference": "Prix de référence",
+        "remise_pct": "Remise",
+        "en_stock": "En stock",
+        "marque": "Marque",
+        "url_source": "URL source",
+        "slug": "Slug",
+        "images": "Images",
+        "categorie_principale_id": "Catégorie",
+        "caracteristiques": "Caractéristiques",
+        "retire_le": "Retrait le"
+      },
+      "actions": {
+        "accept": "Accepter",
+        "refuse": "Refuser",
+        "cancel": "Annuler"
+      },
+      "accept": {
+        "title": "Accepter cette proposition ?",
+        "description": "Cela appliquera {count} changement(s) proposé(s) à {name}."
+      },
+      "refuse": {
+        "title": "Refuser cette proposition",
+        "description": "Ajoutez un motif court. Il sera conservé dans l'historique des décisions.",
+        "placeholder": "Pourquoi cette proposition doit-elle être refusée ?"
+      },
+      "toast": {
+        "accepted": "Proposition acceptée.",
+        "refused": "Proposition refusée.",
+        "conflict": "Cette proposition a changé avant votre décision. La dernière version est affichée."
+      }
+    },
+    "banners": {
+      "addBanner": "Ajouter",
+      "newBanner": "Nouveau",
+      "status": {
+        "all": "Toutes",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "filterBar": {
+        "statusLabel": "Statut",
+        "statusOperatorIs": "est",
+        "searchLabel": "Recherche",
+        "searchOperatorContains": "a",
+        "searchPlaceholder": "Rechercher par libellé",
+        "resultCount": "aucune bannière | 1 bannière | {count} bannières"
+      },
+      "emplacement": {
+        "principal": "Bannière principale",
+        "promo": "Promo",
+        "principalHint": "Le grand carrousel en tête de l'accueil. Son visuel doit être plus large que haut.",
+        "promoHint": "Le carrousel à côté. Tout format de visuel."
+      },
+      "grid": {
+        "empty": "Aucune bannière pour le moment.",
+        "noResults": "Aucune bannière ne correspond à vos filtres.",
+        "clearFilters": "Effacer",
+        "groupEmpty": "Aucune bannière dans ce carrousel pour le moment.",
+        "groupNoResults": "Aucune bannière de ce carrousel ne correspond à vos filtres.",
+        "noMobile": "Sans visuel mobile"
+      },
+      "panel": {
+        "title": "Détails de la bannière",
+        "editedBy": "Dernière modification par",
+        "editedOn": "le",
+        "editedAt": "Dernière modification le",
+        "editor": {
+          "since": "Depuis",
+          "noProfile": "Aucun profil d'équipe disponible",
+          "copyEmail": "Copier l'e-mail",
+          "copied": "E-mail copié"
+        },
+        "newTitle": "Nouvelle bannière",
+        "description": "Afficher et gérer cette bannière de la boutique.",
+        "notFound": "Cette bannière est introuvable. Elle a peut-être été supprimée.",
+        "close": "Fermer",
+        "libelle": "Libellé",
+        "emplacement": "Emplacement",
+        "alt": "Texte alternatif",
+        "href": "Lien",
+        "focus": "Point de focus",
+        "mobileArtwork": "Visuel mobile",
+        "mobileSize": "{width} × {height} px",
+        "mobileMissing": "Aucun : sur téléphone, la vitrine recadre le visuel large autour du point de focus.",
+        "status": "Statut",
+        "modified": "Dernière modification",
+        "edit": "Modifier",
+        "publish": "Publiée",
+        "publishError": "Impossible de mettre à jour l'état de publication. Veuillez réessayer.",
+        "delete": "Supprimer",
+        "deleteConfirmTitle": "Supprimer cette bannière ?",
+        "deleteConfirmDescription": "Cela supprime définitivement la bannière et ses visuels. Cette action est irréversible.",
+        "deleteCancel": "Annuler",
+        "deleteConfirm": "Supprimer la bannière",
+        "deleteSuccess": "Bannière supprimée."
+      },
+      "form": {
+        "emplacementLabel": "Emplacement",
+        "emplacementMoveHint": "Changer d'emplacement place la bannière en fin de l'autre carrousel.",
+        "libelleLabel": "Libellé",
+        "libellePlaceholder": "ex. Soldes d'été",
+        "altLabel": "Texte alternatif",
+        "altPlaceholder": "Décrivez le visuel pour les lecteurs d'écran",
+        "altCounter": "{count}/{max}",
+        "activeLabel": "Publiée",
+        "focusLabel": "Point de focus",
+        "focusValue": "Focus {focus}%",
+        "large": {
+          "label": "Visuel large",
+          "required": "Obligatoire"
+        },
+        "phone": {
+          "label": "Visuel mobile",
+          "optional": "Facultatif",
+          "noneTitle": "Les téléphones utilisent le visuel large",
+          "noneDetail": "Il est recadré autour du point de focus ({focus}%). Faites glisser la ligne sur le visuel large pour choisir ce qui reste visible.",
+          "noneDetailNoArtwork": "Ajoutez d'abord le visuel large. Les téléphones l'afficheront, recadré autour du point de focus.",
+          "ownTitle": "Visuel mobile personnalisé",
+          "ownDetail": "Affiché sur les téléphones à la place du visuel large."
+        },
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "createSuccess": "Bannière créée.",
+        "editSuccess": "Bannière mise à jour.",
+        "href": {
+          "label": "Lien",
+          "triggerPlaceholder": "Choisissez une catégorie ou un rayon",
+          "searchPlaceholder": "Rechercher des catégories et des rayons",
+          "noResults": "Aucun résultat",
+          "groupCategories": "Catégories",
+          "groupRayons": "Rayons",
+          "useCustomPath": "Utiliser un chemin personnalisé",
+          "chooseFromList": "Choisir dans la liste",
+          "customLabel": "Chemin personnalisé",
+          "customPlaceholder": "/categorie/exemple"
+        },
+        "artwork": {
+          "dropzoneLabel": "Déposez une image ou cliquez pour la choisir",
+          "dropzoneHint": "JPEG, PNG ou WebP",
+          "addMobile": "Ajouter un visuel mobile",
+          "dimensions": "{width} × {height} px",
+          "replaceLarge": "Remplacer le visuel large",
+          "replaceMobile": "Remplacer le visuel mobile",
+          "removeMobile": "Retirer le visuel mobile",
+          "mobileRemoved": "Le visuel mobile sera retiré à l'enregistrement.",
+          "undoRemove": "Le garder",
+          "unsupportedFormat": "Choisissez une image JPEG, PNG ou WebP.",
+          "measureFailed": "Impossible de lire cette image. Essayez un autre fichier.",
+          "sizeWarning": "Ce fichier dépasse 15 Mo et pourrait être lent à téléverser.",
+          "largeNotLandscape": "Une bannière principale doit être plus large que haute. Placez un visuel carré ou vertical en Promo.",
+          "mobileNotNarrower": "Le visuel mobile doit être plus étroit que le visuel large."
+        }
+      }
+    }
+  }
+}

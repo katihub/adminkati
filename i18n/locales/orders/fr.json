@@ -1,0 +1,281 @@
+{
+  "orders": {
+    "page": {
+      "heading": "Commandes",
+      "empty": "Sélectionnez une commande pour voir ses détails",
+      "loading": "Chargement des détails de la commande…",
+      "seo": {
+        "title": "Commandes · Administration NowTech",
+        "description": "Administration des commandes clients pour le panneau NowTech."
+      }
+    },
+    "tabs": {
+      "orders": "Commandes",
+      "quotes": "Devis"
+    },
+    "status": {
+      "soumise": "Soumise",
+      "confirmee": "Confirmée",
+      "refusee": "Refusée",
+      "en_preparation": "En préparation",
+      "prete_au_retrait": "Prête",
+      "en_remise": "Remise",
+      "retour_ouvert": "Retour",
+      "annulation_demandee": "Annul. demandée",
+      "annulee": "Annulée",
+      "close": "Clôturée"
+    },
+    "listPanel": {
+      "empty": "Aucune commande",
+      "itemCount": "{count} articles"
+    },
+    "detail": {
+      "customerUnavailable": "Détails client indisponibles",
+      "total": "Total commande",
+      "created": "Créée le",
+      "delivery": "Remise",
+      "paymentMethod": "Paiement souhaité",
+      "counter": "Comptoir",
+      "noCounter": "Aucun — livraison à domicile",
+      "outOfPerimetre": "Cette commande relève d’un autre comptoir : son encaissement revient à son comptoir.",
+      "estimatedTotal": "Total estimé",
+      "confirmedTotal": "Total confirmé",
+      "billableTotal": "Total facturable",
+      "remaining": "Reste à payer",
+      "lines": "Articles de la commande",
+      "noLines": "Aucun article",
+      "product": "Produit",
+      "quantity": "Quantité",
+      "lineStatus": "Statut",
+      "capturedPrice": "Prix capturé",
+      "finalPrice": "Prix final",
+      "basicDetailsTitle": "Détails",
+      "orderId": "N° commande",
+      "orderDate": "Date",
+      "payment": "Paiement",
+      "productInfoTitle": "Produits",
+      "sku": "Réf.",
+      "unitPrice": "Prix unitaire",
+      "lineTotal": "Total",
+      "paymentStatusTitle": "Statut du paiement",
+      "subtotal": "Sous-total",
+      "totalPayment": "Total à payer",
+      "customerInfoTitle": "Client",
+      "name": "Nom",
+      "phone": "Téléphone",
+      "deliveryInfoTitle": "Livraison",
+      "deliveryAddress": "Adresse",
+      "deliveryAddressUnavailable": "Aucune adresse enregistrée",
+      "deliveryPhone": "Téléphone à la porte",
+      "courier": "Livreur",
+      "courierNoPhone": "numéro non renseigné",
+      "courierUnassigned": "Aucun livreur affecté",
+      "courierAssignedAt": "Affecté le {date}",
+      "landmark": "Repère",
+      "settled": "Soldé",
+      "call": "Appeler",
+      "assignedCourier": "Livreur assigné",
+      "collect": "Encaisser"
+    },
+    "deliveryModes": {
+      "retrait": "Retrait",
+      "domicile": "Livraison à domicile",
+      "agence": "Agence"
+    },
+    "paymentMethods": {
+      "especes_comptoir": "Espèces au comptoir",
+      "especes_livraison": "Espèces à la livraison",
+      "mobile_livraison": "Mobile money à la livraison",
+      "mobile_plateforme": "Mobile money en ligne"
+    },
+    "lineStatus": {
+      "commandee": "Commandé",
+      "preparee": "Préparé",
+      "chargee": "Chargé",
+      "presentee": "Présenté",
+      "acceptee": "Accepté",
+      "refusee": "Refusé",
+      "manquante": "Manquant"
+    },
+    "actions": {
+      "transition": {
+        "soumise": "Rétablir",
+        "confirmee": "Confirmer",
+        "refusee": "Refuser",
+        "en_preparation": "Préparer",
+        "prete_au_retrait": "Valider",
+        "en_remise": "Remettre",
+        "retour_ouvert": "Retourner",
+        "annulation_demandee": "Suspendre",
+        "annulee": "Annuler",
+        "close": "Clôturer"
+      },
+      "transitionDialog": {
+        "title": "{transition} la commande",
+        "description": "Confirmez cette transition pour {reference}.",
+        "closeReason": "Motif de clôture",
+        "closeReasonPlaceholder": "Choisir un motif",
+        "reason": "Note (facultative)",
+        "reasonPlaceholder": "Ajouter un contexte pour l'équipe",
+        "cancel": "Annuler",
+        "confirm": "Confirmer la transition",
+        "livreur": "Livreur",
+        "livreurPlaceholder": "Choisir le livreur",
+        "livreurHint": "La commande part à domicile : nommez qui l'emporte. Lui seul pourra la lire, l'encaisser et la clore.",
+        "receptionConfirmee": "Le client a confirmé avoir reçu cette commande{date}. Clôturez en « livrée » ou « retirée ».",
+        "receptionAbsente": "Le client n'a pas encore confirmé la réception : seules « sans preuve », « échec de livraison » ou « retrait expiré » sont acceptées.",
+        "stockConflictTitle": "Certaines références ne sont plus disponibles",
+        "driftTitle": "Les prix ont changé depuis la commande",
+        "driftBody": "Le total est passé de {previous} à {proposed}. La commande est revenue à « soumise » : le client doit ré-accepter le nouveau montant avant toute confirmation.",
+        "conflictMotives": {
+          "inconnu": "Produit inconnu",
+          "retire": "Retiré de la vente",
+          "quantite": "Quantité invalide",
+          "prix_nul": "Aucun prix défini",
+          "reapprovisionnement": "En réapprovisionnement",
+          "rupture": "En rupture",
+          "stock_insuffisant": "Stock insuffisant",
+          "autre": "Indisponible"
+        }
+      },
+      "livreurDialog": {
+        "assign": "Affecter un livreur",
+        "change": "Changer le livreur",
+        "title": "Affecter le livreur",
+        "description": "Désignez qui emporte {reference}. La commande ne change pas d'état.",
+        "label": "Livreur",
+        "hint": "Lui seul pourra ensuite lire cette commande, l'encaisser et la clore.",
+        "cancel": "Annuler",
+        "confirm": "Affecter le livreur"
+      },
+      "paymentDialog": {
+        "trigger": "Enregistrer un paiement",
+        "title": "Enregistrer un paiement",
+        "description": "Enregistrez un paiement pour {reference}.",
+        "amount": "Montant (XAF)",
+        "amountInvalid": "Saisissez un montant entier qui ne dépasse pas le solde restant.",
+        "method": "Moyen",
+        "methods": {
+          "especes": "Espèces",
+          "mobile_money": "Mobile money",
+          "virement": "Virement bancaire"
+        },
+        "location": "Reçu à",
+        "locations": {
+          "comptoir": "Comptoir",
+          "porte": "À la porte"
+        },
+        "note": "Note (facultative)",
+        "notePlaceholder": "Ajouter une note de paiement",
+        "noteInvalid": "Une note doit contenir au moins deux caractères.",
+        "cancel": "Annuler",
+        "confirm": "Enregistrer le paiement"
+      }
+    },
+    "export": {
+      "trigger": "Exporter…",
+      "title": "Exporter {reference}",
+      "description": "Téléchargez cette commande en PDF. Chaque export est enregistré.",
+      "document": "Document",
+      "documents": {
+        "recapitulatif": "Récapitulatif de commande",
+        "facture": "Facture client",
+        "bon-preparation": "Bon de préparation"
+      },
+      "language": "Langue",
+      "languages": {
+        "fr": "Français",
+        "en": "English"
+      },
+      "cancel": "Annuler",
+      "confirm": "Télécharger le PDF"
+    },
+    "closureMotives": {
+      "livree": "Livrée",
+      "livree_partielle": "Livrée partiellement",
+      "retiree": "Retirée",
+      "sans_preuve": "Sans preuve",
+      "echec_livraison": "Échec de livraison",
+      "expiree_retrait": "Retrait expiré"
+    },
+    "paymentStatus": {
+      "en_attente": "Non payé",
+      "paye": "Payé",
+      "rembourse": "Remboursé"
+    },
+    "filterBar": {
+      "searchLabel": "Recherche",
+      "searchOperatorContains": "contient",
+      "statusLabel": "Statut",
+      "statusOperatorIs": "est",
+      "counterLabel": "Comptoir",
+      "counterOperatorIn": "parmi",
+      "sortLabel": "Tri",
+      "sortOperatorIs": "est",
+      "dateLabel": "Créée le",
+      "dateOperatorBetween": "entre",
+      "clear": "Effacer",
+      "sort": {
+        "recent": "Plus récentes",
+        "ancien": "Plus anciennes",
+        "montant-croissant": "Montant croissant",
+        "montant-decroissant": "Montant décroissant"
+      }
+    }
+  },
+  "quotes": {
+    "status": {
+      "ouvert": "Ouvert",
+      "commande": "Converti",
+      "archive": "Archivé"
+    },
+    "listPanel": {
+      "empty": "Aucun devis",
+      "itemCount": "{count} articles"
+    },
+    "detail": {
+      "empty": "Sélectionnez un devis pour voir ses détails",
+      "loading": "Chargement des détails du devis…",
+      "client": "Client {id}",
+      "orderLink": "Voir la commande {reference}",
+      "total": "Total du devis",
+      "created": "Créé le",
+      "updated": "Mis à jour le",
+      "subtotal": "Sous-total",
+      "vat": "TVA",
+      "lines": "Articles du devis",
+      "noLines": "Aucun article",
+      "product": "Produit",
+      "quantity": "Quantité",
+      "unitPrice": "Prix unitaire",
+      "lineTotal": "Total",
+      "basicDetailsTitle": "Détails",
+      "quoteId": "N° devis",
+      "catalogueDate": "Aperçu catalogue",
+      "productInfoTitle": "Produits",
+      "sku": "Réf.",
+      "amountTitle": "Montant",
+      "customerInfoTitle": "Client",
+      "customerUnavailable": "Détails client indisponibles",
+      "clientLabel": "Nom",
+      "phoneLabel": "Téléphone",
+      "companyLabel": "Société",
+      "preferredCounterLabel": "Comptoir préféré",
+      "refresh": {
+        "title": "Vérifier les prix du jour",
+        "description": "Comparez ce devis aux prix actuels du catalogue.",
+        "button": "Vérifier les prix",
+        "unchanged": "Tous les prix du devis sont toujours à jour.",
+        "changed": "Des changements de prix ont été trouvés",
+        "close": "Fermer"
+      },
+      "archive": {
+        "trigger": "Archiver",
+        "title": "Archiver ce devis ?",
+        "description": "Archiver {reference} ? Il ne figurera plus parmi les devis ouverts.",
+        "cancel": "Annuler",
+        "confirm": "Archiver"
+      }
+    }
+  }
+}

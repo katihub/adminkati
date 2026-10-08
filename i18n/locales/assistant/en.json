@@ -1,0 +1,87 @@
+{
+  "assistant": {
+    "page": {
+      "heading": "Customer requests",
+      "empty": "Select a request to read it and reply.",
+      "loading": "Loading the request…",
+      "back": "Back to requests",
+      "seo": {
+        "title": "Customer requests · NowTech Admin",
+        "description": "Questions the storefront assistant could not answer, for the team to reply to."
+      }
+    },
+    "status": {
+      "nouvelle": "New",
+      "repondue": "Answered",
+      "close": "Closed"
+    },
+    "tabs": {
+      "nouvelle": "New",
+      "repondue": "Answered",
+      "close": "Closed"
+    },
+    "list": {
+      "empty": "No requests",
+      "anonymous": "Anonymous visitor",
+      "statusFilter": "Filter requests by status"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {total}"
+    },
+    "detail": {
+      "received": "Received {date}",
+      "contactTitle": "Customer",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "noContact": "The visitor left no contact details.",
+      "openCustomer": "Open customer record",
+      "questionTitle": "Question",
+      "conversationTitle": "Conversation",
+      "conversationExpired": "Conversation expired — only the question was kept.",
+      "conversationEmpty": "No messages in this conversation.",
+      "author": {
+        "visiteur": "Visitor",
+        "assistant": "Assistant",
+        "equipe": "Team"
+      },
+      "answerTitle": "Answer sent",
+      "answeredBy": "By {name}, {date}",
+      "answeredAt": "{date}",
+      "ficheSaved": "Saved as fiche {key}"
+    },
+    "reply": {
+      "title": "Reply",
+      "titleAgain": "Send another reply",
+      "label": "Your reply",
+      "placeholder": "Write the answer the customer will receive…",
+      "hint": "Sent to the customer in their chat and by email.",
+      "counter": "{count} / {max}",
+      "tooShort": "Write at least {min} characters.",
+      "saveAsFiche": "Save as fiche",
+      "saveAsFicheHint": "The assistant will reuse this answer for every customer. Leave off for a personal reply.",
+      "ficheTitle": "Fiche title",
+      "ficheTitleHint": "Between {min} and {max} characters.",
+      "ficheDomain": "Domain (optional)",
+      "ficheDomainPlaceholder": "e.g. delivery, payment, warranty",
+      "send": "Send reply",
+      "whatsapp": "Reply on WhatsApp",
+      "whatsappUnavailable": "No usable phone number for WhatsApp.",
+      "closedNotice": "This request is closed. It can no longer be answered."
+    },
+    "close": {
+      "action": "Close request",
+      "title": "Close {reference}?",
+      "description": "A closed request leaves the queue and can no longer be answered.",
+      "cancel": "Cancel",
+      "confirm": "Close request"
+    },
+    "toast": {
+      "replied": "Reply sent to the customer.",
+      "repliedWithFiche": "Reply sent and saved as a fiche.",
+      "closed": "Request closed."
+    }
+  }
+}

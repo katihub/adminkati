@@ -1,0 +1,47 @@
+{
+  "auth": {
+    "login": {
+      "seo": {
+        "title": "Sign in",
+        "description": "Sign in to your NowTech Admin account to manage operations, customers, and reporting."
+      },
+      "heading": "Sign in to your account",
+      "intro": "Enter your email and password to continue.",
+      "email": {
+        "label": "Email",
+        "placeholder": "Email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password",
+        "show": "Show password",
+        "hide": "Hide password"
+      },
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "submitPending": "Signing in…",
+      "errors": {
+        "invalidCredentials": "That email address and password do not match. Check both and try again.",
+        "notTeam": "This account is not set up for admin access. Contact your manager.",
+        "generic": "We could not sign you in. Try again shortly."
+      },
+      "support": {
+        "prompt": "Don't hesitate to get in touch"
+      },
+      "legal": "© {year} NowTech. All rights reserved."
+    },
+    "showcase": {
+      "headline": "Every decision, backed by the numbers behind it.",
+      "body": "NowTech Admin brings operations, customers, and reporting into one place, so your team stops hunting for context and starts acting on it."
+    },
+    "forgotPassword": {
+      "heading": "Password reset",
+      "description": "Password reset is not available in this admin yet. Contact your administrator for access.",
+      "backToLogin": "Back to sign in",
+      "seo": {
+        "title": "Password reset · NowTech Admin",
+        "description": "Password reset information for the NowTech admin panel."
+      }
+    }
+  }
+}

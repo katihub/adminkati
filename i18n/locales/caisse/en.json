@@ -1,0 +1,101 @@
+{
+  "caisse": {
+    "page": {
+      "heading": "Cash Register",
+      "empty": "Select a caisse to view its details",
+      "loading": "Loading caisse details…",
+      "seo": {
+        "title": "Cash Register · NowTech Admin",
+        "description": "End-of-shift cash reconciliation for the NowTech admin panel."
+      }
+    },
+    "status": {
+      "attention": "Needs attention",
+      "ouverte": "Open",
+      "comptee": "Counted",
+      "litige": "Disputed",
+      "validee": "Validated"
+    },
+    "listPanel": {
+      "empty": "No caisses"
+    },
+    "filterBar": {
+      "searchLabel": "Search",
+      "searchOperatorContains": "Contains",
+      "statusLabel": "Status",
+      "statusOperatorIs": "Is",
+      "porteurLabel": "Holder",
+      "porteurOperatorIs": "Is",
+      "clear": "Clear filters"
+    },
+    "common": {
+      "unknownMember": "Unknown member"
+    },
+    "detail": {
+      "amountsTitle": "Amounts",
+      "expected": "Expected",
+      "counted": "Counted",
+      "gap": "Gap",
+      "validatedBy": "Validated by",
+      "countedBy": "Counted by",
+      "countTrigger": "Count",
+      "validateTrigger": "Validate",
+      "encaissementsTitle": "Payments",
+      "noEncaissements": "No payments recorded yet",
+      "time": "Time",
+      "order": "Order",
+      "amount": "Amount",
+      "method": "Method",
+      "location": "Location",
+      "collectedBy": "Collected by",
+      "discrepanciesTitle": "Discrepancies",
+      "discrepancyNeeded": "This caisse is in dispute — name the discrepancy before it can be validated.",
+      "noDiscrepancies": "No discrepancies",
+      "namedBy": "Named by",
+      "countDialog": {
+        "title": "Count this caisse",
+        "description": "Enter the amount physically counted.",
+        "discrepancyTitle": "Name the discrepancy",
+        "discrepancyDescription": "Amount doesn't match expected. Explain why to continue.",
+        "amount": "Counted amount",
+        "note": "Note (optional)",
+        "motif": "Reason",
+        "motifPlaceholder": "Select a reason",
+        "commentaire": "Details (optional)",
+        "cancel": "Cancel",
+        "confirm": "Count",
+        "confirmDiscrepancy": "Name discrepancy"
+      },
+      "validateDialog": {
+        "title": "Validate this caisse?",
+        "description": "This closes out the reconciliation for this caisse and can't be undone.",
+        "cancel": "Cancel",
+        "confirm": "Validate"
+      }
+    },
+    "moyen": {
+      "especes": "Cash",
+      "mobile_money": "Mobile money",
+      "virement": "Bank transfer"
+    },
+    "lieu": {
+      "comptoir": "Counter",
+      "porte": "At the door"
+    },
+    "discrepancy": {
+      "motifs": {
+        "caisse_manquante": "Cash short",
+        "caisse_excedentaire": "Cash over",
+        "erreur_rendu_monnaie": "Wrong change given",
+        "vol_suspecte": "Suspected theft",
+        "erreur_saisie": "Recording mistake",
+        "non_explique": "Unexplained"
+      }
+    },
+    "duty": {
+      "cannotCountOwn": "You opened this caisse — someone else must count it",
+      "cannotValidateOwn": "You opened this caisse — someone else must validate it",
+      "needsDiscrepancyFirst": "Name the discrepancy before validating"
+    }
+  }
+}

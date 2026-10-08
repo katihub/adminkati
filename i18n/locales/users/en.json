@@ -1,0 +1,107 @@
+{
+  "users": {
+    "page": {
+      "heading": "Users",
+      "empty": "Select a customer to view account details.",
+      "loading": "Loading customer details…",
+      "back": "Back to users",
+      "seo": {
+        "title": "Users · NowTech Admin",
+        "description": "Customer account administration for the NowTech admin panel."
+      }
+    },
+    "filterBar": {
+      "searchLabel": "Search customers",
+      "searchPlaceholder": "Name, email or phone…",
+      "searchOperatorContains": "Contains",
+      "statusLabel": "Status",
+      "statusOperatorIs": "Is",
+      "statusAll": "All statuses",
+      "sortLabel": "Sort",
+      "sortOperatorIs": "Is",
+      "sortRecent": "Most recent",
+      "sortName": "Name",
+      "clear": "Clear filters"
+    },
+    "listPanel": {
+      "empty": "No customers",
+      "loadMore": "Load more customers"
+    },
+    "listItem": {
+      "incomplete": "Profile incomplete",
+      "lastAccess": "Last access: {value}",
+      "neverAccessed": "Never signed in",
+      "status": {
+        "actif": "Active",
+        "suspendu": "Suspended",
+        "supprime": "Deleted"
+      }
+    },
+    "tabs": {
+      "profile": "Profile",
+      "orders": "Orders"
+    },
+    "orders": {
+      "emptyTitle": "No orders yet",
+      "emptyHint": "Orders this customer places will show up here.",
+      "itemCount": "{count} orders",
+      "loadingMore": "Loading more orders…",
+      "loadFailed": "Could not load more orders.",
+      "columns": {
+        "reference": "Reference",
+        "status": "Status",
+        "date": "Date",
+        "items": "Items",
+        "amount": "Amount"
+      }
+    },
+    "detail": {
+      "account": "Account",
+      "profile": "Profile",
+      "profileOverview": "Customer profile",
+      "addresses": "Addresses",
+      "created": "Created",
+      "lastAccess": "Last access",
+      "status": "Status",
+      "name": "Name",
+      "phone": "Phone",
+      "backupPhone": "Backup phone",
+      "recipientPhone": "Call on delivery",
+      "pickupCounter": "Pickup counter",
+      "counter": "Preferred counter",
+      "company": "Company",
+      "updated": "Updated",
+      "defaultAddress": "Default",
+      "noValue": "Not provided",
+      "noAddresses": "No saved addresses",
+      "addressMode": {
+        "retrait": "Counter pickup",
+        "domicile": "Home delivery",
+        "agence": "Agency"
+      },
+      "incompleteTitle": "Profile incomplete",
+      "incompleteBody": "This account has not completed its profile yet. Its account status is still available here.",
+      "email": "Email"
+    },
+    "actions": {
+      "suspend": "Suspend",
+      "reactivate": "Reactivate"
+    },
+    "suspend": {
+      "title": "Suspend {name}?",
+      "description": "This customer will no longer be able to sign in or order. You can reactivate them later.",
+      "cancel": "Keep active",
+      "confirm": "Suspend customer"
+    },
+    "reactivate": {
+      "title": "Reactivate {name}?",
+      "description": "This customer regains access to their account and can order again.",
+      "cancel": "Keep suspended",
+      "confirm": "Reactivate customer"
+    },
+    "toast": {
+      "suspended": "Customer suspended.",
+      "reactivated": "Customer reactivated."
+    }
+  }
+}

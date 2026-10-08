@@ -1,0 +1,29 @@
+# Project-scoped Codex config for nowtech-admin.
+# Sub-agent roles. Codex spawns these via spawn_agent; each role's model,
+# reasoning effort, and instructions live in the referenced config_file.
+
+# [features.multi_agent_v2]
+max_depth = 2
+default_subagent_model = "gpt-5.6-luna"
+default_subagent_reasoning_effort = "medium"
+expose_spawn_agent_model_overrides = true
+
+[agents.planner]
+description = "Plans implementations. Turns a requirement, ticket, or mockup into a step-by-step implementation plan before any code is written. Produces a plan only — never implementation code."
+config_file = "agents/planner.toml"
+nickname_candidates = ["sol"]
+
+[agents.implementer]
+description = "Implements tasks from an approved plan. Delegates failing-test authoring to the tester role first, then makes those tests pass and writes a walkthrough."
+config_file = "agents/implementer.toml"
+nickname_candidates = ["luna"]
+
+[agents.reviewer]
+description = "Reviews the implementer's work against its plan and walkthrough. Audits plan fidelity, then security, logic, performance, UI/UX, tests, and code quality. Reports MAJOR / MEDIUM / MINOR / INT findings; does not fix."
+config_file = "agents/reviewer.toml"
+nickname_candidates = ["terra"]
+
+[agents.tester]
+description = "Writes failing tests from a spec. Called by the implementer before implementation begins. Writes tests only — never implementation code."
+config_file = "agents/tester.toml"
+nickname_candidates = ["vale"]

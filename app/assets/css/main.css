@@ -1,0 +1,303 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+/*
+      ---break---
+    */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn-vue/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-sans: 'Figtree', sans-serif;
+    --font-heading: 'Raleway', sans-serif;
+    --font-mono: var(--font-sans);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-stat-slab: var(--stat-slab);
+    --color-stat-slab-foreground: var(--stat-slab-foreground);
+    --color-stat-slab-muted: var(--stat-slab-muted);
+    --color-stat-slab-fill: var(--stat-slab-fill);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.141 0.005 285.823);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.141 0.005 285.823);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.141 0.005 285.823);
+    --primary: oklch(62.13% 0.17891 148.213);
+    --primary-foreground: oklch(0.982 0.018 155.826);
+    --secondary: oklch(0.967 0.001 286.375);
+    --secondary-foreground: oklch(0.21 0.006 285.885);
+    --success: oklch(0.627 0.194 149.214);
+    --success-foreground: oklch(0.982 0.018 155.826);
+    --warning: oklch(0.666 0.179 58.318);
+    --warning-foreground: oklch(0.141 0.005 285.823);
+    --info: oklch(0.546 0.245 262.881);
+    --info-foreground: oklch(0.982 0.018 155.826);
+    --muted: oklch(0.967 0.001 286.375);
+    --muted-foreground: oklch(0.552 0.016 285.938);
+    --accent: oklch(0.967 0.001 286.375);
+    --accent-foreground: oklch(0.21 0.006 285.885);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.985 0 0);
+    --border: oklch(0.92 0.004 286.32);
+    --input: oklch(0.92 0.004 286.32);
+    --ring: oklch(0.705 0.015 286.067);
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.769 0.188 70.08);
+    --chart-3: oklch(0.627 0.194 149.214);
+    --chart-4: oklch(0.60 0.16 220);
+    --chart-5: oklch(0.58 0.21 305);
+    /*
+      The overview hero slab. Deliberately not the primary token -- white ink on
+      the light-mode primary measures 3.36:1, which fails text contrast, while
+      this deeper green measures 7.10:1. Dark mode can reuse primary because its
+      ink is dark there (8.89:1); see .dark below.
+
+      GOTCHA: never write a token name followed by a colon in this file's
+      comments. test/unit/dark-theme.test.ts scans the block with a
+      "name: value" regex and would read the comment as a declaration.
+    */
+    --stat-slab: oklch(0.448 0.119 151);
+    --stat-slab-foreground: oklch(0.985 0 0);
+    --stat-slab-muted: color-mix(in oklch, var(--stat-slab-foreground) 70%, transparent);
+    --stat-slab-fill: color-mix(in oklch, var(--stat-slab-foreground) 14%, transparent);
+    --radius: 0.45rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.141 0.005 285.823);
+    --sidebar-primary: oklch(0.627 0.194 149.214);
+    --sidebar-primary-foreground: oklch(0.982 0.018 155.826);
+    --sidebar-accent: oklch(0.967 0.001 286.375);
+    --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+    --sidebar-border: oklch(0.92 0.004 286.32);
+    --sidebar-ring: oklch(0.705 0.015 286.067);
+}
+
+.dark {
+    --background: oklch(0.141 0.005 285.823);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.21 0.006 285.885);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.21 0.006 285.885);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.723 0.219 149.579);
+    --primary-foreground: oklch(0.145 0.015 145);
+    --secondary: oklch(0.36 0.01 286.033);
+    --secondary-foreground: oklch(0.985 0 0);
+    --success: oklch(0.723 0.219 149.579);
+    --success-foreground: oklch(0.145 0.015 145);
+    --warning: oklch(0.78 0.16 84);
+    --warning-foreground: oklch(0.18 0.04 60);
+    --info: oklch(0.75 0.15 230);
+    --info-foreground: oklch(0.18 0.03 240);
+    --muted: oklch(0.274 0.006 286.033);
+    --muted-foreground: oklch(0.705 0.015 286.067);
+    --accent: oklch(0.274 0.006 286.033);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.74 0.18 22.216);
+    --destructive-foreground: oklch(0.145 0.015 20);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.552 0.016 285.938);
+    --chart-1: oklch(0.705 0.213 47.604);
+    --chart-2: oklch(0.828 0.189 84.429);
+    --chart-3: oklch(0.723 0.219 149.579);
+    --chart-4: oklch(0.75 0.16 215);
+    --chart-5: oklch(0.72 0.20 310);
+    --stat-slab: var(--primary);
+    --stat-slab-foreground: var(--primary-foreground);
+    --stat-slab-muted: color-mix(in oklch, var(--stat-slab-foreground) 70%, transparent);
+    --stat-slab-fill: color-mix(in oklch, var(--stat-slab-foreground) 14%, transparent);
+    --sidebar: oklch(0.21 0.006 285.885);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.723 0.219 149.579);
+    --sidebar-primary-foreground: oklch(0.145 0.015 145);
+    --sidebar-accent: oklch(0.274 0.006 286.033);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    @apply font-sans;
+    }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+    }
+}
+
+/* The viewport under AdminHeader (min-h-16 = 64px, plus its 1px border). Pages that scroll inside their
+   own panels size themselves with this: a hand-copied `calc(100dvh-100px)` left 35px of dead space. */
+@utility h-workspace {
+    height: calc(100dvh - 65px);
+}
+
+/* The colours of the AI icon (components/AiIcon.vue: #FF00D6, #0066FF, #07FFE1). Change the palette here
+   and in AiIcon.vue together. */
+:root {
+    --ai-magenta: #ff00d6;
+    --ai-blue: #0066ff;
+    --ai-cyan: #07ffe1;
+    --ai-gradient: linear-gradient(135deg, var(--ai-magenta), var(--ai-blue), var(--ai-cyan));
+    --ai-gradient-tint: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--ai-magenta) 4%, transparent),
+        color-mix(in srgb, var(--ai-blue) 4%, transparent),
+        color-mix(in srgb, var(--ai-cyan) 4%, transparent)
+    );
+}
+
+/* The raw gradient is too uneven for text: black on it falls to 3.5:1 where magenta turns into blue. A 55%
+   white wash keeps the hues and brings black text to about 10:1 along the whole gradient. */
+@utility ai-gradient-button {
+    background-image:
+        linear-gradient(rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.55)),
+        var(--ai-gradient);
+}
+
+/* A gradient cannot be a border-color, so the border is a second background clipped to the border box
+   behind an opaque padding-box layer. A faint tint of the same palette sits on top of that layer. */
+@utility ai-gradient-border {
+    border: 1px solid transparent;
+    background:
+        var(--ai-gradient-tint) padding-box,
+        linear-gradient(var(--card), var(--card)) padding-box,
+        var(--ai-gradient) border-box;
+}
+
+/* While a NowTech AI run targets the open editor, the fields it will fill wear this class: a rotating
+   palette ring, a shimmer sweep, and the same 4% tint as the suggestion cards. The ring and shimmer
+   are masked pseudo-elements (inputs and textareas are replaced elements and cannot grow their own),
+   drawn at a negative inset so the layout never shifts when a run starts. */
+@property --ai-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 135deg;
+}
+
+.ai-generating {
+    position: relative;
+    background-image: var(--ai-gradient-tint);
+}
+
+.ai-generating::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    padding: 1.5px;
+    border-radius: inherit;
+    background: conic-gradient(
+        from var(--ai-angle),
+        var(--ai-magenta),
+        var(--ai-blue),
+        var(--ai-cyan),
+        var(--ai-magenta)
+    );
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: ai-ring-turn 2.8s linear infinite;
+    pointer-events: none;
+}
+
+.ai-generating::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        105deg,
+        transparent 40%,
+        color-mix(in srgb, var(--ai-cyan) 16%, transparent) 50%,
+        transparent 60%
+    );
+    background-size: 200% 100%;
+    animation: ai-shimmer-sweep 1.8s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes ai-ring-turn {
+    to {
+        --ai-angle: 495deg;
+    }
+}
+
+@keyframes ai-shimmer-sweep {
+    from {
+        background-position: 200% 0;
+    }
+    to {
+        background-position: -200% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ai-generating::before,
+    .ai-generating::after {
+        animation: none;
+    }
+}
+
+/* reka's ScrollArea wraps its content in a height-less div, so a child can never fill the viewport
+   or pin something to the bottom. This gives that wrapper the viewport's height as a flex column. */
+@utility scroll-area-fill {
+    & [data-slot="scroll-area-viewport"] > div {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+    }
+}

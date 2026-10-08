@@ -1,0 +1,87 @@
+{
+  "assistant": {
+    "page": {
+      "heading": "Demandes clients",
+      "empty": "Sélectionnez une demande pour la lire et y répondre.",
+      "loading": "Chargement de la demande…",
+      "back": "Retour aux demandes",
+      "seo": {
+        "title": "Demandes clients · Administration NowTech",
+        "description": "Les questions auxquelles l’assistant de la vitrine n’a pas su répondre, pour que l’équipe y réponde."
+      }
+    },
+    "status": {
+      "nouvelle": "Nouvelle",
+      "repondue": "Répondue",
+      "close": "Close"
+    },
+    "tabs": {
+      "nouvelle": "Nouvelles",
+      "repondue": "Répondues",
+      "close": "Closes"
+    },
+    "list": {
+      "empty": "Aucune demande",
+      "anonymous": "Visiteur anonyme",
+      "statusFilter": "Filtrer les demandes par statut"
+    },
+    "pagination": {
+      "previous": "Précédente",
+      "next": "Suivante",
+      "page": "Page {page} sur {total}"
+    },
+    "detail": {
+      "received": "Reçue le {date}",
+      "contactTitle": "Client",
+      "name": "Nom",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "noContact": "Le visiteur n’a laissé aucune coordonnée.",
+      "openCustomer": "Ouvrir la fiche client",
+      "questionTitle": "Question",
+      "conversationTitle": "Conversation",
+      "conversationExpired": "Conversation expirée — seule la question a été conservée.",
+      "conversationEmpty": "Aucun message dans cette conversation.",
+      "author": {
+        "visiteur": "Visiteur",
+        "assistant": "Assistant",
+        "equipe": "Équipe"
+      },
+      "answerTitle": "Réponse envoyée",
+      "answeredBy": "Par {name}, le {date}",
+      "answeredAt": "Le {date}",
+      "ficheSaved": "Enregistrée comme fiche {key}"
+    },
+    "reply": {
+      "title": "Répondre",
+      "titleAgain": "Envoyer une nouvelle réponse",
+      "label": "Votre réponse",
+      "placeholder": "Rédigez la réponse que recevra le client…",
+      "hint": "Envoyée au client dans son chat et par e-mail.",
+      "counter": "{count} / {max}",
+      "tooShort": "Écrivez au moins {min} caractères.",
+      "saveAsFiche": "Enregistrer comme fiche",
+      "saveAsFicheHint": "L’assistant resservira cette réponse à tous les clients. Laissez décoché pour une réponse personnelle.",
+      "ficheTitle": "Titre de la fiche",
+      "ficheTitleHint": "Entre {min} et {max} caractères.",
+      "ficheDomain": "Domaine (facultatif)",
+      "ficheDomainPlaceholder": "ex. livraison, paiement, garantie",
+      "send": "Envoyer la réponse",
+      "whatsapp": "Répondre sur WhatsApp",
+      "whatsappUnavailable": "Aucun numéro utilisable pour WhatsApp.",
+      "closedNotice": "Cette demande est close. Elle ne peut plus recevoir de réponse."
+    },
+    "close": {
+      "action": "Clore la demande",
+      "title": "Clore {reference} ?",
+      "description": "Une demande close quitte la file et ne peut plus recevoir de réponse.",
+      "cancel": "Annuler",
+      "confirm": "Clore la demande"
+    },
+    "toast": {
+      "replied": "Réponse envoyée au client.",
+      "repliedWithFiche": "Réponse envoyée et enregistrée comme fiche.",
+      "closed": "Demande close."
+    }
+  }
+}

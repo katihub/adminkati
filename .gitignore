@@ -1,0 +1,32 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+# Not local: @nuxt/test-utils reads this one when it builds the app for the
+# `nuxt` vitest project, so the suite only behaves the same everywhere if it
+# is committed. It holds fake `.test` hosts, never a credential.
+!.env.test
+
+# Test coverage
+coverage/
+.vercel

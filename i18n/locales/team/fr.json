@@ -1,0 +1,141 @@
+{
+  "team": {
+    "page": {
+      "heading": "Équipe",
+      "empty": "Sélectionnez un membre pour voir ses détails.",
+      "loading": "Chargement du membre…",
+      "back": "Retour à l’équipe",
+      "seo": {
+        "title": "Équipe · Administration NowTech",
+        "description": "Administration des membres de l’équipe pour le panneau NowTech."
+      }
+    },
+    "filterBar": {
+      "searchLabel": "Rechercher dans l’équipe",
+      "searchPlaceholder": "Nom ou e-mail…",
+      "searchOperatorContains": "Contient",
+      "roleLabel": "Rôle",
+      "roleOperatorIs": "Est",
+      "roleAll": "Tous les rôles",
+      "activityLabel": "Activité",
+      "activityOperatorIs": "Est",
+      "activityAll": "Tous les membres",
+      "active": "Actifs",
+      "inactive": "Inactifs",
+      "sortLabel": "Trier",
+      "sortOperatorIs": "Est",
+      "sortName": "Nom",
+      "sortRecent": "Plus récents",
+      "clear": "Effacer les filtres"
+    },
+    "roles": {
+      "direction": "Direction",
+      "comptoir": "Comptoir",
+      "preparation": "Préparation",
+      "livreur": "Livraison"
+    },
+    "listPanel": {
+      "empty": "Aucun membre",
+      "loadMore": "Charger plus de membres"
+    },
+    "listItem": {
+      "inactive": "Inactif",
+      "active": "Actif"
+    },
+    "detail": {
+      "contact": "Contact",
+      "profileOverview": "Profil du membre",
+      "lifecycle": "Cycle de vie",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "created": "Créé le",
+      "invited": "Invité le",
+      "firstLogin": "Première connexion",
+      "deactivated": "Désactivé le",
+      "status": "Statut",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "noValue": "Non renseigné"
+    },
+    "comptoirs": {
+      "label": "Comptoirs",
+      "emptyMeaning": "Aucun comptoir coché : le membre couvre toute la boutique.",
+      "nonePublished": "Aucun comptoir publié pour l’instant.",
+      "wholeShop": "Toute la boutique",
+      "count": "1 comptoir | {count} comptoirs"
+    },
+    "form": {
+      "title": "Détails opérationnels",
+      "name": "Nom",
+      "phone": "Téléphone",
+      "roles": "Rôles",
+      "roleSearchPlaceholder": "Rechercher des rôles…",
+      "noRoleResults": "Aucun rôle trouvé.",
+      "addRole": "Ajouter un rôle",
+      "addRoles": "Ajouter les rôles",
+      "removeRole": "Retirer {name}",
+      "moreRoles": "{count} rôles supplémentaires",
+      "email": "E-mail",
+      "phoneHint": "Format attendu : +237 6XX XX XX XX (espaces compris).",
+      "phoneInvalid": "Numéro camerounais mobile attendu, au format +237 6XX XX XX XX.",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "saving": "Enregistrement…",
+      "nameRequired": "Saisissez un nom.",
+      "discardConfirm": "Abandonner vos modifications non enregistrées ?",
+      "discardTitle": "Abandonner les modifications ?",
+      "discardDescription": "Vos modifications seront perdues et les valeurs du serveur resteront inchangées.",
+      "keepEditing": "Continuer la modification",
+      "discardChanges": "Abandonner",
+      "selfRoleNotice": "Vous pouvez modifier vos coordonnées, mais pas vos propres rôles."
+    },
+    "actions": {
+      "deactivate": "Désactiver",
+      "reactivate": "Réactiver"
+    },
+    "hire": {
+      "trigger": "Embaucher",
+      "title": "Inscrire un membre de l’équipe",
+      "description": "Le compte est créé, puis une invitation part par courriel : c’est ce message qui laisse le salarié choisir son mot de passe.",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "prenom.nom{'@'}nowtech.local",
+      "name": "Nom",
+      "namePlaceholder": "Prénom et nom",
+      "roles": "Rôles",
+      "phone": "Téléphone (facultatif)",
+      "phoneHint": "Numéro mobile camerounais, au format +237 6XX XX XX XX (espaces compris).",
+      "cancel": "Annuler",
+      "submit": "Inscrire le membre",
+      "submitting": "Inscription…",
+      "close": "Fermer",
+      "openRecord": "Ouvrir la fiche",
+      "errors": {
+        "email": "Saisissez une adresse e-mail valide.",
+        "name": "Le nom fait entre 2 et 80 caractères.",
+        "roles": "Choisissez au moins un rôle.",
+        "phone": "Numéro camerounais mobile attendu, au format +237 6XX XX XX XX."
+      },
+      "result": {
+        "heading": "Membre inscrit",
+        "description": "Le compte existe désormais dans l’annuaire de l’équipe.",
+        "sentTitle": "Invitation envoyée",
+        "sentBody": "Invitation envoyée à {email}. Le lien qu’elle contient lui permet de choisir son mot de passe.",
+        "notSentTitle": "Invitation non partie",
+        "notSentBody": "Le compte est créé, mais l’invitation n’est pas partie : prévenez-le vous-même, son adresse est {email}."
+      }
+    },
+    "deactivate": {
+      "title": "Désactiver {name} ?",
+      "description": "Ce membre perdra son accès actif. Vous pourrez le réactiver plus tard.",
+      "cancel": "Garder actif",
+      "confirm": "Désactiver le membre"
+    },
+    "toast": {
+      "hired": "{name} est inscrit, son invitation est partie.",
+      "hiredWithoutInvitation": "{name} est inscrit, mais l’invitation n’est pas partie.",
+      "updated": "Membre mis à jour.",
+      "deactivated": "Membre désactivé.",
+      "reactivated": "Membre réactivé."
+    }
+  }
+}

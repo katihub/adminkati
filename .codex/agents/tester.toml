@@ -1,0 +1,6 @@
+# Codex sub-agent role: tester
+# Referenced from .codex/config.toml via [agents.tester].config_file
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+model_instructions_file = "../../.agents/agents/tester.md"

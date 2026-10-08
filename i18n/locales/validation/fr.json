@@ -1,0 +1,12 @@
+{
+  "validation": {
+    "email": "Saisissez une adresse e-mail valide.",
+    "invalidInternalPath": "Saisissez un chemin commençant par un seul slash, par exemple /categorie/exemple.",
+    "invalidUrl": "Saisissez une URL valide.",
+    "outOfRange": "Cette valeur est hors limites.",
+    "required": "Ce champ est requis.",
+    "tooLarge": "Cette liste contient trop d'éléments.",
+    "tooLong": "Cette valeur est trop longue.",
+    "tooShort": "Cette valeur est trop courte."
+  }
+}

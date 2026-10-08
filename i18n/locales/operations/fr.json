@@ -1,0 +1,19 @@
+{
+  "operations": {
+    "page": {
+      "heading": "Opérations",
+      "seo": {
+        "title": "Opérations · Administration NowTech",
+        "description": "Rapprochement de caisse et demandes clients pour l'équipe NowTech."
+      }
+    },
+    "tabs": {
+      "cashRegisters": {
+        "label": "Caisses"
+      },
+      "customerRequests": {
+        "label": "Demandes clients"
+      }
+    }
+  }
+}

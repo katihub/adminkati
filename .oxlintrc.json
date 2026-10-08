@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "vue", "vitest"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "no-undef": "off",
+    "vitest/valid-expect": ["error", { "maxArgs": 2 }],
+    "vitest/require-mock-type-parameters": "off",
+    "vitest/no-conditional-expect": "warn",
+    "typescript/no-useless-empty-export": "warn"
+  },
+  "ignorePatterns": [
+    ".nuxt/**",
+    ".output/**",
+    "node_modules/**",
+    "coverage/**",
+    "app/components/ui/**",
+    "app/components/vuzeno/**",
+    ".agents/**"
+  ]
+}

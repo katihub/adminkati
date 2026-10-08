@@ -1,0 +1,40 @@
+{
+  "admin": {
+    "brandLabel": "NowTech Admin",
+    "navigation": {
+      "content": "Content",
+      "label": "Primary navigation",
+      "open": "Open navigation",
+      "orders": "Orders",
+      "operations": "Operations",
+      "overview": "Overview",
+      "products": "Products",
+      "taxonomy": "Taxonomy",
+      "team": "Team",
+      "users": "Users"
+    },
+    "profile": {
+      "dark": "Dark",
+      "identity": "Administrator",
+      "initials": "NA",
+      "label": "Admin profile",
+      "light": "Light",
+      "loggingOut": "Signing out...",
+      "logout": "Sign out",
+      "name": "Admin",
+      "theme": "Theme"
+    }
+  },
+  "language": {
+    "label": "Language",
+    "english": "English",
+    "french": "French"
+  },
+  "filters": {
+    "selectOption": "Choose",
+    "selectDates": "Dates"
+  },
+  "infoTip": {
+    "label": "More information"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "errors": {
+    "badRequest": "Nous n'avons pas pu traiter cette demande.",
+    "unauthorized": "Votre session a expiré. Reconnectez-vous.",
+    "forbidden": "Vous n'avez pas l'autorisation d'effectuer cette action.",
+    "deactivated": "Votre accès a été retiré. Contactez votre responsable.",
+    "notFound": "Cet élément n'existe plus.",
+    "conflict": "Quelqu'un d'autre a modifié cet élément avant vous.",
+    "tooLarge": "Ce fichier est trop volumineux.",
+    "tooManyRequests": "Trop de requêtes. Patientez un instant et réessayez.",
+    "server": "Le service a rencontré un problème. Réessayez dans un instant.",
+    "unreachable": "Le service est injoignable. Vérifiez votre connexion.",
+    "unknown": "Une erreur est survenue."
+  }
+}

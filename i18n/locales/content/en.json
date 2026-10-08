@@ -1,0 +1,221 @@
+{
+  "content": {
+    "heading": "Content",
+    "tabs": {
+      "banners": {
+        "label": "Banners"
+      },
+      "propositions": {
+        "label": "Propositions"
+      },
+      "pointsOfSale": {
+        "label": "Points of sale"
+      }
+    },
+    "seo": {
+      "title": "Content · NowTech Admin",
+      "description": "Storefront content administration for the NowTech admin panel."
+    },
+    "propositions": {
+      "status": {
+        "en_attente": "Pending",
+        "acceptee": "Accepted",
+        "refusee": "Refused",
+        "toutes": "All"
+      },
+      "type": {
+        "creation": "Creation",
+        "modification": "Change",
+        "disparition": "Disappearance"
+      },
+      "list": {
+        "changedFields": "no changed fields | 1 changed field | {count} changed fields",
+        "resultCount": "no propositions | 1 proposition | {count} propositions",
+        "empty": "No propositions"
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page {page} of {total}"
+      },
+      "detail": {
+        "loading": "Loading proposition…",
+        "empty": "Select a proposition to inspect its changes.",
+        "detected": "Detected {date}",
+        "disappearanceWarning": "Accepting this proposal will retire the product from the catalogue.",
+        "creationNotice": "Accepting this proposal will create the product in the catalogue.",
+        "decidedBy": "Decided by",
+        "decidedAt": "Decided at",
+        "status": "Status",
+        "reason": "Reason",
+        "readOnly": "Only Direction can accept or refuse a proposition."
+      },
+      "changes": {
+        "field": "Field",
+        "before": "Current",
+        "after": "Proposed"
+      },
+      "values": {
+        "empty": "Not set",
+        "no": "No",
+        "yes": "Yes"
+      },
+      "fields": {
+        "nom": "Name",
+        "prix": "Price",
+        "prix_reference": "Reference price",
+        "remise_pct": "Discount",
+        "en_stock": "In stock",
+        "marque": "Brand",
+        "url_source": "Source URL",
+        "slug": "Slug",
+        "images": "Images",
+        "categorie_principale_id": "Category",
+        "caracteristiques": "Specifications",
+        "retire_le": "Retired at"
+      },
+      "actions": {
+        "accept": "Accept",
+        "refuse": "Refuse",
+        "cancel": "Cancel"
+      },
+      "accept": {
+        "title": "Accept this proposition?",
+        "description": "This applies {count} proposed changes to {name}."
+      },
+      "refuse": {
+        "title": "Refuse this proposition",
+        "description": "Add a short reason. It will be kept in the decision history.",
+        "placeholder": "Why should this proposition be refused?"
+      },
+      "toast": {
+        "accepted": "Proposition accepted.",
+        "refused": "Proposition refused.",
+        "conflict": "This proposition changed before your decision. The latest version is now shown."
+      }
+    },
+    "banners": {
+      "addBanner": "Add",
+      "newBanner": "New",
+      "status": {
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "filterBar": {
+        "statusLabel": "Status",
+        "statusOperatorIs": "is",
+        "searchLabel": "Search",
+        "searchOperatorContains": "has",
+        "searchPlaceholder": "Search by label",
+        "resultCount": "no banners | 1 banner | {count} banners"
+      },
+      "emplacement": {
+        "principal": "Main banner",
+        "promo": "Promo",
+        "principalHint": "The large carousel at the top of the home page. Its artwork must be wider than it is tall.",
+        "promoHint": "The carousel beside it. Any artwork format."
+      },
+      "grid": {
+        "empty": "No banners yet.",
+        "noResults": "No banners match your filters.",
+        "clearFilters": "Clear",
+        "groupEmpty": "No banner in this carousel yet.",
+        "groupNoResults": "No banner in this carousel matches your filters.",
+        "noMobile": "No mobile artwork"
+      },
+      "panel": {
+        "title": "Banner details",
+        "editedBy": "Last edit by",
+        "editedOn": "on",
+        "editedAt": "Last edit on",
+        "editor": {
+          "since": "Since",
+          "noProfile": "No team profile available",
+          "copyEmail": "Copy email",
+          "copied": "Email copied"
+        },
+        "newTitle": "New banner",
+        "description": "View and manage this storefront banner.",
+        "notFound": "This banner could not be found. It may have been removed.",
+        "close": "Close",
+        "libelle": "Label",
+        "emplacement": "Placement",
+        "alt": "Alt text",
+        "href": "Link",
+        "focus": "Focus point",
+        "mobileArtwork": "Mobile artwork",
+        "mobileSize": "{width} × {height} px",
+        "mobileMissing": "None: phones get the large artwork, cropped around the focus point.",
+        "status": "Status",
+        "modified": "Last modified",
+        "edit": "Edit",
+        "publish": "Published",
+        "publishError": "Could not update the publish state. Please try again.",
+        "delete": "Delete",
+        "deleteConfirmTitle": "Delete this banner?",
+        "deleteConfirmDescription": "This removes the banner and its artworks permanently. This cannot be undone.",
+        "deleteCancel": "Cancel",
+        "deleteConfirm": "Delete banner",
+        "deleteSuccess": "Banner deleted."
+      },
+      "form": {
+        "emplacementLabel": "Placement",
+        "emplacementMoveHint": "Changing the placement moves the banner to the end of the other carousel.",
+        "libelleLabel": "Label",
+        "libellePlaceholder": "e.g. Summer sale",
+        "altLabel": "Alt text",
+        "altPlaceholder": "Describe the artwork for screen readers",
+        "altCounter": "{count}/{max}",
+        "activeLabel": "Published",
+        "focusLabel": "Focus point",
+        "focusValue": "Focus {focus}%",
+        "large": {
+          "label": "Large artwork",
+          "required": "Required"
+        },
+        "phone": {
+          "label": "Phone artwork",
+          "optional": "Optional",
+          "noneTitle": "Phones use the large artwork",
+          "noneDetail": "It is cropped around the focus point ({focus}%). Drag the line on the large artwork to choose what stays in view.",
+          "noneDetailNoArtwork": "Add the large artwork first. Phones will show it, cropped around the focus point.",
+          "ownTitle": "Custom phone artwork",
+          "ownDetail": "Shown on phones instead of the large artwork."
+        },
+        "cancel": "Cancel",
+        "save": "Save",
+        "createSuccess": "Banner created.",
+        "editSuccess": "Banner updated.",
+        "href": {
+          "label": "Link",
+          "triggerPlaceholder": "Choose a category or rayon",
+          "searchPlaceholder": "Search categories and rayons",
+          "noResults": "No matches",
+          "groupCategories": "Categories",
+          "groupRayons": "Rayons",
+          "useCustomPath": "Use a custom path",
+          "chooseFromList": "Choose from the list",
+          "customLabel": "Custom path",
+          "customPlaceholder": "/categorie/example"
+        },
+        "artwork": {
+          "dropzoneLabel": "Drop an image or click to upload",
+          "dropzoneHint": "JPEG, PNG, or WebP",
+          "addMobile": "Add phone artwork",
+          "dimensions": "{width} × {height} px",
+          "replaceLarge": "Replace the large artwork",
+          "replaceMobile": "Replace the phone artwork",
+          "removeMobile": "Remove the phone artwork",
+          "mobileRemoved": "The phone artwork will be removed when you save.",
+          "undoRemove": "Keep it",
+          "unsupportedFormat": "Choose a JPEG, PNG, or WebP image.",
+          "measureFailed": "Could not read this image. Try a different file.",
+          "sizeWarning": "This file is over 15 MB and may be slow to upload.",
+          "largeNotLandscape": "A main banner must be wider than it is tall. Put a square or portrait artwork in Promo.",
+          "mobileNotNarrower": "The phone artwork must be narrower than the large artwork."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+product,quantity,reason
+725,2,Valide
+slug-qui-nexiste-pas,3,Produit inconnu
+739,-4,Quantité négative
+748,1.5,Quantité non entière
+796,2,Premier
+796,2,Doublon du produit précédent
+,2,Produit manquant
+978,abc,Quantité illisible
+1028,1,xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

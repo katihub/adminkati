@@ -1,0 +1,141 @@
+{
+  "team": {
+    "page": {
+      "heading": "Team",
+      "empty": "Select a team member to view their details.",
+      "loading": "Loading team member…",
+      "back": "Back to team",
+      "seo": {
+        "title": "Team · NowTech Admin",
+        "description": "Team member administration for the NowTech admin panel."
+      }
+    },
+    "filterBar": {
+      "searchLabel": "Search team",
+      "searchPlaceholder": "Search by name or email…",
+      "searchOperatorContains": "Contains",
+      "roleLabel": "Role",
+      "roleOperatorIs": "Is",
+      "roleAll": "All roles",
+      "activityLabel": "Activity",
+      "activityOperatorIs": "Is",
+      "activityAll": "All members",
+      "active": "Active",
+      "inactive": "Inactive",
+      "sortLabel": "Sort",
+      "sortOperatorIs": "Is",
+      "sortName": "Name",
+      "sortRecent": "Most recent",
+      "clear": "Clear filters"
+    },
+    "roles": {
+      "direction": "Direction",
+      "comptoir": "Counter",
+      "preparation": "Preparation",
+      "livreur": "Delivery"
+    },
+    "listPanel": {
+      "empty": "No team members",
+      "loadMore": "Load more members"
+    },
+    "listItem": {
+      "inactive": "Inactive",
+      "active": "Active"
+    },
+    "detail": {
+      "contact": "Contact",
+      "profileOverview": "Member profile",
+      "lifecycle": "Lifecycle",
+      "email": "Email",
+      "phone": "Phone",
+      "created": "Created",
+      "invited": "Invited",
+      "firstLogin": "First login",
+      "deactivated": "Deactivated",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "noValue": "Not provided"
+    },
+    "comptoirs": {
+      "label": "Counters",
+      "emptyMeaning": "No counter ticked: the member covers the whole shop.",
+      "nonePublished": "No counter is published yet.",
+      "wholeShop": "Whole shop",
+      "count": "1 counter | {count} counters"
+    },
+    "form": {
+      "title": "Operational details",
+      "name": "Name",
+      "phone": "Phone",
+      "roles": "Roles",
+      "roleSearchPlaceholder": "Search roles…",
+      "noRoleResults": "No roles found.",
+      "addRole": "Add role",
+      "addRoles": "Add roles",
+      "removeRole": "Remove {name}",
+      "moreRoles": "{count} more roles",
+      "email": "Email",
+      "phoneHint": "Expected format: +237 6XX XX XX XX (spaces included).",
+      "phoneInvalid": "A Cameroonian mobile number is expected, as +237 6XX XX XX XX.",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "saving": "Saving…",
+      "nameRequired": "Enter a name.",
+      "discardConfirm": "Discard your unsaved changes?",
+      "discardTitle": "Discard unsaved changes?",
+      "discardDescription": "Your edits will be lost and the server values will remain unchanged.",
+      "keepEditing": "Keep editing",
+      "discardChanges": "Discard changes",
+      "selfRoleNotice": "You can update your contact details, but not your own roles."
+    },
+    "actions": {
+      "deactivate": "Deactivate",
+      "reactivate": "Reactivate"
+    },
+    "hire": {
+      "trigger": "Hire",
+      "title": "Register a team member",
+      "description": "The account is created, then an invitation goes out by email: that message is what lets the new member choose a password.",
+      "email": "Email address",
+      "emailPlaceholder": "first.last{'@'}nowtech.local",
+      "name": "Name",
+      "namePlaceholder": "First and last name",
+      "roles": "Roles",
+      "phone": "Phone (optional)",
+      "phoneHint": "Cameroonian mobile number, as +237 6XX XX XX XX (spaces included).",
+      "cancel": "Cancel",
+      "submit": "Register member",
+      "submitting": "Registering…",
+      "close": "Close",
+      "openRecord": "Open record",
+      "errors": {
+        "email": "Enter a valid email address.",
+        "name": "The name is between 2 and 80 characters.",
+        "roles": "Pick at least one role.",
+        "phone": "A Cameroonian mobile number is expected, as +237 6XX XX XX XX."
+      },
+      "result": {
+        "heading": "Member registered",
+        "description": "The account now exists in the team directory.",
+        "sentTitle": "Invitation sent",
+        "sentBody": "Invitation sent to {email}. The link it carries lets them choose a password.",
+        "notSentTitle": "Invitation not sent",
+        "notSentBody": "The account is created, but the invitation did not go out: tell them yourself, their address is {email}."
+      }
+    },
+    "deactivate": {
+      "title": "Deactivate {name}?",
+      "description": "This member will lose active access. You can reactivate them later.",
+      "cancel": "Keep active",
+      "confirm": "Deactivate member"
+    },
+    "toast": {
+      "hired": "{name} is registered, their invitation went out.",
+      "hiredWithoutInvitation": "{name} is registered, but the invitation did not go out.",
+      "updated": "Team member updated.",
+      "deactivated": "Team member deactivated.",
+      "reactivated": "Team member reactivated."
+    }
+  }
+}

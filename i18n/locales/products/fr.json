@@ -1,0 +1,855 @@
+{
+  "products": {
+    "stockImport": {
+      "headings": {
+        "setup": {
+          "title": "Ajuster le stock",
+          "description": "Envoyez un fichier CSV ou XLSX pour vérifier les changements de stock avant de les appliquer."
+        },
+        "previewing": {
+          "title": "Vérification du fichier",
+          "description": "Comparaison de chaque ligne avec le stock actuel. Rien n’est encore écrit."
+        },
+        "preview": {
+          "clean": {
+            "title": "Vérifier les changements",
+            "description": "{count} à modifier. Rien n’est écrit tant que vous n’appliquez pas."
+          },
+          "errors": {
+            "title": "Certaines lignes ont des erreurs",
+            "description": "{count} à modifier, {failed} en erreur seront ignorées. Rien n’est écrit tant que vous n’appliquez pas."
+          },
+          "changed": {
+            "title": "Stock modifié depuis l’export",
+            "description": "{count} à modifier. {changed} ignorées car leur stock a bougé après l’export du fichier."
+          },
+          "attention": {
+            "title": "Certaines lignes demandent votre attention",
+            "description": "{count} à modifier. {failed} en erreur et {changed} dont le stock a changé depuis l’export seront ignorées."
+          },
+          "included": {
+            "title": "Vérifier les changements",
+            "description": "{count} à modifier, dont {changed} dont le stock a changé depuis l’export. Rien n’est écrit tant que vous n’appliquez pas."
+          },
+          "includedErrors": {
+            "title": "Certaines lignes ont des erreurs",
+            "description": "{count} à modifier, dont {changed} modifiées depuis l’export. {failed} en erreur seront ignorées."
+          },
+          "nothing": {
+            "title": "Rien à ajuster",
+            "description": "Aucune ligne de ce fichier ne modifierait le stock."
+          }
+        },
+        "submitting": {
+          "title": "Application des changements",
+          "description": "Mise à jour du stock ligne par ligne. Gardez cette fenêtre ouverte."
+        },
+        "result": {
+          "done": {
+            "title": "Stock mis à jour",
+            "description": "{count} appliquées, {unchanged} inchangées."
+          },
+          "partial": {
+            "title": "Stock partiellement mis à jour",
+            "description": "{count} appliquées, {failed} en échec. Téléchargez le fichier d’erreurs pour corriger et relancer ces lignes."
+          },
+          "skipped": {
+            "title": "Stock mis à jour, lignes ignorées",
+            "description": "{count} appliquées. {changed} ignorées car leur stock a changé depuis l’export. Exportez à nouveau pour les compter."
+          },
+          "partialSkipped": {
+            "title": "Stock partiellement mis à jour",
+            "description": "{count} appliquées, {failed} en échec et {changed} ignorées car leur stock a changé depuis l’export."
+          },
+          "none": {
+            "title": "Rien n’a été appliqué",
+            "description": "Aucune ligne n’a modifié le stock : {failed} en échec, {changed} au stock modifié depuis l’export, {unchanged} inchangées."
+          }
+        },
+        "failure": {
+          "previewInterrupted": {
+            "title": "Vérification impossible",
+            "description": "La connexion a été interrompue. Rien n’a été écrit."
+          },
+          "inProgress": {
+            "title": "Traitement en cours",
+            "description": "Cet ajustement est encore en cours sur le serveur."
+          },
+          "rateLimited": {
+            "title": "Trop de requêtes",
+            "description": "Rien n’a été appliqué. Patientez un instant puis réessayez."
+          },
+          "interrupted": {
+            "title": "Connexion interrompue",
+            "description": "L’ajustement a peut-être été appliqué. Réessayez pour le savoir."
+          },
+          "rejected": {
+            "title": "Fichier refusé",
+            "description": "Rien n’a été écrit. Corrigez le fichier et réessayez."
+          }
+        }
+      },
+      "title": "Ajuster le stock",
+      "button": "Ajuster le stock",
+      "mode": "Mode d’ajustement",
+      "modes": {
+        "reception": "Réceptions",
+        "count": "Comptage"
+      },
+      "hints": {
+        "reception": "La quantité correspond aux unités reçues, qui seront ajoutées au stock.",
+        "count": "La quantité correspond au comptage physique. Une correction ramène le stock à cette quantité."
+      },
+      "reason": "Motif",
+      "reasonHelp": "Obligatoire, 200 caractères maximum. Appliqué à chaque ligne sans colonne reason propre.",
+      "fileSection": "Fichier",
+      "fileLimits": "CSV ou XLSX · 5 MB maximum · {limit} lignes",
+      "removeFile": "Retirer le fichier",
+      "file": "Choisissez ou déposez un fichier",
+      "downloadTemplate": "Télécharger le modèle",
+      "templateFilename": "modele-import-stock.csv",
+      "errorFilename": "erreurs-import-stock.csv",
+      "cancel": "Annuler",
+      "downloadErrors": "Télécharger le fichier d’erreurs",
+      "done": "Terminer",
+      "success": "{count} mouvements de stock enregistrés.",
+      "parse": {
+        "wrongType": "Choisissez un fichier CSV ou XLSX.",
+        "tooLarge": "Le fichier dépasse 5 MB."
+      },
+      "description": "Envoyez un fichier CSV ou XLSX pour vérifier les changements de stock avant de les appliquer.",
+      "fileHelp": "CSV ou XLSX, 5 MB et {limit} lignes maximum. Colonnes obligatoires : product (id ou slug), quantity (entier). La colonne reason facultative remplace le motif commun.",
+      "countWarning": "Le mode comptage ramène le stock à la quantité comptée au moment où chaque ligne est appliquée. Les commandes passées pendant l’ajustement peuvent encore modifier le stock.",
+      "submit": "Vérifier les modifications",
+      "submitting": "Ajustement en cours… Ne fermez pas cette fenêtre.",
+      "retry": "Réessayer",
+      "back": "Retour",
+      "applied": "{count} appliquées",
+      "failed": "{count} en échec",
+      "skipped": "{count} ignorées",
+      "rowLine": "Ligne {line}",
+      "columns": {
+        "line": "Ligne",
+        "product": "Produit",
+        "status": "Statut",
+        "variation": "Variation",
+        "balance": "Solde",
+        "details": "Détails",
+        "updates": "Mises à jour"
+      },
+      "noChange": "Le stock a déjà cette quantité",
+      "statuses": {
+        "applique": "Appliquée",
+        "ignore": "Ignorée",
+        "echec": "Échec",
+        "stockChanged": "Stock modifié"
+      },
+      "rowCodes": {
+        "produit_manquant": "Produit manquant",
+        "produit_introuvable": "Produit inconnu ou retiré",
+        "produit_en_double": "Produit déjà présent dans ce fichier",
+        "quantite_invalide": "Quantité invalide",
+        "motif_invalide": "Motif invalide (obligatoire, 200 caractères maximum)",
+        "variation_hors_limite": "La variation dépasse la limite de 1 000 000 d’unités",
+        "stock_insuffisant": "Stock insuffisant",
+        "stock_trop_eleve": "Le stock dépasserait le maximum",
+        "stock_reference_invalide": "Valeur current_stock invalide",
+        "echec_inattendu": "Échec inattendu sur cette ligne"
+      },
+      "requestErrors": {
+        "fichier_vide": "Le fichier est vide.",
+        "fichier_trop_volumineux": "Le fichier dépasse 5 MB.",
+        "format_non_pris_en_charge": "Format non pris en charge. Choisissez un fichier CSV ou XLSX.",
+        "contenu_incoherent": "Le contenu du fichier ne correspond pas à son extension.",
+        "classeur_invalide": "Le classeur n’a pas pu être lu.",
+        "csv_invalide": "Le fichier CSV est mal formé.",
+        "colonnes_manquantes": "Des colonnes obligatoires manquent (product et quantity).",
+        "aucune_ligne": "Le fichier ne contient aucune ligne de données.",
+        "trop_de_lignes": "Le fichier dépasse {limit} lignes.",
+        "dimensions_excessives": "La feuille de calcul est trop grande.",
+        "cellule_trop_longue": "Une cellule est trop longue.",
+        "cle_idempotence_conflit": "Cette clé de requête a déjà servi pour un contenu différent. Revenez en arrière et envoyez à nouveau.",
+        "rejected": "L’ajustement a été refusé. Aucune ligne n’a été appliquée."
+      },
+      "interrupted": "La connexion a été interrompue et l’ajustement a peut-être été appliqué. Réessayez pour le savoir : le même fichier et la même clé de requête sont réutilisés, rien ne sera appliqué deux fois.",
+      "inProgress": "L’ajustement est encore en cours de traitement. Réessayez dans un instant.",
+      "rateLimited": "Trop de requêtes (limitation du débit). Rien n’a été appliqué. Patientez un instant puis réessayez : la même clé de requête est réutilisée, rien ne sera appliqué deux fois.",
+      "previewing": "Comparaison du fichier avec le stock actuel… Rien n’est encore écrit.",
+      "previewFailed": "L’aperçu n’a pas pu être terminé. Rien n’a été écrit. Réessayez pour vérifier à nouveau le fichier.",
+      "retryPreview": "Réessayer l’aperçu",
+      "preview": {
+        "willApply": "{count} seront appliquées",
+        "unchanged": "{count} inchangées",
+        "willFail": "{count} échoueront",
+        "statuses": {
+          "applique": "Sera appliquée",
+          "ignore": "Aucun changement",
+          "echec": "Échouera",
+          "stockChanged": "Stock modifié"
+        },
+        "failNotice": "Les lignes qui échoueront sont ignorées à l’application puis signalées ensuite.",
+        "nothingToApply": "Rien à appliquer : aucune ligne ne modifierait le stock.",
+        "apply": "Appliquer {count} modification | Appliquer {count} modifications",
+        "changed": "{count} stock modifié depuis l’export"
+      },
+      "notTouched": "Quantité vide, non modifiée",
+      "emptyQuantityHint": "Les lignes sans quantité sont ignorées.",
+      "changed": "{count} stock modifié depuis l’export",
+      "stockChanged": {
+        "row": "Exporté à {file}, maintenant {live}",
+        "skipped": "Ignorée : stock modifié depuis l’export",
+        "notice": "Le stock de ces lignes a changé après l’export du fichier. Elles sont ignorées pour que le comptage n’annule pas ces ventes ou réceptions.",
+        "noticeIncluded": "Le stock de ces lignes a changé après l’export du fichier. Elles sont appliquées quand même et annulent les mouvements faits depuis.",
+        "include": "Appliquer quand même ces lignes",
+        "includeHint": "Leur quantité remplace le stock actuel et annule les mouvements faits depuis l’export.",
+        "resultSkipped": "Les lignes dont le stock a changé depuis l’export ont été ignorées. Exportez à nouveau pour les compter."
+      }
+    },
+    "stockExport": {
+      "headings": {
+        "ready": {
+          "title": "Exporter un fichier de stock",
+          "description": "Téléchargez les produits correspondant à vos filtres actuels dans un fichier à remplir puis à importer."
+        },
+        "pending": {
+          "title": "Préparation de l’export",
+          "description": "Création du fichier à partir de vos filtres. Cette fenêtre se ferme une fois le fichier enregistré."
+        },
+        "failed": {
+          "title": "Échec de l’export",
+          "description": "Rien n’a été téléchargé. Lisez le message ci-dessous puis réessayez."
+        },
+        "empty": {
+          "title": "Rien à exporter",
+          "description": "Aucun produit ne correspond aux filtres actuels."
+        },
+        "blocked": {
+          "title": "Trop de produits",
+          "description": "Affinez les filtres à {max} produits ou moins pour exporter."
+        },
+        "split": {
+          "title": "Export volumineux",
+          "description": "{count} produits correspondent. Les fichiers de plus de {limit} lignes doivent être scindés avant d’être importés."
+        }
+      },
+      "button": "Exporter",
+      "exporting": "Préparation du fichier…",
+      "title": "Exporter un fichier de stock",
+      "mode": "Mode d’ajustement",
+      "modeHints": {
+        "count": "La quantité est pré-remplie avec le stock actuel ; modifiez seulement ce que vous avez compté.",
+        "reception": "La quantité est vide ; renseignez seulement ce que vous avez reçu."
+      },
+      "format": "Format",
+      "formats": {
+        "xlsx": "Excel (XLSX)",
+        "csv": "CSV"
+      },
+      "filtersLabel": "Filtres",
+      "filtersNone": "Tous les produits",
+      "filters": {
+        "stock": "Stock",
+        "state": "État",
+        "stateActive": "Actifs"
+      },
+      "matching": "{count} produit | {count} produits",
+      "notices": {
+        "empty": "Aucun produit ne correspond aux filtres actuels.",
+        "split": "{count} produits : l’import accepte {limit} lignes par fichier, découpez donc le fichier avant de l’importer.",
+        "tooMany": "Plus de {max} produits correspondent. Affinez les filtres pour exporter.",
+        "withdrawn": "Les produits retirés sont inclus avec une quantité vide ; l’import les ignore.",
+        "stale": "Importez peu après l’export : les ventes faites entre-temps seraient annulées par un comptage."
+      },
+      "confirm": "Exporter",
+      "cancel": "Annuler",
+      "success": "Export téléchargé"
+    },
+    "page": {
+      "heading": "Produits",
+      "addProduct": "+ Ajouter",
+      "newProduct": "Nouveau",
+      "newProductTitle": "Nouveau produit",
+      "empty": "Aucun produit pour l’instant — ajoutez-en un pour commencer.",
+      "loading": "Chargement du produit…",
+      "seo": {
+        "title": "Produits · Administration NowTech",
+        "description": "Administration des produits du catalogue pour le panneau NowTech."
+      }
+    },
+    "common": {
+      "brand": "Marque"
+    },
+    "brandLogo": {
+      "current": "Logo de marque · administration uniquement",
+      "attribution": "Logo fourni par Logo.dev"
+    },
+    "listItem": {
+      "status": {
+        "en-stock": "En stock",
+        "rupture": "Rupture",
+        "retire": "Retiré",
+        "reapprovisionnement": "Réapprovisionnement"
+      }
+    },
+    "listPanel": {
+      "title": "Produits",
+      "searchPlaceholder": "Rechercher...",
+      "allCategories": "Toutes",
+      "empty": "Aucun produit",
+      "loadingMore": "Chargement des produits suivants…"
+    },
+    "filterBar": {
+      "searchPlaceholder": "Rechercher des produits…",
+      "searchLabel": "Rechercher",
+      "searchOperatorContains": "contient",
+      "rayonLabel": "Rayon",
+      "rayonOperatorIs": "est",
+      "categoryLabel": "Catégorie",
+      "categoryOperatorIs": "est",
+      "brandLabel": "Marque",
+      "brandOperatorIs": "est",
+      "sortLabel": "Trier",
+      "sortOperatorIs": "est",
+      "clear": "Effacer",
+      "sort": {
+        "recent": "Plus récents",
+        "nom": "Nom",
+        "prix-croissant": "Prix croissant",
+        "prix-decroissant": "Prix décroissant"
+      }
+    },
+    "filterCombobox": {
+      "noResults": "Aucun résultat"
+    },
+    "categoryPicker": {
+      "rayonLabel": "Rayon",
+      "rayonPlaceholder": "Tous",
+      "principalLabel": "Catégorie principale",
+      "principalPlaceholder": "Sélectionner une catégorie",
+      "secondaryLabel": "Catégories secondaires",
+      "secondaryPlaceholder": "Ajouter des catégories",
+      "secondarySelectedCount": "aucune catégorie sélectionnée | 1 catégorie sélectionnée | {count} catégories sélectionnées",
+      "marqueLabel": "Marque",
+      "marquePlaceholder": "Saisir ou choisir une marque",
+      "noResults": "Aucun résultat",
+      "removeSecondary": "Retirer {name}"
+    },
+    "detailForm": {
+      "addTitle": "Ajouter un produit",
+      "editTitle": "Détails du produit",
+      "nom": {
+        "label": "Nom du produit",
+        "placeholder": "ex. Casque Bluetooth"
+      },
+      "prix": {
+        "label": "Prix"
+      },
+      "prixReference": {
+        "label": "Prix de référence"
+      },
+      "remisePct": {
+        "label": "Remise (%)"
+      },
+      "urlSource": {
+        "label": "URL source",
+        "placeholder": "https://…"
+      },
+      "caracteristiques": {
+        "label": "Caractéristiques",
+        "placeholder": "Ajouter une caractéristique",
+        "add": "Ajouter",
+        "remove": "Retirer {value}"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Résumé du produit visible par les clients",
+        "counter": "{count}/{max}"
+      },
+      "slug": {
+        "label": "Slug",
+        "placeholder": "slug-du-produit"
+      },
+      "storefront": "Boutique",
+      "cancel": "Annuler",
+      "save": {
+        "add": "Enregistrer",
+        "edit": "Enregistrer"
+      },
+      "withdrawnBanner": "Ce produit a été retiré le {date}.",
+      "invalid": "Le produit n'a pas été enregistré. À corriger : {fields}.",
+      "readOnly": "Seule la direction peut créer ou modifier un produit.",
+      "images": {
+        "label": "Images"
+      },
+      "longDescription": {
+        "placeholder": "Description détaillée affichée sur la page produit"
+      },
+      "initialStock": {
+        "label": "Quantité initiale",
+        "hint": "Laissez vide pour vendre sans compter. Saisissez une quantité pour suivre le stock de ce produit ; les changements suivants sont enregistrés comme mouvements."
+      },
+      "initialAvailability": {
+        "label": "Statut",
+        "inStock": "En stock",
+        "outOfStock": "En rupture",
+        "hint": "Sans quantité, le produit est vendu en stock. Choisissez « En rupture » pour le garder caché le temps de le terminer."
+      }
+    },
+    "availability": {
+      "outcome": {
+        "inStock": "en stock",
+        "outOfStock": "en rupture"
+      },
+      "conflict": {
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "sellWithoutStock": {
+          "title": "Vendre sans stock en main ?",
+          "description": "Le compte enregistré est de {quantity}. Les commandes seront acceptées sans le réduire : il cessera de correspondre à l’étagère."
+        },
+        "hideWithStock": {
+          "title": "Masquer un produit qui a du stock ?",
+          "description": "Le compte enregistré est de {quantity}. Le produit quittera la boutique et les nouvelles commandes seront refusées. Celles déjà passées restent confirmables."
+        },
+        "resumeFlips": {
+          "title": "Laisser le compte décider à nouveau ?",
+          "description": "Le compte enregistré est de {quantity} : le produit passera {outcome}."
+        }
+      }
+    },
+    "imageGallery": {
+      "add": "Ajouter une image",
+      "remove": "Retirer cette image",
+      "select": "Afficher l'image {index} en premier",
+      "dialogTitle": "Ajouter une image",
+      "dialogDescription": "Importez un fichier ou collez l'URL d'une image.",
+      "uploadLabel": "Importer une nouvelle image",
+      "dropzoneLabel": "Cliquez ou glissez-déposez pour importer",
+      "dropzoneHint": "JPG, PNG, WebP, AVIF (5 Mo max)",
+      "fileDisabledHint": "L'image sera envoyée dès que le produit sera créé.",
+      "or": "Ou",
+      "urlLabel": "Coller l'URL d'une image",
+      "urlPlaceholder": "URL de l'image",
+      "altPlaceholder": "Texte alternatif (facultatif)",
+      "confirm": "Ajouter",
+      "cancel": "Annuler",
+      "expand": "Voir en taille réelle",
+      "previewTitle": "Aperçu de l'image",
+      "removeError": "Impossible de retirer cette image. Réessayez.",
+      "errors": {
+        "type": "Type de fichier non pris en charge — utilisez JPG, PNG, WebP ou AVIF.",
+        "size": "Ce fichier est trop volumineux — la limite est de 5 Mo."
+      },
+      "uploadPartialFailure": "Le produit est créé, mais ces images n'ont pas pu être envoyées : {files}. Réessayez depuis la fiche."
+    },
+    "withdrawDialog": {
+      "trigger": "Retirer",
+      "title": "Retirer ce produit ?",
+      "description": "Vous êtes sur le point de retirer {name}. Il n'apparaîtra plus dans le catalogue tant qu'il n'aura pas été restauré.",
+      "motifLabel": "Motif (facultatif)",
+      "motifPlaceholder": "Pourquoi ce produit est-il retiré ?",
+      "cancel": "Annuler",
+      "confirm": "Retirer"
+    },
+    "historyPanel": {
+      "title": "Historique",
+      "empty": "Aucun changement pour l’instant."
+    },
+    "costs": {
+      "title": "Historique des coûts d’achat",
+      "add": "Ajouter un coût",
+      "dialogTitle": "Ajouter un coût d’achat",
+      "cancel": "Annuler",
+      "amount": "Coût (XAF)",
+      "save": "Ajouter le coût",
+      "loading": "Chargement de l’historique…",
+      "loadError": "L’historique des coûts est indisponible.",
+      "empty": "Aucun coût d’achat enregistré.",
+      "invalid": "Saisissez un coût entier supérieur ou égal à zéro.",
+      "saveError": "Le coût n’a pas pu être enregistré. Votre valeur est conservée."
+    },
+    "inventory": {
+      "adjust": "Ajuster le stock",
+      "dialogTitle": "Ajuster le stock",
+      "dialogDescription": "Enregistrez un mouvement de stock. Il rejoint l’historique d’audit et ne peut plus être modifié.",
+      "type": "Type de mouvement",
+      "variation": "Variation",
+      "variationHintReception": "Unités reçues, un entier positif.",
+      "variationHintCorrection": "Entier signé, par ex. -2 pour retirer deux unités après un recomptage.",
+      "reason": "Motif",
+      "reasonPlaceholder": "ex. Livraison fournisseur, inventaire",
+      "cancel": "Annuler",
+      "save": "Enregistrer le mouvement",
+      "empty": "Aucun mouvement de stock pour l’instant.",
+      "showing": "{count} mouvements affichés sur {total}.",
+      "loadMore": "Charger les mouvements plus anciens",
+      "loadMoreError": "Les mouvements plus anciens n’ont pas pu être chargés.",
+      "scrollHint": "Faites défiler horizontalement pour voir toutes les colonnes.",
+      "markRestocking": "Marquer en réapprovisionnement",
+      "clearRestocking": "Marquer en rupture",
+      "followCatalogue": {
+        "button": "Suivre WooCommerce",
+        "title": "Suivre à nouveau WooCommerce ?",
+        "description": "Le statut de ce produit est fixé dans le panel ({status}) : les imports WooCommerce ne le modifient donc plus. Si vous suivez à nouveau WooCommerce, la boutique utilise le statut que WooCommerce donne à ce produit, dès maintenant et après chaque import. Le statut fixé ici est abandonné.",
+        "confirm": "Suivre WooCommerce"
+      },
+      "movements": "Mouvements de stock",
+      "columns": {
+        "date": "Date",
+        "type": "Type",
+        "variation": "Variation",
+        "balance": "Solde",
+        "reason": "Motif",
+        "actor": "Par",
+        "order": "Commande"
+      },
+      "actorSystem": "Système",
+      "actorYou": "Vous",
+      "actorUnknown": "Inconnu",
+      "balanceReading": "De {before} à {after}",
+      "movementType": {
+        "initialisation": "Stock d’ouverture",
+        "reception": "Réception",
+        "correction": "Correction",
+        "commande_confirmee": "Commande confirmée",
+        "commande_liberee": "Commande libérée"
+      }
+    },
+    "historyEntry": {
+      "emptyValue": "—",
+      "fields": {
+        "nom": "Nom du produit",
+        "prix": "Prix",
+        "prix_reference": "Prix de référence",
+        "remise_pct": "Remise",
+        "marque": "Marque",
+        "categorie_principale_id": "Catégorie principale",
+        "url_source": "URL source",
+        "caracteristiques": "Caractéristiques",
+        "description": "Description courte",
+        "fiche_technique": "Description détaillée",
+        "promo_debut": "Début de la remise",
+        "promo_fin": "Fin de la remise",
+        "delai_livraison_id": "Délai",
+        "retire_le": "Retiré le"
+      },
+      "decidedByLabel": "Décidé par",
+      "title": {
+        "creation": "Produit créé",
+        "modification": "Produit modifié",
+        "disparition": "Produit retiré"
+      },
+      "type": {
+        "creation": "Création",
+        "modification": "Modification",
+        "disparition": "Disparition"
+      }
+    },
+    "lifecycleControls": {
+      "restore": "Restaurer"
+    },
+    "toast": {
+      "saveSuccessAdd": "{name} a été ajouté.",
+      "saveSuccessEdit": "{name} a été mis à jour.",
+      "withdrawSuccess": "{name} a été retiré.",
+      "restoreSuccess": "{name} a été restauré."
+    },
+    "tabs": {
+      "overview": "Aperçu",
+      "stock": "Stock",
+      "history": "Historique ({count})"
+    },
+    "kpis": {
+      "stockStatus": "Statut stock",
+      "pricing": "Prix unitaire",
+      "completeness": "Complétude fiche",
+      "category": "Rayon & Catégorie",
+      "discountTag": "-{pct}% de remise",
+      "general": "Général"
+    },
+    "attributes": {
+      "createdAt": "Inscription / Ajout"
+    },
+    "overview": {
+      "stockIndicator": {
+        "label": "En stock",
+        "outOfStock": "En rupture",
+        "statusLabel": "Statut",
+        "quantityLabel": "Quantité",
+        "followsCount": "Suit le compte",
+        "track": "Suivre la quantité",
+        "notCounted": "Non compté",
+        "fromCatalogue": "Depuis WooCommerce",
+        "setInPanel": "Défini dans le panel",
+        "quantity": "Quantité en stock",
+        "hint": "Un produit suivi obéit à son compte. Un produit non compté suit WooCommerce jusqu’à ce que vous fixiez son statut ici, puis ignore les imports suivants. Désactivez le suivi pour fixer le statut quelle que soit la quantité, et comptez le produit avec le crayon pour le suivre."
+      },
+      "general": "Profil",
+      "categorization": "Catégorisation & Marque",
+      "specs": "Caractéristiques",
+      "sourceUrl": "URL source",
+      "noSpecs": "Aucune caractéristique renseignée.",
+      "noSource": "—",
+      "primaryCategory": "Catégorie principale",
+      "secondaryCategories": "Catégories secondaires",
+      "department": "Rayon",
+      "brand": "Marque",
+      "brandPlaceholder": "Choisir une marque",
+      "referencePrice": "Prix de référence",
+      "discount": "Remise",
+      "newArrival": "NOUVEL ARRIVAGE",
+      "reviewsCount": "{count} avis",
+      "saidCount": "{count} mentions",
+      "availableColors": "Couleurs disponibles",
+      "availableCategories": "Catégories",
+      "currency": "FCFA",
+      "categoryPlaceholder": "Choisir une catégorie",
+      "categorySearchPlaceholder": "Rechercher des catégories…",
+      "noCategoryResults": "Aucun résultat",
+      "addSecondaryCategory": "Ajouter une catégorie",
+      "addSecondaryCategories": "Ajouter des catégories",
+      "secondaryCategorySearchPlaceholder": "Rechercher des catégories…",
+      "noSecondaryCategoryResults": "Aucun résultat",
+      "moreSecondaryCategories": "Afficher {count} catégories secondaires supplémentaires",
+      "removeSecondaryCategory": "Retirer {name}",
+      "availableSize": "Tailles disponibles",
+      "availableDepartments": "Rayons",
+      "departmentPlaceholder": "Choisir un rayon",
+      "departmentSearchPlaceholder": "Rechercher des rayons…",
+      "noDepartmentResults": "Aucun résultat",
+      "featureInputLabel": "Caractéristique {index}",
+      "nextFeatureLabel": "Ajouter une caractéristique",
+      "stocksLeft": "Plus que {count} en stock",
+      "featuresTitle": "Caractéristiques",
+      "descriptionTitle": "Description courte",
+      "shippingInfo": "Informations de livraison",
+      "delivery": "Livraison",
+      "deliveryLocation": "Jakarta, Indonésie",
+      "shipping": "Expédition",
+      "shippingType": "Expédition internationale",
+      "arrive": "Arrivée",
+      "arriveEstimate": "Estimée le 27 oct. 2022",
+      "reviews": "Avis",
+      "storeLocation": "New York, USA",
+      "viewMore": "Voir plus",
+      "storeReviews": "({rating}) {count} avis",
+      "promoDebut": "Début de la remise",
+      "promoFin": "Fin de la remise",
+      "promoHint": "Laissez vide pour « déjà commencée » et « sans terme ». Une remise sans fin reste affichée jusqu'à ce que quelqu'un la retire.",
+      "pickDate": "Choisir une date",
+      "clearDate": "Effacer la date",
+      "promoIncoherente": "Le prix de référence doit être supérieur au prix affiché : en dessous, ce n'est pas une promotion mais une erreur de saisie, et la base la refuse.",
+      "longDescriptionTitle": "Description détaillée"
+    },
+    "quickFilters": {
+      "all": "Tous",
+      "inStock": "En stock",
+      "outOfStock": "Rupture",
+      "withdrawn": "Retirés",
+      "restocking": "Réappro."
+    },
+    "datasheet": {
+      "title": "Fiche technique (PDF)",
+      "empty": "Aucune fiche technique pour ce produit.",
+      "untitled": "Fiche technique",
+      "upload": "Téléverser une fiche",
+      "replace": "Remplacer la fiche",
+      "remove": "Retirer",
+      "fileLabel": "Fichier PDF",
+      "cancel": "Annuler",
+      "submit": "Téléverser",
+      "hint": "PDF uniquement, 25 Mo maximum. Elle devient téléchargeable sur la page publique du produit.",
+      "errorType": "Seuls les PDF sont acceptés : un document Word se rend différemment sur chaque machine.",
+      "errorSize": "Ce fichier dépasse 25 Mo."
+    },
+    "delivery": {
+      "title": "Delai",
+      "default": "Par défaut",
+      "placeholder": "Choisir un Delai",
+      "searchPlaceholder": "Rechercher un délai…",
+      "noResults": "Aucun résultat",
+      "loading": "Chargement des délais…",
+      "loadError": "Les délais de livraison n'ont pas pu être chargés.",
+      "add": "Ajouter une option",
+      "manageLabel": "Gérer les options de livraison",
+      "manage": {
+        "title": "Options de livraison",
+        "description": "Modifiez, archivez ou restaurez les délais proposés sur les produits.",
+        "edit": "Modifier {label}",
+        "archive": "Archiver {label}",
+        "restore": "Restaurer {label}",
+        "archived": "Archivé",
+        "inUse": "Utilisé par {count} produit | Utilisé par {count} produits",
+        "retry": "Réessayer",
+        "loadError": "Les options de livraison n'ont pas pu être chargées.",
+        "actionError": "La modification n'a pas pu être enregistrée."
+      },
+      "label": {
+        "single": {
+          "minutes": "{count} minute | {count} minutes",
+          "heures": "{count} heure | {count} heures",
+          "jours_ouvres": "{count} jour ouvré | {count} jours ouvrés",
+          "jours": "{count} jour | {count} jours",
+          "semaines": "{count} semaine | {count} semaines",
+          "mois": "{count} mois | {count} mois"
+        },
+        "range": {
+          "minutes": "{min} à {max} minutes",
+          "heures": "{min} à {max} heures",
+          "jours_ouvres": "{min} à {max} jours ouvrés",
+          "jours": "{min} à {max} jours",
+          "semaines": "{min} à {max} semaines",
+          "mois": "{min} à {max} mois",
+          "minutes_heures": "{min} min – {max} h"
+        }
+      },
+      "units": {
+        "minutes": "Minutes",
+        "heures": "Heures",
+        "jours_ouvres": "Jours ouvrés",
+        "jours": "Jours",
+        "semaines": "Semaines",
+        "mois": "Mois"
+      },
+      "dialog": {
+        "createTitle": "Ajouter un Delai",
+        "editTitle": "Modifier le Delai",
+        "unit": "Unité",
+        "mode": "Type de valeur",
+        "single": "Exactement",
+        "range": "Entre",
+        "min": "Valeur",
+        "rangeMin": "De",
+        "rangeMax": "À",
+        "preview": "Aperçu",
+        "lockedHint": "Cette option est utilisée par {count} produit(s) : sa valeur ne peut plus changer. Archivez-la et ajoutez-en une nouvelle.",
+        "invalid": "Saisissez des nombres entiers de 1 à 999 ; le maximum ne peut pas être inférieur au minimum.",
+        "duplicate": "Ce Delai existe déjà.",
+        "duplicateArchived": "Ce Delai existe déjà mais il est archivé. Restaurez-le depuis la liste de gestion.",
+        "cancel": "Annuler",
+        "save": "Enregistrer"
+      }
+    },
+    "aiCopy": {
+      "language": {
+        "fr": "français",
+        "en": "anglais"
+      },
+      "trigger": {
+        "generate": "Générer le texte du produit",
+        "more": "Plus d’options de génération",
+        "freshAlternative": "Régénérer",
+        "needsContext": "Ajoutez un nom et au moins une image du produit, ou un nom, une marque ou catégorie principale, ainsi qu’un texte source ou des caractéristiques."
+      },
+      "card": {
+        "notice": "Brouillon généré par IA. Vérifiez chaque information avant de l’appliquer.",
+        "apply": "Appliquer",
+        "dismiss": "Ignorer",
+        "replacesFeatures": "L’application remplace toute la liste des caractéristiques.",
+        "fields": {
+          "name": "Nom suggéré",
+          "department": "Rayon suggéré",
+          "primaryCategory": "Catégorie suggérée",
+          "secondaryCategories": "Catégories secondaires suggérées",
+          "brand": "Marque suggérée",
+          "shortDescription": "Description courte suggérée",
+          "longDescription": "Description détaillée suggérée",
+          "features": "Caractéristiques suggérées"
+        }
+      },
+      "popup": {
+        "title": "NowTech AI",
+        "launcher": {
+          "open": "NowTech AI",
+          "loading": "Génération des suggestions…",
+          "ready": "De nouvelles suggestions sont prêtes",
+          "error": "Une génération a échoué"
+        },
+        "close": "Fermer",
+        "sections": {
+          "label": "Sections de NowTech AI",
+          "suggestions": "Suggestions",
+          "conversations": "Conversations",
+          "settings": "Paramètres",
+          "empty": {
+            "conversations": "Les conversations ne sont pas encore disponibles."
+          }
+        },
+        "settings": {
+          "language": {
+            "label": "Langue des suggestions",
+            "description": "La langue dans laquelle NowTech AI rédige les textes des produits."
+          },
+          "fields": {
+            "label": "Champs à générer",
+            "description": "Choisissez un ou plusieurs champs. Tous les champs sont sélectionnés par défaut."
+          },
+          "imageProfile": {
+            "label": "Images du produit",
+            "description": "Le serveur ne sélectionne que des images enregistrées et sûres. Toutes les images sont utilisées par défaut.",
+            "options": {
+              "all-auto": {
+                "label": "Toutes les images du produit",
+                "description": "Utilise jusqu’à quatre images classées avec le niveau de détail automatique."
+              },
+              "primary-auto": {
+                "label": "Image principale",
+                "description": "Utilise seulement la première image classée avec le niveau de détail automatique."
+              },
+              "primary-auto-secondary-low": {
+                "label": "Image principale et compléments légers",
+                "description": "Utilise l’image principale avec le niveau automatique et les autres images classées avec un faible niveau de détail."
+              }
+            }
+          }
+        },
+        "imageContext": "{profile} : {count} image(s) sûre(s) utilisée(s) sur {candidate}.",
+        "loading": "Génération des suggestions en {language}…",
+        "retry": "Réessayer",
+        "quotaWait": "Vous pourrez réessayer dans environ {minutes} min.",
+        "history": {
+          "ask": "Rédiger en {language} : {product}",
+          "scope": "Champs : {fields}",
+          "empty": "Rien n’a encore été généré. Ouvrez un produit et utilisez le bouton de génération pour rédiger des suggestions.",
+          "untitled": "Produit sans nom",
+          "remove": "Retirer {label} de l’historique",
+          "clear": "Vider l’historique",
+          "applyAll": "Tout appliquer",
+          "review": "Relire dans l’éditeur",
+          "fields": {
+            "name": "Nom",
+            "brand": "Marque",
+            "department": "Rayon",
+            "primaryCategory": "Catégorie",
+            "secondaryCategories": "Catégories secondaires",
+            "shortDescription": "Description courte",
+            "longDescription": "Description détaillée",
+            "features": "Caractéristiques"
+          },
+          "status": {
+            "ready": "Prête",
+            "error": "Échec"
+          }
+        },
+        "warnings": {
+          "image_unavailable": "Certaines images du produit n’ont pas pu être utilisées : ces suggestions reposent sur moins d’informations.",
+          "datasheet_unavailable": "La fiche technique n’a pas pu être utilisée : ces suggestions reposent sur moins d’informations."
+        },
+        "errors": {
+          "forbidden": "Seule la direction peut générer le texte d’un produit.",
+          "invalid_request": "Les informations du produit n’ont pas pu être lues. Rechargez la page et réessayez.",
+          "insufficient_context": "Les informations sur le produit sont encore insuffisantes. Ajoutez une image du produit, ou une marque, une catégorie, une description ou une caractéristique.",
+          "prompt_too_large": "Le texte du produit est trop long pour être analysé. Raccourcissez les descriptions et réessayez.",
+          "busy": "Une autre génération est déjà en cours. Attendez qu’elle se termine.",
+          "quota_exceeded": "Vous avez atteint la limite horaire de suggestions IA.",
+          "provider_unavailable": "Le service d’IA est indisponible pour le moment. Réessayez dans un instant.",
+          "provider_timeout": "Le service d’IA a mis trop de temps à répondre. Réessayez.",
+          "provider_refused": "Le service d’IA n’a pas pu rédiger de suggestions pour ce produit.",
+          "invalid_model_output": "Le service d’IA a renvoyé une réponse inutilisable. Réessayez.",
+          "unreachable": "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
+          "unknown": "Les suggestions n’ont pas pu être générées. Réessayez."
+        }
+      }
+    }
+  }
+}

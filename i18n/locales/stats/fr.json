@@ -1,0 +1,176 @@
+{
+  "stats": {
+    "actions": {
+      "openOrders": "Ouvrir les commandes",
+      "openProducts": "Ouvrir les produits",
+      "period": "Période",
+      "refresh": "Actualiser la vue d’ensemble",
+      "updated": "Mis à jour à {time}",
+      "viewMore": "Voir plus"
+    },
+    "aria": {
+      "loading": "Chargement de la vue d’ensemble"
+    },
+    "blocks": {
+      "aTraiter": "À traiter",
+      "caisse": "Santé caisse",
+      "encaissements": "Encaissements",
+      "mix": "Répartition des commandes",
+      "operations": "Opérations",
+      "produits": "Produits les plus vendus",
+      "salesStatistics": "Statistiques des ventes",
+      "totalProfit": "Bénéfice total"
+    },
+    "kpis": {
+      "totalSales": "Ventes totales de produits",
+      "totalStock": "Total produits en stock",
+      "returnProducts": "Produits retournés",
+      "productRevenue": "Revenus des produits",
+      "totalStockSubtitle": "en magasin",
+      "periodLabels": {
+        "aujourdhui": "Aujourd’hui",
+        "7j": "Sur 7 jours",
+        "30j": "Sur 30 jours",
+        "3mois": "Sur 3 mois",
+        "12mois": "Sur 12 mois",
+        "stock": "Variation nette"
+      }
+    },
+    "chart": {
+      "aria": "Graphique des encaissements et montants facturés sur la période sélectionnée",
+      "commandes": "Commandes clôturées",
+      "current": "Actuel",
+      "encaisse": "Encaissé",
+      "facture": "Facturé",
+      "previous": "Précédent"
+    },
+    "tabs": {
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel",
+      "yearly": "Année dernière"
+    },
+    "catalogue": {
+      "title": "Catalogue",
+      "totalProducts": "Total des produits",
+      "totalBrands": "Total des marques",
+      "totalDepartments": "Total des rayons",
+      "totalCategories": "Total des catégories"
+    },
+    "profit": {
+      "totalProfit": "Bénéfice total",
+      "totalRevenue": "Revenu total",
+      "cout": "Coût d’achat"
+    },
+    "transactions": {
+      "title": "Transactions récentes",
+      "subtitle": "Restez informé des dernières commandes clients.",
+      "orderId": "N° Commande",
+      "productName": "Nom du produit",
+      "date": "Date",
+      "amount": "Montant",
+      "status": "Statut",
+      "action": "Action"
+    },
+    "status": {
+      "inProgress": "En cours",
+      "delivered": "Livré",
+      "canceled": "Annulé",
+      "unverified": "Non vérifié"
+    },
+    "chargement": "Mise à jour",
+    "caisse": {
+      "aria": "Santé caisse : {taux}",
+      "clotures": "Remises sans écart : {sansEcart} sur {remises}",
+      "ecartCumule": "Écart cumulé",
+      "litiges": "Caisses en litige : {count}",
+      "sansRemise": "Aucune remise caisse à mesurer"
+    },
+    "delta": {
+      "baisse": "Baisse de {valeur} par rapport à la période précédente",
+      "hausse": "Hausse de {valeur} par rapport à la période précédente",
+      "indisponible": "Aucune comparaison : la période précédente n’avait rien à mesurer",
+      "stable": "Stable par rapport à la période précédente"
+    },
+    "indisponible": "N/D",
+    "hero": {
+      "headline": "Total encaissé"
+    },
+    "livraison": {
+      "aria": "Taux de livraison réussie : {taux}, {reussies} réussies sur {cloturees} clôtures",
+      "sansCloture": "Aucune livraison clôturée sur la période"
+    },
+    "mix": {
+      "barAria": "{label} : {percentage}",
+      "dimension": "Choisir la dimension des commandes",
+      "dimensions": {
+        "modePaiementSouhaite": "Mode de paiement souhaité",
+        "modeRemise": "Mode de remise",
+        "momentPaiement": "Moment du paiement",
+        "statut": "Statut"
+      },
+      "values": {
+        "agence": "Agence",
+        "a_la_livraison": "À la livraison",
+        "annulation_demandee": "Annulation demandée",
+        "annulee": "Annulée",
+        "close": "Clôturée",
+        "confirmee": "Confirmée",
+        "domicile": "Domicile",
+        "en_preparation": "En préparation",
+        "en_remise": "En remise",
+        "especes_comptoir": "Espèces au comptoir",
+        "especes_livraison": "Espèces à la livraison",
+        "mobile_livraison": "Mobile money à la livraison",
+        "mobile_plateforme": "Mobile money plateforme",
+        "maintenant": "Maintenant",
+        "prete_au_retrait": "Prête au retrait",
+        "retrait": "Retrait",
+        "retour_ouvert": "Retour ouvert",
+        "soumise": "Soumise"
+      },
+      "total": "{count} commandes"
+    },
+    "operations": {
+      "aPreparer": "À préparer",
+      "closes": "Clôturées sur la période",
+      "enRemise": "En remise",
+      "pretesAuRetrait": "Prêtes au retrait"
+    },
+    "pourcentage": "{valeur} %",
+    "periods": {
+      "12mois": "12 mois",
+      "30j": "30 jours",
+      "3mois": "3 mois",
+      "7j": "7 jours",
+      "aujourdhui": "Aujourd’hui"
+    },
+    "products": {
+      "columnEarnings": "Gains",
+      "columnProducts": "Produits",
+      "columnSales": "Ventes",
+      "sparkline": "Évolution quotidienne des unités",
+      "thumbnailAlt": "Image du produit {nom}",
+      "topSellingTitle": "Produits les plus vendus",
+      "units": "{count} unités"
+    },
+    "tiles": {
+      "especes": "Espèces",
+      "mobileMoney": "Mobile money",
+      "resteAPayer": "Reste à payer",
+      "virement": "Virement bancaire"
+    },
+    "queue": {
+      "now": "Actions en attente en ce moment",
+      "rows": {
+        "annulations_demandees": "Annulations demandées",
+        "caisses_litige": "Caisses en litige",
+        "membres_jamais_connectes": "Membres jamais connectés",
+        "propositions_attente": "Propositions en attente",
+        "retours_ouverts": "Retours ouverts"
+      }
+    },
+    "retry": "Réessayer",
+    "vide": "Aucune donnée sur cette période",
+    "unites": "pcs"
+  }
+}

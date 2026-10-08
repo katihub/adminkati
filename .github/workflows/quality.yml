@@ -1,0 +1,59 @@
+name: Quality
+
+on:
+  pull_request:
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, format, analyse, typecheck, test, build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # fallow audit diffs against the base branch, so it needs history.
+          fetch-depth: 0
+
+      - name: Set up bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+
+      - name: Install
+        # postinstall runs `nuxt prepare`, which generates .nuxt/ — every step
+        # below depends on it, so nothing runs if this fails.
+        run: bun install --frozen-lockfile
+
+      # Every check below runs even when an earlier one fails, so one CI run
+      # surfaces every problem instead of one per push.
+      - name: Lint
+        if: always()
+        run: bun run lint
+
+      - name: Format check
+        if: always()
+        run: bun run format:check
+
+      - name: Codebase analysis
+        if: always()
+        run: bunx fallow audit --changed-since origin/${{ github.base_ref }}
+
+      - name: Typecheck
+        if: always()
+        env:
+          # vue-tsc can exceed Node's default 2 GB heap on the full Nuxt program.
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: bun run typecheck
+
+      - name: Test
+        if: always()
+        run: bunx vitest run
+
+      - name: Build
+        if: always()
+        run: bun run build

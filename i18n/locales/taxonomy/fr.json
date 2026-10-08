@@ -1,0 +1,143 @@
+{
+  "taxonomy": {
+    "heading": "Taxonomie",
+    "tabs": { "categories": "Catégories", "departments": "Rayons", "brands": "Marques" },
+    "seo": {
+      "title": "Taxonomie · Administration NowTech",
+      "description": "Administration de la taxonomie du catalogue pour le panneau NowTech."
+    },
+    "toolbar": {
+      "searchLabel": "Catégories",
+      "searchOperatorContains": "a",
+      "searchPlaceholder": "Rechercher",
+      "departmentLabel": "Rayon",
+      "departmentOperatorIs": "est",
+      "allDepartments": "Tous",
+      "visibilityLabel": "Visibilité",
+      "visibilityOperatorIs": "est",
+      "clear": "Effacer",
+      "expand": "Tout développer",
+      "collapse": "Tout réduire",
+      "add": "Ajouter",
+      "new": "Nouveau"
+    },
+    "visibility": { "all": "Toutes", "visible": "Visible", "hidden": "Masquée" },
+    "tree": {
+      "name": "Nom",
+      "department": "Rayon",
+      "products": "Produits",
+      "visibility": "Visibilité",
+      "empty": "Aucune catégorie pour le moment.",
+      "noResults": "Aucune catégorie ne correspond à ces filtres.",
+      "expand": "Développer {name}",
+      "collapse": "Réduire {name}"
+    },
+    "departments": {
+      "title": "Détails du rayon",
+      "newTitle": "Nouveau rayon",
+      "description": "Consultez et gérez ce rayon.",
+      "searchLabel": "Rayons",
+      "searchOperator": "a",
+      "name": "Nom",
+      "shortName": "Nom court",
+      "accroche": "Accroche",
+      "accrochePlaceholder": "Une phrase qui présente ce rayon en vitrine",
+      "accrocheHint": "Facultative · 300 caractères maximum. Elle s’affiche en tête du rayon sur la boutique.",
+      "validation": {
+        "format": "Minuscules, chiffres et tirets simples uniquement — ni espace, ni accent, ni majuscule, ni tiret au début ou à la fin. Exemple : gros-electromenager",
+        "tooLong": "{max} caractères maximum.",
+        "useSuggestion": "Utiliser « {slug} »"
+      },
+      "id": "Identifiant",
+      "identifier": "Identifiant backend",
+      "identifierValue": "Identifiant : {id} · Slug : {slug}",
+      "products": "Produits",
+      "empty": "Aucun rayon pour le moment.",
+      "noResults": "Aucun rayon ne correspond à cette recherche.",
+      "productsEmpty": "Aucun produit dans ce rayon",
+      "productsEmptyHint": "Les produits apparaissent ici dès qu’ils sont rangés dans ce rayon.",
+      "add": "Ajouter un rayon",
+      "new": "Nouveau",
+      "clear": "Effacer",
+      "save": "Enregistrer les modifications",
+      "notFound": "Ce rayon est introuvable. Il a peut-être été supprimé.",
+      "deleteTitle": "Supprimer ce rayon ?",
+      "deleteDescription": "Ce rayon sera supprimé définitivement si aucune catégorie ne l’utilise.",
+      "deleteConfirm": "Supprimer le rayon"
+    },
+    "brands": {
+      "title": "Détails de la marque",
+      "description": "Consultez cette marque et ses produits.",
+      "searchLabel": "Marques",
+      "searchOperator": "a",
+      "name": "Nom",
+      "slug": "Slug",
+      "products": "Produits",
+      "productSummary": "produits actifs",
+      "empty": "Aucune marque pour le moment.",
+      "noResults": "Aucune marque ne correspond à cette recherche.",
+      "productsEmpty": "Aucun produit pour cette marque",
+      "productsEmptyHint": "Les produits apparaissent ici quand leur marque correspond.",
+      "clear": "Effacer",
+      "notFound": "Cette marque est introuvable. Elle a peut-être été supprimée."
+    },
+    "panel": {
+      "title": "Détails de la catégorie",
+      "newTitle": "Nouvelle catégorie",
+      "description": "Consultez et gérez cette catégorie.",
+      "overview": "Vue d’ensemble",
+      "products": "Produits",
+      "subcategories": "Sous-catégories",
+      "noSubcategories": "Aucune sous-catégorie.",
+      "notFound": "Cette catégorie est introuvable. Elle a peut-être été supprimée.",
+      "close": "Fermer",
+      "edit": "Modifier",
+      "hide": "Masquer",
+      "show": "Afficher",
+      "delete": "Supprimer",
+      "cancel": "Annuler"
+    },
+    "products": {
+      "empty": "Aucun produit dans cette catégorie",
+      "emptyHint": "Les produits de ses sous-catégories apparaissent aussi ici."
+    },
+    "productsTab": {
+      "count": "{count} produit | {count} produits",
+      "countOf": "{loaded} sur {total} produits",
+      "loadFailed": "Impossible de charger d’autres produits.",
+      "loadingMore": "Chargement d’autres produits…",
+      "addProduct": "Ajouter un produit"
+    },
+    "form": {
+      "name": "Nom",
+      "slug": "Slug",
+      "parent": "Catégorie parente",
+      "noParent": "Aucune catégorie parente",
+      "department": "Rayon",
+      "chooseDepartment": "Choisir un rayon",
+      "inheritedDepartment": "Rayon hérité de {department}",
+      "save": "Enregistrer les modifications"
+    },
+    "delete": {
+      "title": "Supprimer cette catégorie ?",
+      "description": "Cette catégorie sera supprimée définitivement si elle ne contient ni produit ni catégorie enfant.",
+      "cancel": "Annuler",
+      "confirm": "Supprimer la catégorie"
+    },
+    "recalculate": {
+      "trigger": "Recalculer les compteurs",
+      "title": "Recalculer les compteurs ?",
+      "description": "Les compteurs de produits des catégories, des rayons et des marques seront recomptés depuis le catalogue. Rien d’autre n’est modifié.",
+      "cancel": "Annuler",
+      "confirm": "Recalculer",
+      "toastSuccess": "Compteurs recalculés.",
+      "toastError": "Impossible de recalculer les compteurs."
+    },
+    "discard": {
+      "title": "Abandonner les modifications ?",
+      "description": "Vos modifications seront perdues si vous continuez.",
+      "keep": "Continuer la modification",
+      "confirm": "Abandonner les modifications"
+    }
+  }
+}

@@ -1,0 +1,1658 @@
+{
+  "pageSize": "A4",
+  "pageMargins": [42, 52, 42, 48],
+  "defaultStyle": {
+    "font": "Roboto",
+    "fontSize": 9.5,
+    "color": "#1E293B",
+    "lineHeight": 1.22
+  },
+  "info": {
+    "title": "Manuel de l'équipe NowTech Admin",
+    "author": "NowTech Engineering",
+    "subject": "Guide de développement local, de livraison et de déploiement",
+    "keywords": "NowTech, Nuxt, Bun, intégration, manuel"
+  },
+  "header": {
+    "text": "NOWTECH ADMIN  /  MANUEL D'INGÉNIERIE",
+    "margin": [42, 20, 42, 0],
+    "fontSize": 7.5,
+    "bold": true,
+    "color": "#64748B",
+    "characterSpacing": 0.8
+  },
+  "footer": {
+    "columns": [
+      {
+        "text": "Référence interne d'ingénierie",
+        "color": "#64748B",
+        "fontSize": 7.5
+      },
+      {
+        "text": "Gardez les identifiants hors des fichiers partagés",
+        "alignment": "right",
+        "color": "#64748B",
+        "fontSize": 7.5
+      }
+    ],
+    "margin": [42, 0, 42, 20]
+  },
+  "styles": {
+    "eyebrow": {
+      "fontSize": 9,
+      "bold": true,
+      "color": "#0F766E",
+      "characterSpacing": 1.4,
+      "margin": [0, 0, 0, 13]
+    },
+    "title": {
+      "fontSize": 31,
+      "bold": true,
+      "color": "#0F172A",
+      "lineHeight": 1.06,
+      "margin": [0, 0, 0, 11]
+    },
+    "subtitle": {
+      "fontSize": 14,
+      "color": "#475569",
+      "lineHeight": 1.3,
+      "margin": [0, 0, 0, 26]
+    },
+    "h1": {
+      "fontSize": 21,
+      "bold": true,
+      "color": "#0F172A",
+      "margin": [0, 0, 0, 12]
+    },
+    "h2": {
+      "fontSize": 13,
+      "bold": true,
+      "color": "#0F766E",
+      "margin": [0, 15, 0, 7]
+    },
+    "body": {
+      "fontSize": 9.5,
+      "lineHeight": 1.27,
+      "margin": [0, 0, 0, 7]
+    },
+    "small": {
+      "fontSize": 8,
+      "color": "#475569",
+      "lineHeight": 1.22
+    },
+    "code": {
+      "fontSize": 8.2,
+      "color": "#0F172A"
+    },
+    "tableHead": {
+      "fontSize": 8.3,
+      "bold": true,
+      "color": "#FFFFFF"
+    },
+    "tableCell": {
+      "fontSize": 8.1,
+      "lineHeight": 1.18
+    },
+    "calloutTitle": {
+      "fontSize": 9.2,
+      "bold": true,
+      "color": "#92400E",
+      "margin": [0, 0, 0, 3]
+    },
+    "calloutBody": {
+      "fontSize": 8.4,
+      "color": "#78350F",
+      "lineHeight": 1.2
+    }
+  },
+  "content": [
+    {
+      "text": "BIENVENUE CHEZ NOWTECH",
+      "style": "eyebrow",
+      "margin": [0, 42, 0, 13]
+    },
+    {
+      "text": "Manuel de l'équipe",
+      "style": "title"
+    },
+    {
+      "text": "Un guide pratique pour exécuter, modifier, valider et déployer le tableau de bord NowTech Admin.",
+      "style": "subtitle"
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "stack": [
+                {
+                  "text": "COMMENCEZ ICI",
+                  "bold": true,
+                  "fontSize": 8.5,
+                  "color": "#0F766E",
+                  "characterSpacing": 1
+                },
+                {
+                  "text": "1. Copiez .env.example vers .env\n2. Ajoutez les valeurs locales requises\n3. Exécutez bun install\n4. Exécutez bun run dev:local\n5. Ouvrez http://localhost:3000",
+                  "fontSize": 12,
+                  "bold": true,
+                  "color": "#0F172A",
+                  "lineHeight": 1.35,
+                  "margin": [0, 8, 0, 0]
+                }
+              ],
+              "fillColor": "#ECFDF5",
+              "margin": [18, 16, 18, 16]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders",
+      "margin": [0, 5, 0, 28]
+    },
+    {
+      "text": "En un coup d'œil",
+      "style": "h2"
+    },
+    {
+      "columns": [
+        {
+          "width": "*",
+          "stack": [
+            {
+              "text": "Framework",
+              "bold": true,
+              "color": "#0F766E"
+            },
+            {
+              "text": "Nuxt 4, Vue 3.5, Nitro SSR",
+              "style": "small",
+              "margin": [0, 3, 0, 0]
+            }
+          ]
+        },
+        {
+          "width": "*",
+          "stack": [
+            {
+              "text": "Gestionnaire de paquets",
+              "bold": true,
+              "color": "#0F766E"
+            },
+            {
+              "text": "Bun, avec bun.lock comme seul fichier de verrouillage",
+              "style": "small",
+              "margin": [0, 3, 0, 0]
+            }
+          ]
+        },
+        {
+          "width": "*",
+          "stack": [
+            {
+              "text": "Format de transmission",
+              "bold": true,
+              "color": "#0F766E"
+            },
+            {
+              "text": "Archive de projet extraite",
+              "style": "small",
+              "margin": [0, 3, 0, 0]
+            }
+          ]
+        }
+      ],
+      "columnGap": 18,
+      "margin": [0, 0, 0, 26]
+    },
+    {
+      "text": "Ceci est un guide de travail, pas un remplacement d'AGENTS.md. Lisez ce fichier avant de modifier le code. Mis à jour le 6 octobre 2026 pour les contrôles de statut de stock et le dépôt du backend.",
+      "style": "small",
+      "italics": true
+    },
+    {
+      "text": "1. Comprendre le système",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "NowTech Admin est le tableau de bord opérationnel interne de NowTech. C'est une application Nuxt 4 qui effectue le rendu serveur des pages et expose un backend-for-frontend (BFF) Nitro. Le navigateur communique avec l'admin ; l'admin gère les appels authentifiés vers le backend NowTech et Supabase.",
+      "style": "body"
+    },
+    {
+      "columns": [
+        {
+          "width": "*",
+          "text": "Navigateur\nLes opérateurs utilisent l'interface en anglais ou en français. Le cookie de langue est NT-LANG.",
+          "alignment": "center",
+          "fillColor": "#E0F2FE",
+          "color": "#0C4A6E",
+          "bold": true,
+          "margin": [10, 14, 10, 14]
+        },
+        {
+          "width": 20,
+          "text": "->",
+          "alignment": "center",
+          "margin": [0, 20, 0, 0],
+          "color": "#0F766E",
+          "bold": true
+        },
+        {
+          "width": "*",
+          "text": "Nuxt Admin + BFF\nPages dans app/ ; gestionnaires côté navigateur dans server/api/.",
+          "alignment": "center",
+          "fillColor": "#ECFDF5",
+          "color": "#065F46",
+          "bold": true,
+          "margin": [10, 14, 10, 14]
+        },
+        {
+          "width": 20,
+          "text": "->",
+          "alignment": "center",
+          "margin": [0, 20, 0, 0],
+          "color": "#0F766E",
+          "bold": true
+        },
+        {
+          "width": "*",
+          "text": "Backend NowTech + Supabase\nAPI de domaine, médias du catalogue et authentification de production.",
+          "alignment": "center",
+          "fillColor": "#F1F5F9",
+          "color": "#334155",
+          "bold": true,
+          "margin": [10, 14, 10, 14]
+        }
+      ],
+      "margin": [0, 16, 0, 16]
+    },
+    {
+      "text": "Carte du projet",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [110, "*"],
+        "body": [
+          [
+            {
+              "text": "Emplacement",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Ce qui s'y trouve",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "app/",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Pages Nuxt, composants, composables, plugins, schémas, stores et interface utilisateur du navigateur.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "server/",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Authentification réservée à Nitro, routes proxy du BFF, vérifications au démarrage et intégrations.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "shared/",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Types et fonctions utilitaires partagés entre app et server.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "i18n/locales/",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Domaines de traduction modulaires en anglais et en français.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "test/unit and test/nuxt",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Specs unitaires et de composants Nuxt à plat. Les motifs d'inclusion (globs) ne sont pas récursifs.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "Frontière de sécurité",
+      "style": "h2"
+    },
+    {
+      "text": [
+        {
+          "text": "Ne déplacez jamais les jetons du backend dans le code du navigateur. ",
+          "bold": true
+        },
+        "L'accès à Supabase est créé à chaque requête dans server/utils/supabase.ts, et la session scellée n'accepte que son cookie. Le BFF utilise volontairement une liste blanche d'en-têtes transférés."
+      ],
+      "style": "body"
+    },
+    {
+      "text": "2. Installer et configurer",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Prérequis",
+      "style": "h2"
+    },
+    {
+      "ul": [
+        "Bun. La CI utilise Bun 1.4.0 ; utilisez une version locale compatible.",
+        "L'archive du projet extraite et les valeurs de configuration fournies par l'équipe de transmission.",
+        "Un backend NowTech accessible pour des données locales utiles et la connexion.",
+        "Un fichier .env local. Gardez-le privé et hors des archives partagées."
+      ],
+      "style": "body",
+      "margin": [0, 0, 0, 10]
+    },
+    {
+      "text": "Première exécution",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "text": "cd <dossier-du-projet-extrait>\ncp .env.example .env\nbun install\nbun run dev:local",
+              "style": "code",
+              "fillColor": "#F1F5F9",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders",
+      "margin": [0, 0, 0, 8]
+    },
+    {
+      "text": "bun install exécute Nuxt prepare via postinstall, ce qui crée .nuxt/. N'utilisez pas npm, pnpm ou yarn ici, même si l'ancien README à la racine les mentionne.",
+      "style": "small",
+      "italics": true
+    },
+    {
+      "text": "Configuration locale requise",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [150, "*"],
+        "body": [
+          [
+            {
+              "text": "Variable",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Objectif et conseils locaux",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_SESSION_PASSWORD",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Au moins 32 caractères. Générez-la avec openssl rand -hex 32. Le serveur ne démarrera pas avec une valeur plus courte.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_SUPABASE_URL\nNUXT_SUPABASE_ANON_KEY",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Point de terminaison Supabase et clé anonyme publique utilisés par le chemin d'authentification de production. Utilisez les valeurs fournies par l'équipe.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_API_BASE_URL",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Origine du backend, sans /v1. Par exemple, un backend local peut être http://localhost:3001.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "BACKEND_URL",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Source pratique utilisée par .env.example ; NUXT_API_BASE_URL s'y réfère.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "Règle sur les secrets : .env et .env.* sont ignorés, sauf .env.example et le faux hôte .env.test. Ne commitez jamais un fichier d'identifiants copié ou réel.",
+      "style": "calloutBody",
+      "fillColor": "#FEF3C7",
+      "margin": [0, 14, 0, 0],
+      "border": [false, false, false, false]
+    },
+    {
+      "text": "3. Exécuter avec un backend local",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "L'admin n'embarque pas le backend métier ; celui-ci vit dans son propre dépôt, décrit à la fin de cette section. Ce manuel suppose que vous disposez déjà d'une API en cours d'exécution et d'identifiants d'opérateur locaux valides. L'installation du backend, de PostgreSQL et des fixtures est couverte par le guide du backend lui-même.",
+      "style": "body"
+    },
+    {
+      "text": "Pointer le BFF vers l'API",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "text": "BACKEND_URL=http://localhost:3001\nNUXT_API_BASE_URL=${BACKEND_URL}\nNUXT_LOCAL_AUTH_BYPASS=true",
+              "style": "code",
+              "fillColor": "#F1F5F9",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders",
+      "margin": [0, 0, 0, 10]
+    },
+    {
+      "text": "Démarrez ensuite le tableau de bord avec bun run dev:local et accédez à http://localhost:3000. Utilisez le compte opérateur local sur la page de connexion.",
+      "style": "body"
+    },
+    {
+      "text": "Ce que fait le contournement d'authentification local",
+      "style": "h2"
+    },
+    {
+      "ol": [
+        "Uniquement en environnement non-production, l'admin envoie l'e-mail de connexion et motDePasse à POST /v1/auth/connexion sur NUXT_API_BASE_URL.",
+        "Les rafraîchissements de jeton sont envoyés à POST /v1/auth/rafraichir.",
+        "L'application stocke un cookie de session scellé, et non un jeton backend exposé au navigateur.",
+        "Lorsque NODE_ENV vaut production, le contournement est indisponible et l'authentification Supabase est utilisée."
+      ],
+      "style": "body",
+      "margin": [0, 0, 0, 8]
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "stack": [
+                {
+                  "text": "Lancez dev:local pour le backend local",
+                  "style": "calloutTitle"
+                },
+                {
+                  "text": "bun run dev:local démarre le tableau de bord sur le port 3000 et efface les variables BACKEND_URL ou NUXT_API_BASE_URL exportées dans votre shell : ce sont donc les valeurs de .env, qui pointent vers votre backend local, qui s'appliquent. Avec bun run dev seul, une variable restée dans votre shell l'emporte sur .env, et l'application peut appeler un autre backend.",
+                  "style": "calloutBody"
+                }
+              ],
+              "fillColor": "#FEF3C7",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders"
+    },
+    {
+      "text": "Valeurs optionnelles utiles",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [165, "*"],
+        "body": [
+          [
+            {
+              "text": "Variable",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Quand la définir",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_PUBLIC_STOREFRONT_URL",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Origine publique de la vitrine utilisée par les liens produits. Elle est visible par le navigateur.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_PUBLIC_CATALOGUE_IMAGE_ORIGIN",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Origine hébergeant les images de produits du catalogue.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_PUBLIC_LOGO_DEV_PUBLISHABLE_KEY",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Aperçus de logo optionnels. Seule une clé publiable pk_ doit figurer ici, jamais un secret sk_ de Logo.dev.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_OPENAI_API_KEY",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Clé IA de rédaction produit réservée au serveur. Optionnelle pour un travail local qui n'utilise pas la génération ; requise en production.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "NUXT_PUBLIC_SUPPORT_EMAIL",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Adresse de support optionnelle, visible par le navigateur, pour la page de connexion.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "Le dépôt du backend",
+      "style": "h2",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Le backend est le dépôt NowTech-backend-. Il est modifié en même temps que cette application et n'est plus considéré comme en lecture seule. Son guide, documents/travailler-et-deployer.md (rédigé en français), couvre l'installation locale, les tests et le déploiement. Ces règles comptent quand un changement de l'admin appelle un changement du backend :",
+      "style": "body"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "dontBreakRows": true,
+        "widths": [130, "*"],
+        "body": [
+          [
+            {
+              "text": "Règle",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Détail",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "Branche et pull request",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Jamais de poussée directe sur main. Travaillez sur une branche et ouvrez une pull request qui dit ce qu'elle change et pourquoi.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Une fusion déploie",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Fusionner dans main suffit pour livrer : GitHub prévient Coolify, qui reconstruit l'image et bascule le conteneur ; le changement est en ligne en deux minutes environ. Sur chaque pull request, GitHub exécute le typage, les migrations sur une base neuve, les fichiers sql/ appliqués deux fois, et la suite complète. Ne fusionnez pas une pull request rouge.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Migrations : jamais en arrière",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Les migrations Prisma s'appliquent sur une base qui porte déjà des commandes et de l'argent. Écrivez-les pour qu'elles passent sur la production telle qu'elle est (add column if not exists) : une migration qui échoue empêche le conteneur de démarrer. Les fichiers sql/ doivent pouvoir être rejoués sans risque.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Aides locales",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Dans le dépôt du backend, pnpm dev:jeton signe un jeton d'équipe pour appeler les routes d'administration sans Supabase. Avec SUPABASE_URL vide, le pnpm dev:local du backend fait de MOT_DE_PASSE_DEV le mot de passe de toute adresse, et un membre de boutique.membres_equipe prend ses rôles.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "4. Boucle de développement quotidienne",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Exécutez d'abord la plus petite vérification utile. Avant de partager ou de déployer un changement, exécutez les vérifications locales concernées.",
+      "style": "body"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [150, "*"],
+        "body": [
+          [
+            {
+              "text": "Commande",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "À quoi ça sert",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "bun run dev:local",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Démarre le serveur de développement sur http://localhost:3000, avec le backend défini dans .env.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bun run dev",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "nuxt dev simple, sans le nettoyage du shell : un BACKEND_URL ou NUXT_API_BASE_URL déjà exporté dans votre shell l'emporte sur .env.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bun run build\nbun run preview",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Compile l'application SSR et sert la sortie de production en local.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bunx vitest run",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Exécute les deux projets Vitest une fois. Utilisez bun run test:unit ou bun run test:nuxt pour un seul projet. La configuration fixe les réglages de Nuxt Image : les variables d'image ou de Supabase de votre shell ne peuvent pas changer le résultat.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bun run lint",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Exécute les vérifications de correction d'oxlint.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bun run format\nbun run format:check",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Applique ou vérifie le formatage avec oxfmt. Ne formatez pas à la main autour de lui.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bun run typecheck",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Exécute la vérification de types Nuxt/vue-tsc.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bun run i18n:check",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Vérifie la parité des clés anglais/français et les chaînes d'interface brutes.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "bun run fallow",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Audite le code modifié. Utilisez toujours bunx fallow ou les scripts Bun, jamais un binaire fallow global.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "Tests et portes de qualité",
+      "style": "h2"
+    },
+    {
+      "columns": [
+        {
+          "width": "*",
+          "stack": [
+            {
+              "text": "Avant de partager un changement",
+              "bold": true,
+              "color": "#0F766E"
+            },
+            {
+              "text": "Exécutez lint, format:check, i18n:check, fallow, typecheck, les tests et la compilation selon le changement.",
+              "style": "small",
+              "margin": [0, 4, 0, 0]
+            }
+          ],
+          "fillColor": "#F0FDFA",
+          "margin": [11, 10, 11, 10]
+        },
+        {
+          "width": "*",
+          "stack": [
+            {
+              "text": "Automatisation de votre équipe",
+              "bold": true,
+              "color": "#0F766E"
+            },
+            {
+              "text": "Mettez en place votre propre CI et votre politique de revue pour reproduire les vérifications locales. Cette transmission laisse l'automatisation à la charge de la nouvelle équipe.",
+              "style": "small",
+              "margin": [0, 4, 0, 0]
+            }
+          ],
+          "fillColor": "#F0FDFA",
+          "margin": [11, 10, 11, 10]
+        }
+      ],
+      "columnGap": 12
+    },
+    {
+      "text": "Le TDD est la norme par défaut : pour une fonction, un composant ou une règle métier, écrivez d'abord un test significatif qui échoue, puis faites-le passer. N'ajoutez pas de tests uniquement pour la couverture, uniquement des snapshots, ou qui testent le framework.",
+      "style": "small",
+      "margin": [0, 13, 0, 0],
+      "italics": true
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "stack": [
+                {
+                  "text": "Base de référence connue des tests",
+                  "style": "calloutTitle"
+                },
+                {
+                  "text": "bunx vitest run signale actuellement 12 tests en échec dans six fichiers : les quatre specs ai-product-copy, overview-date-field et products-detail-form. bun run typecheck signale une erreur, dans ai-product-copy-service. Tous précèdent le travail sur le statut de stock et sont consignés dans reports/2026-10-05-assessment-vitest-failures.md et reports/2026-10-05-assessment-typecheck-failure.md. Quelques specs Nuxt lourdes peuvent aussi dépasser leur délai quand toute la suite tourne sous charge ; relancez le fichier seul avant d'y voir une régression.",
+                  "style": "calloutBody"
+                }
+              ],
+              "fillColor": "#FEF3C7",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders",
+      "margin": [0, 14, 0, 0]
+    },
+    {
+      "text": "5. Comment nous modifions le code",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Règles de travail",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [130, "*"],
+        "body": [
+          [
+            {
+              "text": "Domaine",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Règle de travail",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "État serveur",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Utilisez TanStack Query. Pinia est réservé à l'état propre au navigateur, comme les préférences et les filtres de brouillon, pas un miroir des données de l'API.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Composants",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Créez un dossier par composant. Ne modifiez pas app/components/ui/ sauf demande explicite de l'utilisateur ; il s'agit d'une sortie générée par shadcn-vue.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "i18n",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Utilisez NuxtLinkLocale pour les liens internes et des routes localisées personnalisées. Les petits composants stables peuvent utiliser des messages par composant.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Styles",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Utilisez les utilitaires Tailwind et les tokens CSS existants. Tailwind est configuré dans app/assets/css/main.css, pas dans un fichier tailwind.config.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Tests",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Les specs unitaires s'exécutent sous Node ; les composants utilisent Nuxt + happy-dom. Gardez les fichiers directement dans test/unit ou test/nuxt, car les motifs d'inclusion sont à plat.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "Flux de livraison",
+      "style": "h2"
+    },
+    {
+      "columns": [
+        {
+          "width": "*",
+          "text": "1\nPlanifier",
+          "alignment": "center",
+          "bold": true,
+          "color": "#0F766E",
+          "fillColor": "#F0FDFA",
+          "margin": [8, 12, 8, 12]
+        },
+        {
+          "width": 18,
+          "text": "->",
+          "alignment": "center",
+          "margin": [0, 15, 0, 0],
+          "color": "#0F766E"
+        },
+        {
+          "width": "*",
+          "text": "2\nTester",
+          "alignment": "center",
+          "bold": true,
+          "color": "#0F766E",
+          "fillColor": "#F0FDFA",
+          "margin": [8, 12, 8, 12]
+        },
+        {
+          "width": 18,
+          "text": "->",
+          "alignment": "center",
+          "margin": [0, 15, 0, 0],
+          "color": "#0F766E"
+        },
+        {
+          "width": "*",
+          "text": "3\nImplémenter",
+          "alignment": "center",
+          "bold": true,
+          "color": "#0F766E",
+          "fillColor": "#F0FDFA",
+          "margin": [8, 12, 8, 12]
+        },
+        {
+          "width": 18,
+          "text": "->",
+          "alignment": "center",
+          "margin": [0, 15, 0, 0],
+          "color": "#0F766E"
+        },
+        {
+          "width": "*",
+          "text": "4\nRevoir",
+          "alignment": "center",
+          "bold": true,
+          "color": "#0F766E",
+          "fillColor": "#F0FDFA",
+          "margin": [8, 12, 8, 12]
+        }
+      ],
+      "margin": [0, 0, 0, 13]
+    },
+    {
+      "text": "Un plan, une implémentation et une revue partagent un même slug en kebab-case. Les plans vont dans plans/, les comptes-rendus d'implémentation dans walkthroughs/, et les revues dans reviews/. Les investigations sans plan vont dans reports/.",
+      "style": "body"
+    },
+    {
+      "text": "Gardez chaque changement ciblé, expliquez sa validation et préservez le travail des autres contributeurs.",
+      "style": "body"
+    },
+    {
+      "text": "6. Statut de stock d'un produit",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Deux choses décrivent le stock d'un produit : la quantité comptée, et le fait que la boutique le vende ou non. Depuis le 6 octobre, elles sont séparées. L'onglet Aperçu place le délai de livraison en premier, puis les deux contrôles en dessous, côte à côte ; l'onglet Stock porte le compte et ses mouvements.",
+      "style": "body"
+    },
+    {
+      "text": "Les deux contrôles",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "dontBreakRows": true,
+        "widths": [130, "*"],
+        "body": [
+          [
+            {
+              "text": "Contrôle",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Ce qu'il fait",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "En stock / En rupture",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Le statut de vente. En rupture masque le produit de la boutique et fait refuser les nouveaux paniers. Tant qu'un produit suit sa quantité, l'interrupteur est verrouillé, car c'est le compte qui décide.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Suivre la quantité",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Activé : le produit est compté et obéit à son compte. Le désactiver conserve le statut du jour comme décision explicite, donc les clients ne voient aucun changement ; le réactiver rend la décision au compte. Un produit jamais compté ne peut pas être suivi tant que vous ne l'avez pas compté avec le crayon à côté de la quantité.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Badge de statut",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Indique qui décide : Suit le compte, Depuis WooCommerce ou Défini dans le panel. Ce dernier est affiché en ton d'avertissement, car une décision du panel l'emporte sur chaque import WooCommerce.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Badge Non compté",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Signale un produit qui n'a jamais été compté. Sa quantité affiche 0, atténué.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "Cas limites",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "dontBreakRows": true,
+        "widths": [130, "*"],
+        "body": [
+          [
+            {
+              "text": "Situation",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Ce qui se passe",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "Statut en contradiction avec le compte",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Une boîte de dialogue d'avertissement cite le compte, par exemple quand on masque un produit qui a 7 unités en stock. Rien n'est écrit tant que l'équipe n'a pas confirmé.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Suivre WooCommerce",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Un bouton de l'onglet Stock, proposé uniquement pour un produit non compté dont le statut a été fixé dans le panel. Sa boîte de dialogue nomme le statut abandonné ; Confirmer efface la décision, et la boutique utilise de nouveau le statut de WooCommerce, dès maintenant et après chaque import. Un produit compté rend la décision avec Suivre la quantité.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Nouveau produit",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "La quantité démarre vide. Laissez-la vide pour vendre sans compter, et choisissez un Statut (En stock par défaut) ; saisissez une quantité pour compter le produit et laisser la quantité décider.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Commandes déjà passées",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Un statut En rupture fixé dans le panel masque le produit et refuse les nouveaux paniers, mais l'équipe peut encore confirmer une commande que le client a passée avant. Un produit en rupture parce que son compte est à zéro, ou dont le compte ne couvre pas la commande, bloque toujours la confirmation.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Marquer en réapprovisionnement",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Masqué pour un produit jamais compté, et tant qu'une décision du panel est en vigueur.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "stack": [
+                {
+                  "text": "Contrat avec le backend",
+                  "style": "calloutTitle"
+                },
+                {
+                  "text": "La décision vit dans sa propre table, boutique.produit_disponibilites, et s'écrit par PATCH /v1/catalogue/administration/produits/:id/disponibilite. L'appel est réservé à la direction, ne crée jamais de ligne de stock ni de mouvement, et s'inscrit au journal sous stock.disponibilite_modifiee. La table est hors de ce que remplace l'ingestion WooCommerce : une décision survit à une réingestion.",
+                  "style": "calloutBody"
+                }
+              ],
+              "fillColor": "#FEF3C7",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders",
+      "margin": [0, 14, 0, 0]
+    },
+    {
+      "text": "7. Règles qui mordent",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Ces contraintes sont délibérées. Traitez-les comme des limites de conception, pas comme des occasions de nettoyage.",
+      "style": "body"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [155, "*"],
+        "body": [
+          [
+            {
+              "text": "Faites ceci",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Parce que",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "Gardez zod à ^3.25.76",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "nuxt-zod-i18n dépend des exports runtime de zod 3. Zod 4 provoque un échec d'import en production sur Nitro.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Gardez TypeScript à ^5.9",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "vue-tsc 3 résout un chemin TypeScript que TypeScript 7 n'exporte plus.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Gardez createAuthClient() comme fabrique",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Un singleton peut conserver une session en mémoire et faire fuiter le contexte d'une requête vers une autre.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Gardez sessionHeader: false",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Cela empêche un en-tête x-nt-session de contourner la frontière de session limitée au cookie.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Utilisez la liste blanche d'en-têtes du BFF",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "proxyRequest transférerait le Cookie scellé par défaut. Les en-têtes de proxy explicites protègent cette frontière.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Ne préchargez que les données visibles sans défilement",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Le limiteur partagé du backend est de 10 requêtes par seconde. Un tableau de bord SSR à six requêtes est une erreur de conception.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Conservez le détail des erreurs du backend",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Les détails du backend, en français, restent affichés sous les titres de statut traduits, car le backend ne fournit pas encore de code d'erreur stable.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Fixer le statut par la décision, pas par le compte",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "N'écrivez jamais un mouvement ni une ligne de stock juste pour basculer un statut. Utilisez le point d'accès disponibilite, afin que le registre continue de n'enregistrer que des comptages.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "Écrire les clés de traduction en appels t() littéraux",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "scripts/check-translation-keys.mjs, lancé par i18n:check, ne peut pas vérifier une clé construite à partir d'une chaîne de gabarit.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "stack": [
+                {
+                  "text": "Sécurité de l'API",
+                  "style": "calloutTitle"
+                },
+                {
+                  "text": "nuxt-security désactive son validateur XSS uniquement sous /api/** car il peut réécrire des valeurs JSON valides. La validation du backend reste la frontière d'entrée. N'élargissez pas cette exception.",
+                  "style": "calloutBody"
+                }
+              ],
+              "fillColor": "#FEF3C7",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders",
+      "margin": [0, 14, 0, 0]
+    },
+    {
+      "text": "Si une instruction semble inattendue, trouvez sa justification dans AGENTS.md ou les post-mortems liés avant de la modifier.",
+      "style": "small",
+      "margin": [0, 12, 0, 0],
+      "italics": true
+    },
+    {
+      "text": "8. Compiler et déployer",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Il s'agit d'une application SSR Nitro. Ne considérez pas nuxt generate comme le chemin de déploiement normal en production.",
+      "style": "body"
+    },
+    {
+      "text": "Compilation de production",
+      "style": "h2"
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "text": "bun install --frozen-lockfile\nbun run build\nnode .output/server/index.mjs",
+              "style": "code",
+              "fillColor": "#F1F5F9",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders",
+      "margin": [0, 0, 0, 9]
+    },
+    {
+      "text": "Pour une vérification rapide en local après la compilation, exécutez bun run preview. Nitro respecte PORT ou NITRO_PORT, et HOST ou NITRO_HOST lors du service de la sortie.",
+      "style": "body"
+    },
+    {
+      "text": "Liste de vérification de la configuration de production",
+      "style": "h2"
+    },
+    {
+      "ul": [
+        "Définissez les valeurs requises de session, de Supabase, d'origine API, d'image de catalogue et de vitrine depuis la section environnement.",
+        "Définissez NUXT_OPENAI_API_KEY lors du déploiement. La vérification de configuration au démarrage l'exige en production, même si le développement local peut s'en passer.",
+        "Gardez chaque secret réservé au serveur. Les valeurs publiques NUXT_PUBLIC_* sont volontairement exposées au navigateur.",
+        "Définissez NUXT_BACKEND_SHARED_SECRET lorsque le backend est configuré pour reconnaître les requêtes de ce serveur en dehors de sa limite de débit partagée habituelle.",
+        "Ne dépendez pas de NUXT_LOCAL_AUTH_BYPASS en production. Le code le bloque lorsque NODE_ENV vaut production."
+      ],
+      "style": "body",
+      "margin": [0, 0, 0, 10]
+    },
+    {
+      "table": {
+        "widths": ["*"],
+        "body": [
+          [
+            {
+              "stack": [
+                {
+                  "text": "Frontière de déploiement",
+                  "style": "calloutTitle"
+                },
+                {
+                  "text": "Les éléments de transmission n'établissent ni projet d'hébergement, ni workflow de déploiement, ni configuration de domaine, ni chemin d'approbation, ni procédure de retour en arrière. Convenez de ces détails opérationnels avec la nouvelle équipe responsable avant toute mise en production. Ne les inventez pas.",
+                  "style": "calloutBody"
+                }
+              ],
+              "fillColor": "#FEF3C7",
+              "margin": [12, 10, 12, 10]
+            }
+          ]
+        ]
+      },
+      "layout": "noBorders"
+    },
+    {
+      "text": "Avant le déploiement",
+      "style": "h2"
+    },
+    {
+      "text": "Confirmez que la compilation réussit, que l'environnement déployé dispose de tous les secrets requis, que l'origine du backend cible est correcte, et que le responsable du déploiement dispose d'un plan de retour en arrière. Alignez le modèle d'IA de rédaction produit et ses valeurs de coût d'entrée/sortie correspondantes avant de vous appuyer sur les chiffres de coût d'audit.",
+      "style": "body"
+    },
+    {
+      "text": "Le backend se livre séparément : une fusion dans sa branche main le déploie. Quand un changement de l'admin appelle un nouveau point d'accès du backend, comme le font les contrôles de statut de stock, le changement du backend doit être en ligne d'abord.",
+      "style": "body"
+    },
+    {
+      "text": "9. Où regarder ensuite",
+      "style": "h1",
+      "pageBreak": "before"
+    },
+    {
+      "text": "Utilisez ce manuel pour devenir opérationnel, puis consultez la source de vérité pour le détail.",
+      "style": "body"
+    },
+    {
+      "table": {
+        "headerRows": 1,
+        "widths": [175, "*"],
+        "body": [
+          [
+            {
+              "text": "Lisez ceci",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            },
+            {
+              "text": "Quand vous avez besoin de",
+              "style": "tableHead",
+              "fillColor": "#0F766E"
+            }
+          ],
+          [
+            {
+              "text": "AGENTS.md",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "L'ensemble des conventions du projet, la liste des commandes, l'architecture, les règles de test et les instructions spécifiques à chaque chemin.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": ".env.example",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Les noms de variables actuels, les valeurs par défaut locales et des commentaires sur leur utilisation sûre.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "package.json",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Les commandes locales prises en charge pour la validation, le formatage, les tests et la compilation.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "plans/, walkthroughs/, reviews/",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Des précédents pour la planification, les notes d'implémentation et la profondeur des revues.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "reports/2026-08-27-postmortem-zod-4-production-crash.md",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Pourquoi zod doit rester sur la version pont 3.25.x prise en charge.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "reports/2026-09-01-postmortem-node-26-localstorage-plugin-chain.md",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "L'échec de chaîne de plugins Node 26 / localStorage et son importance en production.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "reports/2026-10-01-assessment-local-backend-merge-runtime-state.md",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Le contexte connu du schéma du backend local, des fixtures, des références de commande et de l'exécution des bannières.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "plans/ et walkthroughs/ 2026-10-06-decouple-stock-status.md",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "La conception, ses écarts, et les vérifications en conditions réelles derrière les contrôles de statut de stock.",
+              "style": "tableCell"
+            }
+          ],
+          [
+            {
+              "text": "NowTech-backend-/documents/travailler-et-deployer.md",
+              "style": "tableCell",
+              "bold": true
+            },
+            {
+              "text": "Comment le backend se livre, ses règles de migration et de SQL, et le contrat du statut de stock. Rédigé en français.",
+              "style": "tableCell"
+            }
+          ]
+        ]
+      },
+      "layout": "lightHorizontalLines"
+    },
+    {
+      "text": "Une dernière liste de vérification",
+      "style": "h2"
+    },
+    {
+      "ol": [
+        "Lisez AGENTS.md avant de toucher au code.",
+        "Utilisez Bun et gardez les identifiants uniquement dans .env.",
+        "Utilisez le chemin du backend local avec NUXT_API_BASE_URL et le contournement d'authentification non-production lorsque c'est approprié.",
+        "Écrivez d'abord des tests significatifs pour le comportement modifié.",
+        "Exécutez des vérifications ciblées, puis les portes complètes concernées.",
+        "Exécutez les portes locales concernées et consignez le résultat de la validation.",
+        "Demandez avant de faire des suppositions sur l'hébergement de production ou le backend jumeau."
+      ],
+      "style": "body"
+    },
+    {
+      "text": "Bienvenue dans l'équipe. Facilitez le prochain changement pour la personne qui vous suivra.",
+      "fontSize": 14,
+      "bold": true,
+      "color": "#0F766E",
+      "margin": [0, 24, 0, 0]
+    }
+  ]
+}

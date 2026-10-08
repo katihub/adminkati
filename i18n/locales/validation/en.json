@@ -1,0 +1,12 @@
+{
+  "validation": {
+    "email": "Enter a valid email address.",
+    "invalidInternalPath": "Enter a path starting with a single slash, like /categorie/example.",
+    "invalidUrl": "Enter a valid URL.",
+    "outOfRange": "This value is out of range.",
+    "required": "This field is required.",
+    "tooLarge": "This list has too many items.",
+    "tooLong": "This value is too long.",
+    "tooShort": "This value is too short."
+  }
+}

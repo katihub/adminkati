@@ -1,0 +1,29 @@
+{
+  "$schema": "https://shadcn-vue.com/schema.json",
+  "style": "reka-maia",
+  "font": "figtree",
+  "typescript": true,
+  "tailwind": {
+    "config": "",
+    "css": "app/assets/css/main.css",
+    "baseColor": "zinc",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "phosphor",
+  "rtl": false,
+  "pointer": true,
+  "menuColor": "default-translucent",
+  "menuAccent": "subtle",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "composables": "@/composables"
+  },
+  "registries": {
+    "@inspira-ui": "https://registry.inspira-ui.com/{name}.json",
+    "@vuzeno": "https://vuzeno.com/r/{name}.json"
+  }
+}

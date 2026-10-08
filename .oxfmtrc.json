@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "arrowParens": "avoid",
+  "sortPackageJson": false,
+  "sortImports": {
+    "newlinesBetween": false,
+    "groups": [
+      "type-import",
+      "value-builtin",
+      "value-external",
+      "value-internal",
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ]
+  },
+  "ignorePatterns": [
+    ".nuxt/**",
+    ".output/**",
+    "node_modules/**",
+    "coverage/**",
+    "app/components/ui/**",
+    "app/components/vuzeno/**",
+    "app/assets/css/**",
+    "**/*.md",
+    "**/*.MD",
+    "bun.lock",
+    "skills-lock.json",
+    ".agents/**",
+    ".claude/**",
+    ".opencode/**",
+    ".fallow/**"
+  ]
+}

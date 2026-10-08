@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+
+  // fallow's nuxt plugin discovers the application's entry points on its own
+  // (app.vue, pages/, main.css, and the config files). It does not trace
+  // vitest's `setupFiles`, which are named as strings in vitest.config.ts, so
+  // those are seeded here. `entry` is additive, so auto-discovery still runs.
+  "entry": ["test/setup/*.ts"],
+  "ignorePatterns": [
+    // shadcn-vue generated; AGENTS.md forbids hand-editing it, and oxlint
+    // and oxfmt ignore it for the same reason.
+    "app/components/ui/**",
+    // Installed Vuzeno (Ark UI-based) shadcn-vue-compatible components; they
+    // follow the registry's own formatting and complexity conventions.
+    "app/components/vuzeno/**",
+  ],
+  "ignoreDependencies": [
+    // Used by generated shadcn-vue files under app/components/ui/**, which this
+    // config intentionally excludes from source analysis.
+    "@vueuse/core",
+    // Used by Nuxt Icon local collection discovery rather than direct imports.
+    "@iconify-json/circle-flags",
+    // Peer dependency imported by @unovis/vue inside generated chart components.
+    "@unovis/ts",
+    // Used by shadcn-vue chart components under app/components/ui/**.
+    "@unovis/vue",
+    // Used by shadcn-vue components under app/components/ui/**.
+    "@phosphor-icons/vue",
+    "class-variance-authority",
+    // Used by the AI Elements Shimmer under app/components/ui/ai-elements/**.
+    "motion-v",
+    // Used by the installed Vuzeno (Ark UI-based) components under
+    // app/components/vuzeno/** above.
+    "@ark-ui/vue",
+    "cnfast",
+    "@internationalized/date",
+    // Nuxt module for vue-chrts charts.
+    "nuxt-charts",
+    "vue-chrts",
+    // Banners UI plan (plans/2026-09-04-banners-ui.md) front-loads every new
+    // dependency in Phase 0; drag-to-reorder is Phase 5. Remove this entry
+    // once BannerGrid.vue imports it.
+    "vue-draggable-plus",
+  ],
+
+  "duplicates": {
+    // Report copy-paste worth refactoring, not every incidental pair.
+    "minOccurrences": 3,
+  },
+
+  "rules": {},
+}

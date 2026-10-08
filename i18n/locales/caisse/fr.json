@@ -1,0 +1,101 @@
+{
+  "caisse": {
+    "page": {
+      "heading": "Caisse",
+      "empty": "Sélectionnez une caisse pour voir son détail",
+      "loading": "Chargement du détail…",
+      "seo": {
+        "title": "Caisse · Administration NowTech",
+        "description": "Rapprochement de caisse en fin de service pour le panneau NowTech."
+      }
+    },
+    "status": {
+      "attention": "À traiter",
+      "ouverte": "Ouverte",
+      "comptee": "Comptée",
+      "litige": "En litige",
+      "validee": "Validée"
+    },
+    "listPanel": {
+      "empty": "Aucune caisse"
+    },
+    "filterBar": {
+      "searchLabel": "Recherche",
+      "searchOperatorContains": "Contient",
+      "statusLabel": "Statut",
+      "statusOperatorIs": "Est",
+      "porteurLabel": "Porteur",
+      "porteurOperatorIs": "Est",
+      "clear": "Effacer les filtres"
+    },
+    "common": {
+      "unknownMember": "Membre inconnu"
+    },
+    "detail": {
+      "amountsTitle": "Montants",
+      "expected": "Attendu",
+      "counted": "Compté",
+      "gap": "Écart",
+      "validatedBy": "Validée par",
+      "countedBy": "Comptée par",
+      "countTrigger": "Compter",
+      "validateTrigger": "Valider",
+      "encaissementsTitle": "Encaissements",
+      "noEncaissements": "Aucun encaissement pour l'instant",
+      "time": "Heure",
+      "order": "Commande",
+      "amount": "Montant",
+      "method": "Moyen",
+      "location": "Lieu",
+      "collectedBy": "Encaissé par",
+      "discrepanciesTitle": "Écarts",
+      "discrepancyNeeded": "Cette caisse est en litige — nommez l'écart avant de pouvoir la valider.",
+      "noDiscrepancies": "Aucun écart",
+      "namedBy": "Nommé par",
+      "countDialog": {
+        "title": "Compter cette caisse",
+        "description": "Saisissez le montant physiquement compté.",
+        "discrepancyTitle": "Nommer l'écart",
+        "discrepancyDescription": "Montant différent de l'attendu. Expliquez pourquoi pour continuer.",
+        "amount": "Montant compté",
+        "note": "Note (facultatif)",
+        "motif": "Motif",
+        "motifPlaceholder": "Choisir un motif",
+        "commentaire": "Détails (facultatif)",
+        "cancel": "Annuler",
+        "confirm": "Compter",
+        "confirmDiscrepancy": "Nommer l'écart"
+      },
+      "validateDialog": {
+        "title": "Valider cette caisse ?",
+        "description": "Ceci clôture le rapprochement de cette caisse et ne peut pas être annulé.",
+        "cancel": "Annuler",
+        "confirm": "Valider"
+      }
+    },
+    "moyen": {
+      "especes": "Espèces",
+      "mobile_money": "Mobile money",
+      "virement": "Virement bancaire"
+    },
+    "lieu": {
+      "comptoir": "Comptoir",
+      "porte": "À la porte"
+    },
+    "discrepancy": {
+      "motifs": {
+        "caisse_manquante": "Caisse manquante",
+        "caisse_excedentaire": "Caisse excédentaire",
+        "erreur_rendu_monnaie": "Erreur de rendu de monnaie",
+        "vol_suspecte": "Vol suspecté",
+        "erreur_saisie": "Erreur de saisie",
+        "non_explique": "Non expliqué"
+      }
+    },
+    "duty": {
+      "cannotCountOwn": "Vous avez ouvert cette caisse — quelqu'un d'autre doit la compter",
+      "cannotValidateOwn": "Vous avez ouvert cette caisse — quelqu'un d'autre doit la valider",
+      "needsDiscrepancyFirst": "Nommez l'écart avant de valider"
+    }
+  }
+}

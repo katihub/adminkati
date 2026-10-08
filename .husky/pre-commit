@@ -1,0 +1,9 @@
+# Fast gate only — target is ~1s. Typecheck, tests, and build run in CI.
+# Both checks run even if the first fails, so one commit shows every problem.
+status=0
+
+bunx lint-staged || status=1
+bun run i18n:check || status=1
+git diff --cached | bunx fallow audit --diff-stdin || status=1
+
+exit $status

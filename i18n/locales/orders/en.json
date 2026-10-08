@@ -1,0 +1,281 @@
+{
+  "orders": {
+    "page": {
+      "heading": "Orders",
+      "empty": "Select an order to view its details",
+      "loading": "Loading order details…",
+      "seo": {
+        "title": "Orders · NowTech Admin",
+        "description": "Customer order administration for the NowTech admin panel."
+      }
+    },
+    "tabs": {
+      "orders": "Orders",
+      "quotes": "Quotes"
+    },
+    "status": {
+      "soumise": "Submitted",
+      "confirmee": "Confirmed",
+      "refusee": "Refused",
+      "en_preparation": "Preparing",
+      "prete_au_retrait": "Pickup ready",
+      "en_remise": "Handover",
+      "retour_ouvert": "Return",
+      "annulation_demandee": "Cancel pending",
+      "annulee": "Cancelled",
+      "close": "Closed"
+    },
+    "listPanel": {
+      "empty": "No orders",
+      "itemCount": "{count} items"
+    },
+    "detail": {
+      "customerUnavailable": "Customer details unavailable",
+      "total": "Order total",
+      "created": "Created",
+      "delivery": "Fulfilment",
+      "paymentMethod": "Payment method",
+      "counter": "Counter",
+      "noCounter": "None — home delivery",
+      "outOfPerimetre": "This order belongs to another counter: cashing it in is that counter’s job.",
+      "estimatedTotal": "Estimated total",
+      "confirmedTotal": "Confirmed total",
+      "billableTotal": "Billable total",
+      "remaining": "Remaining",
+      "lines": "Order lines",
+      "noLines": "No line items",
+      "product": "Product",
+      "quantity": "Quantity",
+      "lineStatus": "Status",
+      "capturedPrice": "Captured price",
+      "finalPrice": "Final price",
+      "basicDetailsTitle": "Basic Details",
+      "orderId": "Order ID",
+      "orderDate": "Order Date",
+      "payment": "Payment",
+      "productInfoTitle": "Product Information",
+      "sku": "SKU",
+      "unitPrice": "Unit price",
+      "lineTotal": "Total",
+      "paymentStatusTitle": "Payment Status",
+      "subtotal": "Subtotal",
+      "totalPayment": "Total payment",
+      "customerInfoTitle": "Customer Information",
+      "name": "Name",
+      "phone": "Phone",
+      "deliveryInfoTitle": "Delivery",
+      "deliveryAddress": "Address",
+      "deliveryAddressUnavailable": "No address recorded",
+      "deliveryPhone": "Phone at the door",
+      "courier": "Courier",
+      "courierNoPhone": "no phone number",
+      "courierUnassigned": "No courier assigned",
+      "courierAssignedAt": "Assigned {date}",
+      "landmark": "Landmark",
+      "settled": "Settled",
+      "call": "Call",
+      "assignedCourier": "Assigned courier",
+      "collect": "Collect"
+    },
+    "deliveryModes": {
+      "retrait": "Pickup",
+      "domicile": "Home delivery",
+      "agence": "Agency"
+    },
+    "paymentMethods": {
+      "especes_comptoir": "Cash at counter",
+      "especes_livraison": "Cash on delivery",
+      "mobile_livraison": "Mobile money on delivery",
+      "mobile_plateforme": "Mobile money online"
+    },
+    "lineStatus": {
+      "commandee": "Ordered",
+      "preparee": "Prepared",
+      "chargee": "Loaded",
+      "presentee": "Presented",
+      "acceptee": "Accepted",
+      "refusee": "Refused",
+      "manquante": "Missing"
+    },
+    "actions": {
+      "transition": {
+        "soumise": "Revert",
+        "confirmee": "Confirm",
+        "refusee": "Refuse",
+        "en_preparation": "Prepare",
+        "prete_au_retrait": "Ready",
+        "en_remise": "Handover",
+        "retour_ouvert": "Return",
+        "annulation_demandee": "Suspend",
+        "annulee": "Cancel",
+        "close": "Close"
+      },
+      "transitionDialog": {
+        "title": "{transition} order",
+        "description": "Confirm this transition for {reference}.",
+        "closeReason": "Closure reason",
+        "closeReasonPlaceholder": "Choose a closure reason",
+        "reason": "Note (optional)",
+        "reasonPlaceholder": "Add context for the team",
+        "cancel": "Cancel",
+        "confirm": "Confirm transition",
+        "livreur": "Courier",
+        "livreurPlaceholder": "Choose the courier",
+        "livreurHint": "This order goes out for delivery: name who takes it. They alone will read, collect on and close it.",
+        "receptionConfirmee": "The customer confirmed receiving this order{date}. Close it as delivered or collected.",
+        "receptionAbsente": "The customer has not confirmed receipt yet: only “no proof”, “failed delivery” or “expired pickup” will be accepted.",
+        "stockConflictTitle": "Some items are no longer available",
+        "driftTitle": "Prices changed since the order was placed",
+        "driftBody": "The total moved from {previous} to {proposed}. The order went back to submitted: the customer must accept the new amount again before you can confirm.",
+        "conflictMotives": {
+          "inconnu": "Unknown product",
+          "retire": "Withdrawn from sale",
+          "quantite": "Invalid quantity",
+          "prix_nul": "No price set",
+          "reapprovisionnement": "Being restocked",
+          "rupture": "Out of stock",
+          "stock_insuffisant": "Not enough stock",
+          "autre": "Unavailable"
+        }
+      },
+      "livreurDialog": {
+        "assign": "Assign a courier",
+        "change": "Change courier",
+        "title": "Assign the courier",
+        "description": "Name who takes {reference} out. The order does not change state.",
+        "label": "Courier",
+        "hint": "They alone will then read this order, collect on it and close it.",
+        "cancel": "Cancel",
+        "confirm": "Assign courier"
+      },
+      "paymentDialog": {
+        "trigger": "Collect payment",
+        "title": "Collect payment",
+        "description": "Record a payment for {reference}.",
+        "amount": "Amount (XAF)",
+        "amountInvalid": "Enter a whole amount no greater than the remaining balance.",
+        "method": "Method",
+        "methods": {
+          "especes": "Cash",
+          "mobile_money": "Mobile money",
+          "virement": "Bank transfer"
+        },
+        "location": "Received at",
+        "locations": {
+          "comptoir": "Counter",
+          "porte": "At the door"
+        },
+        "note": "Note (optional)",
+        "notePlaceholder": "Add a payment note",
+        "noteInvalid": "A note must contain at least two characters.",
+        "cancel": "Cancel",
+        "confirm": "Record payment"
+      }
+    },
+    "export": {
+      "trigger": "Export…",
+      "title": "Export {reference}",
+      "description": "Download this order as a PDF. Every export is recorded.",
+      "document": "Document",
+      "documents": {
+        "recapitulatif": "Order summary",
+        "facture": "Customer invoice",
+        "bon-preparation": "Packing slip"
+      },
+      "language": "Language",
+      "languages": {
+        "fr": "Français",
+        "en": "English"
+      },
+      "cancel": "Cancel",
+      "confirm": "Download PDF"
+    },
+    "closureMotives": {
+      "livree": "Delivered",
+      "livree_partielle": "Partially delivered",
+      "retiree": "Picked up",
+      "sans_preuve": "No proof",
+      "echec_livraison": "Delivery failed",
+      "expiree_retrait": "Pickup expired"
+    },
+    "paymentStatus": {
+      "en_attente": "Not paid",
+      "paye": "Paid",
+      "rembourse": "Refunded"
+    },
+    "filterBar": {
+      "searchLabel": "Search",
+      "searchOperatorContains": "contains",
+      "statusLabel": "Status",
+      "statusOperatorIs": "is",
+      "counterLabel": "Counter",
+      "counterOperatorIn": "is one of",
+      "sortLabel": "Sort",
+      "sortOperatorIs": "is",
+      "dateLabel": "Created",
+      "dateOperatorBetween": "between",
+      "clear": "Clear",
+      "sort": {
+        "recent": "Most recent",
+        "ancien": "Oldest",
+        "montant-croissant": "Amount: low to high",
+        "montant-decroissant": "Amount: high to low"
+      }
+    }
+  },
+  "quotes": {
+    "status": {
+      "ouvert": "Open",
+      "commande": "Converted",
+      "archive": "Archived"
+    },
+    "listPanel": {
+      "empty": "No quotes",
+      "itemCount": "{count} items"
+    },
+    "detail": {
+      "empty": "Select a quote to view its details",
+      "loading": "Loading quote details…",
+      "client": "Client {id}",
+      "orderLink": "View order {reference}",
+      "total": "Quote total",
+      "created": "Created",
+      "updated": "Updated",
+      "subtotal": "Subtotal",
+      "vat": "VAT",
+      "lines": "Quote lines",
+      "noLines": "No line items",
+      "product": "Product",
+      "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "lineTotal": "Total",
+      "basicDetailsTitle": "Basic Details",
+      "quoteId": "Quote ID",
+      "catalogueDate": "Catalogue snapshot",
+      "productInfoTitle": "Product Information",
+      "sku": "SKU",
+      "amountTitle": "Amount",
+      "customerInfoTitle": "Customer Information",
+      "customerUnavailable": "Customer details unavailable",
+      "clientLabel": "Name",
+      "phoneLabel": "Phone",
+      "companyLabel": "Company",
+      "preferredCounterLabel": "Preferred counter",
+      "refresh": {
+        "title": "Check today's prices",
+        "description": "Compare this quote with the current catalogue prices.",
+        "button": "Check prices",
+        "unchanged": "All quoted prices are still current.",
+        "changed": "Price changes found",
+        "close": "Close"
+      },
+      "archive": {
+        "trigger": "Archive",
+        "title": "Archive this quote?",
+        "description": "Archive {reference}? It will no longer appear in open quotes.",
+        "cancel": "Cancel",
+        "confirm": "Archive"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "operations": {
+    "page": {
+      "heading": "Operations",
+      "seo": {
+        "title": "Operations · NowTech Admin",
+        "description": "Cash reconciliation and customer requests for the NowTech team."
+      }
+    },
+    "tabs": {
+      "cashRegisters": {
+        "label": "Cash Registers"
+      },
+      "customerRequests": {
+        "label": "Customer Requests"
+      }
+    }
+  }
+}
