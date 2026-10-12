@@ -58,7 +58,43 @@ export function useMarketplaceReturnMutations() {
       apiWrite(`/marketplace/demandes-client/retours/${encodeURIComponent(id)}/reception`, { method: "POST" }),
     onSuccess: (_data, id) => invalidate(id),
   })
-  return { reimburse, reconcileRefund, receive }
+  const decide = useMutation({
+    mutationFn: ({
+      id,
+      decision,
+      motif,
+      responsable,
+      fraisRetourFcfa,
+    }: {
+      id: string
+      decision: "autorise" | "refuse"
+      motif: string
+      responsable: "client" | "vendeur" | "agent_livraison" | "katihub" | "indetermine"
+      fraisRetourFcfa: number
+    }) =>
+      apiWrite(`/marketplace/demandes-client/retours/${encodeURIComponent(id)}/decision`, {
+        method: "POST",
+        body: { decision, motif, responsable, fraisRetourFcfa },
+      }),
+    onSuccess: (_data, variables) => invalidate(variables.id),
+  })
+  const arbitrate = useMutation({
+    mutationFn: ({ id, decision, motif }: { id: string; decision: "autorise" | "refuse"; motif: string }) =>
+      apiWrite(`/marketplace/demandes-client/retours/${encodeURIComponent(id)}/arbitrage`, {
+        method: "POST",
+        body: { decision, motif },
+      }),
+    onSuccess: (_data, variables) => invalidate(variables.id),
+  })
+  const reply = useMutation({
+    mutationFn: ({ demandId, contenu }: { id: string; demandId: string; contenu: string }) =>
+      apiWrite(`/marketplace/demandes-client/${encodeURIComponent(demandId)}/messages`, {
+        method: "POST",
+        body: { contenu },
+      }),
+    onSuccess: (_data, variables) => invalidate(variables.id),
+  })
+  return { reimburse, reconcileRefund, receive, decide, arbitrate, reply }
 }
 
 export function useSellerTrustList(filters: MaybeRefOrGetter<SellerTrustFilters>) {

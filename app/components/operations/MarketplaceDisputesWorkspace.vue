@@ -20,6 +20,11 @@ const search = ref("")
 const status = ref<MarketplaceReturnStatus | undefined>()
 const reimbursementPhone = ref("")
 const evidenceError = ref(false)
+const workflowDecision = ref<"autorise" | "refuse">("autorise")
+const workflowReason = ref("")
+const workflowResponsibility = ref<"client" | "vendeur" | "agent_livraison" | "katihub" | "indetermine">("indetermine")
+const returnFees = ref(0)
+const replyText = ref("")
 const explicitId = computed(() => routeQueryString(route.query.retour) ?? null)
 const filters = computed<MarketplaceReturnFilters>(() => ({
   ...(search.value.trim() ? { q: search.value.trim() } : {}),
@@ -29,11 +34,42 @@ const filters = computed<MarketplaceReturnFilters>(() => ({
 const listQuery = useMarketplaceReturns(filters)
 const effectiveId = computed(() => explicitId.value ?? listQuery.data.value?.elements[0]?.id ?? null)
 const detailQuery = useMarketplaceReturn(effectiveId)
-const { reimburse, reconcileRefund, receive } = useMarketplaceReturnMutations()
+const { reimburse, reconcileRefund, receive, decide, arbitrate, reply } = useMarketplaceReturnMutations()
 
 watch(effectiveId, () => {
   reimbursementPhone.value = ""
+  workflowReason.value = ""
+  replyText.value = ""
 })
+
+function submitWorkflowDecision() {
+  const detail = detailQuery.data.value
+  const motif = workflowReason.value.trim()
+  if (!detail || motif.length < 10) return
+  if (detail.capacites.arbitrer) arbitrate.mutate({ id: detail.id, decision: workflowDecision.value, motif })
+  else if (detail.capacites.decider)
+    decide.mutate({
+      id: detail.id,
+      decision: workflowDecision.value,
+      motif,
+      responsable: workflowResponsibility.value,
+      fraisRetourFcfa: returnFees.value,
+    })
+}
+
+function sendReply() {
+  const detail = detailQuery.data.value
+  const contenu = replyText.value.trim()
+  if (!detail || contenu.length < 2) return
+  reply.mutate(
+    { id: detail.id, demandId: detail.demande.id, contenu },
+    {
+      onSuccess: () => {
+        replyText.value = ""
+      },
+    },
+  )
+}
 
 const dateFormatter = computed(
   () => new Intl.DateTimeFormat(locale.value, { day: "2-digit", month: "short", year: "numeric" }),
@@ -279,6 +315,32 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                 </ol>
               </section>
               <section class="rounded-lg border border-border bg-card p-4">
+                <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.exchanges") }}</h3>
+                <div class="mt-3 space-y-2">
+                  <div
+                    v-for="message in detailQuery.data.value.demande.messages"
+                    :key="message.id"
+                    class="rounded-md bg-muted p-3 text-sm"
+                  >
+                    <strong class="capitalize">{{ message.auteurType }}</strong>
+                    <p class="mt-1 whitespace-pre-wrap">{{ message.contenu }}</p>
+                  </div>
+                </div>
+                <textarea
+                  v-model="replyText"
+                  class="mt-3 min-h-24 w-full rounded-md border border-input bg-background p-3 text-sm"
+                  maxlength="5000"
+                  :placeholder="t('operations.disputes.replyPlaceholder')"
+                />
+                <Button
+                  class="mt-2"
+                  size="sm"
+                  :disabled="replyText.trim().length < 2 || reply.isPending.value"
+                  @click="sendReply"
+                  >{{ t("operations.disputes.sendReply") }}</Button
+                >
+              </section>
+              <section class="rounded-lg border border-border bg-card p-4">
                 <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.evidence") }}</h3>
                 <p v-if="evidenceError" class="mt-3 text-sm text-destructive" role="alert">
                   {{ t("operations.disputes.evidenceDownloadError") }}
@@ -315,6 +377,60 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
             </div>
             <section class="h-fit rounded-lg border border-border bg-card p-4 xl:sticky xl:top-24">
               <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.decision") }}</h3>
+              <div
+                v-if="detailQuery.data.value.capacites.decider || detailQuery.data.value.capacites.arbitrer"
+                class="mt-4 space-y-3 rounded-md border border-border p-3"
+              >
+                <p class="text-sm font-medium">
+                  {{
+                    detailQuery.data.value.capacites.arbitrer
+                      ? t("operations.disputes.finalArbitration")
+                      : t("operations.disputes.initialDecision")
+                  }}
+                </p>
+                <select
+                  v-model="workflowDecision"
+                  class="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                >
+                  <option value="autorise">{{ t("operations.disputes.authorizeReturn") }}</option>
+                  <option value="refuse">{{ t("operations.disputes.refuseReturn") }}</option>
+                </select>
+                <template v-if="detailQuery.data.value.capacites.decider">
+                  <select
+                    v-model="workflowResponsibility"
+                    class="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                  >
+                    <option value="indetermine">{{ t("operations.disputes.responsibilityUnknown") }}</option>
+                    <option value="client">{{ t("operations.disputes.client") }}</option>
+                    <option value="vendeur">{{ t("operations.disputes.seller") }}</option>
+                    <option value="agent_livraison">{{ t("operations.disputes.courier") }}</option>
+                    <option value="katihub">{{ t("operations.disputes.platform") }}</option>
+                  </select>
+                  <Input
+                    v-model.number="returnFees"
+                    type="number"
+                    min="0"
+                    step="1"
+                    :placeholder="t('operations.disputes.returnFees')"
+                  />
+                </template>
+                <textarea
+                  v-model="workflowReason"
+                  class="min-h-24 w-full rounded-md border border-input bg-background p-3 text-sm"
+                  maxlength="1000"
+                  :placeholder="t('operations.disputes.reasonPlaceholder')"
+                />
+                <Button
+                  class="w-full"
+                  :disabled="workflowReason.trim().length < 10 || decide.isPending.value || arbitrate.isPending.value"
+                  @click="submitWorkflowDecision"
+                  ><Icon name="ph:scales" />{{
+                    detailQuery.data.value.capacites.arbitrer
+                      ? t("operations.disputes.submitArbitration")
+                      : t("operations.disputes.saveDecision")
+                  }}</Button
+                >
+              </div>
               <div
                 v-if="detailQuery.data.value.remboursementPsp"
                 class="mt-4 rounded-md border border-border bg-muted/50 p-3 text-sm"
@@ -362,9 +478,6 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                 @click="reconcileRefund.mutate(detailQuery.data.value.id)"
               >
                 <Icon name="ph:arrows-clockwise" /> {{ t("operations.disputes.reconcileRefund") }}
-              </Button>
-              <Button class="mt-2 w-full" variant="outline" :disabled="!detailQuery.data.value.capacites.arbitrer">
-                <Icon name="ph:scales" /> {{ t("operations.disputes.arbitrate") }}
               </Button>
             </section>
           </div>
