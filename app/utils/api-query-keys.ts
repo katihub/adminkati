@@ -13,6 +13,9 @@ const pointsOfSale = ["v1", "vitrine", "administration", "points-vente"] as cons
 const statistics = ["v1", "statistiques"] as const
 const deliveryIntervals = ["v1", "catalogue", "administration", "delais-livraison"] as const
 const assistant = ["v1", "assistant", "administration", "demandes"] as const
+const marketplaceOperations = ["v1", "marketplace", "operations"] as const
+const marketplaceModeration = ["v1", "marketplace", "moderation"] as const
+const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
 
 export const apiQueryKeys = {
   products: {
@@ -66,5 +69,23 @@ export const apiQueryKeys = {
     all: assistant,
     list: (params: QueryParams = {}) => [...assistant, "liste", params] as const,
     detail: (id: string | null | undefined) => [...assistant, "detail", id] as const,
+  },
+  marketplaceOperations: {
+    all: marketplaceOperations,
+    returns: (params: QueryParams = {}) => [...marketplaceOperations, "retours", params] as const,
+    returnDetail: (id: string | null | undefined) => [...marketplaceOperations, "retours", id] as const,
+    sellers: (params: QueryParams = {}) => [...marketplaceOperations, "vendeurs", params] as const,
+    sellerDetail: (id: string | null | undefined) => [...marketplaceOperations, "vendeurs", id] as const,
+  },
+  marketplaceModeration: {
+    all: marketplaceModeration,
+    sellers: (params: QueryParams = {}) => [...marketplaceModeration, "vendeurs", params] as const,
+    seller: (id: string | null | undefined) => [...marketplaceModeration, "vendeurs", id] as const,
+    products: [...marketplaceModeration, "produits"] as const,
+    offers: [...marketplaceModeration, "offres"] as const,
+  },
+  legalClosure: {
+    all: legalClosure,
+    state: [...legalClosure, "etat"] as const,
   },
 } as const

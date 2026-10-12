@@ -106,4 +106,24 @@ export interface ApiStatistiquesApercu {
   totalProfit?: TotalProfit
   recentTransactions: RecentTransactionItem[]
   topSellingProducts?: TopSellingProductItem[]
+  marketplace?: MarketplaceCommandCenter
+}
+
+export type MarketplaceOrderStatus = "submitted" | "preparing" | "shipping" | "delivered" | "cancelled" | "attention"
+export type MarketplaceAlertId = "open_disputes" | "cash_disputes" | "pending_approvals"
+
+export interface MarketplaceCommandCenter {
+  kpis: {
+    gmv: KpiMetric
+    orders: KpiMetric
+    activeSellers: KpiMetric
+    clients: KpiMetric
+    activeProducts: KpiMetric
+    commissions: KpiMetric
+    openDisputes: KpiMetric
+  }
+  orderStatuses: Array<{ id: MarketplaceOrderStatus; count: number }>
+  approvals: { sellers: number; products: number; offers: number }
+  topSellers: Array<{ boutiqueId: string; name: string; orders: number; revenue: number }>
+  alerts: Array<{ id: MarketplaceAlertId; severity: "danger" | "warning" | "info"; count: number }>
 }

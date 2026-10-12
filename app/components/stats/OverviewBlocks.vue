@@ -14,6 +14,8 @@ const { data, busy = false } = defineProps<{
     skeletons on every switch reads as a page load rather than as a filter.
   -->
   <div class="space-y-6 transition-opacity duration-200" :class="busy && 'opacity-60'" :aria-busy="busy">
+    <StatsMarketplaceCommandCenter v-if="data.marketplace" :marketplace="data.marketplace" />
+
     <StatsKpiGrid v-if="data.kpis" :kpis="data.kpis" :periode="data.periode.id" />
 
     <StatsOverviewAnalyticsRow v-if="data.salesStatistics || data.totalProfit || data.catalogueSummary" :data="data" />
