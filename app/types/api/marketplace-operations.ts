@@ -1,4 +1,18 @@
 export type MarketplaceReturnStatus = "demande" | "autorise" | "refuse" | "en_transit" | "recu" | "rembourse"
+export type PspRefundStatus = "prepare" | "soumis" | "reussi" | "echec" | "verification_requise"
+
+export interface PspRefund {
+  id: string
+  transId: string | null
+  statut: PspRefundStatus
+  montantFcfa: number
+  telephone: string
+  moyen: string | null
+  raisonEchec: string | null
+  initieLe: string | null
+  confirmeLe: string | null
+  verifieLe: string | null
+}
 
 export interface MarketplaceReturnListItem {
   id: string
@@ -25,6 +39,7 @@ export interface MarketplaceReturnDetail extends MarketplaceReturnListItem {
   montantRembourseFcfa: number
   referenceRetour: string | null
   referenceRemboursement: string | null
+  remboursementPsp: PspRefund | null
   eligibleJusqua: string
   ligne: {
     id: string
@@ -47,6 +62,7 @@ export interface MarketplaceReturnDetail extends MarketplaceReturnListItem {
     decider: boolean
     recevoir: boolean
     rembourser: boolean
+    rapprocherRemboursement: boolean
     arbitrer: boolean
   }
 }

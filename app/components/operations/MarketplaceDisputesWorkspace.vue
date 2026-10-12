@@ -17,7 +17,7 @@ const route = useRoute()
 const { locale, t } = useI18n()
 const search = ref("")
 const status = ref<MarketplaceReturnStatus | undefined>()
-const reimbursementReference = ref("")
+const reimbursementPhone = ref("")
 const explicitId = computed(() => routeQueryString(route.query.retour) ?? null)
 const filters = computed<MarketplaceReturnFilters>(() => ({
   ...(search.value.trim() ? { q: search.value.trim() } : {}),
@@ -27,10 +27,10 @@ const filters = computed<MarketplaceReturnFilters>(() => ({
 const listQuery = useMarketplaceReturns(filters)
 const effectiveId = computed(() => explicitId.value ?? listQuery.data.value?.elements[0]?.id ?? null)
 const detailQuery = useMarketplaceReturn(effectiveId)
-const { reimburse, receive } = useMarketplaceReturnMutations()
+const { reimburse, reconcileRefund, receive } = useMarketplaceReturnMutations()
 
 watch(effectiveId, () => {
-  reimbursementReference.value = ""
+  reimbursementPhone.value = ""
 })
 
 const dateFormatter = computed(
@@ -69,9 +69,9 @@ function clearSelection() {
 
 function reimburseReturn() {
   const id = effectiveId.value
-  const referenceExterne = reimbursementReference.value.trim()
-  if (!id || !referenceExterne) return
-  reimburse.mutate({ id, referenceExterne })
+  if (!id) return
+  const telephone = reimbursementPhone.value.replace(/\s/g, "")
+  reimburse.mutate({ id, ...(telephone ? { telephone } : {}) })
 }
 </script>
 
@@ -266,25 +266,53 @@ function reimburseReturn() {
             </div>
             <section class="h-fit rounded-lg border border-border bg-card p-4 xl:sticky xl:top-24">
               <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.decision") }}</h3>
-              <label class="mt-4 block text-sm font-medium" for="refund-reference">{{
-                t("operations.disputes.refundReference")
+              <div
+                v-if="detailQuery.data.value.remboursementPsp"
+                class="mt-4 rounded-md border border-border bg-muted/50 p-3 text-sm"
+              >
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-medium">{{ t("operations.disputes.pspRefund") }}</span>
+                  <Badge variant="outline">{{
+                    t(`operations.disputes.pspStatus.${detailQuery.data.value.remboursementPsp.statut}`)
+                  }}</Badge>
+                </div>
+                <p
+                  v-if="detailQuery.data.value.remboursementPsp.transId"
+                  class="mt-2 break-all font-mono text-xs text-muted-foreground"
+                >
+                  {{ detailQuery.data.value.remboursementPsp.transId }}
+                </p>
+                <p v-if="detailQuery.data.value.remboursementPsp.raisonEchec" class="mt-2 text-xs text-destructive">
+                  {{ detailQuery.data.value.remboursementPsp.raisonEchec }}
+                </p>
+              </div>
+              <label class="mt-4 block text-sm font-medium" for="refund-phone">{{
+                t("operations.disputes.refundPhone")
               }}</label>
               <Input
-                id="refund-reference"
-                v-model="reimbursementReference"
+                id="refund-phone"
+                v-model="reimbursementPhone"
                 class="mt-2"
+                inputmode="tel"
+                :placeholder="t('operations.disputes.refundPhonePlaceholder')"
                 :disabled="!detailQuery.data.value.capacites.rembourser"
               />
+              <p class="mt-1 text-xs text-muted-foreground">{{ t("operations.disputes.refundPhoneHint") }}</p>
               <Button
                 class="mt-3 w-full"
-                :disabled="
-                  !detailQuery.data.value.capacites.rembourser ||
-                  !reimbursementReference.trim() ||
-                  reimburse.isPending.value
-                "
+                :disabled="!detailQuery.data.value.capacites.rembourser || reimburse.isPending.value"
                 @click="reimburseReturn"
               >
                 <Icon name="ph:shield-check" /> {{ t("operations.disputes.reimburse") }}
+              </Button>
+              <Button
+                v-if="detailQuery.data.value.capacites.rapprocherRemboursement"
+                class="mt-2 w-full"
+                variant="outline"
+                :disabled="reconcileRefund.isPending.value"
+                @click="reconcileRefund.mutate(detailQuery.data.value.id)"
+              >
+                <Icon name="ph:arrows-clockwise" /> {{ t("operations.disputes.reconcileRefund") }}
               </Button>
               <Button class="mt-2 w-full" variant="outline" :disabled="!detailQuery.data.value.capacites.arbitrer">
                 <Icon name="ph:scales" /> {{ t("operations.disputes.arbitrate") }}

@@ -41,19 +41,24 @@ export function useMarketplaceReturnMutations() {
     await queryClient.invalidateQueries({ queryKey: apiQueryKeys.marketplaceOperations.returnDetail(id) })
   }
   const reimburse = useMutation({
-    mutationFn: ({ id, referenceExterne }: { id: string; referenceExterne: string }) =>
+    mutationFn: ({ id, telephone }: { id: string; telephone?: string }) =>
       apiWrite(`/marketplace/demandes-client/retours/${encodeURIComponent(id)}/remboursement`, {
         method: "POST",
-        body: { referenceExterne },
+        body: telephone ? { telephone } : {},
       }),
     onSuccess: (_data, variables) => invalidate(variables.id),
+  })
+  const reconcileRefund = useMutation({
+    mutationFn: (id: string) =>
+      apiWrite(`/marketplace/remboursements/fapshi/${encodeURIComponent(id)}/rapprocher`, { method: "POST" }),
+    onSuccess: (_data, id) => invalidate(id),
   })
   const receive = useMutation({
     mutationFn: (id: string) =>
       apiWrite(`/marketplace/demandes-client/retours/${encodeURIComponent(id)}/reception`, { method: "POST" }),
     onSuccess: (_data, id) => invalidate(id),
   })
-  return { reimburse, receive }
+  return { reimburse, reconcileRefund, receive }
 }
 
 export function useSellerTrustList(filters: MaybeRefOrGetter<SellerTrustFilters>) {
