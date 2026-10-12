@@ -76,6 +76,7 @@ export const apiQueryKeys = {
     returnDetail: (id: string | null | undefined) => [...marketplaceOperations, "retours", id] as const,
     sellers: (params: QueryParams = {}) => [...marketplaceOperations, "vendeurs", params] as const,
     sellerDetail: (id: string | null | undefined) => [...marketplaceOperations, "vendeurs", id] as const,
+    withdrawals: (params: QueryParams = {}) => [...marketplaceOperations, "retraits-vendeurs", params] as const,
   },
   marketplaceModeration: {
     all: marketplaceModeration,

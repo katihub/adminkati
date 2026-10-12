@@ -20,6 +20,7 @@ const QUERY_TABS = [
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-disputes",
+  "seller-finance",
   "seller-trust",
   "legal-closure",
 ] as const
@@ -27,7 +28,9 @@ type OperationsTab = "cash-registers" | (typeof QUERY_TABS)[number]
 
 function tabFromQuery(value: unknown): OperationsTab {
   const tab = QUERY_TABS.find(candidate => candidate === value)
-  return tab === "legal-closure" && !isDirection.value ? "cash-registers" : (tab ?? "cash-registers")
+  return (tab === "legal-closure" || tab === "seller-finance") && !isDirection.value
+    ? "cash-registers"
+    : (tab ?? "cash-registers")
 }
 
 const activeTab = ref<OperationsTab>(tabFromQuery(route.query.tab))
@@ -38,7 +41,8 @@ watch(
   },
 )
 watch(isDirection, allowed => {
-  if (!allowed && activeTab.value === "legal-closure") setActiveTab("cash-registers")
+  if (!allowed && (activeTab.value === "legal-closure" || activeTab.value === "seller-finance"))
+    setActiveTab("cash-registers")
 })
 
 const tabs = computed(() => [
@@ -80,6 +84,12 @@ const tabs = computed(() => [
   },
   ...(isDirection.value
     ? [
+        {
+          value: "seller-finance",
+          label: "Finances vendeurs",
+          icon: "ph:wallet",
+          testid: "operations-tab-seller-finance",
+        },
         {
           value: "legal-closure",
           label: "Clôture juridique P0",
@@ -133,6 +143,7 @@ useHead({
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />
     <OperationsMarketplaceDisputesWorkspace v-else-if="activeTab === 'marketplace-disputes'" />
+    <OperationsSellerFinanceWorkspace v-else-if="activeTab === 'seller-finance'" />
     <OperationsSellerTrustWorkspace v-else-if="activeTab === 'seller-trust'" />
     <OperationsLegalClosureWorkspace v-else />
   </div>

@@ -113,3 +113,44 @@ export interface SellerTrustFilters {
   page?: number
   taille?: number
 }
+
+export type SellerWithdrawalStatus = "demande" | "approuve" | "refuse" | "reverse" | "echec" | "annule"
+
+export interface SellerWithdrawal {
+  id: string
+  reference: string
+  montantFcfa: number
+  statut: SellerWithdrawalStatus
+  motifDecision: string | null
+  referenceExterne: string | null
+  preuveStockageCle: string | null
+  preuveEmpreinteSha256: string | null
+  preuveMime: string | null
+  preuveTailleOctets: number | null
+  creeLe: string
+  decideLe: string | null
+  reverseLe: string | null
+  boutique: { id: string; nom: string; vendeur: { id: string; nomLegal: string } }
+  documentDestination: { id: string; type: string; stockageCle: string; expireLe: string | null }
+}
+
+export interface SellerWithdrawalsPage {
+  total: number
+  page: number
+  taille: number
+  elements: SellerWithdrawal[]
+}
+
+export interface SellerWithdrawalFilters {
+  boutiqueId?: string
+  statut?: SellerWithdrawalStatus
+  page?: number
+  taille?: number
+}
+
+export interface CommissionAcquisitionResult {
+  examinees: number
+  acquises: number
+  commissionTotaleFcfa: number
+  netVendeurTotalFcfa: number
+}

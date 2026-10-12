@@ -2,6 +2,9 @@ import type {
   MarketplaceReturnDetail,
   MarketplaceReturnFilters,
   MarketplaceReturnsPage,
+  SellerWithdrawalFilters,
+  SellerWithdrawalsPage,
+  CommissionAcquisitionResult,
   SellerTrustDetail,
   SellerTrustFilters,
   SellerTrustPage,
@@ -88,4 +91,58 @@ export function useSellerTrustMutations() {
     onSuccess: (_data, variables) => invalidate(variables.sellerId),
   })
   return { rehabilitate }
+}
+
+export function useSellerWithdrawals(filters: MaybeRefOrGetter<SellerWithdrawalFilters>) {
+  const apiFetch = useApiFetch()
+  const params = computed(() => toValue(filters))
+  return useQuery<SellerWithdrawalsPage>({
+    queryKey: computed(() => apiQueryKeys.marketplaceOperations.withdrawals(params.value)),
+    queryFn: () => apiFetch("/marketplace/finance/retraits", { query: params.value }),
+  })
+}
+
+export function useSellerFinanceMutations() {
+  const apiWrite = useApiWrite()
+  const queryClient = useQueryClient()
+  const invalidate = () => queryClient.invalidateQueries({ queryKey: apiQueryKeys.marketplaceOperations.all })
+  const acquireCommissions = useMutation<CommissionAcquisitionResult, Error, number>({
+    mutationFn: (limite = 100) =>
+      apiWrite<CommissionAcquisitionResult>("/marketplace/finance/commissions/acquisition", {
+        method: "POST",
+        body: { limite },
+      }),
+    onSuccess: invalidate,
+  })
+  const decideWithdrawal = useMutation({
+    mutationFn: ({ id, decision, motif }: { id: string; decision: "approuve" | "refuse"; motif?: string }) =>
+      apiWrite(`/marketplace/finance/retraits/${encodeURIComponent(id)}/decision`, {
+        method: "POST",
+        body: { decision, ...(motif ? { motif } : {}) },
+      }),
+    onSuccess: invalidate,
+  })
+  const recordTransfer = useMutation({
+    mutationFn: ({
+      id,
+      referenceExterne,
+      preuveStockageCle,
+      preuveEmpreinteSha256,
+      preuveMime,
+      preuveTailleOctets,
+    }: {
+      id: string
+      referenceExterne: string
+      preuveStockageCle: string
+      preuveEmpreinteSha256: string
+      preuveMime: string
+      preuveTailleOctets: number
+    }) =>
+      apiWrite(`/marketplace/finance/retraits/${encodeURIComponent(id)}/reversement`, {
+        method: "POST",
+        body: { referenceExterne, preuveStockageCle, preuveEmpreinteSha256, preuveMime, preuveTailleOctets },
+      }),
+    onSuccess: invalidate,
+  })
+  return { acquireCommissions, decideWithdrawal, recordTransfer }
 }

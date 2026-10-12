@@ -50,7 +50,7 @@ const cards = computed(() => [
     title: t("cards.commissions"),
     metric: marketplace.kpis.commissions,
     icon: "ph:coins",
-    to: "/operations",
+    to: "/operations?tab=seller-finance",
     color: "bg-rose-500/15 text-rose-600 dark:text-rose-400",
   },
   {
@@ -108,7 +108,7 @@ const cards = computed(() => [
       "activeSellers": "Active sellers",
       "clients": "Clients",
       "activeProducts": "Active products",
-      "commissions": "Planned commissions",
+      "commissions": "Acquired commissions",
       "openDisputes": "Open disputes"
     }
   },
@@ -124,7 +124,7 @@ const cards = computed(() => [
       "activeSellers": "Vendeurs actifs",
       "clients": "Clients",
       "activeProducts": "Produits actifs",
-      "commissions": "Commissions prévues",
+      "commissions": "Commissions acquises",
       "openDisputes": "Litiges ouverts"
     }
   }
