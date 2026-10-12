@@ -23,6 +23,7 @@ export interface MarketplaceReturnListItem {
   commissionCorrigeeFcfa: number
   creeLe: string
   demande: {
+    id: string
     reference: string
     objet: string
     categorie: string
@@ -56,6 +57,21 @@ export interface MarketplaceReturnDetail extends MarketplaceReturnListItem {
       motif: string | null
       acteurType: string
       creeLe: string
+    }>
+    messages: Array<{
+      id: string
+      auteurType: string
+      contenu: string
+      interne: boolean
+      creeLe: string
+      pieces: Array<{
+        id: string
+        nomCapture: string
+        typeMime: string
+        tailleOctets: number
+        empreinteSha256: string
+        creeLe: string
+      }>
     }>
   }
   capacites: {

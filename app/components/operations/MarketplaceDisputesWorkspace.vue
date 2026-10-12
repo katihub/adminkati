@@ -11,6 +11,7 @@ import {
   useMarketplaceReturnMutations,
   useMarketplaceReturns,
 } from "@/composables/useMarketplaceOperations"
+import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
 
 const route = useRoute()
@@ -18,6 +19,7 @@ const { locale, t } = useI18n()
 const search = ref("")
 const status = ref<MarketplaceReturnStatus | undefined>()
 const reimbursementPhone = ref("")
+const evidenceError = ref(false)
 const explicitId = computed(() => routeQueryString(route.query.retour) ?? null)
 const filters = computed<MarketplaceReturnFilters>(() => ({
   ...(search.value.trim() ? { q: search.value.trim() } : {}),
@@ -72,6 +74,19 @@ function reimburseReturn() {
   if (!id) return
   const telephone = reimbursementPhone.value.replace(/\s/g, "")
   reimburse.mutate({ id, ...(telephone ? { telephone } : {}) })
+}
+
+async function downloadEvidence(demandId: string, piece: { id: string; nomCapture: string }) {
+  evidenceError.value = false
+  try {
+    const blob = await $fetch<Blob>(
+      `/api/v1/marketplace/demandes-client/${encodeURIComponent(demandId)}/pieces/${encodeURIComponent(piece.id)}`,
+      { responseType: "blob" },
+    )
+    downloadBlob(blob, piece.nomCapture)
+  } catch {
+    evidenceError.value = true
+  }
 }
 </script>
 
@@ -262,6 +277,40 @@ function reimburseReturn() {
                     }}</time>
                   </li>
                 </ol>
+              </section>
+              <section class="rounded-lg border border-border bg-card p-4">
+                <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.evidence") }}</h3>
+                <p v-if="evidenceError" class="mt-3 text-sm text-destructive" role="alert">
+                  {{ t("operations.disputes.evidenceDownloadError") }}
+                </p>
+                <p
+                  v-if="!detailQuery.data.value.demande.messages.some(message => message.pieces.length)"
+                  class="mt-3 text-sm text-muted-foreground"
+                >
+                  {{ t("operations.disputes.noEvidence") }}
+                </p>
+                <ul v-else class="mt-3 space-y-2">
+                  <template v-for="message in detailQuery.data.value.demande.messages" :key="message.id">
+                    <li v-for="piece in message.pieces" :key="piece.id">
+                      <button
+                        type="button"
+                        class="flex w-full items-center gap-3 rounded-md border border-border p-3 text-left hover:bg-muted"
+                        @click="downloadEvidence(detailQuery.data.value!.demande.id, piece)"
+                      >
+                        <Icon name="ph:file-arrow-down" class="text-primary" />
+                        <span class="min-w-0 flex-1"
+                          ><strong class="block truncate text-sm">{{ piece.nomCapture }}</strong
+                          ><small class="text-muted-foreground">{{
+                            t("operations.disputes.fileMeta", {
+                              size: Math.ceil(piece.tailleOctets / 1024),
+                              type: piece.typeMime,
+                            })
+                          }}</small></span
+                        >
+                      </button>
+                    </li>
+                  </template>
+                </ul>
               </section>
             </div>
             <section class="h-fit rounded-lg border border-border bg-card p-4 xl:sticky xl:top-24">
