@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LoginInput } from "@/schemas/login"
+import type { PublicSession } from "@/types/session"
 import { ref } from "vue"
 import { apiErrorText } from "@/utils/api-error"
 import { resolveLoginRedirect } from "@/utils/redirect"
@@ -32,13 +33,18 @@ useHead({
 const pending = ref(false)
 const route = useRoute()
 const formError = ref(route.query.reason === "deactivated" ? t("errors.deactivated") : "")
-const { $csrfFetch } = useNuxtApp()
+const { $csrfFetch, $queryClient } = useNuxtApp()
 
 async function onSubmit(values: LoginInput) {
   pending.value = true
   formError.value = ""
   try {
-    await $csrfFetch("/api/auth/login", { method: "POST", body: values })
+    const session = await $csrfFetch<PublicSession>("/api/auth/login", { method: "POST", body: values })
+    // The global auth middleware reads this exact cache key before it calls the
+    // session endpoint. The login page may already have cached `null`; keeping
+    // that stale value would redirect a freshly authenticated user straight
+    // back to the login page even though the server cookie was created.
+    $queryClient.setQueryData(["v1", "moi"], session)
     await navigateTo(resolveLoginRedirect(route.query.next, locale.value))
   } catch (error) {
     formError.value = apiErrorText(error, t)
