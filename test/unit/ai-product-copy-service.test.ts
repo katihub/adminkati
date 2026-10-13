@@ -25,6 +25,10 @@ const baseDraft: ProductCopyDraft = {
 function validSuggestion(overrides: Partial<ProductCopySuggestion> = {}): ProductCopySuggestion {
   return {
     name: "Savon noir traditionnel premium",
+    brand: "NowTech",
+    department: "beaute",
+    primaryCategory: 12,
+    secondaryCategories: [13, 14],
     shortDescription: "Un savon exfoliant naturel pour une peau douce.",
     longDescription:
       "Fabriqué à partir de cacao et de plantain, ce savon nettoie et exfolie la peau en douceur chaque jour.",
@@ -75,9 +79,18 @@ describe("generateProductCopy", () => {
     expect(format.name.length).toBeGreaterThan(0)
     expect(format.schema.additionalProperties).toBe(false)
     expect(new Set(format.schema.required)).toEqual(
-      new Set(["name", "shortDescription", "longDescription", "features"]),
+      new Set([
+        "name",
+        "brand",
+        "department",
+        "primaryCategory",
+        "secondaryCategories",
+        "shortDescription",
+        "longDescription",
+        "features",
+      ]),
     )
-    expect(format.schema.required).toHaveLength(4)
+    expect(format.schema.required).toHaveLength(8)
     expect(format.schema.properties.features.type).toBe("array")
   })
 
@@ -334,8 +347,8 @@ describe("generateProductCopy", () => {
       ).rejects.toMatchObject({ reason: "provider_timeout", statusCode: 503 })
     })
 
-    it("drops the original provider error so a leaked secret never reaches the thrown error", async () => {
-      const secretMessage = "sk-live-SECRET upstream body"
+    it("keeps only a masked provider explanation, never a key or the raw error", async () => {
+      const secretMessage = "sk-live-SECRET1234 rejected, see https://platform.openai.com/account"
       const create = vi.fn().mockRejectedValue(Object.assign(new Error(secretMessage), { status: 500 }))
       const client: ProductCopyModelClient = { create }
 
@@ -349,7 +362,8 @@ describe("generateProductCopy", () => {
       expect(caught).toBeInstanceOf(ProductCopyError)
       const serialized = [(caught as Error).message, String(caught), JSON.stringify(caught)].join(" ")
       expect(serialized).not.toContain("sk-live-SECRET")
-      expect(serialized).not.toContain("upstream body")
+      expect(serialized).not.toContain("https://")
+      expect((caught as ProductCopyError).providerDetail).toBe("[key] rejected, see [link]")
     })
   })
 

@@ -9,7 +9,6 @@ const props = defineProps<{
   productId: number | null
   brand: string | null
   brands: TaxonomieMarque[]
-  sourceUrl: string
   mode: "add" | "edit"
   slug: string
   disabled?: boolean
@@ -23,12 +22,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   "update:images": [value: ProductImage[]]
   "update:brand": [value: string | null]
-  "update:sourceUrl": [value: string]
   "update:slug": [value: string]
   stageLocal: [file: File]
 }>()
-const { images, productId, brand, brands, sourceUrl, mode, slug, disabled, fichePdf, fichePdfNom, fichePdfOctets } =
-  toRefs(props)
+const { images, productId, brand, brands, mode, slug, disabled, fichePdf, fichePdfNom, fichePdfOctets } = toRefs(props)
 
 const { t } = useI18n()
 const { logoDevPublishableKey } = useRuntimeConfig().public
@@ -44,10 +41,6 @@ const brandOptions = computed(() =>
   })),
 )
 const selectedBrand = computed(() => brandOptions.value.find(option => option.value === brand.value) ?? null)
-
-function updateSourceUrl(value: unknown) {
-  emit("update:sourceUrl", String(value))
-}
 
 function updateSlug(value: unknown) {
   emit("update:slug", String(value))

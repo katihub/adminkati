@@ -209,6 +209,10 @@ describe("productCopySuggestionSchema", () => {
   function suggestion(overrides: Partial<Record<string, unknown>> = {}) {
     return {
       name: "Savon noir",
+      brand: "NowTech",
+      department: "beaute",
+      primaryCategory: 12,
+      secondaryCategories: [13],
       shortDescription: "Un savon artisanal.",
       longDescription: "Un savon artisanal fabriqué à la main.",
       features: ["100% naturel"],

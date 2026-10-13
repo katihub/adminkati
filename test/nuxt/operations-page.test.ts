@@ -1,6 +1,6 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
-import { afterEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest"
 
 const operationsWorkspaceStubs = {
   OperationsCashRegistersWorkspace: { template: '<div data-testid="operations-cash-registers-workspace" />' },
@@ -56,6 +56,10 @@ async function mountOperations(route = "/operations", roles?: string[]) {
 }
 
 describe("operations page tabs", () => {
+  // The first mount compiles the whole app; paying it here keeps that cost out of the first case.
+  beforeAll(async () => {
+    await import("@/app.vue")
+  })
   afterEach(() => useNuxtApp().$queryClient.clear())
 
   it.each([

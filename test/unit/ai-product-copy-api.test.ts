@@ -478,10 +478,13 @@ describe("POST /api/ai/products/suggestions", () => {
     })
   })
 
-  describe("provider failures never leak upstream details", () => {
+  describe("provider failures reach the operator masked, and never the audit log", () => {
     it("maps a provider error to provider_unavailable", async () => {
       const mocks = await freshHandler()
-      mocks.create.mockRejectedValue({ status: 500, message: "secret upstream body" })
+      mocks.create.mockRejectedValue({
+        status: 500,
+        message: "invalid_api_key: Incorrect key sk-proj-ABCDEF123456, see https://platform.openai.com/keys",
+      })
       boundary.body = VALID_BODY
 
       let caught: unknown
@@ -491,17 +494,21 @@ describe("POST /api/ai/products/suggestions", () => {
         caught = error
       }
 
-      expect(caught).toMatchObject({ statusCode: 502, data: { reason: "provider_unavailable" } })
-      expect(JSON.stringify(caught)).not.toContain("secret upstream body")
+      expect(caught).toMatchObject({
+        statusCode: 502,
+        data: { reason: "provider_unavailable", providerDetail: "invalid_api_key: Incorrect key [key], see [link]" },
+      })
+      expect(JSON.stringify(caught)).not.toContain("sk-proj")
+      expect(JSON.stringify(caught)).not.toContain("https://")
       expect(mocks.writeProductCopyAudit).toHaveBeenCalledTimes(1)
       const auditArg = mocks.writeProductCopyAudit.mock.calls[0]![0]
       expect(auditArg.outcome).toBe("provider_unavailable")
-      expect(JSON.stringify(auditArg)).not.toContain("secret upstream body")
+      expect(JSON.stringify(auditArg)).not.toContain("Incorrect key")
     })
 
     it("maps a connection-timeout error to provider_timeout", async () => {
       const mocks = await freshHandler()
-      const timeoutError = new Error("secret upstream body")
+      const timeoutError = new Error("timed out calling https://api.openai.com with sk-proj-ABCDEF123456")
       timeoutError.name = "APIConnectionTimeoutError"
       mocks.create.mockRejectedValue(timeoutError)
       boundary.body = VALID_BODY
@@ -514,7 +521,8 @@ describe("POST /api/ai/products/suggestions", () => {
       }
 
       expect(caught).toMatchObject({ statusCode: 503, data: { reason: "provider_timeout" } })
-      expect(JSON.stringify(caught)).not.toContain("secret upstream body")
+      expect(JSON.stringify(caught)).not.toContain("sk-proj")
+      expect(JSON.stringify(caught)).not.toContain("https://")
       const auditArg = mocks.writeProductCopyAudit.mock.calls[0]![0]
       expect(auditArg.outcome).toBe("provider_timeout")
     })
@@ -559,7 +567,7 @@ describe("POST /api/ai/products/suggestions", () => {
       const mocks = await freshHandler()
       mocks.create.mockResolvedValue({
         status: "completed",
-        output: [{ type: "message", content: [{ type: "refusal", refusal: "secret upstream body" }] }],
+        output: [{ type: "message", content: [{ type: "refusal", refusal: "Cannot help, key sk-proj-ABCDEF123456" }] }],
         usage: { input_tokens: 10, output_tokens: 5, total_tokens: 15 },
       })
       boundary.body = VALID_BODY
@@ -572,10 +580,10 @@ describe("POST /api/ai/products/suggestions", () => {
       }
 
       expect(caught).toMatchObject({ statusCode: 422, data: { reason: "provider_refused" } })
-      expect(JSON.stringify(caught)).not.toContain("secret upstream body")
+      expect(JSON.stringify(caught)).not.toContain("sk-proj")
       const auditArg = mocks.writeProductCopyAudit.mock.calls[0]![0]
       expect(auditArg.outcome).toBe("provider_refused")
-      expect(JSON.stringify(auditArg)).not.toContain("secret upstream body")
+      expect(JSON.stringify(auditArg)).not.toContain("Cannot help")
     })
   })
 

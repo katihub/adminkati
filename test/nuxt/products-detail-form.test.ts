@@ -151,7 +151,7 @@ describe("products detail form", () => {
     await flushPromises()
 
     expect(wrapper.get("[data-testid='products-detail-overview-title']").element).toHaveProperty("value", "")
-    expect(wrapper.get("[data-testid='products-detail-overview-source-url-input']").element).toHaveProperty("value", "")
+    expect(wrapper.find("[data-testid='products-detail-overview-source-url-input']").exists()).toBe(false)
     expect(wrapper.get("[data-testid='products-detail-overview-price-input']").element).toHaveProperty("value", "")
     expect(wrapper.get("[data-testid='products-detail-overview-reference-price-input']").element).toHaveProperty(
       "value",
@@ -198,7 +198,8 @@ describe("products detail form", () => {
     const optionLabels = Array.from(document.body.querySelectorAll("[data-slot='command-item']")).map(element =>
       element.textContent?.trim(),
     )
-    expect(optionLabels).toContain("Anker")
+    // Each option leads with the brand logo, whose fallback renders the initials ("AN") before the name.
+    expect(optionLabels.some(label => label?.endsWith("Anker"))).toBe(true)
 
     wrapper.unmount()
   })
@@ -211,10 +212,7 @@ describe("products detail form", () => {
     await flushPromises()
 
     expect(wrapper.get("[data-testid='products-detail-overview-title']").element).toHaveProperty("value", product.nom)
-    expect(wrapper.get("[data-testid='products-detail-overview-source-url-input']").element).toHaveProperty(
-      "value",
-      product.url_source,
-    )
+    expect(wrapper.find("[data-testid='products-detail-overview-source-url-input']").exists()).toBe(false)
     expect(wrapper.get("[data-testid='products-detail-overview-price-input']").element).toHaveProperty(
       "value",
       "49 900",

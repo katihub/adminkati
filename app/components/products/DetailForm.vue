@@ -736,7 +736,6 @@ watch(
               :brand="values.marque"
               :brands="brands"
               :generating="brandGenerating"
-              :source-url="values.url_source"
               :mode="mode"
               :slug="values.slug"
               :disabled="!canWrite"
@@ -746,7 +745,6 @@ watch(
               @update:images="value => (values.images = value)"
               @stage-local="retenirFichier"
               @update:brand="value => (values.marque = value)"
-              @update:source-url="value => (values.url_source = value)"
               @update:slug="updateSlug"
             >
               <template #brand-suggestion>

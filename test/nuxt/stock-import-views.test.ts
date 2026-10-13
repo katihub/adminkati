@@ -5,7 +5,9 @@ import StockImportResult from "@/components/products/StockImportResult.vue"
 import { failedLine, importLine, importResponse, previewResponse } from "./stock-import-fixture"
 
 const ROW = '[data-testid="stock-import-result-row"]'
-const LARGE_RENDER_TIMEOUT = 30_000
+// Rendering 2,000 rows takes a few seconds alone, but several times longer while the
+// whole Nuxt project runs in parallel. This budget covers only these large renders.
+const LARGE_RENDER_TIMEOUT = 90_000
 
 function mixedLines() {
   return [

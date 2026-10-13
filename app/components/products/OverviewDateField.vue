@@ -28,6 +28,8 @@ const label = computed(() =>
     : t("products.overview.pickDate"),
 )
 
+/* The calendar opens on the stored day's month, not today's: editing a date set last year
+   should not start from a month that does not contain it. */
 function pick(next: DateValue | undefined) {
   emit("update:modelValue", formatDateField(next))
   open.value = false
@@ -52,7 +54,7 @@ function pick(next: DateValue | undefined) {
         </Button>
       </PopoverTrigger>
       <PopoverContent class="w-auto p-0" align="start">
-        <Calendar :model-value="date" :locale="locale" @update:model-value="pick" />
+        <Calendar :model-value="date" :default-placeholder="date" :locale="locale" @update:model-value="pick" />
       </PopoverContent>
     </Popover>
 

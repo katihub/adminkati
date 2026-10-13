@@ -35,7 +35,11 @@ export default defineConfig({
           include: ["test/nuxt/*.{test,spec}.ts"],
           setupFiles: ["./test/setup/local-storage.ts"],
           environment: "nuxt",
-          hookTimeout: 30_000,
+          // Each worker boots its own Nuxt environment. Several booting at once on a
+          // loaded machine (or a 2-core CI runner) exceed 30 s before any test runs:
+          // the failure then says "hook timed out" and blames an unrelated file.
+          hookTimeout: 120_000,
+          testTimeout: 30_000,
           environmentOptions: {
             nuxt: {
               rootDir: fileURLToPath(new URL(".", import.meta.url)),

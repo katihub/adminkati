@@ -125,7 +125,8 @@ describe("toProductCopyFailure", () => {
   it("maps an unrecognised reason string to unknown without echoing it", () => {
     const error = { statusCode: 400, data: { data: { reason: "something_new" } } }
 
-    expect(toProductCopyFailure(error)).toEqual({ reason: "unknown", retryAfterSeconds: null })
+    expect(toProductCopyFailure(error)).toEqual({ reason: "unknown", retryAfterSeconds: null, detail: "HTTP 400" })
+    expect(JSON.stringify(toProductCopyFailure(error))).not.toContain("something_new")
   })
 
   it("reads quota_exceeded's retryAfterSeconds from the payload, rounded up to a whole second", () => {
@@ -176,7 +177,11 @@ describe("toProductCopyFailure", () => {
   })
 
   it("maps a readable statusCode with no usable reason to unknown, not unreachable", () => {
-    expect(toProductCopyFailure({ statusCode: 500 })).toEqual({ reason: "unknown", retryAfterSeconds: null })
+    expect(toProductCopyFailure({ statusCode: 500 })).toEqual({
+      reason: "unknown",
+      retryAfterSeconds: null,
+      detail: "HTTP 500",
+    })
   })
 
   it("never throws and never carries the server message through", () => {
