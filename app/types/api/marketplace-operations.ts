@@ -147,6 +147,36 @@ export interface SellerTrustFilters {
 }
 
 export type SellerWithdrawalStatus = "demande" | "approuve" | "refuse" | "reverse" | "echec" | "annule"
+export type SellerPayoutStatus =
+  | "prepare"
+  | "soumission_en_cours"
+  | "soumis"
+  | "reussi"
+  | "echec"
+  | "verification_requise"
+
+export interface SellerPayout {
+  id: string
+  transId: string | null
+  statut: SellerPayoutStatus
+  montantFcfa: number
+  telephone: string
+  moyen: string | null
+  raisonEchec: string | null
+  tentatives: number
+  initieLe: string | null
+  confirmeLe: string | null
+  verifieLe: string | null
+}
+
+export interface SellerPayoutProof {
+  id: string
+  nomCapture: string
+  typeMime: string
+  tailleOctets: number
+  empreinteSha256: string
+  creeLe: string
+}
 
 export interface SellerWithdrawal {
   id: string
@@ -164,6 +194,8 @@ export interface SellerWithdrawal {
   reverseLe: string | null
   boutique: { id: string; nom: string; vendeur: { id: string; nomLegal: string } }
   documentDestination: { id: string; type: string; stockageCle: string; expireLe: string | null }
+  reversementPsp: SellerPayout | null
+  piecesJustificatives: SellerPayoutProof[]
 }
 
 export interface SellerWithdrawalsPage {

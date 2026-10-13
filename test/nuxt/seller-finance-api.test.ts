@@ -3,7 +3,11 @@ import { flushPromises } from "@vue/test-utils"
 import { getQuery, readBody } from "h3"
 import { describe, expect, it } from "vitest"
 import { defineComponent, h } from "vue"
-import { useSellerFinanceMutations, useSellerWithdrawals } from "@/composables/useMarketplaceOperations"
+import {
+  buildSellerPayoutProofFormData,
+  useSellerFinanceMutations,
+  useSellerWithdrawals,
+} from "@/composables/useMarketplaceOperations"
 
 describe("seller finance API integration", () => {
   it("reads the withdrawal queue and sends the exact financial workflow contracts", async () => {
@@ -43,6 +47,13 @@ describe("seller finance API integration", () => {
           return { ok: true }
         },
       }),
+      registerEndpoint("/api/v1/marketplace/finance/retraits/withdrawal-1/reversement/rapprocher", {
+        method: "POST",
+        handler: () => {
+          commands.push({ path: "reconcile", body: undefined })
+          return { ok: true }
+        },
+      }),
     ]
     let list: ReturnType<typeof useSellerWithdrawals> | undefined
     const Probe = defineComponent({
@@ -51,14 +62,8 @@ describe("seller finance API integration", () => {
         const mutations = useSellerFinanceMutations()
         await mutations.acquireCommissions.mutateAsync(100)
         await mutations.decideWithdrawal.mutateAsync({ id: "withdrawal-1", decision: "approuve" })
-        await mutations.recordTransfer.mutateAsync({
-          id: "withdrawal-1",
-          referenceExterne: "VIR-001",
-          preuveStockageCle: "marketplace/reversements/preuve.pdf",
-          preuveEmpreinteSha256: "a".repeat(64),
-          preuveMime: "application/pdf",
-          preuveTailleOctets: 2048,
-        })
+        await mutations.initiateTransfer.mutateAsync({ id: "withdrawal-1", telephone: "+237699000001" })
+        await mutations.reconcileTransfer.mutateAsync("withdrawal-1")
         return () => h("div")
       },
     })
@@ -73,18 +78,21 @@ describe("seller finance API integration", () => {
       { path: "approve", body: { decision: "approuve" } },
       {
         path: "transfer",
-        body: {
-          referenceExterne: "VIR-001",
-          preuveStockageCle: "marketplace/reversements/preuve.pdf",
-          preuveEmpreinteSha256: "a".repeat(64),
-          preuveMime: "application/pdf",
-          preuveTailleOctets: 2048,
-        },
+        body: { telephone: "+237699000001" },
       },
+      { path: "reconcile", body: undefined },
     ])
 
     cleanups.forEach(cleanup => cleanup())
     wrapper.unmount()
     useNuxtApp().$queryClient.clear()
+  })
+
+  it("builds a multipart proof without exposing a storage key or client-provided hash", () => {
+    const file = new File(["%PDF-1.7 proof"], "receipt.pdf", { type: "application/pdf" })
+    const body = buildSellerPayoutProofFormData(file)
+
+    expect(body.get("fichier")).toBe(file)
+    expect([...body.keys()]).toEqual(["fichier"])
   })
 })

@@ -163,27 +163,42 @@ export function useSellerFinanceMutations() {
       }),
     onSuccess: invalidate,
   })
-  const recordTransfer = useMutation({
+  const initiateTransfer = useMutation({
     mutationFn: ({
       id,
-      referenceExterne,
-      preuveStockageCle,
-      preuveEmpreinteSha256,
-      preuveMime,
-      preuveTailleOctets,
+      telephone,
+      nom,
+      courriel,
     }: {
       id: string
-      referenceExterne: string
-      preuveStockageCle: string
-      preuveEmpreinteSha256: string
-      preuveMime: string
-      preuveTailleOctets: number
+      telephone: string
+      nom?: string
+      courriel?: string
     }) =>
       apiWrite(`/marketplace/finance/retraits/${encodeURIComponent(id)}/reversement`, {
         method: "POST",
-        body: { referenceExterne, preuveStockageCle, preuveEmpreinteSha256, preuveMime, preuveTailleOctets },
+        body: { telephone, ...(nom ? { nom } : {}), ...(courriel ? { courriel } : {}) },
       }),
     onSuccess: invalidate,
   })
-  return { acquireCommissions, decideWithdrawal, recordTransfer }
+  const reconcileTransfer = useMutation({
+    mutationFn: (id: string) =>
+      apiWrite(`/marketplace/finance/retraits/${encodeURIComponent(id)}/reversement/rapprocher`, { method: "POST" }),
+    onSuccess: invalidate,
+  })
+  const uploadTransferProof = useMutation({
+    mutationFn: ({ id, file }: { id: string; file: File }) =>
+      apiWrite(`/marketplace/finance/retraits/${encodeURIComponent(id)}/pieces`, {
+        method: "POST",
+        body: buildSellerPayoutProofFormData(file),
+      }),
+    onSuccess: invalidate,
+  })
+  return { acquireCommissions, decideWithdrawal, initiateTransfer, reconcileTransfer, uploadTransferProof }
+}
+
+export function buildSellerPayoutProofFormData(file: File) {
+  const formData = new FormData()
+  formData.append("fichier", file)
+  return formData
 }

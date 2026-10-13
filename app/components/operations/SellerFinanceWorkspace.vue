@@ -14,34 +14,36 @@ const filters = computed<SellerWithdrawalFilters>(() => ({
   taille: 50,
 }))
 const query = useSellerWithdrawals(filters)
-const { acquireCommissions, decideWithdrawal, recordTransfer } = useSellerFinanceMutations()
+const { acquireCommissions, decideWithdrawal, initiateTransfer, reconcileTransfer, uploadTransferProof } =
+  useSellerFinanceMutations()
 const reasons = reactive<Record<string, string>>({})
-const proofs = reactive<Record<string, { reference: string; key: string; hash: string; mime: string; size: string }>>(
-  {},
-)
+const phones = reactive<Record<string, string>>({})
+const proofFiles = reactive<Record<string, File | undefined>>({})
 const statuses: SellerWithdrawalStatus[] = ["demande", "approuve", "refuse", "reverse", "echec", "annule"]
 const money = new Intl.NumberFormat("fr-CM", { style: "currency", currency: "XAF", maximumFractionDigits: 0 })
 const date = new Intl.DateTimeFormat("fr-CM", { dateStyle: "medium", timeStyle: "short" })
 
-function proof(id: string) {
-  return (proofs[id] ??= { reference: "", key: "", hash: "", mime: "application/pdf", size: "" })
-}
 function reject(id: string) {
   const motif = reasons[id]?.trim()
   if (motif) decideWithdrawal.mutate({ id, decision: "refuse", motif })
 }
+function transferLabel(payoutStatus: string | undefined) {
+  return payoutStatus === "echec" ? t("retryTransfer") : t("startTransfer")
+}
+
 function transfer(id: string) {
-  const value = proof(id)
-  if (!value.reference.trim() || !value.key.trim() || !/^[0-9a-f]{64}$/i.test(value.hash) || Number(value.size) < 1)
-    return
-  recordTransfer.mutate({
-    id,
-    referenceExterne: value.reference.trim(),
-    preuveStockageCle: value.key.trim(),
-    preuveEmpreinteSha256: value.hash,
-    preuveMime: value.mime,
-    preuveTailleOctets: Number(value.size),
-  })
+  const telephone = phones[id]?.trim()
+  if (telephone) initiateTransfer.mutate({ id, telephone })
+}
+function selectProof(id: string, event: Event) {
+  proofFiles[id] = (event.target as HTMLInputElement).files?.[0]
+}
+function uploadProof(id: string) {
+  const file = proofFiles[id]
+  if (file) uploadTransferProof.mutate({ id, file })
+}
+function proofUrl(withdrawalId: string, proofId: string) {
+  return `/api/v1/marketplace/finance/retraits/${encodeURIComponent(withdrawalId)}/pieces/${encodeURIComponent(proofId)}`
 }
 </script>
 
@@ -116,8 +118,8 @@ function transfer(id: string) {
               <dd class="font-medium">{{ item.documentDestination.type.toUpperCase() }}</dd>
             </div>
             <div>
-              <dt class="text-muted-foreground">{{ t("privateKey") }}</dt>
-              <dd class="break-all font-mono text-xs">{{ item.documentDestination.stockageCle }}</dd>
+              <dt class="text-muted-foreground">{{ t("payoutStatus") }}</dt>
+              <dd class="font-medium">{{ item.reversementPsp?.statut.replaceAll("_", " ") ?? t("notStarted") }}</dd>
             </div>
             <div>
               <dt class="text-muted-foreground">{{ t("bankReference") }}</dt>
@@ -139,21 +141,73 @@ function transfer(id: string) {
               >{{ t("approve") }}</Button
             >
           </div>
+          <div v-if="item.statut === 'approuve'" class="mt-4 space-y-3 rounded-lg bg-muted p-4">
+            <div
+              v-if="
+                !item.reversementPsp ||
+                item.reversementPsp.statut === 'echec' ||
+                item.reversementPsp.statut === 'prepare'
+              "
+              class="grid gap-3 md:grid-cols-[1fr_auto]"
+            >
+              <Input v-model="phones[item.id]" inputmode="tel" :placeholder="t('payoutPhone')" />
+              <Button
+                :disabled="initiateTransfer.isPending.value || !phones[item.id]?.trim()"
+                @click="transfer(item.id)"
+              >
+                {{ transferLabel(item.reversementPsp?.statut) }}
+              </Button>
+            </div>
+            <div
+              v-else-if="
+                item.reversementPsp.statut === 'soumission_en_cours' ||
+                item.reversementPsp.statut === 'soumis' ||
+                item.reversementPsp.statut === 'verification_requise'
+              "
+              class="flex flex-wrap items-center justify-between gap-3"
+            >
+              <p class="text-sm text-muted-foreground">
+                {{ t("payoutPending", { reference: item.reversementPsp.transId ?? "—" }) }}
+              </p>
+              <Button
+                v-if="item.reversementPsp.transId"
+                variant="outline"
+                :disabled="reconcileTransfer.isPending.value"
+                @click="reconcileTransfer.mutate(item.id)"
+              >
+                {{ t("reconcile") }}
+              </Button>
+            </div>
+            <p v-if="item.reversementPsp?.raisonEchec" class="text-sm text-destructive">
+              {{ item.reversementPsp.raisonEchec }}
+            </p>
+          </div>
           <div
-            v-if="item.statut === 'approuve'"
-            class="mt-4 grid gap-3 rounded-lg bg-muted p-4 md:grid-cols-2 xl:grid-cols-5"
+            v-if="item.statut === 'approuve' || item.statut === 'reverse'"
+            class="mt-3 grid gap-3 rounded-lg border border-dashed border-border p-3 md:grid-cols-[1fr_auto]"
           >
-            <Input v-model="proof(item.id).reference" :placeholder="t('transferReference')" /><Input
-              v-model="proof(item.id).key"
-              :placeholder="t('proofKey')"
-            /><Input v-model="proof(item.id).hash" :placeholder="t('proofHash')" /><Input
-              v-model="proof(item.id).size"
-              type="number"
-              min="1"
-              :placeholder="t('proofSize')"
-            /><Button :disabled="recordTransfer.isPending.value" @click="transfer(item.id)">{{
-              t("confirmTransfer")
-            }}</Button>
+            <Input
+              type="file"
+              accept="application/pdf,image/jpeg,image/png,image/webp"
+              @change="selectProof(item.id, $event)"
+            />
+            <Button
+              variant="outline"
+              :disabled="uploadTransferProof.isPending.value || !proofFiles[item.id]"
+              @click="uploadProof(item.id)"
+            >
+              {{ t("uploadProof") }}
+            </Button>
+          </div>
+          <div v-if="item.piecesJustificatives?.length" class="mt-3 flex flex-wrap gap-2">
+            <a
+              v-for="piece in item.piecesJustificatives"
+              :key="piece.id"
+              :href="proofUrl(item.id, piece.id)"
+              class="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium hover:bg-muted"
+            >
+              <Icon name="ph:file-arrow-down" />{{ piece.nomCapture }}
+            </a>
           </div>
           <p v-if="item.motifDecision" class="mt-3 text-sm text-muted-foreground">
             {{ t("decision") }} {{ item.motifDecision }}
@@ -178,16 +232,18 @@ function transfer(id: string) {
     "allStatuses": "All statuses",
     "empty": "No withdrawal request for this filter.",
     "destination": "Destination",
-    "privateKey": "Private key",
+    "payoutStatus": "Payout status",
+    "notStarted": "Not started",
     "bankReference": "Bank reference",
     "refusalReason": "Required reason for rejection",
     "reject": "Reject and release",
     "approve": "Approve",
-    "transferReference": "Transfer reference",
-    "proofKey": "marketplace/reversements/…",
-    "proofHash": "SHA-256 (64 characters)",
-    "proofSize": "Size in bytes",
-    "confirmTransfer": "Confirm transfer",
+    "payoutPhone": "Mobile Money number (e.g. 699000001)",
+    "startTransfer": "Send payout",
+    "retryTransfer": "Retry payout",
+    "payoutPending": "Fapshi reference: {reference}",
+    "reconcile": "Check with Fapshi",
+    "uploadProof": "Upload supporting document",
     "decision": "Decision:"
   },
   "fr": {
@@ -202,16 +258,18 @@ function transfer(id: string) {
     "allStatuses": "Tous les statuts",
     "empty": "Aucune demande de retrait dans ce filtre.",
     "destination": "Destination",
-    "privateKey": "Clé privée",
+    "payoutStatus": "Statut PSP",
+    "notStarted": "Non démarré",
     "bankReference": "Référence bancaire",
     "refusalReason": "Motif obligatoire en cas de refus",
     "reject": "Refuser et dégeler",
     "approve": "Approuver",
-    "transferReference": "Référence du virement",
-    "proofKey": "marketplace/reversements/…",
-    "proofHash": "SHA-256 (64 caractères)",
-    "proofSize": "Taille octets",
-    "confirmTransfer": "Confirmer le reversement",
+    "payoutPhone": "Numéro Mobile Money (ex. 699000001)",
+    "startTransfer": "Envoyer le reversement",
+    "retryTransfer": "Relancer le reversement",
+    "payoutPending": "Référence Fapshi : {reference}",
+    "reconcile": "Vérifier chez Fapshi",
+    "uploadProof": "Ajouter un justificatif",
     "decision": "Décision :"
   }
 }
