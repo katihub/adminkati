@@ -19,6 +19,12 @@
       },
       "sellerTrust": {
         "label": "Confiance vendeurs"
+      },
+      "marketplacePilot": {
+        "label": "Pilote marketplace"
+      },
+      "outboundNotifications": {
+        "label": "Notifications"
       }
     },
     "common": {
@@ -270,6 +276,132 @@
         "suspension": "Suspension",
         "exclusion": "Exclusion"
       }
+    },
+    "pilot": {
+      "eyebrow": "Décision go / no-go",
+      "title": "Pilote marketplace",
+      "explanation": "Les mesures sont calculées à partir des commandes, livraisons, caisses et litiges enregistrés pour les boutiques du périmètre. Une évaluation fige les chiffres et la décision à l’instant où elle est demandée.",
+      "listLabel": "Pilotes",
+      "empty": {
+        "title": "Aucun pilote créé",
+        "description": "Composez un premier pilote : une ville, des boutiques choisies et les seuils de sortie."
+      },
+      "period": "Du {start} au {end}",
+      "ongoing": "en cours",
+      "scope": "Périmètre : {count} boutique(s)",
+      "actions": {
+        "demarrer": "Démarrer",
+        "suspendre": "Suspendre",
+        "terminer": "Terminer"
+      },
+      "evaluate": "Évaluer maintenant",
+      "evaluating": "Évaluation…",
+      "actionError": "L’action n’a pas abouti. Rechargez la page : le pilote a peut-être changé entre-temps.",
+      "notStarted": "Ce pilote n’a pas encore démarré : aucune mesure n’est comptée.",
+      "indicators": {
+        "observedDays": "Jours observés",
+        "deliveredOrders": "Commandes livrées",
+        "deliveryRate": "Taux de livraison",
+        "cancellationRate": "Taux d’annulation",
+        "disputeRate": "Taux de litige",
+        "reconciliationP95": "Rapprochement caisse (P95)",
+        "supportBacklog": "Demandes en attente",
+        "unexplainedGaps": "Écarts financiers inexpliqués",
+        "criticalIncidents": "Incidents critiques ouverts"
+      },
+      "threshold": {
+        "min": "seuil ≥ {value}",
+        "max": "seuil ≤ {value}"
+      },
+      "proofs": {
+        "returnsTested": "Retour reçu de bout en bout",
+        "refundsTested": "Remboursement confirmé par l’opérateur",
+        "logisticsAuditable": "Chaîne de responsabilité logistique traçable"
+      },
+      "lastEvaluation": "Dernière évaluation : {decision} — {date}",
+      "decision": {
+        "go": "go",
+        "prolonger": "prolonger le pilote",
+        "bloque": "bloqué"
+      },
+      "status": {
+        "brouillon": "Brouillon",
+        "pret": "Prêt",
+        "en_cours": "En cours",
+        "suspendu": "Suspendu",
+        "termine": "Terminé"
+      },
+      "confirm": {
+        "demarrer": {
+          "title": "Démarrer « {name} » ?",
+          "description": "La période d’observation commence maintenant : seules les commandes passées à partir de cet instant dans les boutiques du périmètre seront mesurées."
+        },
+        "suspendre": {
+          "title": "Suspendre « {name} » ?",
+          "description": "Les mesures restent consultables. Le pilote pourra redémarrer sans perdre sa date de début."
+        },
+        "terminer": {
+          "title": "Terminer « {name} » ?",
+          "description": "Cette action est définitive : la période d’observation est close et le pilote ne peut plus redémarrer. Un nouveau pilote devra être créé."
+        }
+      },
+      "cancel": "Annuler",
+      "create": {
+        "title": "Nouveau pilote",
+        "hint": "Seules les boutiques cochées entrent dans les mesures. Les seuils sont figés à la création.",
+        "name": "Nom du pilote",
+        "city": "Ville",
+        "chooseCity": "Choisir…",
+        "dailyCap": "Plafond commandes / jour",
+        "cityStatus": "Statut actuel de la ville : {status}. Vérifiez qu’elle est ouverte au pilote avant de démarrer.",
+        "shops": "Boutiques du périmètre ({count})",
+        "searchShops": "Rechercher une boutique",
+        "noShop": "Aucune boutique active ne correspond.",
+        "policy": "Seuils de sortie",
+        "minDeliveryRate": "Livraison min. (%)",
+        "maxCancellationRate": "Annulation max. (%)",
+        "maxDisputeRate": "Litige max. (%)",
+        "maxReconciliation": "Rapprochement P95 max. (min)",
+        "maxBacklog": "Demandes en attente max.",
+        "error": "Le pilote n’a pas été créé. Vérifiez la ville, les boutiques et les seuils.",
+        "saving": "Création…",
+        "submit": "Créer le pilote"
+      }
+    },
+    "notifications": {
+      "title": "Notifications sortantes",
+      "explanation": "Chaque notification est enregistrée avec le fait qui la déclenche, puis envoyée avec des reprises progressives. Une notification abandonnée après plusieurs échecs reste ici jusqu’à sa relance.",
+      "dispatch": {
+        "action": "Traiter la file maintenant",
+        "noProvider": "Aucun fournisseur de courriel n’est configuré : les notifications restent en attente.",
+        "busy": "Un traitement est déjà en cours.",
+        "report": "{sent} envoyée(s), {retried} reprogrammée(s), {abandoned} abandonnée(s).",
+        "error": "Le traitement n’a pas pu être lancé."
+      },
+      "status": {
+        "en_attente": "En attente",
+        "en_cours": "En cours",
+        "envoyee": "Envoyée",
+        "abandonnee": "Abandonnée"
+      },
+      "oldestWait": "Plus ancienne attente",
+      "filters": {
+        "all": "Toutes",
+        "label": "Filtrer par statut"
+      },
+      "empty": "Aucune notification pour ce filtre.",
+      "recipient": {
+        "client": "Client",
+        "vendeur": "Vendeur",
+        "equipe": "Équipe"
+      },
+      "lastError": "{attempts} tentative(s) — dernière erreur : {error}",
+      "nextAttempt": "Prochaine tentative : {date}",
+      "sentAt": "Envoyée le {date}",
+      "retry": "Relancer",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page {page} / {pages}"
     }
   }
 }

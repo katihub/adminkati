@@ -19,6 +19,12 @@
       },
       "sellerTrust": {
         "label": "Seller Trust"
+      },
+      "marketplacePilot": {
+        "label": "Marketplace pilot"
+      },
+      "outboundNotifications": {
+        "label": "Notifications"
       }
     },
     "common": {
@@ -270,6 +276,132 @@
         "suspension": "Suspension",
         "exclusion": "Exclusion"
       }
+    },
+    "pilot": {
+      "eyebrow": "Go / no-go decision",
+      "title": "Marketplace pilot",
+      "explanation": "Measures are computed from the orders, deliveries, cash registers and disputes recorded for the shops in scope. An evaluation freezes the figures and the decision at the moment it is requested.",
+      "listLabel": "Pilots",
+      "empty": {
+        "title": "No pilot yet",
+        "description": "Set up a first pilot: one city, selected shops and the exit thresholds."
+      },
+      "period": "From {start} to {end}",
+      "ongoing": "ongoing",
+      "scope": "Scope: {count} shop(s)",
+      "actions": {
+        "demarrer": "Start",
+        "suspendre": "Suspend",
+        "terminer": "End"
+      },
+      "evaluate": "Evaluate now",
+      "evaluating": "Evaluating…",
+      "actionError": "The action failed. Reload the page: the pilot may have changed in the meantime.",
+      "notStarted": "This pilot has not started yet: nothing is being measured.",
+      "indicators": {
+        "observedDays": "Observed days",
+        "deliveredOrders": "Delivered orders",
+        "deliveryRate": "Delivery rate",
+        "cancellationRate": "Cancellation rate",
+        "disputeRate": "Dispute rate",
+        "reconciliationP95": "Cash reconciliation (P95)",
+        "supportBacklog": "Open requests",
+        "unexplainedGaps": "Unexplained financial gaps",
+        "criticalIncidents": "Open critical incidents"
+      },
+      "threshold": {
+        "min": "threshold ≥ {value}",
+        "max": "threshold ≤ {value}"
+      },
+      "proofs": {
+        "returnsTested": "Return received end to end",
+        "refundsTested": "Refund confirmed by the operator",
+        "logisticsAuditable": "Traceable logistics chain of custody"
+      },
+      "lastEvaluation": "Last evaluation: {decision} — {date}",
+      "decision": {
+        "go": "go",
+        "prolonger": "extend the pilot",
+        "bloque": "blocked"
+      },
+      "status": {
+        "brouillon": "Draft",
+        "pret": "Ready",
+        "en_cours": "Running",
+        "suspendu": "Suspended",
+        "termine": "Ended"
+      },
+      "confirm": {
+        "demarrer": {
+          "title": "Start “{name}”?",
+          "description": "The observation period starts now: only orders placed from this moment in the shops in scope will be measured."
+        },
+        "suspendre": {
+          "title": "Suspend “{name}”?",
+          "description": "Measures stay available. The pilot can restart without losing its start date."
+        },
+        "terminer": {
+          "title": "End “{name}”?",
+          "description": "This is final: the observation period closes and the pilot cannot restart. A new pilot must be created."
+        }
+      },
+      "cancel": "Cancel",
+      "create": {
+        "title": "New pilot",
+        "hint": "Only the selected shops count in the measures. Thresholds are frozen at creation.",
+        "name": "Pilot name",
+        "city": "City",
+        "chooseCity": "Choose…",
+        "dailyCap": "Daily order cap",
+        "cityStatus": "Current city status: {status}. Make sure it is open for the pilot before starting.",
+        "shops": "Shops in scope ({count})",
+        "searchShops": "Search a shop",
+        "noShop": "No active shop matches.",
+        "policy": "Exit thresholds",
+        "minDeliveryRate": "Min. delivery (%)",
+        "maxCancellationRate": "Max. cancellation (%)",
+        "maxDisputeRate": "Max. disputes (%)",
+        "maxReconciliation": "Max. P95 reconciliation (min)",
+        "maxBacklog": "Max. open requests",
+        "error": "The pilot was not created. Check the city, the shops and the thresholds.",
+        "saving": "Creating…",
+        "submit": "Create pilot"
+      }
+    },
+    "notifications": {
+      "title": "Outbound notifications",
+      "explanation": "Each notification is recorded together with the event that triggers it, then sent with progressive retries. A notification abandoned after repeated failures stays here until it is retried.",
+      "dispatch": {
+        "action": "Process the queue now",
+        "noProvider": "No email provider is configured: notifications stay queued.",
+        "busy": "A run is already in progress.",
+        "report": "{sent} sent, {retried} rescheduled, {abandoned} abandoned.",
+        "error": "The run could not be started."
+      },
+      "status": {
+        "en_attente": "Queued",
+        "en_cours": "Sending",
+        "envoyee": "Sent",
+        "abandonnee": "Abandoned"
+      },
+      "oldestWait": "Oldest wait",
+      "filters": {
+        "all": "All",
+        "label": "Filter by status"
+      },
+      "empty": "No notification for this filter.",
+      "recipient": {
+        "client": "Customer",
+        "vendeur": "Seller",
+        "equipe": "Team"
+      },
+      "lastError": "{attempts} attempt(s) — last error: {error}",
+      "nextAttempt": "Next attempt: {date}",
+      "sentAt": "Sent on {date}",
+      "retry": "Retry",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} / {pages}"
     }
   }
 }

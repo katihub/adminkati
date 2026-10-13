@@ -23,14 +23,20 @@ const QUERY_TABS = [
   "seller-finance",
   "seller-trust",
   "legal-closure",
+  "marketplace-pilot",
+  "outbound-notifications",
 ] as const
 type OperationsTab = "cash-registers" | (typeof QUERY_TABS)[number]
+const DIRECTION_TABS: ReadonlySet<OperationsTab> = new Set([
+  "legal-closure",
+  "seller-finance",
+  "marketplace-pilot",
+  "outbound-notifications",
+])
 
 function tabFromQuery(value: unknown): OperationsTab {
   const tab = QUERY_TABS.find(candidate => candidate === value)
-  return (tab === "legal-closure" || tab === "seller-finance") && !isDirection.value
-    ? "cash-registers"
-    : (tab ?? "cash-registers")
+  return tab && DIRECTION_TABS.has(tab) && !isDirection.value ? "cash-registers" : (tab ?? "cash-registers")
 }
 
 const activeTab = ref<OperationsTab>(tabFromQuery(route.query.tab))
@@ -41,8 +47,7 @@ watch(
   },
 )
 watch(isDirection, allowed => {
-  if (!allowed && (activeTab.value === "legal-closure" || activeTab.value === "seller-finance"))
-    setActiveTab("cash-registers")
+  if (!allowed && DIRECTION_TABS.has(activeTab.value)) setActiveTab("cash-registers")
 })
 
 const tabs = computed(() => [
@@ -96,6 +101,18 @@ const tabs = computed(() => [
           icon: "ph:seal-check",
           testid: "operations-tab-legal-closure",
         },
+        {
+          value: "marketplace-pilot",
+          label: t("operations.tabs.marketplacePilot.label"),
+          icon: "ph:flag-banner",
+          testid: "operations-tab-marketplace-pilot",
+        },
+        {
+          value: "outbound-notifications",
+          label: t("operations.tabs.outboundNotifications.label"),
+          icon: "ph:envelope-simple",
+          testid: "operations-tab-outbound-notifications",
+        },
       ]
     : []),
 ])
@@ -145,6 +162,8 @@ useHead({
     <OperationsMarketplaceDisputesWorkspace v-else-if="activeTab === 'marketplace-disputes'" />
     <OperationsSellerFinanceWorkspace v-else-if="activeTab === 'seller-finance'" />
     <OperationsSellerTrustWorkspace v-else-if="activeTab === 'seller-trust'" />
+    <OperationsMarketplacePilotWorkspace v-else-if="activeTab === 'marketplace-pilot'" />
+    <OperationsOutboundNotificationsWorkspace v-else-if="activeTab === 'outbound-notifications'" />
     <OperationsLegalClosureWorkspace v-else />
   </div>
 </template>

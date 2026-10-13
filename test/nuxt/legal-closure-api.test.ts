@@ -1,5 +1,6 @@
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
+import { readBody } from "h3"
 import { afterEach, describe, expect, it, vi } from "vitest"
 import { useLegalClosure, useLegalClosureMutations } from "@/composables/useLegalClosure"
 

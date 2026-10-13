@@ -16,6 +16,8 @@ const assistant = ["v1", "assistant", "administration", "demandes"] as const
 const marketplaceOperations = ["v1", "marketplace", "operations"] as const
 const marketplaceModeration = ["v1", "marketplace", "moderation"] as const
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
+const marketplacePilots = ["v1", "marketplace", "deploiement", "pilotes"] as const
+const outboundNotifications = ["v1", "notifications"] as const
 
 export const apiQueryKeys = {
   products: {
@@ -88,5 +90,16 @@ export const apiQueryKeys = {
   legalClosure: {
     all: legalClosure,
     state: [...legalClosure, "etat"] as const,
+  },
+  marketplacePilots: {
+    all: marketplacePilots,
+    list: [...marketplacePilots, "liste"] as const,
+    references: [...marketplacePilots, "references"] as const,
+    measures: (id: string | null | undefined) => [...marketplacePilots, id, "mesures"] as const,
+  },
+  outboundNotifications: {
+    all: outboundNotifications,
+    summary: [...outboundNotifications, "synthese"] as const,
+    list: (params: QueryParams = {}) => [...outboundNotifications, "liste", params] as const,
   },
 } as const
