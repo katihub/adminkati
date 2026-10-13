@@ -186,11 +186,8 @@ export default defineNuxtConfig({
   },
   fonts: {
     families: [
-      { name: "Figtree", provider: "google" },
-      { name: "JetBrains Mono", provider: "google" },
-      // Headings reach `font-black`, past the module's default "400 700" range —
-      // outside it the browser synthesises the weight instead of loading it.
-      { name: "Raleway", provider: "google", weights: ["400 900"] },
+      { name: "Manrope", provider: "google", weights: ["400 800"] },
+      { name: "IBM Plex Mono", provider: "google", weights: ["400 700"] },
     ],
   },
   site: {

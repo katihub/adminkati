@@ -39,7 +39,7 @@ Nuxt 4 admin dashboard — SSR by default, `compatibilityDate` pinned to `2025-0
 | Styling | Tailwind CSS v4 through `@tailwindcss/vite` — CSS-first, **no `tailwind.config`** |
 | UI kit | shadcn-vue (`reka-maia` style, `zinc` base) over reka-ui; `nuxt-headlessui` alongside |
 | Icons | Phosphor (`@nuxt/icon` + `@phosphor-icons/vue` + `@iconify-json/ph`) plus `@iconify-json/circle-flags` for locale flags |
-| Fonts | `@nuxt/fonts` — Figtree (body), JetBrains Mono (code), Google provider |
+| Fonts | `@nuxt/fonts` — Manrope (interface and headings), IBM Plex Mono (technical data), Google provider |
 | State | Pinia via `@pinia/nuxt` |
 | Validation | Zod + `nuxt-zod` + `nuxt-zod-i18n` |
 | i18n | `@nuxtjs/i18n` with English/French, modular domain files, `prefix_except_default`, and `NT-LANG` persistence |
