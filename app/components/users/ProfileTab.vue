@@ -9,7 +9,9 @@ const { detail, name } = defineProps<{
 
 const { t } = useI18n()
 const profileMetadata = computed(() =>
-  [detail.profil?.telephone, detail.profil?.comptoirPrefere].filter((value): value is string => Boolean(value)),
+  [detail.profil?.telephone, detail.profil?.ville, detail.profil?.comptoirPrefere].filter((value): value is string =>
+    Boolean(value),
+  ),
 )
 </script>
 

@@ -34,6 +34,9 @@
       },
       "marketplaceQuotes": {
         "label": "Marketplace quotes"
+      },
+      "reportedReviews": {
+        "label": "Reported reviews"
       }
     },
     "common": {
@@ -546,6 +549,21 @@
         "acceptee": "accepted",
         "non_retenue": "not kept"
       }
+    },
+    "reportedReviews": {
+      "help": "Reviews reported by their shop or by KatiHub. A review stays published while it has fewer than three distinct reporters; beyond that it is hidden pending your decision. A reason is required to keep or hide it.",
+      "empty": "No reported review to moderate.",
+      "hiddenPending": "Hidden, pending",
+      "stillPublished": "Still published",
+      "noComment": "Review without comment.",
+      "reports": "{count} report | {count} reports",
+      "byShop": "The shop",
+      "byKatihub": "KatiHub",
+      "reason": "Reason for the decision",
+      "keep": "Keep published",
+      "hide": "Hide review",
+      "kept": "Review kept published.",
+      "hidden": "Review hidden."
     }
   }
 }

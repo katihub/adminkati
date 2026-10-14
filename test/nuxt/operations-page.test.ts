@@ -21,6 +21,9 @@ const operationsWorkspaceStubs = {
   OperationsMarketplaceQuotesWorkspace: {
     template: '<div data-testid="operations-marketplace-quotes-workspace" />',
   },
+  OperationsReportedReviewsWorkspace: {
+    template: '<div data-testid="operations-reported-reviews-workspace" />',
+  },
   OperationsSellerTrustWorkspace: { template: '<div data-testid="operations-seller-trust-workspace" />' },
   OperationsLegalClosureWorkspace: { template: '<div data-testid="operations-legal-closure-workspace" />' },
   OperationsMarketplacePilotWorkspace: { template: '<div data-testid="operations-marketplace-pilot-workspace" />' },
@@ -37,6 +40,7 @@ const workspaces = [
   "marketplace-categories",
   "delivery-fees",
   "marketplace-quotes",
+  "reported-reviews",
   "marketplace-disputes",
   "seller-trust",
   "legal-closure",
@@ -82,6 +86,7 @@ describe("operations page tabs", () => {
     ["marketplace-categories", "/operations?tab=marketplace-categories"],
     ["delivery-fees", "/operations?tab=delivery-fees"],
     ["marketplace-quotes", "/operations?tab=marketplace-quotes"],
+    ["reported-reviews", "/operations?tab=reported-reviews"],
     ["marketplace-disputes", "/operations?tab=marketplace-disputes"],
     ["seller-trust", "/operations?tab=seller-trust"],
     ["legal-closure", "/operations?tab=legal-closure"],
@@ -106,6 +111,7 @@ describe("operations page tabs", () => {
     "marketplace-categories",
     "delivery-fees",
     "marketplace-quotes",
+    "reported-reviews",
     "marketplace-disputes",
     "seller-trust",
     "legal-closure",
@@ -134,6 +140,7 @@ describe("operations page tabs", () => {
     "marketplace-categories",
     "delivery-fees",
     "marketplace-quotes",
+    "reported-reviews",
   ] as const)("keeps the direction-only %s workspace closed to the counter", async workspace => {
     const wrapper = await mountOperations(`/operations?tab=${workspace}`, ["comptoir"])
 

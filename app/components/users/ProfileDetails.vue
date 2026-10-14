@@ -50,6 +50,14 @@ const { t } = useI18n()
       </div>
       <div class="rounded-2xl bg-muted/50 p-3">
         <dt class="text-xs text-muted-foreground">
+          {{ t("users.detail.city") }}
+        </dt>
+        <dd class="mt-0.5 font-medium text-foreground" data-testid="users-profile-city">
+          {{ profile.ville || t("users.detail.noValue") }}
+        </dd>
+      </div>
+      <div class="rounded-2xl bg-muted/50 p-3">
+        <dt class="text-xs text-muted-foreground">
           {{ t("users.detail.counter") }}
         </dt>
         <dd class="mt-0.5 font-medium text-foreground">

@@ -40,6 +40,7 @@ function accountDetail(overrides: Partial<CustomerAccountDetail> = {}): Customer
       telephone: "+237 690 11 90 47",
       telephoneChiffres: "690119047",
       telephoneSecours: "+237 699 55 44 33",
+      ville: "Douala",
       telephoneSecoursChiffres: "699554433",
       comptoirPrefere: "Akwa",
       raisonSociale: null,
@@ -182,6 +183,7 @@ describe("customer suspension controls", () => {
     await flushPromises()
 
     expect(wrapper.get("[data-testid='users-profile-backup-phone']").text()).toBe("+237 699 55 44 33")
+    expect(wrapper.get("[data-testid='users-profile-city']").text()).toBe("Douala")
     expect(wrapper.get("[data-testid='users-address-recipient-phone']").text()).toBe("+237 655 12 12 12")
     expect(wrapper.get("[data-testid='users-address-counter']").text()).toBe("Bonanjo")
     expect(wrapper.get("[data-testid='users-list-item-last-access']").text()).not.toBe("")

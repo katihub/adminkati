@@ -34,6 +34,9 @@
       },
       "marketplaceQuotes": {
         "label": "Devis marketplace"
+      },
+      "reportedReviews": {
+        "label": "Avis signalés"
       }
     },
     "common": {
@@ -546,6 +549,21 @@
         "acceptee": "accepté",
         "non_retenue": "non retenu"
       }
+    },
+    "reportedReviews": {
+      "help": "Les avis signalés par leur boutique ou par KatiHub. Un avis reste publié tant qu’il compte moins de trois signalants distincts ; au-delà, il est masqué en attendant votre décision. Un motif est requis pour garder ou masquer.",
+      "empty": "Aucun avis signalé à modérer.",
+      "hiddenPending": "Masqué en attente",
+      "stillPublished": "Toujours publié",
+      "noComment": "Avis sans commentaire.",
+      "reports": "{count} signalement | {count} signalements",
+      "byShop": "La boutique",
+      "byKatihub": "KatiHub",
+      "reason": "Motif de la décision",
+      "keep": "Garder publié",
+      "hide": "Masquer l’avis",
+      "kept": "Avis gardé publié.",
+      "hidden": "Avis masqué."
     }
   }
 }

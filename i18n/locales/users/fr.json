@@ -81,7 +81,8 @@
       },
       "incompleteTitle": "Profil incomplet",
       "incompleteBody": "Ce compte n’a pas encore terminé son profil. Son statut de compte reste disponible ici.",
-      "email": "Courriel"
+      "email": "Courriel",
+      "city": "Ville"
     },
     "actions": {
       "suspend": "Suspendre",

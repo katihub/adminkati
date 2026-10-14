@@ -81,7 +81,8 @@
       },
       "incompleteTitle": "Profile incomplete",
       "incompleteBody": "This account has not completed its profile yet. Its account status is still available here.",
-      "email": "Email"
+      "email": "Email",
+      "city": "City"
     },
     "actions": {
       "suspend": "Suspend",

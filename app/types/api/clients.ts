@@ -49,6 +49,8 @@ export interface CustomerProfile {
   telephoneSecoursChiffres: string | null
   comptoirPrefere: string
   raisonSociale: string | null
+  /** Asked at sign-up since 15 October 2026; null for older accounts. */
+  ville?: string | null
   completLe: string | null
   majLe: string
 }

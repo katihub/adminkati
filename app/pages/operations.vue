@@ -22,6 +22,7 @@ const QUERY_TABS = [
   "marketplace-categories",
   "delivery-fees",
   "marketplace-quotes",
+  "reported-reviews",
   "marketplace-disputes",
   "seller-finance",
   "seller-trust",
@@ -34,6 +35,7 @@ const DIRECTION_TABS: ReadonlySet<OperationsTab> = new Set([
   "marketplace-categories",
   "delivery-fees",
   "marketplace-quotes",
+  "reported-reviews",
   "legal-closure",
   "seller-finance",
   "marketplace-pilot",
@@ -114,6 +116,12 @@ const tabs = computed(() => [
           testid: "operations-tab-marketplace-quotes",
         },
         {
+          value: "reported-reviews",
+          label: t("operations.tabs.reportedReviews.label"),
+          icon: "ph:flag",
+          testid: "operations-tab-reported-reviews",
+        },
+        {
           value: "seller-finance",
           label: "Finances vendeurs",
           icon: "ph:wallet",
@@ -186,6 +194,7 @@ useHead({
     <OperationsMarketplaceCategoriesWorkspace v-else-if="activeTab === 'marketplace-categories'" />
     <OperationsDeliveryFeesWorkspace v-else-if="activeTab === 'delivery-fees'" />
     <OperationsMarketplaceQuotesWorkspace v-else-if="activeTab === 'marketplace-quotes'" />
+    <OperationsReportedReviewsWorkspace v-else-if="activeTab === 'reported-reviews'" />
     <OperationsMarketplaceDisputesWorkspace v-else-if="activeTab === 'marketplace-disputes'" />
     <OperationsSellerFinanceWorkspace v-else-if="activeTab === 'seller-finance'" />
     <OperationsSellerTrustWorkspace v-else-if="activeTab === 'seller-trust'" />
