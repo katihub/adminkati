@@ -236,6 +236,14 @@
         "en_arbitrage": "En arbitrage",
         "resolue": "Demande résolue",
         "fermee": "Demande fermée"
+      },
+      "exportCase": "Exporter le dossier",
+      "exporting": "Préparation…",
+      "exportError": "L’export du dossier a échoué. Réessayez ; s’il échoue encore, consultez le journal du serveur.",
+      "evidenceState": {
+        "quarantine": "En analyse",
+        "infected": "Bloquée : menace",
+        "purged": "Effacée (conservation)"
       }
     },
     "trust": {

@@ -236,6 +236,14 @@
         "en_arbitrage": "In arbitration",
         "resolue": "Request resolved",
         "fermee": "Request closed"
+      },
+      "exportCase": "Export case file",
+      "exporting": "Preparing…",
+      "exportError": "The case export failed. Try again; if it fails again, check the server log.",
+      "evidenceState": {
+        "quarantine": "Being scanned",
+        "infected": "Blocked: threat",
+        "purged": "Erased (retention)"
       }
     },
     "trust": {

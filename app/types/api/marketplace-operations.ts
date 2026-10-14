@@ -71,6 +71,9 @@ export interface MarketplaceReturnDetail extends MarketplaceReturnListItem {
         tailleOctets: number
         empreinteSha256: string
         creeLe: string
+        /** Antivirus state; only a readable file can be downloaded. */
+        statutAnalyse?: "non_analysee" | "en_quarantaine" | "saine" | "infectee"
+        purgeeLe?: string | null
       }>
     }>
   }

@@ -112,6 +112,34 @@ function reimburseReturn() {
   reimburse.mutate({ id, ...(telephone ? { telephone } : {}) })
 }
 
+const session = useCachedSession()
+const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
+const exporting = ref(false)
+const exportError = ref(false)
+
+/** The server refuses these; the button says why instead of failing on click. */
+function evidenceBlock(piece: { statutAnalyse?: string; purgeeLe?: string | null }) {
+  if (piece.purgeeLe) return "purged"
+  if (piece.statutAnalyse === "infectee") return "infected"
+  if (piece.statutAnalyse === "en_quarantaine") return "quarantine"
+  return null
+}
+
+async function exportCase(demandId: string, reference: string) {
+  exporting.value = true
+  exportError.value = false
+  try {
+    const blob = await $fetch<Blob>(`/api/v1/marketplace/demandes-client/${encodeURIComponent(demandId)}/export`, {
+      responseType: "blob",
+    })
+    downloadBlob(blob, `dossier-${reference}.zip`)
+  } catch {
+    exportError.value = true
+  } finally {
+    exporting.value = false
+  }
+}
+
 async function downloadEvidence(demandId: string, piece: { id: string; nomCapture: string }) {
   evidenceError.value = false
   try {
@@ -235,14 +263,30 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
               </div>
               <p class="mt-0.5 text-sm text-muted-foreground">{{ detailQuery.data.value.demande.boutique.nom }}</p>
             </div>
-            <Button
-              v-if="detailQuery.data.value.capacites.recevoir"
-              size="sm"
-              :disabled="receive.isPending.value"
-              @click="receive.mutate(detailQuery.data.value.id)"
-            >
-              {{ t("operations.disputes.receive") }}
-            </Button>
+            <div class="flex flex-wrap items-center gap-2">
+              <Button
+                v-if="isDirection"
+                size="sm"
+                variant="outline"
+                :disabled="exporting"
+                data-testid="disputes-export-case"
+                @click="exportCase(detailQuery.data.value.demande.id, detailQuery.data.value.demande.reference)"
+              >
+                <Icon name="ph:file-zip" />
+                {{ exporting ? t("operations.disputes.exporting") : t("operations.disputes.exportCase") }}
+              </Button>
+              <Button
+                v-if="detailQuery.data.value.capacites.recevoir"
+                size="sm"
+                :disabled="receive.isPending.value"
+                @click="receive.mutate(detailQuery.data.value.id)"
+              >
+                {{ t("operations.disputes.receive") }}
+              </Button>
+            </div>
+            <p v-if="exportError" class="basis-full text-sm text-destructive" role="alert">
+              {{ t("operations.disputes.exportError") }}
+            </p>
           </header>
 
           <div class="grid gap-4 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_280px]">
@@ -356,10 +400,15 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                     <li v-for="piece in message.pieces" :key="piece.id">
                       <button
                         type="button"
-                        class="flex w-full items-center gap-3 rounded-md border border-border p-3 text-left hover:bg-muted"
+                        class="flex w-full items-center gap-3 rounded-md border border-border p-3 text-left hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
+                        :disabled="Boolean(evidenceBlock(piece))"
+                        :data-testid="`disputes-evidence-${piece.id}`"
                         @click="downloadEvidence(detailQuery.data.value!.demande.id, piece)"
                       >
-                        <Icon name="ph:file-arrow-down" class="text-primary" />
+                        <Icon
+                          :name="evidenceBlock(piece) ? 'ph:shield-warning' : 'ph:file-arrow-down'"
+                          :class="evidenceBlock(piece) ? 'text-amber-600' : 'text-primary'"
+                        />
                         <span class="min-w-0 flex-1"
                           ><strong class="block truncate text-sm">{{ piece.nomCapture }}</strong
                           ><small class="text-muted-foreground">{{
@@ -369,6 +418,9 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                             })
                           }}</small></span
                         >
+                        <Badge v-if="evidenceBlock(piece)" variant="secondary" class="shrink-0">{{
+                          t(`operations.disputes.evidenceState.${evidenceBlock(piece)}`)
+                        }}</Badge>
                       </button>
                     </li>
                   </template>
