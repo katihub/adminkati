@@ -13,6 +13,7 @@ import {
   useSellerReviewMutations,
 } from "@/composables/useMarketplaceModeration"
 import { apiErrorText } from "@/utils/api-error"
+import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
 
 const route = useRoute()
@@ -21,6 +22,24 @@ const search = ref("")
 const verification = ref<SellerVerificationStatus | undefined>()
 const reason = ref("")
 const selectedDocumentId = ref<string | null>(null)
+const openingDocumentId = ref<string | null>(null)
+
+async function openDocument(document: { id: string; nomFichier?: string | null }) {
+  const sellerId = effectiveId.value
+  if (!sellerId) return
+  openingDocumentId.value = document.id
+  try {
+    const blob = await $fetch<Blob>(
+      `/api/v1/vendeurs/${encodeURIComponent(sellerId)}/documents/${encodeURIComponent(document.id)}/fichier`,
+      { responseType: "blob" },
+    )
+    downloadBlob(blob, document.nomFichier ?? `justificatif-${document.id}`)
+  } catch (cause) {
+    toast.error(apiErrorText(cause, t))
+  } finally {
+    openingDocumentId.value = null
+  }
+}
 const explicitId = computed(() => routeQueryString(route.query.candidature) ?? null)
 const filters = computed<SellerReviewFilters>(() => ({
   ...(search.value.trim() ? { q: search.value.trim() } : {}),
@@ -282,11 +301,29 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
                           }}</template
                         >
                       </p>
+                      <p v-if="document.nomFichier" class="mt-1 text-xs text-muted-foreground">
+                        {{ document.nomFichier }}
+                        <template v-if="document.statutAnalyse === 'saine'">
+                          · {{ t("operations.onboarding.scanClean") }}</template
+                        >
+                      </p>
+                      <p v-else class="mt-1 text-xs text-muted-foreground">
+                        {{ t("operations.onboarding.legacyKey") }}
+                      </p>
                       <p v-if="document.motifDecision" class="mt-2 text-xs text-destructive">
                         {{ document.motifDecision }}
                       </p>
                     </div>
                     <div class="flex flex-wrap gap-2">
+                      <Button
+                        v-if="document.typeMime && document.statutAnalyse !== 'infectee'"
+                        size="sm"
+                        variant="ghost"
+                        :disabled="openingDocumentId === document.id"
+                        :data-testid="`seller-document-open-${document.id}`"
+                        @click="openDocument(document)"
+                        ><Icon name="ph:file-arrow-down" /> {{ t("operations.onboarding.openFile") }}</Button
+                      >
                       <Button
                         v-if="document.statut === 'soumis'"
                         size="sm"

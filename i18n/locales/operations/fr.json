@@ -190,7 +190,10 @@
         "validated": "Validé",
         "refused": "Refusé",
         "expired": "Expiré"
-      }
+      },
+      "openFile": "Ouvrir le fichier",
+      "scanClean": "analysé, aucune menace",
+      "legacyKey": "Document repris par clé de stockage, sans fichier déposé."
     },
     "disputes": {
       "search": "N° de dossier, client, boutique…",

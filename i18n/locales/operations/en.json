@@ -190,7 +190,10 @@
         "validated": "Validated",
         "refused": "Rejected",
         "expired": "Expired"
-      }
+      },
+      "openFile": "Open file",
+      "scanClean": "scanned, no threat",
+      "legacyKey": "Document imported by storage key, no uploaded file."
     },
     "disputes": {
       "search": "Case number, customer, store…",

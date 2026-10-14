@@ -38,6 +38,11 @@ export interface SellerDocument {
   motifDecision: string | null
   decideLe: string | null
   creeLe: string
+  /** Set when the merchant uploaded the file from their space; null for key-based legacy documents. */
+  nomFichier?: string | null
+  typeMime?: string | null
+  tailleOctets?: number | null
+  statutAnalyse?: "non_analysee" | "en_quarantaine" | "saine" | "infectee"
 }
 
 export interface SellerReviewDetail extends SellerReviewListItem {
