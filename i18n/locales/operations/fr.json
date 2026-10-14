@@ -31,6 +31,9 @@
       },
       "deliveryFees": {
         "label": "Frais de livraison"
+      },
+      "marketplaceQuotes": {
+        "label": "Devis marketplace"
       }
     },
     "common": {
@@ -517,6 +520,32 @@
       "deleted": "Tarif supprimé.",
       "deleteTitle": "Supprimer le tarif {city} · {mode} ?",
       "deleteHelp": "Ce mode ne sera plus proposé dans cette ville. Les commandes déjà passées gardent leurs frais."
+    },
+    "quotes": {
+      "filterStatus": "Filtrer par statut",
+      "allStatuses": "Tous les statuts",
+      "lateOnly": "Seulement les boutiques en retard (+ de 48 h)",
+      "remindNow": "Relancer maintenant",
+      "remindersSent": "{shops} boutique(s) relancée(s), {customers} client(s) prévenu(s).",
+      "total": "Devis demandés",
+      "accepted": "Devenus commandes",
+      "conversion": "Taux de conversion",
+      "lateParts": "Réponses en retard",
+      "empty": "Aucun devis pour ces filtres.",
+      "pdf": "PDF",
+      "late": "en retard",
+      "status": {
+        "ouvert": "En cours",
+        "accepte": "Accepté",
+        "annule": "Annulé"
+      },
+      "part": {
+        "en_attente": "en attente",
+        "confirmee": "confirmé",
+        "refusee": "refusé",
+        "acceptee": "accepté",
+        "non_retenue": "non retenu"
+      }
     }
   }
 }

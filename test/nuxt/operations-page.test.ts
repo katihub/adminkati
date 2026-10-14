@@ -18,6 +18,9 @@ const operationsWorkspaceStubs = {
   OperationsDeliveryFeesWorkspace: {
     template: '<div data-testid="operations-delivery-fees-workspace" />',
   },
+  OperationsMarketplaceQuotesWorkspace: {
+    template: '<div data-testid="operations-marketplace-quotes-workspace" />',
+  },
   OperationsSellerTrustWorkspace: { template: '<div data-testid="operations-seller-trust-workspace" />' },
   OperationsLegalClosureWorkspace: { template: '<div data-testid="operations-legal-closure-workspace" />' },
   OperationsMarketplacePilotWorkspace: { template: '<div data-testid="operations-marketplace-pilot-workspace" />' },
@@ -33,6 +36,7 @@ const workspaces = [
   "marketplace-catalogue",
   "marketplace-categories",
   "delivery-fees",
+  "marketplace-quotes",
   "marketplace-disputes",
   "seller-trust",
   "legal-closure",
@@ -77,6 +81,7 @@ describe("operations page tabs", () => {
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
     ["marketplace-categories", "/operations?tab=marketplace-categories"],
     ["delivery-fees", "/operations?tab=delivery-fees"],
+    ["marketplace-quotes", "/operations?tab=marketplace-quotes"],
     ["marketplace-disputes", "/operations?tab=marketplace-disputes"],
     ["seller-trust", "/operations?tab=seller-trust"],
     ["legal-closure", "/operations?tab=legal-closure"],
@@ -100,6 +105,7 @@ describe("operations page tabs", () => {
     "marketplace-catalogue",
     "marketplace-categories",
     "delivery-fees",
+    "marketplace-quotes",
     "marketplace-disputes",
     "seller-trust",
     "legal-closure",
@@ -122,16 +128,19 @@ describe("operations page tabs", () => {
     wrapper.unmount()
   })
 
-  it.each(["marketplace-pilot", "outbound-notifications", "marketplace-categories", "delivery-fees"] as const)(
-    "keeps the direction-only %s workspace closed to the counter",
-    async workspace => {
-      const wrapper = await mountOperations(`/operations?tab=${workspace}`, ["comptoir"])
+  it.each([
+    "marketplace-pilot",
+    "outbound-notifications",
+    "marketplace-categories",
+    "delivery-fees",
+    "marketplace-quotes",
+  ] as const)("keeps the direction-only %s workspace closed to the counter", async workspace => {
+    const wrapper = await mountOperations(`/operations?tab=${workspace}`, ["comptoir"])
 
-      expect(wrapper.find(`[data-testid='operations-tab-${workspace}']`).exists()).toBe(false)
-      expect(wrapper.find(`[data-testid='operations-${workspace}-workspace']`).exists()).toBe(false)
-      expect(wrapper.find("[data-testid='operations-cash-registers-workspace']").exists()).toBe(true)
+    expect(wrapper.find(`[data-testid='operations-tab-${workspace}']`).exists()).toBe(false)
+    expect(wrapper.find(`[data-testid='operations-${workspace}-workspace']`).exists()).toBe(false)
+    expect(wrapper.find("[data-testid='operations-cash-registers-workspace']").exists()).toBe(true)
 
-      wrapper.unmount()
-    },
-  )
+    wrapper.unmount()
+  })
 })

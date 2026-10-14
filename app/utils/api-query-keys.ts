@@ -17,6 +17,7 @@ const marketplaceOperations = ["v1", "marketplace", "operations"] as const
 const marketplaceModeration = ["v1", "marketplace", "moderation"] as const
 const marketplaceCategories = ["v1", "marketplace", "categories"] as const
 const deliveryFees = ["v1", "marketplace", "livraison", "tarifs"] as const
+const marketplaceQuotes = ["v1", "marketplace", "administration", "devis"] as const
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
 const marketplacePilots = ["v1", "marketplace", "deploiement", "pilotes"] as const
 const outboundNotifications = ["v1", "notifications"] as const
@@ -89,6 +90,10 @@ export const apiQueryKeys = {
     products: [...marketplaceModeration, "produits"] as const,
     offers: [...marketplaceModeration, "offres"] as const,
     contents: [...marketplaceModeration, "contenus-produits"] as const,
+  },
+  marketplaceQuotes: {
+    all: marketplaceQuotes,
+    list: (params: QueryParams = {}) => [...marketplaceQuotes, params] as const,
   },
   deliveryFees: {
     all: deliveryFees,

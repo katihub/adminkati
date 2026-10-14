@@ -31,6 +31,9 @@
       },
       "deliveryFees": {
         "label": "Delivery fees"
+      },
+      "marketplaceQuotes": {
+        "label": "Marketplace quotes"
       }
     },
     "common": {
@@ -517,6 +520,32 @@
       "deleted": "Tariff deleted.",
       "deleteTitle": "Delete the {city} · {mode} tariff?",
       "deleteHelp": "This mode will no longer be offered in this city. Past orders keep their fees."
+    },
+    "quotes": {
+      "filterStatus": "Filter by status",
+      "allStatuses": "All statuses",
+      "lateOnly": "Only shops late to answer (48 h+)",
+      "remindNow": "Send reminders now",
+      "remindersSent": "{shops} shop(s) reminded, {customers} customer(s) warned.",
+      "total": "Quotes requested",
+      "accepted": "Turned into orders",
+      "conversion": "Conversion rate",
+      "lateParts": "Late answers",
+      "empty": "No quote for these filters.",
+      "pdf": "PDF",
+      "late": "late",
+      "status": {
+        "ouvert": "Open",
+        "accepte": "Accepted",
+        "annule": "Cancelled"
+      },
+      "part": {
+        "en_attente": "waiting",
+        "confirmee": "confirmed",
+        "refusee": "refused",
+        "acceptee": "accepted",
+        "non_retenue": "not kept"
+      }
     }
   }
 }
