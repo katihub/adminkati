@@ -1,4 +1,5 @@
 import { env } from "node:process"
+import { fileURLToPath } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
 
 function parseOrigin(value: string): string | null {
@@ -146,6 +147,44 @@ export default defineNuxtConfig({
       extensions: [".vue"],
     },
   ],
+  nitro: {
+    /**
+     * LE BUILD PASSAIT ONZE MINUTES A CHERCHER DES FICHIERS INEXISTANTS.
+     *
+     * Profil CPU du 14 octobre 2026 : 620 des 711 secondes du build dans le plugin
+     * `externals` de Nitro, qui resout chaque import externe sans cache, jusqu'a
+     * quatre fois, et essaie pour chaque echec tous les dossiers de modules x 2
+     * suffixes x 7 extensions. Sous Windows, chaque echec coute ~30 ms. Deux
+     * reglages, mesures separement :
+     *  - un seul dossier de modules au lieu des 27 que Nuxt transmet (un par
+     *    module installe) : 709 s -> 650 s. La resolution part deja du fichier
+     *    importeur ; la liste ne sert qu'aux modules virtuels ;
+     *  - les bibliotheques d'interface integrees (ci-dessous) : 650 s -> 210 s.
+     */
+    nodeModulesDirs: [fileURLToPath(new URL("./node_modules", import.meta.url))],
+    /**
+     * CES BIBLIOTHEQUES SONT INTEGREES AU SERVEUR, PAS TRAITEES COMME EXTERNES.
+     *
+     * Leurs fichiers internes s'importent par des chemins (`reka-ui/dist/...`)
+     * que leur champ `exports` n'expose pas. Traitees en externes, chaque import
+     * echouait a la resolution, sans cache, jusqu'a quatre fois : des milliers
+     * d'echecs a ~30 ms sous Windows, mesures le 14 octobre 2026. Integrees,
+     * Rollup les resout comme du code de l'application.
+     */
+    externals: { inline: ["@ark-ui/vue", "reka-ui", "@zag-js/", "zod"] },
+  },
+  build: {
+    /**
+     * LES ICONES PHOSPHOR SONT EMBARQUEES, PAS TRACEES.
+     *
+     * Importees par nom depuis le paquet complet, elles restaient externes au
+     * bundle SSR : Nitro copiait tout `@phosphor-icons/vue` (1 510 fichiers, 11 Mo)
+     * dans `.output`. Transpilees, seules les icones utilisees entrent dans le
+     * bundle. Gain de taille du livrable, pas de temps de build (mesure : la
+     * lenteur venait de la resolution des externes, voir `nitro` plus haut).
+     */
+    transpile: ["@phosphor-icons/vue"],
+  },
   vite: {
     plugins: [
       tailwindcss(),
