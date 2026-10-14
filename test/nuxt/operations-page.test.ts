@@ -15,6 +15,9 @@ const operationsWorkspaceStubs = {
   OperationsMarketplaceCategoriesWorkspace: {
     template: '<div data-testid="operations-marketplace-categories-workspace" />',
   },
+  OperationsDeliveryFeesWorkspace: {
+    template: '<div data-testid="operations-delivery-fees-workspace" />',
+  },
   OperationsSellerTrustWorkspace: { template: '<div data-testid="operations-seller-trust-workspace" />' },
   OperationsLegalClosureWorkspace: { template: '<div data-testid="operations-legal-closure-workspace" />' },
   OperationsMarketplacePilotWorkspace: { template: '<div data-testid="operations-marketplace-pilot-workspace" />' },
@@ -29,6 +32,7 @@ const workspaces = [
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-categories",
+  "delivery-fees",
   "marketplace-disputes",
   "seller-trust",
   "legal-closure",
@@ -72,6 +76,7 @@ describe("operations page tabs", () => {
     ["seller-onboarding", "/operations?tab=seller-onboarding"],
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
     ["marketplace-categories", "/operations?tab=marketplace-categories"],
+    ["delivery-fees", "/operations?tab=delivery-fees"],
     ["marketplace-disputes", "/operations?tab=marketplace-disputes"],
     ["seller-trust", "/operations?tab=seller-trust"],
     ["legal-closure", "/operations?tab=legal-closure"],
@@ -94,6 +99,7 @@ describe("operations page tabs", () => {
     "seller-onboarding",
     "marketplace-catalogue",
     "marketplace-categories",
+    "delivery-fees",
     "marketplace-disputes",
     "seller-trust",
     "legal-closure",
@@ -116,7 +122,7 @@ describe("operations page tabs", () => {
     wrapper.unmount()
   })
 
-  it.each(["marketplace-pilot", "outbound-notifications", "marketplace-categories"] as const)(
+  it.each(["marketplace-pilot", "outbound-notifications", "marketplace-categories", "delivery-fees"] as const)(
     "keeps the direction-only %s workspace closed to the counter",
     async workspace => {
       const wrapper = await mountOperations(`/operations?tab=${workspace}`, ["comptoir"])

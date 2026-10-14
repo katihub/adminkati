@@ -28,6 +28,9 @@
       },
       "marketplaceCategories": {
         "label": "Marketplace categories"
+      },
+      "deliveryFees": {
+        "label": "Delivery fees"
       }
     },
     "common": {
@@ -480,6 +483,40 @@
       "deleted": "Category deleted.",
       "deleteTitle": "Delete “{name}”?",
       "deleteHelp": "This category has no products. Deleting it is permanent."
+    },
+    "deliveryFees": {
+      "help": "The grid applied to marketplace orders: one tariff per city and delivery mode. Fees are paid on delivery, outside the deposit. A city without an active tariff for a mode cannot be delivered in that mode.",
+      "create": "New tariff",
+      "addMode": "Other mode",
+      "empty": "No tariff: no marketplace order can be delivered. Add at least Douala.",
+      "modeKatihub": "KatiHub delivery",
+      "modeShop": "Shop delivery",
+      "inactive": "Inactive",
+      "freeFrom": "free from {amount} of products per shop",
+      "edit": "Edit",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "delete": "Delete",
+      "createTitle": "New delivery tariff",
+      "editTitle": "{city} · {mode}",
+      "formHelp": "The amount applies to each shop of an order delivered in this city and mode.",
+      "city": "City",
+      "mode": "Delivery mode",
+      "amount": "Fee (XAF)",
+      "threshold": "Free delivery from (XAF, optional)",
+      "thresholdHelp": "Product amount per shop from which its fee is waived. Leave empty to never waive it.",
+      "cityRequired": "Enter the city.",
+      "amountInvalid": "Enter a whole amount, zero or more.",
+      "thresholdInvalid": "The threshold is a positive whole amount.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "created": "Tariff created.",
+      "updated": "Tariff updated.",
+      "activated": "Tariff activated.",
+      "deactivated": "Tariff deactivated: this mode is no longer offered in this city.",
+      "deleted": "Tariff deleted.",
+      "deleteTitle": "Delete the {city} · {mode} tariff?",
+      "deleteHelp": "This mode will no longer be offered in this city. Past orders keep their fees."
     }
   }
 }

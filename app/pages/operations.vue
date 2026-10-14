@@ -20,6 +20,7 @@ const QUERY_TABS = [
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-categories",
+  "delivery-fees",
   "marketplace-disputes",
   "seller-finance",
   "seller-trust",
@@ -30,6 +31,7 @@ const QUERY_TABS = [
 type OperationsTab = "cash-registers" | (typeof QUERY_TABS)[number]
 const DIRECTION_TABS: ReadonlySet<OperationsTab> = new Set([
   "marketplace-categories",
+  "delivery-fees",
   "legal-closure",
   "seller-finance",
   "marketplace-pilot",
@@ -96,6 +98,12 @@ const tabs = computed(() => [
           label: t("operations.tabs.marketplaceCategories.label"),
           icon: "ph:tree-structure",
           testid: "operations-tab-marketplace-categories",
+        },
+        {
+          value: "delivery-fees",
+          label: t("operations.tabs.deliveryFees.label"),
+          icon: "ph:truck",
+          testid: "operations-tab-delivery-fees",
         },
         {
           value: "seller-finance",
@@ -168,6 +176,7 @@ useHead({
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />
     <OperationsMarketplaceCategoriesWorkspace v-else-if="activeTab === 'marketplace-categories'" />
+    <OperationsDeliveryFeesWorkspace v-else-if="activeTab === 'delivery-fees'" />
     <OperationsMarketplaceDisputesWorkspace v-else-if="activeTab === 'marketplace-disputes'" />
     <OperationsSellerFinanceWorkspace v-else-if="activeTab === 'seller-finance'" />
     <OperationsSellerTrustWorkspace v-else-if="activeTab === 'seller-trust'" />

@@ -28,6 +28,9 @@
       },
       "marketplaceCategories": {
         "label": "Catégories marketplace"
+      },
+      "deliveryFees": {
+        "label": "Frais de livraison"
       }
     },
     "common": {
@@ -480,6 +483,40 @@
       "deleted": "Catégorie supprimée.",
       "deleteTitle": "Supprimer « {name} » ?",
       "deleteHelp": "Cette catégorie n’a aucun produit. Sa suppression est définitive."
+    },
+    "deliveryFees": {
+      "help": "La grille appliquée aux commandes marketplace : un tarif par ville et par mode de livraison. Les frais se paient à la livraison, hors acompte. Une ville sans tarif actif pour un mode ne peut pas être livrée dans ce mode.",
+      "create": "Nouveau tarif",
+      "addMode": "Autre mode",
+      "empty": "Aucun tarif : aucune commande marketplace ne peut être livrée. Ajoutez au moins Douala.",
+      "modeKatihub": "Livraison KatiHub",
+      "modeShop": "Livraison par la boutique",
+      "inactive": "Inactif",
+      "freeFrom": "offerte dès {amount} de produits par boutique",
+      "edit": "Modifier",
+      "activate": "Activer",
+      "deactivate": "Désactiver",
+      "delete": "Supprimer",
+      "createTitle": "Nouveau tarif de livraison",
+      "editTitle": "{city} · {mode}",
+      "formHelp": "Le montant s’applique à chaque boutique d’une commande livrée dans cette ville et ce mode.",
+      "city": "Ville",
+      "mode": "Mode de livraison",
+      "amount": "Frais (FCFA)",
+      "threshold": "Livraison offerte dès (FCFA, facultatif)",
+      "thresholdHelp": "Montant de produits d’une boutique à partir duquel ses frais sont offerts. Laissez vide pour ne jamais les offrir.",
+      "cityRequired": "Indiquez la ville.",
+      "amountInvalid": "Saisissez un montant entier positif ou nul.",
+      "thresholdInvalid": "Le seuil est un montant entier positif.",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "created": "Tarif créé.",
+      "updated": "Tarif modifié.",
+      "activated": "Tarif activé.",
+      "deactivated": "Tarif désactivé : ce mode n’est plus proposé dans cette ville.",
+      "deleted": "Tarif supprimé.",
+      "deleteTitle": "Supprimer le tarif {city} · {mode} ?",
+      "deleteHelp": "Ce mode ne sera plus proposé dans cette ville. Les commandes déjà passées gardent leurs frais."
     }
   }
 }
