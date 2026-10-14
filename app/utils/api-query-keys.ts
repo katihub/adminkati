@@ -15,6 +15,7 @@ const deliveryIntervals = ["v1", "catalogue", "administration", "delais-livraiso
 const assistant = ["v1", "assistant", "administration", "demandes"] as const
 const marketplaceOperations = ["v1", "marketplace", "operations"] as const
 const marketplaceModeration = ["v1", "marketplace", "moderation"] as const
+const marketplaceCategories = ["v1", "marketplace", "categories"] as const
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
 const marketplacePilots = ["v1", "marketplace", "deploiement", "pilotes"] as const
 const outboundNotifications = ["v1", "notifications"] as const
@@ -87,6 +88,10 @@ export const apiQueryKeys = {
     products: [...marketplaceModeration, "produits"] as const,
     offers: [...marketplaceModeration, "offres"] as const,
     contents: [...marketplaceModeration, "contenus-produits"] as const,
+  },
+  marketplaceCategories: {
+    all: marketplaceCategories,
+    admin: [...marketplaceCategories, "administration"] as const,
   },
   legalClosure: {
     all: legalClosure,

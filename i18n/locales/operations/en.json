@@ -25,6 +25,9 @@
       },
       "outboundNotifications": {
         "label": "Notifications"
+      },
+      "marketplaceCategories": {
+        "label": "Marketplace categories"
       }
     },
     "common": {
@@ -432,6 +435,48 @@
       "previous": "Previous",
       "next": "Next",
       "page": "Page {page} / {pages}"
+    },
+    "categories": {
+      "search": "Search categories…",
+      "create": "New category",
+      "help": "The categories merchants pick when they propose a product. The warranty is a minimum: an offer in the category cannot guarantee less, but may guarantee more. A sub-category without its own warranty uses its parent’s.",
+      "empty": "No categories yet. Create the first one so merchants can propose products.",
+      "noMatch": "No category matches the search.",
+      "inactive": "Inactive",
+      "minimumWarranty": "Minimum warranty",
+      "noWarranty": "none",
+      "inherited": "inherited from the category",
+      "productCount": "{count} product | {count} products",
+      "subCount": "{count} sub-category | {count} sub-categories",
+      "addSub": "Sub-category",
+      "edit": "Edit",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "delete": "Delete",
+      "deleteBlocked": "A category with products or sub-categories cannot be deleted: deactivate it instead.",
+      "createTitle": "New category",
+      "createSubTitle": "New sub-category of “{name}”",
+      "editTitle": "Edit “{name}”",
+      "formHelp": "The name is shown to merchants and customers.",
+      "name": "Name",
+      "inheritWarranty": "Use the parent category’s warranty",
+      "warrantyValue": "Warranty length",
+      "warrantyUnit": "Warranty unit",
+      "months": "months",
+      "years": "years",
+      "warrantyHelp": "0 means no warranty is required.",
+      "warrantyInvalid": "Enter a positive whole number.",
+      "warrantyTooLong": "The minimum warranty cannot exceed 10 years.",
+      "order": "Display order",
+      "cancel": "Cancel",
+      "save": "Save",
+      "created": "Category created.",
+      "updated": "Category updated.",
+      "activated": "Category activated.",
+      "deactivated": "Category deactivated: merchants can no longer pick it.",
+      "deleted": "Category deleted.",
+      "deleteTitle": "Delete “{name}”?",
+      "deleteHelp": "This category has no products. Deleting it is permanent."
     }
   }
 }

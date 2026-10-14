@@ -25,6 +25,9 @@
       },
       "outboundNotifications": {
         "label": "Notifications"
+      },
+      "marketplaceCategories": {
+        "label": "Catégories marketplace"
       }
     },
     "common": {
@@ -432,6 +435,48 @@
       "previous": "Précédent",
       "next": "Suivant",
       "page": "Page {page} / {pages}"
+    },
+    "categories": {
+      "search": "Rechercher une catégorie…",
+      "create": "Nouvelle catégorie",
+      "help": "Les catégories que les marchands choisissent quand ils proposent un produit. La garantie est un minimum : une offre de la catégorie ne peut pas garantir moins, mais peut garantir plus. Une sous-catégorie sans garantie propre reprend celle de sa catégorie.",
+      "empty": "Aucune catégorie. Créez la première pour que les marchands puissent proposer des produits.",
+      "noMatch": "Aucune catégorie ne correspond à la recherche.",
+      "inactive": "Inactive",
+      "minimumWarranty": "Garantie minimale",
+      "noWarranty": "aucune",
+      "inherited": "héritée de la catégorie",
+      "productCount": "{count} produit | {count} produits",
+      "subCount": "{count} sous-catégorie | {count} sous-catégories",
+      "addSub": "Sous-catégorie",
+      "edit": "Modifier",
+      "activate": "Activer",
+      "deactivate": "Désactiver",
+      "delete": "Supprimer",
+      "deleteBlocked": "Une catégorie qui contient des produits ou des sous-catégories ne se supprime pas : désactivez-la.",
+      "createTitle": "Nouvelle catégorie",
+      "createSubTitle": "Nouvelle sous-catégorie de « {name} »",
+      "editTitle": "Modifier « {name} »",
+      "formHelp": "Le nom est visible par les marchands et les clients.",
+      "name": "Nom",
+      "inheritWarranty": "Reprendre la garantie de la catégorie parente",
+      "warrantyValue": "Durée de la garantie",
+      "warrantyUnit": "Unité de la garantie",
+      "months": "mois",
+      "years": "années",
+      "warrantyHelp": "0 signifie qu’aucune garantie n’est imposée.",
+      "warrantyInvalid": "Saisissez un nombre entier positif.",
+      "warrantyTooLong": "La garantie minimale ne peut pas dépasser 10 ans.",
+      "order": "Ordre d’affichage",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "created": "Catégorie créée.",
+      "updated": "Catégorie modifiée.",
+      "activated": "Catégorie activée.",
+      "deactivated": "Catégorie désactivée : les marchands ne peuvent plus la choisir.",
+      "deleted": "Catégorie supprimée.",
+      "deleteTitle": "Supprimer « {name} » ?",
+      "deleteHelp": "Cette catégorie n’a aucun produit. Sa suppression est définitive."
     }
   }
 }

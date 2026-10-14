@@ -12,6 +12,9 @@ const operationsWorkspaceStubs = {
   OperationsMarketplaceDisputesWorkspace: {
     template: '<div data-testid="operations-marketplace-disputes-workspace" />',
   },
+  OperationsMarketplaceCategoriesWorkspace: {
+    template: '<div data-testid="operations-marketplace-categories-workspace" />',
+  },
   OperationsSellerTrustWorkspace: { template: '<div data-testid="operations-seller-trust-workspace" />' },
   OperationsLegalClosureWorkspace: { template: '<div data-testid="operations-legal-closure-workspace" />' },
   OperationsMarketplacePilotWorkspace: { template: '<div data-testid="operations-marketplace-pilot-workspace" />' },
@@ -25,6 +28,7 @@ const workspaces = [
   "customer-requests",
   "seller-onboarding",
   "marketplace-catalogue",
+  "marketplace-categories",
   "marketplace-disputes",
   "seller-trust",
   "legal-closure",
@@ -67,6 +71,7 @@ describe("operations page tabs", () => {
     ["customer-requests", "/operations?tab=customer-requests"],
     ["seller-onboarding", "/operations?tab=seller-onboarding"],
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
+    ["marketplace-categories", "/operations?tab=marketplace-categories"],
     ["marketplace-disputes", "/operations?tab=marketplace-disputes"],
     ["seller-trust", "/operations?tab=seller-trust"],
     ["legal-closure", "/operations?tab=legal-closure"],
@@ -88,6 +93,7 @@ describe("operations page tabs", () => {
   it.each([
     "seller-onboarding",
     "marketplace-catalogue",
+    "marketplace-categories",
     "marketplace-disputes",
     "seller-trust",
     "legal-closure",
@@ -110,7 +116,7 @@ describe("operations page tabs", () => {
     wrapper.unmount()
   })
 
-  it.each(["marketplace-pilot", "outbound-notifications"] as const)(
+  it.each(["marketplace-pilot", "outbound-notifications", "marketplace-categories"] as const)(
     "keeps the direction-only %s workspace closed to the counter",
     async workspace => {
       const wrapper = await mountOperations(`/operations?tab=${workspace}`, ["comptoir"])
