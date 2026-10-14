@@ -1,6 +1,10 @@
 <script setup lang="ts">
 // fallow-ignore-file complexity -- declarative moderation workspace with product and offer state branches
-import type { MarketplaceOfferReview, MarketplaceProductReview } from "@/types/api/marketplace-moderation"
+import type {
+  MarketplaceContentReview,
+  MarketplaceOfferReview,
+  MarketplaceProductReview,
+} from "@/types/api/marketplace-moderation"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue-sonner"
 import { Badge } from "@/components/ui/badge"
@@ -8,12 +12,13 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   useMarketplaceCatalogueModerationMutations,
+  useMarketplaceContentReviews,
   useMarketplaceOfferReviews,
   useMarketplaceProductReviews,
 } from "@/composables/useMarketplaceModeration"
 import { apiErrorText } from "@/utils/api-error"
 
-type Queue = "products" | "offers"
+type Queue = "products" | "offers" | "contents"
 const { t, locale } = useI18n()
 const queue = ref<Queue>("products")
 const search = ref("")
@@ -21,7 +26,9 @@ const selectedId = ref<string | null>(null)
 const reason = ref("")
 const productsQuery = useMarketplaceProductReviews()
 const offersQuery = useMarketplaceOfferReviews()
+const contentsQuery = useMarketplaceContentReviews()
 const mutations = useMarketplaceCatalogueModerationMutations()
+const queries = { products: productsQuery, offers: offersQuery, contents: contentsQuery }
 const money = computed(
   () => new Intl.NumberFormat(locale.value, { style: "currency", currency: "XAF", maximumFractionDigits: 0 }),
 )
@@ -48,15 +55,78 @@ const selectedProduct = computed(
   () => products.value.find(item => item.id === selectedId.value) ?? products.value[0] ?? null,
 )
 const selectedOffer = computed(() => offers.value.find(item => item.id === selectedId.value) ?? offers.value[0] ?? null)
-const current = computed<MarketplaceProductReview | MarketplaceOfferReview | null>(() =>
-  queue.value === "products" ? selectedProduct.value : selectedOffer.value,
+const contents = computed(() =>
+  (contentsQuery.data.value ?? []).filter(
+    item =>
+      !search.value.trim() ||
+      `${item.produit.nom} ${item.boutique?.nom ?? ""}`.toLowerCase().includes(search.value.trim().toLowerCase()),
+  ),
 )
-const loading = computed(() =>
-  queue.value === "products" ? productsQuery.isPending.value : offersQuery.isPending.value,
+const selectedContent = computed(
+  () => contents.value.find(item => item.id === selectedId.value) ?? contents.value[0] ?? null,
 )
-const error = computed(() => (queue.value === "products" ? productsQuery.error.value : offersQuery.error.value))
+const current = computed<MarketplaceProductReview | MarketplaceOfferReview | MarketplaceContentReview | null>(() =>
+  queue.value === "products"
+    ? selectedProduct.value
+    : queue.value === "offers"
+      ? selectedOffer.value
+      : selectedContent.value,
+)
+const queueLength = computed(
+  () =>
+    ({ products: products.value.length, offers: offers.value.length, contents: contents.value.length })[queue.value],
+)
+const loading = computed(() => queries[queue.value].isPending.value)
+const error = computed(() => queries[queue.value].error.value)
 const pending = computed(() => Object.values(mutations).some(mutation => mutation.isPending.value))
-const isProductQueue = computed(() => queue.value === "products")
+const title = computed(() =>
+  queue.value === "products"
+    ? selectedProduct.value?.nom
+    : queue.value === "offers"
+      ? selectedOffer.value?.titre
+      : selectedContent.value?.produit.nom,
+)
+const subtitle = computed(() => {
+  if (queue.value === "products")
+    return selectedProduct.value?.proposeParBoutique?.nom ?? t("operations.catalogue.katihubCatalogue")
+  if (queue.value === "offers")
+    return `${selectedOffer.value?.offre.boutique.nom} · ${selectedOffer.value?.offre.produit.nom}`
+  const content = selectedContent.value
+  return content
+    ? `${content.boutique?.nom ?? t("operations.catalogue.katihubCatalogue")} · ${t("operations.catalogue.revisionNumber", { number: content.numero })}`
+    : ""
+})
+const searchPlaceholder = computed(() =>
+  t(
+    queue.value === "products"
+      ? "operations.catalogue.productSearch"
+      : queue.value === "offers"
+        ? "operations.catalogue.offerSearch"
+        : "operations.catalogue.contentSearch",
+  ),
+)
+const seoRows = computed(() => {
+  const content = selectedContent.value
+  if (!content) return []
+  return [
+    {
+      key: "metaTitle",
+      label: t("operations.catalogue.metaTitle"),
+      before: content.produit.metaTitre,
+      after: content.metaTitre,
+      max: 70,
+    },
+    {
+      key: "metaDescription",
+      label: t("operations.catalogue.metaDescription"),
+      before: content.produit.metaDescription,
+      after: content.metaDescription,
+      max: 170,
+    },
+  ]
+})
+const size = (bytes: number) =>
+  `${new Intl.NumberFormat(locale.value, { maximumFractionDigits: 1 }).format(bytes / 1024)} Kio`
 
 watch(queue, () => {
   selectedId.value = null
@@ -83,9 +153,12 @@ async function run(action: () => Promise<unknown>, success: string) {
 
 async function claim() {
   if (!current.value) return
+  const id = current.value.id
   if (queue.value === "products")
-    await run(() => mutations.claimProduct.mutateAsync(current.value!.id), t("operations.catalogue.productClaimed"))
-  else await run(() => mutations.claimOffer.mutateAsync(current.value!.id), t("operations.catalogue.offerClaimed"))
+    await run(() => mutations.claimProduct.mutateAsync(id), t("operations.catalogue.productClaimed"))
+  else if (queue.value === "offers")
+    await run(() => mutations.claimOffer.mutateAsync(id), t("operations.catalogue.offerClaimed"))
+  else await run(() => mutations.claimContent.mutateAsync(id), t("operations.catalogue.contentClaimed"))
 }
 
 async function decide(decision: "approve" | "changes" | "refuse") {
@@ -103,10 +176,10 @@ async function decide(decision: "approve" | "changes" | "refuse") {
   } else {
     const backendDecision =
       decision === "approve" ? "approuvee" : decision === "changes" ? "modification_demandee" : "refusee"
-    await run(
-      () => mutations.decideOffer.mutateAsync({ id: item.id, decision: backendDecision, ...(motif ? { motif } : {}) }),
-      t("operations.catalogue.offerDecisionSaved"),
-    )
+    const body = { id: item.id, decision: backendDecision, ...(motif ? { motif } : {}) } as const
+    if (queue.value === "offers")
+      await run(() => mutations.decideOffer.mutateAsync(body), t("operations.catalogue.offerDecisionSaved"))
+    else await run(() => mutations.decideContent.mutateAsync(body), t("operations.catalogue.contentDecisionSaved"))
   }
 }
 </script>
@@ -121,6 +194,7 @@ async function decide(decision: "approve" | "changes" | "refuse") {
           type="button"
           class="rounded px-3 py-1.5 text-sm font-medium"
           :class="queue === 'products' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground'"
+          data-testid="catalogue-queue-products"
           @click="queue = 'products'"
         >
           {{ t("operations.catalogue.products") }}
@@ -130,10 +204,21 @@ async function decide(decision: "approve" | "changes" | "refuse") {
           type="button"
           class="rounded px-3 py-1.5 text-sm font-medium"
           :class="queue === 'offers' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground'"
+          data-testid="catalogue-queue-offers"
           @click="queue = 'offers'"
         >
           {{ t("operations.catalogue.offers") }}
           <span class="ml-1 text-xs">{{ offersQuery.data.value?.length ?? 0 }}</span>
+        </button>
+        <button
+          type="button"
+          class="rounded px-3 py-1.5 text-sm font-medium"
+          :class="queue === 'contents' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground'"
+          data-testid="catalogue-queue-contents"
+          @click="queue = 'contents'"
+        >
+          {{ t("operations.catalogue.contents") }}
+          <span class="ml-1 text-xs">{{ contentsQuery.data.value?.length ?? 0 }}</span>
         </button>
       </div>
       <label class="relative min-w-0 flex-1 sm:max-w-md">
@@ -144,9 +229,7 @@ async function decide(decision: "approve" | "changes" | "refuse") {
         <input
           v-model="search"
           class="h-9 w-full rounded-md border border-input bg-background pl-9 pr-3 text-sm"
-          :placeholder="
-            isProductQueue ? t('operations.catalogue.productSearch') : t('operations.catalogue.offerSearch')
-          "
+          :placeholder="searchPlaceholder"
         />
       </label>
     </div>
@@ -159,23 +242,15 @@ async function decide(decision: "approve" | "changes" | "refuse") {
         <div class="border-b border-border px-4 py-3">
           <h2 class="font-heading text-sm font-semibold">{{ t("operations.catalogue.queue") }}</h2>
           <p class="mt-0.5 text-xs text-muted-foreground">
-            {{ t("operations.catalogue.count", { count: queue === "products" ? products.length : offers.length }) }}
+            {{ t("operations.catalogue.count", { count: queueLength }) }}
           </p>
         </div>
         <ScrollArea class="h-[calc(100%-61px)]">
           <div v-if="loading" class="space-y-2 p-3">
             <div v-for="n in 7" :key="n" class="h-20 animate-pulse rounded-md bg-muted" />
           </div>
-          <ApiErrorCard
-            v-else-if="error"
-            class="m-3"
-            :error="error"
-            @retry="queue === 'products' ? productsQuery.refetch() : offersQuery.refetch()"
-          />
-          <div
-            v-else-if="(queue === 'products' && !products.length) || (queue === 'offers' && !offers.length)"
-            class="p-8 text-center text-sm text-muted-foreground"
-          >
+          <ApiErrorCard v-else-if="error" class="m-3" :error="error" @retry="queries[queue].refetch()" />
+          <div v-else-if="!queueLength" class="p-8 text-center text-sm text-muted-foreground">
             {{ t("operations.catalogue.empty") }}
           </div>
           <template v-else>
@@ -216,7 +291,33 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                 ><Badge variant="outline" class="shrink-0 text-[10px]">{{ offer.statut }}</Badge></span
               ><span class="truncate text-xs text-muted-foreground"
                 >{{ offer.offre.boutique.nom }} · {{ offer.offre.produit.nom }}</span
-              ><span class="text-[11px] text-muted-foreground">{{ money.format(offer.prixFcfa) }}</span>
+              ><span class="text-[11px] text-muted-foreground"
+                >{{ money.format(offer.prixFcfa)
+                }}{{ offer.libelleVariante ? ` · ${offer.libelleVariante}` : "" }}</span
+              >
+            </button>
+            <button
+              v-for="content in queue === 'contents' ? contents : []"
+              :key="content.id"
+              type="button"
+              class="flex w-full flex-col gap-1 border-b border-border px-4 py-3 text-left hover:bg-muted/50"
+              :class="
+                content.id === selectedContent?.id
+                  ? 'border-l-4 border-l-primary bg-muted'
+                  : 'border-l-4 border-l-transparent'
+              "
+              @click="select(content.id)"
+            >
+              <span class="flex w-full items-start justify-between gap-2"
+                ><strong class="truncate text-sm">{{ content.produit.nom }}</strong
+                ><Badge variant="outline" class="shrink-0 text-[10px]">{{ content.statut }}</Badge></span
+              ><span class="truncate text-xs text-muted-foreground">{{
+                content.boutique?.nom ?? t("operations.catalogue.katihubCatalogue")
+              }}</span
+              ><span class="text-[11px] text-muted-foreground"
+                >{{ date.format(new Date(content.soumisLe)) }} ·
+                {{ t("operations.catalogue.revisionNumber", { number: content.numero }) }}</span
+              >
             </button>
           </template>
         </ScrollArea>
@@ -237,23 +338,16 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                 <Icon name="ph:arrow-left" /> {{ t("operations.common.back") }}
               </button>
               <div class="flex flex-wrap items-center gap-2">
-                <h2 class="font-heading text-lg font-semibold">
-                  {{ isProductQueue ? selectedProduct?.nom : selectedOffer?.titre }}
-                </h2>
+                <h2 class="font-heading text-lg font-semibold">{{ title }}</h2>
                 <Badge>{{ current.statut }}</Badge>
               </div>
-              <p class="mt-1 text-sm text-muted-foreground">
-                {{
-                  isProductQueue
-                    ? (selectedProduct?.proposeParBoutique?.nom ?? t("operations.catalogue.katihubCatalogue"))
-                    : `${selectedOffer?.offre.boutique.nom} · ${selectedOffer?.offre.produit.nom}`
-                }}
-              </p>
+              <p class="mt-1 text-sm text-muted-foreground">{{ subtitle }}</p>
             </div>
             <Button
               v-if="current.statut === 'soumis' || current.statut === 'soumise'"
               size="sm"
               :disabled="pending"
+              data-testid="catalogue-claim"
               @click="claim"
               ><Icon name="ph:hand" /> {{ t("operations.catalogue.claim") }}</Button
             >
@@ -324,6 +418,18 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                     <dt class="text-muted-foreground">{{ t("operations.catalogue.sellerReference") }}</dt>
                     <dd class="font-medium">{{ selectedOffer.offre.referenceVendeur }}</dd>
                   </div>
+                  <div v-if="selectedOffer.libelleVariante">
+                    <dt class="text-muted-foreground">{{ t("operations.catalogue.variant") }}</dt>
+                    <dd class="font-medium">{{ selectedOffer.libelleVariante }}</dd>
+                  </div>
+                  <div v-if="selectedOffer.attributsVariante" class="sm:col-span-2">
+                    <dt class="text-muted-foreground">{{ t("operations.catalogue.variantAttributes") }}</dt>
+                    <dd class="mt-1 flex flex-wrap gap-1.5">
+                      <Badge v-for="(value, name) in selectedOffer.attributsVariante" :key="name" variant="outline"
+                        >{{ name }} : {{ value }}</Badge
+                      >
+                    </dd>
+                  </div>
                 </dl>
                 <div class="mt-5 grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
                   <div>
@@ -342,6 +448,75 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                   </p>
                 </div>
               </section>
+              <template v-if="selectedContent && queue === 'contents'">
+                <section class="rounded-lg border border-border bg-card p-5" data-testid="content-review-seo">
+                  <h3 class="font-heading font-semibold">{{ t("operations.catalogue.seo") }}</h3>
+                  <div v-for="row in seoRows" :key="row.key" class="mt-4 border-t border-border pt-4 first:border-0">
+                    <h4 class="text-sm font-medium">{{ row.label }}</h4>
+                    <dl class="mt-2 grid gap-3 text-sm sm:grid-cols-2">
+                      <div>
+                        <dt class="text-xs text-muted-foreground">{{ t("operations.catalogue.currentValue") }}</dt>
+                        <dd class="mt-1 text-muted-foreground">{{ row.before ?? t("operations.catalogue.notSet") }}</dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs text-muted-foreground">
+                          {{ t("operations.catalogue.proposedValue") }}
+                          <span v-if="row.after">· {{ row.after.length }}/{{ row.max }}</span>
+                        </dt>
+                        <dd class="mt-1 font-medium">{{ row.after ?? t("operations.catalogue.notSet") }}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </section>
+                <section class="rounded-lg border border-border bg-card p-5" data-testid="content-review-gallery">
+                  <h3 class="font-heading font-semibold">{{ t("operations.catalogue.gallery") }}</h3>
+                  <p class="mt-1 text-xs text-muted-foreground">{{ t("operations.catalogue.galleryHelp") }}</p>
+                  <p v-if="!selectedContent.images.length" class="mt-4 text-sm text-muted-foreground">
+                    {{ t("operations.catalogue.emptyGallery") }}
+                  </p>
+                  <ol v-else class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    <li
+                      v-for="(entry, index) in selectedContent.images"
+                      :key="entry.imageId"
+                      class="overflow-hidden rounded-md border border-border"
+                    >
+                      <a
+                        v-if="entry.image"
+                        :href="entry.image.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="block bg-muted"
+                      >
+                        <img
+                          :src="entry.image.url"
+                          :alt="entry.texteAlternatif ?? ''"
+                          class="aspect-square w-full object-contain"
+                          loading="lazy"
+                        />
+                      </a>
+                      <div v-else class="grid aspect-square place-items-center bg-muted text-xs text-destructive">
+                        {{ t("operations.catalogue.missingImage") }}
+                      </div>
+                      <div class="space-y-1 p-3 text-xs">
+                        <p class="font-medium">
+                          {{
+                            index === 0
+                              ? t("operations.catalogue.mainImage")
+                              : t("operations.catalogue.position", { number: index + 1 })
+                          }}
+                          <span v-if="entry.image" class="font-normal text-muted-foreground">
+                            · {{ entry.image.typeMime }} · {{ size(entry.image.tailleOctets) }}</span
+                          >
+                        </p>
+                        <p :class="entry.texteAlternatif ? '' : 'italic text-muted-foreground'">
+                          {{ t("operations.catalogue.altText") }} :
+                          {{ entry.texteAlternatif ?? t("operations.catalogue.noAltText") }}
+                        </p>
+                      </div>
+                    </li>
+                  </ol>
+                </section>
+              </template>
             </div>
 
             <section class="h-fit rounded-lg border border-border bg-card p-4 xl:sticky xl:top-24">
@@ -359,6 +534,7 @@ async function decide(decision: "approve" | "changes" | "refuse") {
               <Button
                 class="mt-3 w-full"
                 :disabled="pending || current.statut !== 'en_verification'"
+                data-testid="catalogue-approve"
                 @click="decide('approve')"
                 ><Icon name="ph:check-circle" /> {{ t("operations.catalogue.approve") }}</Button
               >

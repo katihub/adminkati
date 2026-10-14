@@ -1,4 +1,5 @@
 import type {
+  MarketplaceContentReview,
   MarketplaceOfferReview,
   MarketplaceProductReview,
   SellerReviewDetail,
@@ -97,6 +98,14 @@ export function useMarketplaceOfferReviews() {
   })
 }
 
+export function useMarketplaceContentReviews() {
+  const apiFetch = useApiFetch()
+  return useQuery<MarketplaceContentReview[]>({
+    queryKey: apiQueryKeys.marketplaceModeration.contents,
+    queryFn: () => apiFetch("/marketplace/moderation/contenus-produits"),
+  })
+}
+
 export function useMarketplaceCatalogueModerationMutations() {
   const apiWrite = useApiWrite()
   const queryClient = useQueryClient()
@@ -143,5 +152,28 @@ export function useMarketplaceCatalogueModerationMutations() {
       }),
     onSuccess: invalidate,
   })
-  return { claimProduct, decideProduct, claimOffer, decideOffer }
+  const claimContent = useMutation({
+    mutationFn: (id: string) =>
+      apiWrite(`/marketplace/moderation/contenus-produits/${encodeURIComponent(id)}/prise-en-charge`, {
+        method: "POST",
+      }),
+    onSuccess: invalidate,
+  })
+  const decideContent = useMutation({
+    mutationFn: ({
+      id,
+      decision,
+      motif,
+    }: {
+      id: string
+      decision: "approuvee" | "modification_demandee" | "refusee"
+      motif?: string
+    }) =>
+      apiWrite(`/marketplace/moderation/contenus-produits/${encodeURIComponent(id)}/decision`, {
+        method: "POST",
+        body: { decision, ...(motif ? { motif } : {}) },
+      }),
+    onSuccess: invalidate,
+  })
+  return { claimProduct, decideProduct, claimOffer, decideOffer, claimContent, decideContent }
 }

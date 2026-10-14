@@ -93,10 +93,39 @@ export interface MarketplaceOfferReview {
   delaiMaxJours: number
   motifDecision: string | null
   soumisLe: string
+  /** The variant name the customer will see ("128 Go / Noir"); null for a plain offer. */
+  libelleVariante?: string | null
+  attributsVariante?: Record<string, string> | null
   offre: {
     id: string
     referenceVendeur: string
     produit: { id: string; nom: string; slug: string }
     boutique: { id: string; nom: string; slug: string; vendeurId: string }
   }
+}
+
+export interface MarketplaceContentImage {
+  id: string
+  url: string
+  texteAlternatif: string | null
+  ordre: number
+  statut: "proposee" | "publiee" | "retiree"
+  typeMime: string
+  tailleOctets: number
+  creeLe: string
+}
+
+/** A product sheet change (photos and SEO) proposed by the shop that owns the product. */
+export interface MarketplaceContentReview {
+  id: string
+  numero: number
+  statut: string
+  metaTitre: string | null
+  metaDescription: string | null
+  soumisLe: string
+  motifDecision: string | null
+  produit: { id: string; nom: string; slug: string; metaTitre: string | null; metaDescription: string | null }
+  boutique: { id: string; nom: string } | null
+  /** The gallery in its proposed order; `image` is null if the file disappeared since. */
+  images: Array<{ imageId: string; texteAlternatif: string | null; image: MarketplaceContentImage | null }>
 }

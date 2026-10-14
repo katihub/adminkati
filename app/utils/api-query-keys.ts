@@ -86,6 +86,7 @@ export const apiQueryKeys = {
     seller: (id: string | null | undefined) => [...marketplaceModeration, "vendeurs", id] as const,
     products: [...marketplaceModeration, "produits"] as const,
     offers: [...marketplaceModeration, "offres"] as const,
+    contents: [...marketplaceModeration, "contenus-produits"] as const,
   },
   legalClosure: {
     all: legalClosure,
