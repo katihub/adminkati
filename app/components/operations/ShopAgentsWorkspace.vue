@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { useShopAgentMutations, useShopAgents } from "@/composables/useShopAgents"
 import { useToastAction } from "@/composables/useToastAction"
+import { formatMontant } from "@/utils/money"
 
 /* THE SHOPS' DELIVERY AGENTS. A shop adds its couriers and counter employees
    from its seller space; KatiHub verifies each one before it can be assigned a
@@ -20,9 +21,6 @@ const query = useShopAgents(filter)
 const { verify } = useShopAgentMutations()
 const run = useToastAction()
 const ceilings = reactive<Record<string, number | undefined>>({})
-const money = computed(
-  () => new Intl.NumberFormat(locale.value, { style: "currency", currency: "XAF", maximumFractionDigits: 0 }),
-)
 const date = computed(() => new Intl.DateTimeFormat(locale.value, { dateStyle: "medium" }))
 
 function ceilingOf(agent: ShopAgent) {
@@ -45,7 +43,7 @@ function stateOf(agent: ShopAgent) {
 function ceilingLabel(agent: ShopAgent) {
   return agent.plafondEspecesFcfa === null
     ? t("operations.shopAgents.cityCeiling")
-    : t("operations.shopAgents.ceiling", { amount: money.value.format(agent.plafondEspecesFcfa) })
+    : t("operations.shopAgents.ceiling", { amount: formatMontant(agent.plafondEspecesFcfa, locale.value).exact })
 }
 
 function verifyAgent(agent: ShopAgent) {
