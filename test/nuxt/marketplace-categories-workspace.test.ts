@@ -23,6 +23,7 @@ const TREE = [
     active: true,
     produits: 0,
     garantie: warranty(12, "annees"),
+    attributsVariante: ["Capacité", "Couleur"],
     sousCategories: [
       {
         id: "s1",
@@ -35,6 +36,7 @@ const TREE = [
         active: true,
         produits: 4,
         garantie: warranty(12, "annees", true),
+        attributsVariante: [],
       },
     ],
   },
@@ -49,6 +51,7 @@ const TREE = [
     active: false,
     produits: 0,
     garantie: warranty(0, "mois"),
+    attributsVariante: [],
     sousCategories: [],
   },
 ]
@@ -147,7 +150,44 @@ describe("marketplace categories workspace", () => {
     await flushPromises()
 
     expect(commands).toEqual([
-      { method: "PATCH", path: "s1", body: { nom: "Téléphones", ordre: 0, garantie: { valeur: 18, unite: "mois" } } },
+      {
+        method: "PATCH",
+        path: "s1",
+        body: { nom: "Téléphones", ordre: 0, garantie: { valeur: 18, unite: "mois" }, attributsVariante: [] },
+      },
+    ])
+    wrapper.unmount()
+  })
+
+  it("shows each node's variant attributes and saves the ones a category proposes", async () => {
+    const commands: Array<{ method: string; path: string; body?: unknown }> = []
+    api(commands)
+    const wrapper = await mount()
+
+    expect(wrapper.get("[data-testid='category-electronique'] [data-testid='category-attributes']").text()).toBe(
+      "Capacité, Couleur",
+    )
+    // A sub-category without attributes of its own uses its category's.
+    expect(
+      wrapper.get("[data-testid='category-electronique-telephones'] [data-testid='category-attributes']").text(),
+    ).toBe("the category’s")
+
+    await wrapper
+      .get("[data-testid='category-electronique-telephones']")
+      .findAll("button")
+      .find(button => button.text() === "Edit")!
+      .trigger("click")
+    await flushPromises()
+    await setInput("category-attributes-input", " Capacité,  RAM , capacité, ")
+    byTestId("category-submit")!.click()
+    await flushPromises()
+
+    expect(commands).toEqual([
+      {
+        method: "PATCH",
+        path: "s1",
+        body: { nom: "Téléphones", ordre: 0, garantie: null, attributsVariante: ["Capacité", "RAM"] },
+      },
     ])
     wrapper.unmount()
   })

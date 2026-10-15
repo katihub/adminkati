@@ -21,6 +21,9 @@ const revision = (statut: string) => ({
   statut,
   metaTitre: "Samsung Galaxy A15 128 Go au meilleur prix",
   metaDescription: "Le Galaxy A15 128 Go, neuf et garanti 12 mois, livré à Douala sous 48 h par KatiHub.",
+  descriptionCourte: "Smartphone endurant : batterie 5 000 mAh, 128 Go, double SIM.",
+  ficheTechnique: "Écran : 6,5 pouces\nBatterie : 5 000 mAh",
+  ficheTechniquePdfUrl: "https://cdn.test/documents/fiche.pdf",
   soumisLe: "2026-10-14T08:00:00.000Z",
   motifDecision: null,
   produit: { id: "product-1", nom: "Samsung Galaxy A15", slug: "galaxy-a15", metaTitre: null, metaDescription: null },
@@ -88,6 +91,14 @@ describe("product sheet moderation", () => {
     expect(items[0]!.text()).toContain("Vue de face")
     expect(items[0]!.get("img").attributes("src")).toBe("https://cdn.test/b.webp")
     expect(items[1]!.text()).toContain("File not found")
+
+    // The short description, the technical sheet and its PDF are reviewed with the photos.
+    const texts = wrapper.get('[data-testid="content-review-texts"]')
+    expect(texts.text()).toContain("Smartphone endurant : batterie 5 000 mAh, 128 Go, double SIM.")
+    expect(texts.text()).toContain("Batterie : 5 000 mAh")
+    expect(texts.get('[data-testid="content-review-pdf"]').attributes("href")).toBe(
+      "https://cdn.test/documents/fiche.pdf",
+    )
     wrapper.unmount()
   })
 

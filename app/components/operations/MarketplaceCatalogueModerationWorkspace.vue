@@ -125,6 +125,25 @@ const seoRows = computed(() => {
     },
   ]
 })
+/** The short description, the technical sheet and its PDF: current value against the proposal. */
+const textRows = computed(() => {
+  const content = selectedContent.value
+  if (!content) return []
+  return [
+    {
+      key: "shortDescription",
+      label: t("operations.catalogue.shortDescription"),
+      before: content.produit.descriptionCourte ?? null,
+      after: content.descriptionCourte ?? null,
+    },
+    {
+      key: "technicalSheet",
+      label: t("operations.catalogue.technicalSheet"),
+      before: content.produit.ficheTechnique ?? null,
+      after: content.ficheTechnique ?? null,
+    },
+  ]
+})
 const size = (bytes: number) =>
   `${new Intl.NumberFormat(locale.value, { maximumFractionDigits: 1 }).format(bytes / 1024)} Kio`
 
@@ -384,6 +403,24 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                     {{ selectedProduct.description ?? t("operations.catalogue.noDescription") }}
                   </p>
                 </div>
+                <div class="mt-5 border-t border-border pt-4" data-testid="product-review-texts">
+                  <h4 class="text-sm font-medium">{{ t("operations.catalogue.shortDescription") }}</h4>
+                  <p class="mt-2 whitespace-pre-wrap text-sm leading-6 text-muted-foreground">
+                    {{ selectedProduct.descriptionCourte ?? t("operations.catalogue.notSet") }}
+                  </p>
+                  <h4 class="mt-4 text-sm font-medium">{{ t("operations.catalogue.technicalSheet") }}</h4>
+                  <p class="mt-2 whitespace-pre-wrap font-mono text-xs leading-6 text-muted-foreground">
+                    {{ selectedProduct.ficheTechnique ?? t("operations.catalogue.notSet") }}
+                  </p>
+                  <a
+                    v-if="selectedProduct.ficheTechniquePdfUrl"
+                    :href="selectedProduct.ficheTechniquePdfUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary underline"
+                    ><Icon name="ph:file-pdf" /> {{ t("operations.catalogue.technicalSheetPdf") }}</a
+                  >
+                </div>
               </section>
               <section v-if="selectedOffer && queue === 'offers'" class="rounded-lg border border-border bg-card p-5">
                 <h3 class="font-heading font-semibold">{{ t("operations.catalogue.proposedTerms") }}</h3>
@@ -417,6 +454,12 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                   <div>
                     <dt class="text-muted-foreground">{{ t("operations.catalogue.sellerReference") }}</dt>
                     <dd class="font-medium">{{ selectedOffer.offre.referenceVendeur }}</dd>
+                  </div>
+                  <div>
+                    <dt class="text-muted-foreground">{{ t("operations.catalogue.minimumOrder") }}</dt>
+                    <dd class="font-medium" data-testid="offer-review-moq">
+                      {{ t("operations.catalogue.unitCount", { count: selectedOffer.quantiteMinimale ?? 1 }) }}
+                    </dd>
                   </div>
                   <div v-if="selectedOffer.libelleVariante">
                     <dt class="text-muted-foreground">{{ t("operations.catalogue.variant") }}</dt>
@@ -464,6 +507,60 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                           <span v-if="row.after">· {{ row.after.length }}/{{ row.max }}</span>
                         </dt>
                         <dd class="mt-1 font-medium">{{ row.after ?? t("operations.catalogue.notSet") }}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </section>
+                <section class="rounded-lg border border-border bg-card p-5" data-testid="content-review-texts">
+                  <h3 class="font-heading font-semibold">{{ t("operations.catalogue.sheetTexts") }}</h3>
+                  <div v-for="row in textRows" :key="row.key" class="mt-4 border-t border-border pt-4 first:border-0">
+                    <h4 class="text-sm font-medium">{{ row.label }}</h4>
+                    <dl class="mt-2 grid gap-3 text-sm sm:grid-cols-2">
+                      <div>
+                        <dt class="text-xs text-muted-foreground">{{ t("operations.catalogue.currentValue") }}</dt>
+                        <dd class="mt-1 whitespace-pre-wrap text-muted-foreground">
+                          {{ row.before ?? t("operations.catalogue.notSet") }}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs text-muted-foreground">{{ t("operations.catalogue.proposedValue") }}</dt>
+                        <dd class="mt-1 whitespace-pre-wrap font-medium">
+                          {{ row.after ?? t("operations.catalogue.notSet") }}
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                  <div class="mt-4 border-t border-border pt-4">
+                    <h4 class="text-sm font-medium">{{ t("operations.catalogue.technicalSheetPdf") }}</h4>
+                    <dl class="mt-2 grid gap-3 text-sm sm:grid-cols-2">
+                      <div>
+                        <dt class="text-xs text-muted-foreground">{{ t("operations.catalogue.currentValue") }}</dt>
+                        <dd class="mt-1">
+                          <a
+                            v-if="selectedContent.produit.ficheTechniquePdfUrl"
+                            :href="selectedContent.produit.ficheTechniquePdfUrl"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-primary underline"
+                            >{{ t("operations.catalogue.openPdf") }}</a
+                          >
+                          <span v-else class="text-muted-foreground">{{ t("operations.catalogue.notSet") }}</span>
+                        </dd>
+                      </div>
+                      <div>
+                        <dt class="text-xs text-muted-foreground">{{ t("operations.catalogue.proposedValue") }}</dt>
+                        <dd class="mt-1">
+                          <a
+                            v-if="selectedContent.ficheTechniquePdfUrl"
+                            :href="selectedContent.ficheTechniquePdfUrl"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="font-medium text-primary underline"
+                            data-testid="content-review-pdf"
+                            >{{ t("operations.catalogue.openPdf") }}</a
+                          >
+                          <span v-else class="text-muted-foreground">{{ t("operations.catalogue.notSet") }}</span>
+                        </dd>
                       </div>
                     </dl>
                   </div>

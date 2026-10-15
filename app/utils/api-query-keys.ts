@@ -17,6 +17,8 @@ const marketplaceOperations = ["v1", "marketplace", "operations"] as const
 const marketplaceModeration = ["v1", "marketplace", "moderation"] as const
 const marketplaceCategories = ["v1", "marketplace", "categories"] as const
 const deliveryFees = ["v1", "marketplace", "livraison", "tarifs"] as const
+const verifiedOffers = ["v1", "marketplace", "moderation", "offres-publiees"] as const
+const refusedLines = ["v1", "marketplace", "refus-lignes"] as const
 const marketplaceQuotes = ["v1", "marketplace", "administration", "devis"] as const
 const reportedReviews = ["v1", "marketplace", "reputation", "avis", "a-moderer"] as const
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
@@ -100,6 +102,14 @@ export const apiQueryKeys = {
   deliveryFees: {
     all: deliveryFees,
     admin: [...deliveryFees, "administration"] as const,
+  },
+  verifiedOffers: {
+    all: verifiedOffers,
+    list: (params: Record<string, string | undefined>) => [...verifiedOffers, params] as const,
+  },
+  refusedLines: {
+    all: refusedLines,
+    list: (filter: string) => [...refusedLines, filter] as const,
   },
   marketplaceCategories: {
     all: marketplaceCategories,

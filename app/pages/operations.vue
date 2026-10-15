@@ -21,6 +21,8 @@ const QUERY_TABS = [
   "marketplace-catalogue",
   "marketplace-categories",
   "delivery-fees",
+  "verified-offers",
+  "refused-lines",
   "marketplace-quotes",
   "reported-reviews",
   "marketplace-disputes",
@@ -34,6 +36,8 @@ type OperationsTab = "cash-registers" | (typeof QUERY_TABS)[number]
 const DIRECTION_TABS: ReadonlySet<OperationsTab> = new Set([
   "marketplace-categories",
   "delivery-fees",
+  "verified-offers",
+  "refused-lines",
   "marketplace-quotes",
   "reported-reviews",
   "legal-closure",
@@ -110,6 +114,18 @@ const tabs = computed(() => [
           testid: "operations-tab-delivery-fees",
         },
         {
+          value: "verified-offers",
+          label: t("operations.tabs.verifiedOffers.label"),
+          icon: "ph:seal-check",
+          testid: "operations-tab-verified-offers",
+        },
+        {
+          value: "refused-lines",
+          label: t("operations.tabs.refusedLines.label"),
+          icon: "ph:receipt-x",
+          testid: "operations-tab-refused-lines",
+        },
+        {
           value: "marketplace-quotes",
           label: t("operations.tabs.marketplaceQuotes.label"),
           icon: "ph:file-text",
@@ -174,6 +190,7 @@ useHead({
 <template>
   <div class="-mx-4 flex h-workspace flex-col overflow-hidden sm:-mx-6 lg:-mx-10">
     <div class="shrink-0 px-4 sm:px-6 lg:px-10">
+      <!-- fallow-ignore-next-line complexity -->
       <AdminPageHeader :title="t('operations.page.heading')">
         <template #tabs>
           <PillTabs
@@ -193,6 +210,8 @@ useHead({
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />
     <OperationsMarketplaceCategoriesWorkspace v-else-if="activeTab === 'marketplace-categories'" />
     <OperationsDeliveryFeesWorkspace v-else-if="activeTab === 'delivery-fees'" />
+    <OperationsVerifiedOffersWorkspace v-else-if="activeTab === 'verified-offers'" />
+    <OperationsRefusedLinesWorkspace v-else-if="activeTab === 'refused-lines'" />
     <OperationsMarketplaceQuotesWorkspace v-else-if="activeTab === 'marketplace-quotes'" />
     <OperationsReportedReviewsWorkspace v-else-if="activeTab === 'reported-reviews'" />
     <OperationsMarketplaceDisputesWorkspace v-else-if="activeTab === 'marketplace-disputes'" />

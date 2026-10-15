@@ -37,6 +37,12 @@
       },
       "reportedReviews": {
         "label": "Reported reviews"
+      },
+      "verifiedOffers": {
+        "label": "Verified products"
+      },
+      "refusedLines": {
+        "label": "Refused lines"
       }
     },
     "common": {
@@ -145,7 +151,14 @@
       "missingImage": "File not found",
       "emptyGallery": "No photos: the sheet will be published without a gallery.",
       "variant": "Variant",
-      "variantAttributes": "Attributes"
+      "variantAttributes": "Attributes",
+      "shortDescription": "Short description",
+      "technicalSheet": "Technical sheet",
+      "technicalSheetPdf": "Technical sheet (PDF)",
+      "sheetTexts": "Short description and technical sheet",
+      "openPdf": "Open the PDF",
+      "minimumOrder": "Minimum order",
+      "unitCount": "{count} unit | {count} unit | {count} units"
     },
     "onboarding": {
       "search": "Seller or store…",
@@ -488,7 +501,14 @@
       "deactivated": "Category deactivated: merchants can no longer pick it.",
       "deleted": "Category deleted.",
       "deleteTitle": "Delete “{name}”?",
-      "deleteHelp": "This category has no products. Deleting it is permanent."
+      "deleteHelp": "This category has no products. Deleting it is permanent.",
+      "variantAttributes": "Variant attributes",
+      "attributesPlaceholder": "Capacity, Color",
+      "attributesHelp": "Comma-separated, six at most. Merchants find them prefilled when they create a variant.",
+      "attributesSubHelp": "Empty: the sub-category uses its category’s attributes.",
+      "attributesInvalid": "Six attributes at most, 40 characters each.",
+      "attributesInherited": "the category’s",
+      "noAttributes": "none"
     },
     "deliveryFees": {
       "help": "The grid applied to marketplace orders: one tariff per city and delivery mode. Fees are paid on delivery, outside the deposit. A city without an active tariff for a mode cannot be delivered in that mode.",
@@ -564,6 +584,55 @@
       "hide": "Hide review",
       "kept": "Review kept published.",
       "hidden": "Review hidden."
+    },
+    "verifiedOffers": {
+      "help": "The \"Verified by KatiHub\" badge tells customers KatiHub received this shop’s item and tested it. It applies to this shop’s offer only, not to the same product at other shops.",
+      "search": "Search an offer, product or shop…",
+      "filter": "Filter offers",
+      "all": "All published offers",
+      "onlyVerified": "Verified offers",
+      "empty": "No published offer matches.",
+      "badge": "Verified by KatiHub",
+      "minimum": "minimum {count}",
+      "since": "Verified on {date}",
+      "verify": "Set the badge",
+      "editNote": "Edit the note",
+      "remove": "Remove the badge",
+      "dialogTitle": "Verified by KatiHub",
+      "dialogHelp": "{offer}, at {shop}. Confirm KatiHub received and tested this item.",
+      "note": "Verification note",
+      "noteHelp": "Optional, internal: what was checked and when (3 to 300 characters).",
+      "noteInvalid": "The note is 3 to 300 characters long.",
+      "cancel": "Cancel",
+      "confirm": "Set the badge",
+      "verified": "Badge set.",
+      "removed": "Badge removed."
+    },
+    "refusedLines": {
+      "help": "Lines a shop without stock tracking could not supply. The delivery collects less; the deposit that no longer covers any item is owed to the customer and refunded by Mobile Money.",
+      "filter": "Filter refused lines",
+      "toRefund": "To refund",
+      "all": "All",
+      "empty": "No refused line to handle.",
+      "quantity": "{count} item | {count} item | {count} items",
+      "owed": "Deposit owed to the customer",
+      "reason": "Shop’s reason",
+      "refund": "Refund",
+      "reconcile": "Check with Fapshi",
+      "reconciled": "Fapshi status refreshed.",
+      "refundTitle": "Refund the deposit",
+      "refundHelp": "{amount} for order {order}, by a Fapshi Mobile Money transfer.",
+      "phone": "Refund number",
+      "phoneHelp": "Empty: the original payment number, otherwise the customer’s.",
+      "phoneInvalid": "Cameroonian number expected (6XXXXXXXX).",
+      "cancel": "Cancel",
+      "confirmRefund": "Start the refund",
+      "refundSent": "Refund sent to Fapshi.",
+      "statusPrepared": "Prepared",
+      "statusSubmitted": "Sent to Fapshi",
+      "statusPaid": "Refunded",
+      "statusFailed": "Failed",
+      "statusCheck": "To check"
     }
   }
 }

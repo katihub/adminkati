@@ -2,7 +2,6 @@
 // fallow-ignore-file complexity -- one declarative screen: the grid, its form dialog and its delete confirmation
 import type { DeliveryFee, DeliveryMode } from "@/composables/useDeliveryFees"
 import { computed, reactive, ref } from "vue"
-import { toast } from "vue-sonner"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -26,11 +25,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { useDeliveryFeeMutations, useDeliveryFees } from "@/composables/useDeliveryFees"
-import { apiErrorText } from "@/utils/api-error"
+import { useToastAction } from "@/composables/useToastAction"
 
 const { t, locale } = useI18n()
 const query = useDeliveryFees()
 const mutations = useDeliveryFeeMutations()
+const run = useToastAction()
 const editing = ref<DeliveryFee | null>(null)
 const creating = ref(false)
 const formOpen = computed(() => creating.value || Boolean(editing.value))
@@ -73,17 +73,6 @@ function openEdit(fee: DeliveryFee) {
   })
   creating.value = false
   editing.value = fee
-}
-
-async function run(action: () => Promise<unknown>, success: string) {
-  try {
-    await action()
-    toast.success(success)
-    return true
-  } catch (cause) {
-    toast.error(apiErrorText(cause, t))
-    return false
-  }
 }
 
 async function submit() {

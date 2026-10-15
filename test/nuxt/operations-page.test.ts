@@ -18,6 +18,12 @@ const operationsWorkspaceStubs = {
   OperationsDeliveryFeesWorkspace: {
     template: '<div data-testid="operations-delivery-fees-workspace" />',
   },
+  OperationsVerifiedOffersWorkspace: {
+    template: '<div data-testid="operations-verified-offers-workspace" />',
+  },
+  OperationsRefusedLinesWorkspace: {
+    template: '<div data-testid="operations-refused-lines-workspace" />',
+  },
   OperationsMarketplaceQuotesWorkspace: {
     template: '<div data-testid="operations-marketplace-quotes-workspace" />',
   },
@@ -39,6 +45,8 @@ const workspaces = [
   "marketplace-catalogue",
   "marketplace-categories",
   "delivery-fees",
+  "verified-offers",
+  "refused-lines",
   "marketplace-quotes",
   "reported-reviews",
   "marketplace-disputes",
@@ -85,6 +93,8 @@ describe("operations page tabs", () => {
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
     ["marketplace-categories", "/operations?tab=marketplace-categories"],
     ["delivery-fees", "/operations?tab=delivery-fees"],
+    ["verified-offers", "/operations?tab=verified-offers"],
+    ["refused-lines", "/operations?tab=refused-lines"],
     ["marketplace-quotes", "/operations?tab=marketplace-quotes"],
     ["reported-reviews", "/operations?tab=reported-reviews"],
     ["marketplace-disputes", "/operations?tab=marketplace-disputes"],
@@ -110,6 +120,8 @@ describe("operations page tabs", () => {
     "marketplace-catalogue",
     "marketplace-categories",
     "delivery-fees",
+    "verified-offers",
+    "refused-lines",
     "marketplace-quotes",
     "reported-reviews",
     "marketplace-disputes",
@@ -139,6 +151,8 @@ describe("operations page tabs", () => {
     "outbound-notifications",
     "marketplace-categories",
     "delivery-fees",
+    "verified-offers",
+    "refused-lines",
     "marketplace-quotes",
     "reported-reviews",
   ] as const)("keeps the direction-only %s workspace closed to the counter", async workspace => {

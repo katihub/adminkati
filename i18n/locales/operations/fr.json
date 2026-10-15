@@ -37,6 +37,12 @@
       },
       "reportedReviews": {
         "label": "Avis signalés"
+      },
+      "verifiedOffers": {
+        "label": "Produits vérifiés"
+      },
+      "refusedLines": {
+        "label": "Lignes refusées"
       }
     },
     "common": {
@@ -145,7 +151,14 @@
       "missingImage": "Fichier introuvable",
       "emptyGallery": "Aucune photo : la fiche sera publiée sans galerie.",
       "variant": "Variante",
-      "variantAttributes": "Attributs"
+      "variantAttributes": "Attributs",
+      "shortDescription": "Description courte",
+      "technicalSheet": "Fiche technique",
+      "technicalSheetPdf": "Fiche technique (PDF)",
+      "sheetTexts": "Description courte et fiche technique",
+      "openPdf": "Ouvrir le PDF",
+      "minimumOrder": "Minimum de commande",
+      "unitCount": "{count} unité | {count} unité | {count} unités"
     },
     "onboarding": {
       "search": "Vendeur ou boutique…",
@@ -488,7 +501,14 @@
       "deactivated": "Catégorie désactivée : les marchands ne peuvent plus la choisir.",
       "deleted": "Catégorie supprimée.",
       "deleteTitle": "Supprimer « {name} » ?",
-      "deleteHelp": "Cette catégorie n’a aucun produit. Sa suppression est définitive."
+      "deleteHelp": "Cette catégorie n’a aucun produit. Sa suppression est définitive.",
+      "variantAttributes": "Attributs de variante",
+      "attributesPlaceholder": "Capacité, Couleur",
+      "attributesHelp": "Séparés par une virgule, six au plus. Le marchand les retrouve d’office quand il crée une variante.",
+      "attributesSubHelp": "Vide : la sous-catégorie reprend les attributs de sa catégorie.",
+      "attributesInvalid": "Six attributs au plus, de 40 caractères chacun.",
+      "attributesInherited": "ceux de la catégorie",
+      "noAttributes": "aucun"
     },
     "deliveryFees": {
       "help": "La grille appliquée aux commandes marketplace : un tarif par ville et par mode de livraison. Les frais se paient à la livraison, hors acompte. Une ville sans tarif actif pour un mode ne peut pas être livrée dans ce mode.",
@@ -564,6 +584,55 @@
       "hide": "Masquer l’avis",
       "kept": "Avis gardé publié.",
       "hidden": "Avis masqué."
+    },
+    "verifiedOffers": {
+      "help": "Le badge « Vérifié par KatiHub » dit au client que KatiHub a reçu l’article de cette boutique et l’a testé. Il ne vaut que pour l’offre de cette boutique, pas pour le même produit chez les autres.",
+      "search": "Rechercher une offre, un produit ou une boutique…",
+      "filter": "Filtrer les offres",
+      "all": "Toutes les offres publiées",
+      "onlyVerified": "Offres vérifiées",
+      "empty": "Aucune offre publiée ne correspond.",
+      "badge": "Vérifié par KatiHub",
+      "minimum": "minimum {count}",
+      "since": "Vérifiée le {date}",
+      "verify": "Poser le badge",
+      "editNote": "Modifier la note",
+      "remove": "Retirer le badge",
+      "dialogTitle": "Vérifié par KatiHub",
+      "dialogHelp": "{offer}, chez {shop}. Confirmez que KatiHub a reçu et testé cet article.",
+      "note": "Note de vérification",
+      "noteHelp": "Facultative, interne : ce qui a été contrôlé et quand (3 à 300 caractères).",
+      "noteInvalid": "La note fait de 3 à 300 caractères.",
+      "cancel": "Annuler",
+      "confirm": "Poser le badge",
+      "verified": "Badge posé.",
+      "removed": "Badge retiré."
+    },
+    "refusedLines": {
+      "help": "Les lignes qu’une boutique sans suivi de stock n’a pas pu fournir. La livraison encaisse moins ; l’acompte qui ne couvre plus d’article est dû au client et se rembourse par Mobile Money.",
+      "filter": "Filtrer les lignes refusées",
+      "toRefund": "À rembourser",
+      "all": "Toutes",
+      "empty": "Aucune ligne refusée à traiter.",
+      "quantity": "{count} article | {count} article | {count} articles",
+      "owed": "Acompte dû au client",
+      "reason": "Motif de la boutique",
+      "refund": "Rembourser",
+      "reconcile": "Vérifier chez Fapshi",
+      "reconciled": "État Fapshi relu.",
+      "refundTitle": "Rembourser l’acompte",
+      "refundHelp": "{amount} pour la commande {order}, par un virement Mobile Money Fapshi.",
+      "phone": "Numéro de remboursement",
+      "phoneHelp": "Vide : le numéro du paiement initial, à défaut celui du client.",
+      "phoneInvalid": "Numéro camerounais attendu (6XXXXXXXX).",
+      "cancel": "Annuler",
+      "confirmRefund": "Lancer le remboursement",
+      "refundSent": "Remboursement envoyé à Fapshi.",
+      "statusPrepared": "Préparé",
+      "statusSubmitted": "Envoyé à Fapshi",
+      "statusPaid": "Remboursé",
+      "statusFailed": "Échec",
+      "statusCheck": "À vérifier"
     }
   }
 }

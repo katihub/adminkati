@@ -80,6 +80,9 @@ export interface MarketplaceProductReview {
   statut: string
   motifDecision: string | null
   creeLe: string
+  descriptionCourte?: string | null
+  ficheTechnique?: string | null
+  ficheTechniquePdfUrl?: string | null
   proposeParBoutique: { id: string; nom: string; slug: string; vendeurId: string } | null
 }
 
@@ -96,6 +99,8 @@ export interface MarketplaceOfferReview {
   modesLivraison: string[]
   villesLivraison: string[]
   delaiMaxJours: number
+  /** MOQ: the smallest quantity a customer may order or request in a quote. */
+  quantiteMinimale?: number
   motifDecision: string | null
   soumisLe: string
   /** The variant name the customer will see ("128 Go / Noir"); null for a plain offer. */
@@ -127,9 +132,21 @@ export interface MarketplaceContentReview {
   statut: string
   metaTitre: string | null
   metaDescription: string | null
+  descriptionCourte?: string | null
+  ficheTechnique?: string | null
+  ficheTechniquePdfUrl?: string | null
   soumisLe: string
   motifDecision: string | null
-  produit: { id: string; nom: string; slug: string; metaTitre: string | null; metaDescription: string | null }
+  produit: {
+    id: string
+    nom: string
+    slug: string
+    metaTitre: string | null
+    metaDescription: string | null
+    descriptionCourte?: string | null
+    ficheTechnique?: string | null
+    ficheTechniquePdfUrl?: string | null
+  }
   boutique: { id: string; nom: string } | null
   /** The gallery in its proposed order; `image` is null if the file disappeared since. */
   images: Array<{ imageId: string; texteAlternatif: string | null; image: MarketplaceContentImage | null }>

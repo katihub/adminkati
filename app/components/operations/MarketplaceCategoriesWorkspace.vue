@@ -7,7 +7,6 @@ import type {
   WarrantyUnit,
 } from "@/types/api/marketplace-categories"
 import { computed, reactive, ref } from "vue"
-import { toast } from "vue-sonner"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,7 +31,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { useMarketplaceCategories, useMarketplaceCategoryMutations } from "@/composables/useMarketplaceCategories"
-import { apiErrorText } from "@/utils/api-error"
+import { useToastAction } from "@/composables/useToastAction"
 
 type Node = MarketplaceCategory | MarketplaceSubcategory
 type FormMode = { kind: "create"; parent: MarketplaceCategory | null } | { kind: "edit"; node: Node }
@@ -40,10 +39,11 @@ type FormMode = { kind: "create"; parent: MarketplaceCategory | null } | { kind:
 const { t } = useI18n()
 const query = useMarketplaceCategories()
 const mutations = useMarketplaceCategoryMutations()
+const run = useToastAction()
 const search = ref("")
 const formMode = ref<FormMode | null>(null)
 const deleting = ref<Node | null>(null)
-const form = reactive({ nom: "", inherit: false, valeur: 0, unite: "mois" as WarrantyUnit, ordre: 0 })
+const form = reactive({ nom: "", inherit: false, valeur: 0, unite: "mois" as WarrantyUnit, ordre: 0, attributs: "" })
 const pending = computed(() => Object.values(mutations).some(mutation => mutation.isPending.value))
 
 const categories = computed(() => {
@@ -75,14 +75,32 @@ const warrantyError = computed(() => {
     return t("operations.categories.warrantyTooLong")
   return ""
 })
-const formValid = computed(() => form.nom.trim().length >= 2 && !warrantyError.value)
+/** "Capacité, Couleur" becomes ["Capacité", "Couleur"]: trimmed, without case-insensitive duplicates. */
+const attributes = computed(() => {
+  const seen = new Set<string>()
+  return form.attributs
+    .split(",")
+    .map(item => item.trim().replace(/\s+/g, " "))
+    .filter(item => item && !seen.has(item.toLocaleLowerCase()) && seen.add(item.toLocaleLowerCase()))
+})
+const attributesError = computed(() =>
+  attributes.value.length > 6 || attributes.value.some(item => item.length > 40)
+    ? t("operations.categories.attributesInvalid")
+    : "",
+)
+const formValid = computed(() => form.nom.trim().length >= 2 && !warrantyError.value && !attributesError.value)
 
 function warrantyText(node: Node) {
   return node.garantie.mois > 0 ? node.garantie.libelle : t("operations.categories.noWarranty")
 }
 
+function attributesText(node: Node) {
+  if (node.attributsVariante.length) return node.attributsVariante.join(", ")
+  return node.parentId ? t("operations.categories.attributesInherited") : t("operations.categories.noAttributes")
+}
+
 function openCreate(parent: MarketplaceCategory | null) {
-  Object.assign(form, { nom: "", inherit: Boolean(parent), valeur: 0, unite: "mois", ordre: 0 })
+  Object.assign(form, { nom: "", inherit: Boolean(parent), valeur: 0, unite: "mois", ordre: 0, attributs: "" })
   formMode.value = { kind: "create", parent }
 }
 
@@ -95,19 +113,9 @@ function openEdit(node: Node) {
     valeur: own === null ? 0 : unite === "annees" ? own / 12 : own,
     unite,
     ordre: node.ordre,
+    attributs: node.attributsVariante.join(", "),
   })
   formMode.value = { kind: "edit", node }
-}
-
-async function run(action: () => Promise<unknown>, success: string) {
-  try {
-    await action()
-    toast.success(success)
-    return true
-  } catch (cause) {
-    toast.error(apiErrorText(cause, t))
-    return false
-  }
 }
 
 async function submit() {
@@ -121,6 +129,7 @@ async function submit() {
             mutations.create.mutateAsync({
               nom: form.nom.trim(),
               ordre: form.ordre,
+              ...(attributes.value.length ? { attributsVariante: attributes.value } : {}),
               ...(mode.parent ? { parentId: mode.parent.id } : {}),
               ...(garantie ? { garantie } : {}),
             }),
@@ -130,7 +139,12 @@ async function submit() {
           () =>
             mutations.update.mutateAsync({
               id: mode.node.id,
-              body: { nom: form.nom.trim(), ordre: form.ordre, garantie } satisfies UpdateCategoryInput,
+              body: {
+                nom: form.nom.trim(),
+                ordre: form.ordre,
+                garantie,
+                attributsVariante: attributes.value,
+              } satisfies UpdateCategoryInput,
             }),
           t("operations.categories.updated"),
         )
@@ -204,6 +218,13 @@ async function confirmDelete() {
                 · {{ t("operations.categories.productCount", { count: category.produits }) }} ·
                 {{ t("operations.categories.subCount", { count: category.sousCategories.length }) }}
               </p>
+              <p class="mt-1 text-xs text-muted-foreground">
+                <Icon name="ph:sliders-horizontal" class="align-[-2px]" />
+                {{ t("operations.categories.variantAttributes") }} :
+                <strong class="text-foreground" data-testid="category-attributes">{{
+                  attributesText(category)
+                }}</strong>
+              </p>
             </div>
             <div class="flex flex-wrap gap-1">
               <Button size="sm" variant="outline" :disabled="pending" @click="openCreate(category)"
@@ -245,7 +266,9 @@ async function confirmDelete() {
                   {{ t("operations.categories.minimumWarranty") }} :
                   <strong class="text-foreground" data-testid="category-warranty">{{ warrantyText(sub) }}</strong>
                   <span v-if="sub.garantie.heritee"> ({{ t("operations.categories.inherited") }})</span>
-                  · {{ t("operations.categories.productCount", { count: sub.produits }) }}
+                  · {{ t("operations.categories.productCount", { count: sub.produits }) }} ·
+                  {{ t("operations.categories.variantAttributes") }} :
+                  <strong class="text-foreground" data-testid="category-attributes">{{ attributesText(sub) }}</strong>
                 </p>
               </div>
               <div class="flex flex-wrap gap-1">
@@ -310,6 +333,21 @@ async function confirmDelete() {
             <p class="text-xs text-muted-foreground">{{ t("operations.categories.warrantyHelp") }}</p>
             <p v-if="warrantyError" class="text-xs text-destructive" role="alert">{{ warrantyError }}</p>
           </fieldset>
+          <div class="grid gap-2">
+            <Label for="category-attributes">{{ t("operations.categories.variantAttributes") }}</Label>
+            <Input
+              id="category-attributes"
+              v-model="form.attributs"
+              :placeholder="t('operations.categories.attributesPlaceholder')"
+              data-testid="category-attributes-input"
+            />
+            <p class="text-xs text-muted-foreground">
+              {{
+                isSubcategory ? t("operations.categories.attributesSubHelp") : t("operations.categories.attributesHelp")
+              }}
+            </p>
+            <p v-if="attributesError" class="text-xs text-destructive" role="alert">{{ attributesError }}</p>
+          </div>
           <div class="grid gap-2">
             <Label for="category-order">{{ t("operations.categories.order") }}</Label>
             <Input id="category-order" v-model.number="form.ordre" type="number" min="0" class="w-28" />

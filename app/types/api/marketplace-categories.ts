@@ -19,6 +19,8 @@ export interface MarketplaceSubcategory {
   active: boolean
   produits: number
   garantie: CategoryWarranty
+  /** The variant attributes offered to the category's products; empty on a sub-category means inherited. */
+  attributsVariante: string[]
 }
 
 export interface MarketplaceCategory extends Omit<MarketplaceSubcategory, "parentId"> {
@@ -36,6 +38,7 @@ export interface CreateCategoryInput {
   parentId?: string
   garantie?: CategoryWarrantyInput
   ordre?: number
+  attributsVariante?: string[]
 }
 
 export interface UpdateCategoryInput {
@@ -44,4 +47,5 @@ export interface UpdateCategoryInput {
   garantie?: CategoryWarrantyInput | null
   ordre?: number
   active?: boolean
+  attributsVariante?: string[]
 }
