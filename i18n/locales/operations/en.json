@@ -35,6 +35,9 @@
       "localities": {
         "label": "Cities and districts"
       },
+      "shopAgents": {
+        "label": "Shop agents"
+      },
       "marketplaceQuotes": {
         "label": "Marketplace quotes"
       },
@@ -576,6 +579,25 @@
       "showDistrict": "Show {district} again",
       "districtHidden": "{district} is no longer offered.",
       "districtShown": "{district} is offered again."
+    },
+    "shopAgents": {
+      "help": "The couriers and counter employees shops add from their seller space. Verify each agent before its first delivery and set the cash it may hold; without a ceiling, the city's ceiling applies.",
+      "filter": "Show",
+      "toVerify": "To verify",
+      "all": "All agents",
+      "pending": "To verify",
+      "removed": "Removed by the shop",
+      "verifiedOn": "Verified on {date}",
+      "ceiling": "ceiling {amount}",
+      "cityCeiling": "city ceiling",
+      "noShop": "Unknown shop",
+      "ceilingPlaceholder": "Ceiling (FCFA, optional)",
+      "ceilingFor": "Cash ceiling for {name}",
+      "ceilingInvalid": "A ceiling is a whole amount between 0 and 10,000,000 FCFA.",
+      "verify": "Verify",
+      "verified": "{name} is verified: the shop can assign deliveries to them.",
+      "emptyPending": "No agent to verify.",
+      "empty": "No shop agent."
     },
     "quotes": {
       "filterStatus": "Filter by status",

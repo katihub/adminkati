@@ -18,6 +18,7 @@ const marketplaceModeration = ["v1", "marketplace", "moderation"] as const
 const marketplaceCategories = ["v1", "marketplace", "categories"] as const
 const deliveryFees = ["v1", "marketplace", "livraison", "tarifs"] as const
 const localities = ["v1", "marketplace", "localites"] as const
+const shopAgents = ["v1", "marketplace", "expeditions", "agents-boutiques"] as const
 const verifiedOffers = ["v1", "marketplace", "moderation", "offres-publiees"] as const
 const refusedLines = ["v1", "marketplace", "refus-lignes"] as const
 const kati = ["v1", "marketplace", "kati"] as const
@@ -109,6 +110,10 @@ export const apiQueryKeys = {
   localities: {
     all: localities,
     admin: [...localities, "administration"] as const,
+  },
+  shopAgents: {
+    all: shopAgents,
+    list: (filter: string) => [...shopAgents, filter] as const,
   },
   verifiedOffers: {
     all: verifiedOffers,
