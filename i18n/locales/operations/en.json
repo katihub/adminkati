@@ -43,6 +43,9 @@
       },
       "refusedLines": {
         "label": "Refused lines"
+      },
+      "katiPoints": {
+        "label": "KATI points"
       }
     },
     "common": {
@@ -633,6 +636,126 @@
       "statusPaid": "Refunded",
       "statusFailed": "Failed",
       "statusCheck": "To check"
+    },
+    "kati": {
+      "cancel": "Cancel",
+      "sections": {
+        "label": "KATI points sections",
+        "overview": "Overview",
+        "clients": "Customers",
+        "sponsorships": "Sponsorships",
+        "policy": "Policy"
+      },
+      "overview": {
+        "policy": "Policy v{version} in force · {rate} KATI = 1 FCFA",
+        "runJobs": "Run processing",
+        "processed": "Gains, releases and take-backs processed.",
+        "available": "Available",
+        "pending": "Pending",
+        "reserved": "Reserved",
+        "used": "Used",
+        "cancelled": "Taken back or removed",
+        "expired": "Expired",
+        "thisMonth": "Issued this month",
+        "gains": "Customer gains",
+        "commissions": "Sponsorship commissions",
+        "adjustments": "Adjustments",
+        "cost": "Cost to KatiHub",
+        "underReview": "commission(s) under review",
+        "activeSponsorships": "active sponsorship(s)"
+      },
+      "types": {
+        "attribution": "Pending gain",
+        "liberation": "Released",
+        "reservation": "Reserved",
+        "utilisation": "Used",
+        "annulation": "Taken back",
+        "expiration": "Expired",
+        "correction": "Correction",
+        "ajustement": "KatiHub adjustment"
+      },
+      "clients": {
+        "search": "Search a customer: name, e-mail or phone…",
+        "empty": "No customer holds KATI.",
+        "select": "Pick a customer to see their sheet.",
+        "pendingShort": "+{points} pending",
+        "adjust": "Adjust",
+        "sponsoredBy": "Sponsored by {name} since {date}",
+        "noSponsor": "No sponsor",
+        "godchildren": "{count} referral | {count} referral | {count} referrals",
+        "history": "History",
+        "noHistory": "No operation.",
+        "adjustTitle": "Adjust the customer’s KATI",
+        "adjustHelp": "A credit or a withdrawal on the available balance, with a reason. The operation is logged under your name.",
+        "direction": "Operation",
+        "credit": "Credit",
+        "debit": "Withdraw",
+        "points": "Number of KATI",
+        "reason": "Reason",
+        "pointsInvalid": "A whole number of KATI, above zero.",
+        "reasonRequired": "The reason is required (at least 5 characters).",
+        "overdraft": "The withdrawal exceeds the available balance.",
+        "save": "Save",
+        "credited": "KATI credited.",
+        "debited": "KATI withdrawn."
+      },
+      "sponsorships": {
+        "help": "A commission that would take the sponsor over their monthly cap waits for your decision. An abusive sponsorship can be revoked: its pending commissions are taken back.",
+        "filter": "Filter sponsorships",
+        "underReview": "Commissions under review",
+        "all": "All sponsorships",
+        "noReview": "No commission under review.",
+        "none": "No sponsorship.",
+        "pair": "{sponsor} → {godchild}",
+        "period": "from {from} to {to}",
+        "orders": "{count} order | {count} order | {count} orders",
+        "validate": "Validate",
+        "cancel": "Cancel the commission",
+        "revoke": "Revoke",
+        "revoked": "Revoked",
+        "validated": "Commission validated and credited.",
+        "cancelled": "Commission cancelled.",
+        "revokedDone": "Sponsorship revoked.",
+        "cancelTitle": "Cancel the commission",
+        "cancelHelp": "The commission on order {order} will not be credited.",
+        "revokeTitle": "Revoke the sponsorship",
+        "revokeHelp": "{name}’s sponsorship ends; its pending commissions are taken back.",
+        "reason": "Reason",
+        "confirm": "Confirm"
+      },
+      "policy": {
+        "active": "Policy v{version}",
+        "inForce": "In force",
+        "summary": "{gain}% to the customer, {commission}% to the sponsor, {rate} KATI = 1 FCFA",
+        "draftTitle": "Draft v{version}",
+        "newDraft": "Prepare a new policy",
+        "help": "A draft changes nothing until it is approved. On approval it replaces the policy in force; gains already recorded keep their rates.",
+        "fields": {
+          "gainPercent": "Customer gain (%)",
+          "commissionPercent": "Sponsor commission (%)",
+          "katiParFcfa": "KATI per FCFA",
+          "liberationApresLivraisonJours": "Release after delivery (days)",
+          "parrainageDureeMois": "Sponsorship length (months)",
+          "plafondCommissionsMensuelKati": "Monthly commission cap (KATI)",
+          "depenseMinimumKati": "Minimum spend (KATI)",
+          "spendCapPercent": "Share payable in KATI (%)",
+          "expirationGainsMois": "Gains expiry (months, 0: never)",
+          "rechargeMinimumFcfa": "Minimum top-up (FCFA)",
+          "rechargeMaximumFcfa": "Maximum top-up (FCFA)",
+          "assiette": "Eligible amount",
+          "rechargeActive": "Money top-up open"
+        },
+        "productsOnly": "Products only",
+        "productsAndDelivery": "Products and delivery",
+        "saveDraft": "Save the draft",
+        "approve": "Approve and apply",
+        "draftSaved": "Draft saved.",
+        "approved": "New policy in force.",
+        "confirmTitle": "Apply policy v{version}?",
+        "confirmHelp": "It applies to the next gains, from now on. The current policy is archived.",
+        "history": "Version history",
+        "version": "v{version}"
+      }
     }
   }
 }

@@ -43,6 +43,9 @@
       },
       "refusedLines": {
         "label": "Lignes refusées"
+      },
+      "katiPoints": {
+        "label": "Points KATI"
       }
     },
     "common": {
@@ -633,6 +636,126 @@
       "statusPaid": "Remboursé",
       "statusFailed": "Échec",
       "statusCheck": "À vérifier"
+    },
+    "kati": {
+      "cancel": "Annuler",
+      "sections": {
+        "label": "Sections des points KATI",
+        "overview": "Vue d’ensemble",
+        "clients": "Clients",
+        "sponsorships": "Parrainages",
+        "policy": "Politique"
+      },
+      "overview": {
+        "policy": "Politique v{version} en vigueur · {rate} KATI = 1 FCFA",
+        "runJobs": "Lancer les traitements",
+        "processed": "Gains, libérations et reprises traités.",
+        "available": "Disponibles",
+        "pending": "En attente",
+        "reserved": "Réservés",
+        "used": "Utilisés",
+        "cancelled": "Repris ou retirés",
+        "expired": "Expirés",
+        "thisMonth": "Émis ce mois-ci",
+        "gains": "Gains clients",
+        "commissions": "Commissions de parrainage",
+        "adjustments": "Ajustements",
+        "cost": "Coût pour KatiHub",
+        "underReview": "commission(s) en revue",
+        "activeSponsorships": "parrainage(s) actif(s)"
+      },
+      "types": {
+        "attribution": "Gain en attente",
+        "liberation": "Libéré",
+        "reservation": "Réservé",
+        "utilisation": "Utilisé",
+        "annulation": "Repris",
+        "expiration": "Expiré",
+        "correction": "Correction",
+        "ajustement": "Ajustement KatiHub"
+      },
+      "clients": {
+        "search": "Rechercher un client : nom, e-mail ou téléphone…",
+        "empty": "Aucun client ne détient de KATI.",
+        "select": "Choisissez un client pour voir sa fiche.",
+        "pendingShort": "+{points} en attente",
+        "adjust": "Ajuster",
+        "sponsoredBy": "Parrainé par {name} depuis le {date}",
+        "noSponsor": "Sans parrain",
+        "godchildren": "{count} filleul | {count} filleul | {count} filleuls",
+        "history": "Historique",
+        "noHistory": "Aucune opération.",
+        "adjustTitle": "Ajuster les KATI du client",
+        "adjustHelp": "Un crédit ou un retrait dans le disponible, avec un motif. L’opération est journalisée à votre nom.",
+        "direction": "Opération",
+        "credit": "Créditer",
+        "debit": "Retirer",
+        "points": "Nombre de KATI",
+        "reason": "Motif",
+        "pointsInvalid": "Un nombre entier de KATI, supérieur à zéro.",
+        "reasonRequired": "Le motif est obligatoire (5 caractères au moins).",
+        "overdraft": "Le retrait dépasse le solde disponible.",
+        "save": "Enregistrer",
+        "credited": "KATI crédités.",
+        "debited": "KATI retirés."
+      },
+      "sponsorships": {
+        "help": "Une commission qui fait dépasser au parrain son plafond mensuel attend votre décision. Un parrainage abusif se révoque : ses commissions encore en attente sont reprises.",
+        "filter": "Filtrer les parrainages",
+        "underReview": "Commissions en revue",
+        "all": "Tous les parrainages",
+        "noReview": "Aucune commission en revue.",
+        "none": "Aucun parrainage.",
+        "pair": "{sponsor} → {godchild}",
+        "period": "du {from} au {to}",
+        "orders": "{count} commande | {count} commande | {count} commandes",
+        "validate": "Valider",
+        "cancel": "Annuler la commission",
+        "revoke": "Révoquer",
+        "revoked": "Révoqué",
+        "validated": "Commission validée et créditée.",
+        "cancelled": "Commission annulée.",
+        "revokedDone": "Parrainage révoqué.",
+        "cancelTitle": "Annuler la commission",
+        "cancelHelp": "La commission de la commande {order} ne sera pas créditée.",
+        "revokeTitle": "Révoquer le parrainage",
+        "revokeHelp": "Le parrainage de {name} s’arrête ; ses commissions encore en attente sont reprises.",
+        "reason": "Motif",
+        "confirm": "Confirmer"
+      },
+      "policy": {
+        "active": "Politique v{version}",
+        "inForce": "En vigueur",
+        "summary": "{gain} % au client, {commission} % au parrain, {rate} KATI = 1 FCFA",
+        "draftTitle": "Brouillon v{version}",
+        "newDraft": "Préparer une nouvelle politique",
+        "help": "Un brouillon ne change rien tant qu’il n’est pas approuvé. À l’approbation, il remplace la politique en vigueur ; les gains déjà inscrits gardent leurs taux.",
+        "fields": {
+          "gainPercent": "Gain du client (%)",
+          "commissionPercent": "Commission du parrain (%)",
+          "katiParFcfa": "KATI pour 1 FCFA",
+          "liberationApresLivraisonJours": "Libération après livraison (jours)",
+          "parrainageDureeMois": "Durée du parrainage (mois)",
+          "plafondCommissionsMensuelKati": "Plafond mensuel des commissions (KATI)",
+          "depenseMinimumKati": "Dépense minimum (KATI)",
+          "spendCapPercent": "Part payable en KATI (%)",
+          "expirationGainsMois": "Expiration des gains (mois, 0 : jamais)",
+          "rechargeMinimumFcfa": "Recharge minimum (FCFA)",
+          "rechargeMaximumFcfa": "Recharge maximum (FCFA)",
+          "assiette": "Montant éligible",
+          "rechargeActive": "Recharge en argent ouverte"
+        },
+        "productsOnly": "Produits seuls",
+        "productsAndDelivery": "Produits et livraison",
+        "saveDraft": "Enregistrer le brouillon",
+        "approve": "Approuver et appliquer",
+        "draftSaved": "Brouillon enregistré.",
+        "approved": "Nouvelle politique en vigueur.",
+        "confirmTitle": "Appliquer la politique v{version} ?",
+        "confirmHelp": "Elle s’applique aux prochains gains, dès maintenant. La politique actuelle est archivée.",
+        "history": "Historique des versions",
+        "version": "v{version}"
+      }
     }
   }
 }
