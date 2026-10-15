@@ -46,6 +46,9 @@
       },
       "katiPoints": {
         "label": "KATI points"
+      },
+      "orderServices": {
+        "label": "Order services"
       }
     },
     "common": {
@@ -756,6 +759,24 @@
         "history": "Version history",
         "version": "v{version}"
       }
+    },
+    "orderServices": {
+      "insuranceTitle": "KATI insurance",
+      "insuranceHelp": "A share of the products only, offered on every order and checked by default; the customer can uncheck it. The amount goes to KatiHub.",
+      "insuranceActive": "Offer the insurance at checkout",
+      "rate": "Rate (% of products)",
+      "rateInvalid": "A rate between 0 and 30%.",
+      "save": "Save",
+      "insuranceSaved": "Insurance saved.",
+      "installationTitle": "Installation assistance",
+      "installationHelp": "A fixed price per order, for each category where KatiHub installs the products. A sub-category without its own setting follows its category.",
+      "offered": "offered · {price}",
+      "price": "Installation price, {name}",
+      "offer": "Offer",
+      "updatePrice": "Change the price",
+      "stop": "Stop offering",
+      "installationOn": "Installation offered.",
+      "installationOff": "Installation removed."
     }
   }
 }

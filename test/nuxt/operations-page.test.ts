@@ -27,6 +27,9 @@ const operationsWorkspaceStubs = {
   OperationsKatiWorkspace: {
     template: '<div data-testid="operations-kati-points-workspace" />',
   },
+  OperationsOrderServicesWorkspace: {
+    template: '<div data-testid="operations-order-services-workspace" />',
+  },
   OperationsMarketplaceQuotesWorkspace: {
     template: '<div data-testid="operations-marketplace-quotes-workspace" />',
   },
@@ -51,6 +54,7 @@ const workspaces = [
   "verified-offers",
   "refused-lines",
   "kati-points",
+  "order-services",
   "marketplace-quotes",
   "reported-reviews",
   "marketplace-disputes",
@@ -100,6 +104,7 @@ describe("operations page tabs", () => {
     ["verified-offers", "/operations?tab=verified-offers"],
     ["refused-lines", "/operations?tab=refused-lines"],
     ["kati-points", "/operations?tab=kati-points"],
+    ["order-services", "/operations?tab=order-services"],
     ["marketplace-quotes", "/operations?tab=marketplace-quotes"],
     ["reported-reviews", "/operations?tab=reported-reviews"],
     ["marketplace-disputes", "/operations?tab=marketplace-disputes"],
@@ -128,6 +133,7 @@ describe("operations page tabs", () => {
     "verified-offers",
     "refused-lines",
     "kati-points",
+    "order-services",
     "marketplace-quotes",
     "reported-reviews",
     "marketplace-disputes",
@@ -160,6 +166,7 @@ describe("operations page tabs", () => {
     "verified-offers",
     "refused-lines",
     "kati-points",
+    "order-services",
     "marketplace-quotes",
     "reported-reviews",
   ] as const)("keeps the direction-only %s workspace closed to the counter", async workspace => {

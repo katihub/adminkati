@@ -24,6 +24,7 @@ const QUERY_TABS = [
   "verified-offers",
   "refused-lines",
   "kati-points",
+  "order-services",
   "marketplace-quotes",
   "reported-reviews",
   "marketplace-disputes",
@@ -40,6 +41,7 @@ const DIRECTION_TABS: ReadonlySet<OperationsTab> = new Set([
   "verified-offers",
   "refused-lines",
   "kati-points",
+  "order-services",
   "marketplace-quotes",
   "reported-reviews",
   "legal-closure",
@@ -134,6 +136,12 @@ const tabs = computed(() => [
           testid: "operations-tab-kati-points",
         },
         {
+          value: "order-services",
+          label: t("operations.tabs.orderServices.label"),
+          icon: "ph:shield-plus",
+          testid: "operations-tab-order-services",
+        },
+        {
           value: "marketplace-quotes",
           label: t("operations.tabs.marketplaceQuotes.label"),
           icon: "ph:file-text",
@@ -221,6 +229,7 @@ useHead({
     <OperationsVerifiedOffersWorkspace v-else-if="activeTab === 'verified-offers'" />
     <OperationsRefusedLinesWorkspace v-else-if="activeTab === 'refused-lines'" />
     <OperationsKatiWorkspace v-else-if="activeTab === 'kati-points'" />
+    <OperationsOrderServicesWorkspace v-else-if="activeTab === 'order-services'" />
     <OperationsMarketplaceQuotesWorkspace v-else-if="activeTab === 'marketplace-quotes'" />
     <OperationsReportedReviewsWorkspace v-else-if="activeTab === 'reported-reviews'" />
     <OperationsMarketplaceDisputesWorkspace v-else-if="activeTab === 'marketplace-disputes'" />

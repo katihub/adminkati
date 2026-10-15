@@ -21,6 +21,9 @@ export interface MarketplaceSubcategory {
   garantie: CategoryWarranty
   /** The variant attributes offered to the category's products; empty on a sub-category means inherited. */
   attributsVariante: string[]
+  /** KatiHub installs the category's products, at a fixed price per order. */
+  installationActive: boolean
+  installationPrixFcfa: number | null
 }
 
 export interface MarketplaceCategory extends Omit<MarketplaceSubcategory, "parentId"> {
@@ -48,4 +51,7 @@ export interface UpdateCategoryInput {
   ordre?: number
   active?: boolean
   attributsVariante?: string[]
+  installationActive?: boolean
+  /** `null` removes the price (installation must then be off). */
+  installationPrixFcfa?: number | null
 }

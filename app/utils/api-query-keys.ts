@@ -20,6 +20,7 @@ const deliveryFees = ["v1", "marketplace", "livraison", "tarifs"] as const
 const verifiedOffers = ["v1", "marketplace", "moderation", "offres-publiees"] as const
 const refusedLines = ["v1", "marketplace", "refus-lignes"] as const
 const kati = ["v1", "marketplace", "kati"] as const
+const orderServices = ["v1", "marketplace", "services-commande"] as const
 const marketplaceQuotes = ["v1", "marketplace", "administration", "devis"] as const
 const reportedReviews = ["v1", "marketplace", "reputation", "avis", "a-moderer"] as const
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
@@ -107,6 +108,10 @@ export const apiQueryKeys = {
   verifiedOffers: {
     all: verifiedOffers,
     list: (params: Record<string, string | undefined>) => [...verifiedOffers, params] as const,
+  },
+  orderServices: {
+    all: orderServices,
+    settings: [...orderServices, "reglages"] as const,
   },
   kati: {
     all: kati,
