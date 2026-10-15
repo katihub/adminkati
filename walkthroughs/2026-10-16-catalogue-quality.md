@@ -14,6 +14,8 @@ Plan : `plans/2026-10-16-catalogue-quality.md`.
 
 - Les attributs se saisissent dans un seul champ, séparés par des virgules. Le panel retire les espaces et les doublons sans tenir compte de la casse, comme le backend.
 - Un payout déjà soumis à Fapshi ne se relance pas depuis l'écran : seul le bouton « Vérifier chez Fapshi » apparaît, pour éviter un double virement.
+- Le bloc « action puis toast » était recopié dans chaque écran : fallow l'a signalé au troisième exemplaire. Il vit désormais dans `app/composables/useToastAction.ts`, repris par les frais de livraison et les catégories.
+- Le gabarit de `app/pages/operations.vue` dépasse le seuil de complexité cognitive avec deux branches de plus. Il ne contient qu'une branche par onglet : l'alerte est neutralisée par `<!-- fallow-ignore-next-line complexity -->` au-dessus de la première liaison du gabarit, la ligne où fallow ancre son constat.
 
 ## Tests exécutés
 
