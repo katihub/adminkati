@@ -50,11 +50,12 @@ export function storedMobileDimensions(
 }
 
 /**
- * Where a banner shows. Anything but `promo` reads as `principal`, the backend's default: a row
+ * Where a banner shows. An unknown placement reads as `principal`, the backend's default: a row
  * read from a backend that predates placements then still lands in the carousel it was in.
+ * `pub_accueil` is the KatiHub home page advert, in the right-hand column.
  */
 export function bannerEmplacement(banner: Pick<BanniereAdmin, "emplacement">): EmplacementBanniere {
-  return banner.emplacement === "promo" ? "promo" : "principal"
+  return banner.emplacement === "promo" || banner.emplacement === "pub_accueil" ? banner.emplacement : "principal"
 }
 
 /**
@@ -63,5 +64,6 @@ export function bannerEmplacement(banner: Pick<BanniereAdmin, "emplacement">): E
  * chosen while editing is the one shown everywhere else.
  */
 export function bannerFrameClass(emplacement: EmplacementBanniere): string {
+  if (emplacement === "pub_accueil") return "aspect-[4/5] w-full"
   return emplacement === "promo" ? "aspect-[16/10] w-full" : "aspect-[21/9] w-full"
 }

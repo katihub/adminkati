@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest"
-import { bannerEmplacement, storedMobileDimensions, validateBannerArtwork } from "../../app/utils/banner-artwork"
+import {
+  bannerEmplacement,
+  bannerFrameClass,
+  storedMobileDimensions,
+  validateBannerArtwork,
+} from "../../app/utils/banner-artwork"
 
 const landscapeLarge = { width: 1600, height: 600 }
 const narrowerMobile = { width: 800, height: 900 }
@@ -73,5 +78,13 @@ describe("bannerEmplacement", () => {
     expect(bannerEmplacement({ emplacement: "promo" })).toBe("promo")
     expect(bannerEmplacement({ emplacement: "principal" })).toBe("principal")
     expect(bannerEmplacement({} as never)).toBe("principal")
+  })
+})
+
+describe("the KatiHub home page advert", () => {
+  it("keeps its own placement and a portrait frame", () => {
+    expect(bannerEmplacement({ emplacement: "pub_accueil" })).toBe("pub_accueil")
+    expect(bannerEmplacement({ emplacement: "inconnu" as never })).toBe("principal")
+    expect(bannerFrameClass("pub_accueil")).toBe("aspect-[4/5] w-full")
   })
 })

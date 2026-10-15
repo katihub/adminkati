@@ -33,7 +33,11 @@ const focusSchema = z
  * The placements, in the order the home page's opening row shows them. Mirrors `EMPLACEMENTS`
  * (`vitrine.dto.ts:65`), which also refuses `null`.
  */
-export const BANNIERE_EMPLACEMENTS = ["principal", "promo"] as const satisfies readonly EmplacementBanniere[]
+export const BANNIERE_EMPLACEMENTS = [
+  "principal",
+  "promo",
+  "pub_accueil",
+] as const satisfies readonly EmplacementBanniere[]
 
 /** Mirrors `CreerBanniereDto` / `ModifierBanniereDto` (`vitrine.dto.ts:84-147` in nowtech-backend) — one schema for both create and edit. */
 export const banniereSchema = z.object({

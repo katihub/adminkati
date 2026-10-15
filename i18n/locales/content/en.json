@@ -13,8 +13,8 @@
       }
     },
     "seo": {
-      "title": "Content · NowTech Admin",
-      "description": "Storefront content administration for the NowTech admin panel."
+      "title": "Content · KatiHub Admin",
+      "description": "Storefront content administration for the KatiHub admin panel."
     },
     "propositions": {
       "status": {
@@ -114,7 +114,9 @@
         "principal": "Main banner",
         "promo": "Promo",
         "principalHint": "The large carousel at the top of the home page. Its artwork must be wider than it is tall.",
-        "promoHint": "The carousel beside it. Any artwork format."
+        "promoHint": "The carousel beside it. Any artwork format.",
+        "pub_accueil": "KatiHub home advert",
+        "pub_accueilHint": "The KatiHub home page advert, in the right-hand column. A portrait artwork is best (about 600 × 750 px). The first active banner of this placement is shown."
       },
       "grid": {
         "empty": "No banners yet.",

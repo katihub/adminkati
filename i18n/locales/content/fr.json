@@ -13,8 +13,8 @@
       }
     },
     "seo": {
-      "title": "Contenu · Administration NowTech",
-      "description": "Administration du contenu de la boutique pour le panneau NowTech."
+      "title": "Contenu · Administration KatiHub",
+      "description": "Administration du contenu de la marketplace pour le panneau KatiHub."
     },
     "propositions": {
       "status": {
@@ -114,7 +114,9 @@
         "principal": "Bannière principale",
         "promo": "Promo",
         "principalHint": "Le grand carrousel en tête de l'accueil. Son visuel doit être plus large que haut.",
-        "promoHint": "Le carrousel à côté. Tout format de visuel."
+        "promoHint": "Le carrousel à côté. Tout format de visuel.",
+        "pub_accueil": "Pub accueil KatiHub",
+        "pub_accueilHint": "La publicité de l'accueil KatiHub, dans la colonne de droite. Format vertical conseillé (environ 600 × 750 px). La première bannière active de cet emplacement est affichée."
       },
       "grid": {
         "empty": "Aucune bannière pour le moment.",

@@ -4,7 +4,7 @@
  * (`src/vitrine/vitrine.dto.ts:65-66`) and the `bannieres_emplacement_connu` constraint
  * (`sql/vitrine.sql:139-142`) in nowtech-backend.
  */
-export type EmplacementBanniere = "principal" | "promo"
+export type EmplacementBanniere = "principal" | "promo" | "pub_accueil"
 
 /**
  * Mirrors `BanniereDetaillee` (`src/vitrine/vitrine.service.ts:30-41`) and `sql/vitrine.sql`
