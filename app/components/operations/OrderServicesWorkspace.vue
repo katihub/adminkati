@@ -23,7 +23,7 @@ const categories = useMarketplaceCategories()
 const { updateSettings, updateInstallation } = useOrderServicesMutations()
 const run = useToastAction()
 const insurance = reactive({ active: true, percent: 5 })
-const prices = ref<Record<string, number | null>>({})
+const prices = ref<Record<string, number | undefined>>({})
 const money = computed(
   () => new Intl.NumberFormat(locale.value, { style: "currency", currency: "XAF", maximumFractionDigits: 0 }),
 )
@@ -49,7 +49,7 @@ watch(
 watch(
   () => categories.data.value,
   () => {
-    prices.value = Object.fromEntries(nodes.value.map(({ node }) => [node.id, node.installationPrixFcfa]))
+    prices.value = Object.fromEntries(nodes.value.map(({ node }) => [node.id, node.installationPrixFcfa ?? undefined]))
   },
   { immediate: true },
 )
