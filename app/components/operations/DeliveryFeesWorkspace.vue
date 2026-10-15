@@ -54,8 +54,15 @@ const formError = computed(() => {
   return ""
 })
 
+const MODE_LABELS: Record<DeliveryMode, string> = {
+  katihub: "operations.deliveryFees.modeKatihub",
+  vendeur: "operations.deliveryFees.modeShop",
+  agence: "operations.deliveryFees.modeAgency",
+}
+const MODES = Object.keys(MODE_LABELS) as DeliveryMode[]
+
 function modeLabel(mode: DeliveryMode) {
-  return mode === "katihub" ? t("operations.deliveryFees.modeKatihub") : t("operations.deliveryFees.modeShop")
+  return t(MODE_LABELS[mode] ?? mode)
 }
 
 function openNew(ville = "") {
@@ -147,7 +154,7 @@ async function confirmDelete() {
           <div class="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
             <h3 class="font-heading font-semibold">{{ city.ville }}</h3>
             <Button
-              v-if="city.fees.length < 2"
+              v-if="city.fees.length < MODES.length"
               size="sm"
               variant="ghost"
               :disabled="pending"
@@ -216,8 +223,9 @@ async function confirmDelete() {
             <div class="grid gap-2">
               <Label for="delivery-fee-mode">{{ t("operations.deliveryFees.mode") }}</Label>
               <NativeSelect id="delivery-fee-mode" v-model="form.mode" data-testid="delivery-fee-mode">
-                <NativeSelectOption value="katihub">{{ t("operations.deliveryFees.modeKatihub") }}</NativeSelectOption>
-                <NativeSelectOption value="vendeur">{{ t("operations.deliveryFees.modeShop") }}</NativeSelectOption>
+                <NativeSelectOption v-for="mode in MODES" :key="mode" :value="mode">{{
+                  modeLabel(mode)
+                }}</NativeSelectOption>
               </NativeSelect>
             </div>
           </template>

@@ -18,6 +18,9 @@ const operationsWorkspaceStubs = {
   OperationsDeliveryFeesWorkspace: {
     template: '<div data-testid="operations-delivery-fees-workspace" />',
   },
+  OperationsLocalitiesWorkspace: {
+    template: '<div data-testid="operations-localities-workspace" />',
+  },
   OperationsVerifiedOffersWorkspace: {
     template: '<div data-testid="operations-verified-offers-workspace" />',
   },
@@ -51,6 +54,7 @@ const workspaces = [
   "marketplace-catalogue",
   "marketplace-categories",
   "delivery-fees",
+  "localities",
   "verified-offers",
   "refused-lines",
   "kati-points",
@@ -101,6 +105,7 @@ describe("operations page tabs", () => {
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
     ["marketplace-categories", "/operations?tab=marketplace-categories"],
     ["delivery-fees", "/operations?tab=delivery-fees"],
+    ["localities", "/operations?tab=localities"],
     ["verified-offers", "/operations?tab=verified-offers"],
     ["refused-lines", "/operations?tab=refused-lines"],
     ["kati-points", "/operations?tab=kati-points"],
@@ -130,6 +135,8 @@ describe("operations page tabs", () => {
     "marketplace-catalogue",
     "marketplace-categories",
     "delivery-fees",
+    "localities",
+    "localities",
     "verified-offers",
     "refused-lines",
     "kati-points",
@@ -163,6 +170,8 @@ describe("operations page tabs", () => {
     "outbound-notifications",
     "marketplace-categories",
     "delivery-fees",
+    "localities",
+    "localities",
     "verified-offers",
     "refused-lines",
     "kati-points",

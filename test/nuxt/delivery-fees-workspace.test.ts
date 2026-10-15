@@ -64,7 +64,7 @@ describe("delivery fees workspace", () => {
     await flushPromises()
 
     const douala = wrapper.get("[data-testid='delivery-city-Douala']").text()
-    expect(douala).toContain("KatiHub delivery")
+    expect(douala).toContain("Kati Express")
     expect(douala).toMatch(/2,000/)
     expect(douala).toContain("free from")
     expect(wrapper.get("[data-testid='delivery-fee-f2']").text()).toContain("Inactive")
@@ -80,7 +80,7 @@ describe("delivery fees workspace", () => {
     await wrapper.get("[data-testid='delivery-fee-create']").trigger("click")
     await flushPromises()
     await setInput("delivery-fee-city", "Bafoussam")
-    await setInput("delivery-fee-mode", "vendeur")
+    await setInput("delivery-fee-mode", "agence")
     await setInput("delivery-fee-amount", "2500")
     byTestId("delivery-fee-submit")!.click()
     await vi.waitFor(() => expect(commands).toHaveLength(1))
@@ -108,7 +108,7 @@ describe("delivery fees workspace", () => {
     await vi.waitFor(() => expect(commands).toHaveLength(3))
 
     expect(commands).toEqual([
-      { method: "POST", path: "/", body: { ville: "Bafoussam", mode: "vendeur", montantFcfa: 2500 } },
+      { method: "POST", path: "/", body: { ville: "Bafoussam", mode: "agence", montantFcfa: 2500 } },
       { method: "PATCH", path: "f1", body: { montantFcfa: 2500, gratuitDesFcfa: null } },
       { method: "PATCH", path: "f2", body: { actif: true } },
     ])

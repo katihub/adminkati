@@ -32,6 +32,9 @@
       "deliveryFees": {
         "label": "Frais de livraison"
       },
+      "localities": {
+        "label": "Villes et quartiers"
+      },
       "marketplaceQuotes": {
         "label": "Devis marketplace"
       },
@@ -517,11 +520,11 @@
       "noAttributes": "aucun"
     },
     "deliveryFees": {
-      "help": "La grille appliquée aux commandes marketplace : un tarif par ville et par mode de livraison. Les frais se paient à la livraison, hors acompte. Une ville sans tarif actif pour un mode ne peut pas être livrée dans ce mode.",
+      "help": "La grille appliquée aux commandes marketplace : un tarif par ville et par mode. Kati Express et la livraison par la boutique se paient à la livraison, hors acompte ; l’expédition en agence se paie à la commande. Le retrait à la boutique est toujours gratuit : il n’a pas de tarif. Une ville sans tarif actif pour un mode ne peut pas être servie dans ce mode.",
       "create": "Nouveau tarif",
       "addMode": "Autre mode",
       "empty": "Aucun tarif : aucune commande marketplace ne peut être livrée. Ajoutez au moins Douala.",
-      "modeKatihub": "Livraison KatiHub",
+      "modeKatihub": "Kati Express",
       "modeShop": "Livraison par la boutique",
       "inactive": "Inactif",
       "freeFrom": "offerte dès {amount} de produits par boutique",
@@ -531,7 +534,7 @@
       "delete": "Supprimer",
       "createTitle": "Nouveau tarif de livraison",
       "editTitle": "{city} · {mode}",
-      "formHelp": "Le montant s’applique à chaque boutique d’une commande livrée dans cette ville et ce mode.",
+      "formHelp": "Le montant s’applique à chaque boutique d’une commande servie dans cette ville et ce mode ; en agence, la ville est celle de destination.",
       "city": "Ville",
       "mode": "Mode de livraison",
       "amount": "Frais (FCFA)",
@@ -548,7 +551,31 @@
       "deactivated": "Tarif désactivé : ce mode n’est plus proposé dans cette ville.",
       "deleted": "Tarif supprimé.",
       "deleteTitle": "Supprimer le tarif {city} · {mode} ?",
-      "deleteHelp": "Ce mode ne sera plus proposé dans cette ville. Les commandes déjà passées gardent leurs frais."
+      "deleteHelp": "Ce mode ne sera plus proposé dans cette ville. Les commandes déjà passées gardent leurs frais.",
+      "modeAgency": "Expédition en agence"
+    },
+    "localities": {
+      "help": "Les villes et quartiers proposés en listes déroulantes à la commande et à la création d’une boutique. Une adresse hors liste reste acceptée : la liste évite surtout les fautes de saisie. Cliquez sur un quartier pour le masquer ou le réafficher.",
+      "newCity": "Nouvelle ville",
+      "addCity": "Ajouter",
+      "cityInvalid": "Un nom de ville fait de 2 à 60 caractères.",
+      "cityExists": "Cette ville est déjà dans la liste.",
+      "cityCreated": "{city} ajoutée à la liste.",
+      "empty": "Aucune ville : la commande propose une saisie libre.",
+      "hidden": "Masquée",
+      "count": "{active} quartier(s) affiché(s) sur {total}",
+      "hideCity": "Masquer la ville",
+      "showCity": "Afficher la ville",
+      "cityHidden": "{city} n’est plus proposée.",
+      "cityShown": "{city} est de nouveau proposée.",
+      "addDistricts": "Ajouter des quartiers",
+      "districtsPlaceholder": "Un quartier par ligne, ou séparés par des virgules",
+      "add": "Ajouter les quartiers",
+      "districtsAdded": "{count} quartier(s) envoyé(s) pour {city} ; ceux déjà listés sont ignorés.",
+      "hideDistrict": "Masquer {district}",
+      "showDistrict": "Réafficher {district}",
+      "districtHidden": "{district} n’est plus proposé.",
+      "districtShown": "{district} est de nouveau proposé."
     },
     "quotes": {
       "filterStatus": "Filtrer par statut",

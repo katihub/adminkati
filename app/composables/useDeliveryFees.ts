@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 
-export type DeliveryMode = "katihub" | "vendeur"
+/** The priced modes: Kati Express, shop delivery and travel-agency shipping. Pickup is always free and has no fee. */
+export type DeliveryMode = "katihub" | "vendeur" | "agence"
 
 export interface DeliveryFee {
   id: string
