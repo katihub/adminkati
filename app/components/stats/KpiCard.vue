@@ -11,7 +11,7 @@ const {
   precedent,
   periodLabel,
   icon,
-  iconBgClass = "bg-teal-500/15 text-teal-600 dark:bg-teal-500/20 dark:text-teal-400",
+  iconBgClass = "bg-primary/15 text-primary",
   to = "/orders",
   linkLabel,
   unit,
@@ -118,7 +118,7 @@ const isNegative = computed(() =>
         :class="
           isNegative
             ? 'bg-rose-500/15 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400'
-            : 'bg-emerald-500/15 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400'
+            : 'bg-success/15 text-success'
         "
       >
         {{ badgeText }}

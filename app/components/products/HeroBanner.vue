@@ -48,8 +48,8 @@ const dateLabel = computed(() => {
 
     <!-- Banner Card with Exact Geometric Pattern & Floating Circular Avatar -->
     <div class="overflow-hidden rounded-3xl border border-border/60 bg-card shadow-xs">
-      <!-- Sage / Mint Green Geometric Pattern Header -->
-      <div class="relative h-28 w-full overflow-hidden bg-[#c8e6d0] dark:bg-emerald-950/60 sm:h-32">
+      <!-- KatiHub navy geometric pattern header -->
+      <div class="relative h-28 w-full overflow-hidden bg-brand-navy sm:h-32">
         <svg class="h-full w-full opacity-60" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
           <defs>
             <pattern id="mint-polygon-pattern" width="60" height="40" patternUnits="userSpaceOnUse">

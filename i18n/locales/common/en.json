@@ -1,20 +1,22 @@
 {
   "admin": {
-    "brandLabel": "NowTech Admin",
+    "brandLabel": "KatiHub Admin",
     "navigation": {
-      "content": "Content",
+      "administration": "Administration",
+      "catalogue": "Catalogue",
+      "clients": "Clients",
+      "commerce": "Commerce",
+      "finance": "Finance",
       "label": "Primary navigation",
+      "logistics": "Logistics",
+      "marketing": "Marketing",
       "open": "Open navigation",
-      "orders": "Orders",
-      "operations": "Operations",
-      "overview": "Overview",
-      "products": "Products",
-      "taxonomy": "Taxonomy",
-      "team": "Team",
-      "users": "Users"
+      "pilotage": "Overview",
+      "sellers": "Sellers"
     },
     "profile": {
       "dark": "Dark",
+      "direction": "Direction",
       "identity": "Administrator",
       "initials": "NA",
       "label": "Admin profile",

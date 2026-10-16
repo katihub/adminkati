@@ -3,7 +3,7 @@
     "login": {
       "seo": {
         "title": "Se connecter",
-        "description": "Connectez-vous à votre compte NowTech Admin pour gérer vos opérations, vos clients et vos rapports."
+        "description": "Connectez-vous à votre compte KatiHub Admin pour gérer vos opérations, vos clients et vos rapports."
       },
       "heading": "Connectez-vous à votre compte",
       "intro": "Saisissez votre adresse e-mail et votre mot de passe pour continuer.",
@@ -28,19 +28,19 @@
       "support": {
         "prompt": "N'hésitez pas à nous contacter"
       },
-      "legal": "© {year} NowTech. Tous droits réservés."
+      "legal": "© {year} KatiHub. Tous droits réservés."
     },
     "showcase": {
       "headline": "Chaque décision, appuyée par les chiffres qui la justifient.",
-      "body": "NowTech Admin réunit vos opérations, vos clients et vos rapports au même endroit, pour que votre équipe cesse de chercher le contexte et commence à agir."
+      "body": "KatiHub Admin réunit vos opérations, vos clients et vos rapports au même endroit, pour que votre équipe cesse de chercher le contexte et commence à agir."
     },
     "forgotPassword": {
       "heading": "Réinitialisation du mot de passe",
       "description": "La réinitialisation du mot de passe n'est pas encore disponible dans cette administration. Contactez votre administrateur pour obtenir l'accès.",
       "backToLogin": "Retour à la connexion",
       "seo": {
-        "title": "Réinitialisation du mot de passe · Administration NowTech",
-        "description": "Informations sur la réinitialisation du mot de passe pour l'administration NowTech."
+        "title": "Réinitialisation du mot de passe · Administration KatiHub",
+        "description": "Informations sur la réinitialisation du mot de passe pour l'administration KatiHub."
       }
     }
   }

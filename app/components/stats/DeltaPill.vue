@@ -10,7 +10,7 @@ const {
 } = defineProps<{
   courant: number
   precedent: number | null
-  /** `slab` because a success-green pill on a green slab is invisible. */
+  /** `slab` keeps the delta readable on the navy overview surface. */
   tone?: "slab" | "card"
 }>()
 

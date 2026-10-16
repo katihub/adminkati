@@ -53,7 +53,7 @@ const stages = computed(() => {
     const isCurrent = currentIndex !== -1 && idx === currentIndex
     const icon = isDone ? "ph:check-circle-fill" : isCurrent ? step.icon : "ph:circle"
     const style = isDone
-      ? "text-emerald-600 dark:text-emerald-400 font-semibold"
+      ? "text-success font-semibold"
       : isCurrent
         ? "rounded-lg bg-primary/10 px-2.5 py-1 font-bold text-foreground"
         : "text-muted-foreground/50 opacity-60"
@@ -92,7 +92,7 @@ const stages = computed(() => {
       <div
         v-if="idx < stages.length - 1"
         class="h-0.5 min-w-4 flex-1 mx-2 rounded-full transition-colors"
-        :class="step.isDone ? 'bg-emerald-500/40' : 'bg-muted-foreground/15'"
+        :class="step.isDone ? 'bg-success/40' : 'bg-muted-foreground/15'"
       />
     </template>
   </div>

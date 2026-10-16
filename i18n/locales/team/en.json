@@ -6,8 +6,8 @@
       "loading": "Loading team member…",
       "back": "Back to team",
       "seo": {
-        "title": "Team · NowTech Admin",
-        "description": "Team member administration for the NowTech admin panel."
+        "title": "Team · KatiHub Admin",
+        "description": "Team member administration for the KatiHub admin panel."
       }
     },
     "filterBar": {
@@ -98,7 +98,7 @@
       "title": "Register a team member",
       "description": "The account is created, then an invitation goes out by email: that message is what lets the new member choose a password.",
       "email": "Email address",
-      "emailPlaceholder": "first.last{'@'}nowtech.local",
+      "emailPlaceholder": "first.last{'@'}katihub.local",
       "name": "Name",
       "namePlaceholder": "First and last name",
       "roles": "Roles",

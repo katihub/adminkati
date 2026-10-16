@@ -44,6 +44,8 @@
     --color-secondary: var(--secondary);
     --color-success: var(--success);
     --color-success-foreground: var(--success-foreground);
+    --color-brand-navy: var(--brand-navy);
+    --color-brand-orange: var(--brand-orange);
     --color-primary-foreground: var(--primary-foreground);
     --color-primary: var(--primary);
     --color-warning: var(--warning);
@@ -67,12 +69,12 @@
     --card-foreground: oklch(0.141 0.005 285.823);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.141 0.005 285.823);
-    --primary: oklch(62.13% 0.17891 148.213);
-    --primary-foreground: oklch(0.982 0.018 155.826);
+    --primary: var(--brand-orange);
+    --primary-foreground: oklch(1 0 0);
     --secondary: oklch(0.967 0.001 286.375);
     --secondary-foreground: oklch(0.21 0.006 285.885);
-    --success: oklch(0.627 0.194 149.214);
-    --success-foreground: oklch(0.982 0.018 155.826);
+    --success: var(--brand-orange);
+    --success-foreground: oklch(1 0 0);
     --warning: oklch(0.666 0.179 58.318);
     --warning-foreground: oklch(0.141 0.005 285.823);
     --info: oklch(0.546 0.245 262.881);
@@ -85,31 +87,22 @@
     --destructive-foreground: oklch(0.985 0 0);
     --border: oklch(0.92 0.004 286.32);
     --input: oklch(0.92 0.004 286.32);
-    --ring: oklch(0.705 0.015 286.067);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.769 0.188 70.08);
-    --chart-3: oklch(0.627 0.194 149.214);
-    --chart-4: oklch(0.60 0.16 220);
+    --ring: var(--brand-orange);
+    --chart-1: var(--brand-orange);
+    --chart-2: var(--brand-navy);
+    --chart-3: oklch(0.58 0.19 255);
+    --chart-4: oklch(0.72 0.17 80);
     --chart-5: oklch(0.58 0.21 305);
-    /*
-      The overview hero slab. Deliberately not the primary token -- white ink on
-      the light-mode primary measures 3.36:1, which fails text contrast, while
-      this deeper green measures 7.10:1. Dark mode can reuse primary because its
-      ink is dark there (8.89:1); see .dark below.
-
-      GOTCHA: never write a token name followed by a colon in this file's
-      comments. test/unit/dark-theme.test.ts scans the block with a
-      "name: value" regex and would read the comment as a declaration.
-    */
-    --stat-slab: oklch(0.448 0.119 151);
+    /* The overview slab uses the brand navy so white figures remain highly legible. */
+    --stat-slab: var(--brand-navy);
     --stat-slab-foreground: oklch(0.985 0 0);
     --stat-slab-muted: color-mix(in oklch, var(--stat-slab-foreground) 70%, transparent);
     --stat-slab-fill: color-mix(in oklch, var(--stat-slab-foreground) 14%, transparent);
     --radius: 0.45rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.141 0.005 285.823);
-    --sidebar-primary: oklch(0.627 0.194 149.214);
-    --sidebar-primary-foreground: oklch(0.982 0.018 155.826);
+    --sidebar-primary: var(--brand-orange);
+    --sidebar-primary-foreground: oklch(1 0 0);
     --sidebar-accent: oklch(0.967 0.001 286.375);
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
     --sidebar-border: oklch(0.92 0.004 286.32);
@@ -123,12 +116,12 @@
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.21 0.006 285.885);
     --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.723 0.219 149.579);
-    --primary-foreground: oklch(0.145 0.015 145);
+    --primary: var(--brand-orange);
+    --primary-foreground: var(--brand-navy);
     --secondary: oklch(0.36 0.01 286.033);
     --secondary-foreground: oklch(0.985 0 0);
-    --success: oklch(0.723 0.219 149.579);
-    --success-foreground: oklch(0.145 0.015 145);
+    --success: var(--brand-orange);
+    --success-foreground: var(--brand-navy);
     --warning: oklch(0.78 0.16 84);
     --warning-foreground: oklch(0.18 0.04 60);
     --info: oklch(0.75 0.15 230);
@@ -141,20 +134,20 @@
     --destructive-foreground: oklch(0.145 0.015 20);
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.552 0.016 285.938);
-    --chart-1: oklch(0.705 0.213 47.604);
-    --chart-2: oklch(0.828 0.189 84.429);
-    --chart-3: oklch(0.723 0.219 149.579);
-    --chart-4: oklch(0.75 0.16 215);
-    --chart-5: oklch(0.72 0.20 310);
-    --stat-slab: var(--primary);
+    --ring: var(--brand-orange);
+    --chart-1: var(--brand-orange);
+    --chart-2: color-mix(in oklch, var(--brand-navy) 35%, white);
+    --chart-3: oklch(0.72 0.16 255);
+    --chart-4: oklch(0.8 0.15 80);
+    --chart-5: oklch(0.72 0.2 310);
+    --stat-slab: var(--brand-navy);
     --stat-slab-foreground: var(--primary-foreground);
     --stat-slab-muted: color-mix(in oklch, var(--stat-slab-foreground) 70%, transparent);
     --stat-slab-fill: color-mix(in oklch, var(--stat-slab-foreground) 14%, transparent);
     --sidebar: oklch(0.21 0.006 285.885);
     --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.723 0.219 149.579);
-    --sidebar-primary-foreground: oklch(0.145 0.015 145);
+    --sidebar-primary: var(--brand-orange);
+    --sidebar-primary-foreground: var(--brand-navy);
     --sidebar-accent: oklch(0.274 0.006 286.033);
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
@@ -213,7 +206,7 @@
         var(--ai-gradient) border-box;
 }
 
-/* While a NowTech AI run targets the open editor, the fields it will fill wear this class: a rotating
+/* While a KatiHub AI run targets the open editor, the fields it will fill wear this class: a rotating
    palette ring, a shimmer sweep, and the same 4% tint as the suggestion cards. The ring and shimmer
    are masked pseudo-elements (inputs and textareas are replaced elements and cannot grow their own),
    drawn at a negative inset so the layout never shifts when a run starts. */

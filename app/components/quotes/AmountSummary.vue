@@ -51,7 +51,7 @@ const vatRateLabel = computed(() => {
 
       <span
         v-if="quote.statut === 'commande'"
-        class="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400"
+        class="inline-flex items-center gap-1 rounded-full bg-success/20 px-2.5 py-0.5 text-xs font-semibold text-success"
       >
         <Icon name="ph:check-circle-fill" size="14" aria-hidden="true" />
         <span>{{ t("quotes.status.commande") }}</span>

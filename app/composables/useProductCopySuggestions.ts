@@ -30,7 +30,7 @@ export interface ProductCopySuggestions {
   isGeneratingForTarget: ComputedRef<boolean>
   /** The suggestions still waiting for a decision on this target; empty when the result belongs to another. */
   suggestions: ComputedRef<Partial<ProductCopySuggestion>>
-  /** Writes in the language chosen in the NowTech AI settings, restoring an exact session result when possible. */
+  /** Writes in the language chosen in the KatiHub AI settings, restoring an exact session result when possible. */
   generate: () => Promise<void>
   /** Bypasses exact-result reuse and always contacts the provider. */
   generateFresh: () => Promise<void>

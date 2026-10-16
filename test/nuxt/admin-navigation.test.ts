@@ -59,14 +59,15 @@ describe("admin navigation destinations", () => {
     // restate whatever `defineI18nRoute` already says, and a wrong French path
     // would still pass.
     const frenchPaths: Record<string, string> = {
-      overview: "/fr/",
-      products: "/fr/produits",
-      taxonomy: "/fr/taxonomie",
-      content: "/fr/contenu",
-      orders: "/fr/commandes",
-      users: "/fr/clients",
-      operations: "/fr/operations",
-      team: "/fr/equipe",
+      pilotage: "/fr/",
+      commerce: "/fr/commandes",
+      catalogue: "/fr/produits",
+      sellers: "/fr/operations?tab=seller-onboarding",
+      clients: "/fr/clients",
+      logistics: "/fr/operations?tab=delivery-fees",
+      finance: "/fr/operations?tab=seller-finance",
+      marketing: "/fr/contenu",
+      administration: "/fr/equipe",
     }
 
     for (const item of adminNavigationItems) {
@@ -105,7 +106,7 @@ describe("admin navigation rendering", () => {
        refusait tous, si bien que le paiement à la livraison — le mode
        dominant de cette maison — devait être ressaisi par quelqu'un qui
        n'était pas là. La liste reste réduite à ses commandes côté serveur. */
-    expect(desktopIds(wrapper)).toEqual(["overview", "orders", "team"])
+    expect(desktopIds(wrapper)).toEqual(["pilotage", "commerce", "administration"])
 
     wrapper.unmount()
   })
@@ -117,10 +118,46 @@ describe("admin navigation rendering", () => {
     await wrapper.get("[data-testid='admin-mobile-navigation-trigger']").trigger("click")
     await flushPromises()
 
-    for (const id of ["overview", "orders", "team"])
+    for (const id of ["pilotage", "commerce", "administration"])
       expect(document.body.querySelector(`[data-testid='admin-mobile-navigation-link-${id}']`)).not.toBeNull()
-    expect(document.body.querySelector("[data-testid='admin-mobile-navigation-link-products']")).toBeNull()
-    expect(document.body.querySelector("[data-testid='admin-mobile-navigation-link-assistant']")).toBeNull()
+    expect(document.body.querySelector("[data-testid='admin-mobile-navigation-link-catalogue']")).toBeNull()
+    expect(document.body.querySelector("[data-testid='admin-mobile-navigation-link-finance']")).toBeNull()
+
+    wrapper.unmount()
+  })
+
+  it("does not leave a destination pending after a modified click", async () => {
+    signIn("direction")
+    const wrapper = await mountAppAt("/")
+    const commerce = wrapper.get("[data-testid='admin-navigation-link-commerce']")
+
+    await commerce.trigger("click", { ctrlKey: true })
+
+    expect(commerce.attributes("aria-busy")).toBeUndefined()
+    expect(commerce.findComponent({ name: "Spinner" }).exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  it.each([
+    ["seller-onboarding", "sellers"],
+    ["delivery-fees", "logistics"],
+    ["seller-finance", "finance"],
+  ] as const)("marks only the %s domain active on desktop and mobile", async (tab, activeId) => {
+    signIn("direction")
+    const wrapper = await mountAppAt(`/operations?tab=${tab}`)
+
+    const activeDesktopIds = wrapper
+      .findAll("[data-testid^='admin-navigation-link-'][aria-current='page']")
+      .map(link => link.attributes("data-testid")?.replace("admin-navigation-link-", ""))
+    expect(activeDesktopIds).toEqual([activeId])
+
+    await wrapper.get("[data-testid='admin-mobile-navigation-trigger']").trigger("click")
+    await flushPromises()
+    expect(
+      document.body
+        .querySelector(`[data-testid='admin-mobile-navigation-link-${activeId}']`)
+        ?.getAttribute("aria-current"),
+    ).toBe("page")
 
     wrapper.unmount()
   })

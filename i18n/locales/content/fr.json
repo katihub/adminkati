@@ -112,9 +112,9 @@
       },
       "emplacement": {
         "principal": "Bannière principale",
-        "promo": "Promo",
+        "promo": "Promo accueil KatiHub",
         "principalHint": "Le grand carrousel en tête de l'accueil. Son visuel doit être plus large que haut.",
-        "promoHint": "Le carrousel à côté. Tout format de visuel.",
+        "promoHint": "Le carrousel des promotions, sous la grande bannière de l'accueil KatiHub (deux images visibles à la fois). Format bandeau conseillé : environ 1200 × 500 px. Les promotions défilent dans leur ordre.",
         "pub_accueil": "Pub accueil KatiHub",
         "pub_accueilHint": "La publicité de l'accueil KatiHub, dans la colonne de droite. Format vertical conseillé (environ 600 × 750 px). La première bannière active de cet emplacement est affichée."
       },

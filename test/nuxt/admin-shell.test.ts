@@ -15,7 +15,7 @@ describe("admin shell", () => {
   })
   afterEach(() => useNuxtApp().$queryClient.clear())
 
-  it("renders the Overview route in the admin shell as the active navigation item", async () => {
+  it("renders the Pilotage route in the admin shell as the active navigation item", async () => {
     const { default: App } = await import("@/app.vue")
     const wrapper = await mountSuspended(App, {
       attachTo: document.body,
@@ -24,9 +24,9 @@ describe("admin shell", () => {
     await flushPromises()
 
     expect(wrapper.get("[data-testid='admin-shell']")).toBeTruthy()
-    expect(wrapper.get("[data-testid='admin-navigation-link-overview']").text()).toContain("Overview")
-    expect(wrapper.get("[data-testid='admin-navigation-link-overview']").attributes("aria-current")).toBe("page")
-    expect(wrapper.get("[data-testid='admin-page-header-title']").text()).toBe("Overview")
+    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").text()).toContain("Overview")
+    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").attributes("aria-current")).toBe("page")
+    expect(wrapper.get("[data-testid='admin-page-header-title']").text()).toBe("Operations overview")
 
     wrapper.unmount()
   })
@@ -46,7 +46,7 @@ describe("admin shell", () => {
     }
   })
 
-  it("renders the localized Overview route as active in French", async () => {
+  it("renders the localized Pilotage route as active in French", async () => {
     const { default: App } = await import("@/app.vue")
     const wrapper = await mountSuspended(App, {
       attachTo: document.body,
@@ -54,8 +54,8 @@ describe("admin shell", () => {
     })
     await flushPromises()
 
-    expect(wrapper.get("[data-testid='admin-navigation-link-overview']").text()).toContain("Vue d’ensemble")
-    expect(wrapper.get("[data-testid='admin-navigation-link-overview']").attributes("aria-current")).toBe("page")
+    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").text()).toContain("Pilotage")
+    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").attributes("aria-current")).toBe("page")
 
     wrapper.unmount()
   })
@@ -69,16 +69,22 @@ describe("admin navigation", () => {
           id: "payments",
           labelKey: "admin.navigation.payments",
           to: "/payments",
-          routeName: "payments",
+          routeNames: ["payments"],
           icon: "ph:money",
         },
-        { name: "payments___fr", path: "/fr/payments" },
+        { name: "payments___fr", path: "/fr/payments", query: {} },
       ),
     ).toBe(true)
     expect(
       isAdminNavigationItemActive(
-        { id: "overview", labelKey: "admin.navigation.overview", to: "/", routeName: "index", icon: "ph:squares-four" },
-        { name: "payments___fr", path: "/fr/payments" },
+        {
+          id: "pilotage",
+          labelKey: "admin.navigation.pilotage",
+          to: "/",
+          routeNames: ["index"],
+          icon: "ph:chart-donut",
+        },
+        { name: "payments___fr", path: "/fr/payments", query: {} },
       ),
     ).toBe(false)
   })

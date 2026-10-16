@@ -3,8 +3,8 @@
     "heading": "Taxonomie",
     "tabs": { "categories": "Catégories", "departments": "Rayons", "brands": "Marques" },
     "seo": {
-      "title": "Taxonomie · Administration NowTech",
-      "description": "Administration de la taxonomie du catalogue pour le panneau NowTech."
+      "title": "Taxonomie · Administration KatiHub",
+      "description": "Administration de la taxonomie du catalogue pour le panneau KatiHub."
     },
     "toolbar": {
       "searchLabel": "Catégories",

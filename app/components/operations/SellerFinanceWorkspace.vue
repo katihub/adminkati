@@ -69,7 +69,7 @@ function proofUrl(withdrawalId: string, proofId: string) {
       </section>
       <div
         v-if="acquireCommissions.data.value"
-        class="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900"
+        class="rounded-lg border border-success/20 bg-success/10 p-4 text-sm text-success"
       >
         {{
           t("acquired", {

@@ -8,7 +8,7 @@ const MORPH_MS = 900
 const MAX_FRAME_MS = 64
 
 /**
- * Loops the NowTech AI icon through its shapes while `active` is true. When `active` ends it finishes the
+ * Loops the KatiHub AI icon through its shapes while `active` is true. When `active` ends it finishes the
  * loop in progress, so the icon always comes to rest on its own shape instead of stopping halfway.
  */
 export function useAiIconMorph(active: MaybeRefOrGetter<boolean>) {

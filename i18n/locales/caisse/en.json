@@ -5,8 +5,8 @@
       "empty": "Select a caisse to view its details",
       "loading": "Loading caisse details…",
       "seo": {
-        "title": "Cash Register · NowTech Admin",
-        "description": "End-of-shift cash reconciliation for the NowTech admin panel."
+        "title": "Cash Register · KatiHub Admin",
+        "description": "End-of-shift cash reconciliation for the KatiHub admin panel."
       }
     },
     "status": {

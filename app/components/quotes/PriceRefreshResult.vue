@@ -40,7 +40,7 @@ const { locale, t } = useI18n()
 
   <div
     v-else-if="result?.inchange || (result && result.ecarts.length === 0)"
-    class="flex items-center justify-between gap-3 rounded-2xl bg-emerald-500/10 p-4 text-xs font-medium text-emerald-600 dark:text-emerald-400"
+    class="flex items-center justify-between gap-3 rounded-2xl bg-success/10 p-4 text-xs font-medium text-success"
     data-testid="quotes-refresh-unchanged"
   >
     <div class="flex items-center gap-2">
@@ -51,7 +51,7 @@ const { locale, t } = useI18n()
       type="button"
       variant="ghost"
       size="icon-xs"
-      class="size-6 rounded-md hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+      class="size-6 rounded-md text-success hover:bg-success/20"
       :aria-label="t('quotes.detail.refresh.close')"
       @click="emit('dismiss')"
     >

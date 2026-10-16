@@ -5,8 +5,8 @@
       "empty": "Sélectionnez une commande pour voir ses détails",
       "loading": "Chargement des détails de la commande…",
       "seo": {
-        "title": "Commandes · Administration NowTech",
-        "description": "Administration des commandes clients pour le panneau NowTech."
+        "title": "Commandes · Administration KatiHub",
+        "description": "Administration des commandes clients pour le panneau KatiHub."
       }
     },
     "tabs": {

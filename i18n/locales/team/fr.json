@@ -6,8 +6,8 @@
       "loading": "Chargement du membre…",
       "back": "Retour à l’équipe",
       "seo": {
-        "title": "Équipe · Administration NowTech",
-        "description": "Administration des membres de l’équipe pour le panneau NowTech."
+        "title": "Équipe · Administration KatiHub",
+        "description": "Administration des membres de l’équipe pour le panneau KatiHub."
       }
     },
     "filterBar": {
@@ -98,7 +98,7 @@
       "title": "Inscrire un membre de l’équipe",
       "description": "Le compte est créé, puis une invitation part par courriel : c’est ce message qui laisse le salarié choisir son mot de passe.",
       "email": "Adresse e-mail",
-      "emailPlaceholder": "prenom.nom{'@'}nowtech.local",
+      "emailPlaceholder": "prenom.nom{'@'}katihub.local",
       "name": "Nom",
       "namePlaceholder": "Prénom et nom",
       "roles": "Rôles",

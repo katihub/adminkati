@@ -116,7 +116,7 @@ function requiresProfessionalReference(role: LegalSignerFunction) {
             </div>
             <span
               class="rounded-full px-3 py-1 text-xs font-semibold"
-              :class="query.data.value?.close ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'"
+              :class="query.data.value?.close ? 'bg-success/10 text-success' : 'bg-red-100 text-red-800'"
             >
               {{
                 query.data.value?.close ? t("operations.legalClosure.authorized") : t("operations.legalClosure.blocked")
@@ -148,7 +148,7 @@ function requiresProfessionalReference(role: LegalSignerFunction) {
               <h3 class="font-heading text-sm font-semibold">{{ t(LABEL_KEYS[type]) }}</h3>
               <Icon
                 :name="proofs.has(type) ? 'ph:check-circle-fill' : 'ph:circle-dashed'"
-                :class="proofs.has(type) ? 'text-emerald-600' : 'text-muted-foreground'"
+                :class="proofs.has(type) ? 'text-success' : 'text-muted-foreground'"
               />
             </div>
             <template v-if="proofs.get(type)"

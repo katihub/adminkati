@@ -42,7 +42,7 @@ watch(imageUrl, () => {
     "
     @click="emit('select', product.id)"
   >
-    <!-- Left Circular Avatar (Mockup style: green circle with + / photo) -->
+    <!-- Left circular product visual -->
     <div
       data-testid="products-list-item-thumbnail"
       class="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted/70 text-muted-foreground shadow-2xs"

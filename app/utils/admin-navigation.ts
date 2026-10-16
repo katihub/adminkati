@@ -1,92 +1,89 @@
 import type { PublicSession, Role } from "@/types/session"
 import type { RouteLocationNormalizedLoaded } from "vue-router"
+import { adminDestinations, operationsDomainByTab } from "./admin-destinations"
 
 export interface AdminNavigationItem {
   id: string
   labelKey: string
   to: string
-  routeName: string
+  routeNames: readonly string[]
   icon: string
-  /** Omitted where the backend route is open to the whole team. */
   roles?: readonly Role[]
 }
 
-/**
- * Ordered catalogue → commerce → administration, which is how the destinations
- * relate to each other rather than the order they were requested in.
- *
- * `roles` mirrors the guards on the backend route each destination will call,
- * so a member never sees a link that answers 403.
- */
 export const adminNavigationItems: readonly AdminNavigationItem[] = [
   {
-    id: "overview",
-    labelKey: "admin.navigation.overview",
-    to: "/",
-    routeName: "index",
-    icon: "ph:squares-four",
+    id: "pilotage",
+    labelKey: "admin.navigation.pilotage",
+    to: adminDestinations.pilotage,
+    routeNames: ["index"],
+    icon: "ph:chart-donut",
   },
   {
-    id: "products",
-    labelKey: "admin.navigation.products",
-    to: "/products",
-    routeName: "products",
-    icon: "ph:package",
-    roles: ["direction", "comptoir"],
-  },
-  {
-    id: "taxonomy",
-    labelKey: "admin.navigation.taxonomy",
-    to: "/taxonomy",
-    routeName: "taxonomy",
-    icon: "ph:tree-structure",
-    roles: ["direction", "comptoir"],
-  },
-  {
-    id: "content",
-    labelKey: "admin.navigation.content",
-    to: "/content",
-    routeName: "content",
-    icon: "ph:layout",
-    roles: ["direction", "comptoir"],
-  },
-  {
-    id: "orders",
-    labelKey: "admin.navigation.orders",
-    to: "/orders",
-    routeName: "orders",
-    icon: "ph:receipt",
+    id: "commerce",
+    labelKey: "admin.navigation.commerce",
+    to: adminDestinations.commerce,
+    routeNames: ["orders"],
+    icon: "ph:shopping-bag",
     roles: ["direction", "comptoir", "preparation", "livreur"],
   },
   {
-    id: "operations",
-    labelKey: "admin.navigation.operations",
-    to: "/operations",
-    routeName: "operations",
-    icon: "ph:briefcase",
+    id: "catalogue",
+    labelKey: "admin.navigation.catalogue",
+    to: adminDestinations.catalogue,
+    routeNames: ["products", "taxonomy"],
+    icon: "ph:book-open",
     roles: ["direction", "comptoir"],
   },
   {
-    id: "users",
-    labelKey: "admin.navigation.users",
-    to: "/users",
-    routeName: "users",
+    id: "sellers",
+    labelKey: "admin.navigation.sellers",
+    to: adminDestinations.sellers,
+    routeNames: [],
+    icon: "ph:storefront",
+    roles: ["direction", "comptoir"],
+  },
+  {
+    id: "clients",
+    labelKey: "admin.navigation.clients",
+    to: adminDestinations.clients,
+    routeNames: ["users", "assistant"],
     icon: "ph:users",
     roles: ["direction", "comptoir"],
   },
   {
-    id: "team",
-    labelKey: "admin.navigation.team",
-    to: "/team",
-    routeName: "team",
-    icon: "ph:identification-badge",
+    id: "logistics",
+    labelKey: "admin.navigation.logistics",
+    to: adminDestinations.logistics,
+    routeNames: [],
+    icon: "ph:truck",
+    roles: ["direction"],
+  },
+  {
+    id: "finance",
+    labelKey: "admin.navigation.finance",
+    to: adminDestinations.finance,
+    routeNames: ["caisse"],
+    icon: "ph:wallet",
+    roles: ["direction"],
+  },
+  {
+    id: "marketing",
+    labelKey: "admin.navigation.marketing",
+    to: adminDestinations.marketing,
+    routeNames: ["content"],
+    icon: "ph:megaphone",
+    roles: ["direction", "comptoir"],
+  },
+  {
+    id: "administration",
+    labelKey: "admin.navigation.administration",
+    to: adminDestinations.administration,
+    routeNames: ["team"],
+    icon: "ph:gear-six",
   },
 ]
 
-/**
- * Defence in depth, not the access boundary — `auth.global.ts` is. A session
- * that has not loaded yet keeps the ungated destinations rather than throwing.
- */
 export function visibleAdminNavigationItems(
   session: Pick<PublicSession, "roles"> | null | undefined,
   items: readonly AdminNavigationItem[] = adminNavigationItems,
@@ -96,8 +93,12 @@ export function visibleAdminNavigationItems(
 
 export function isAdminNavigationItemActive(
   item: AdminNavigationItem,
-  route: Pick<RouteLocationNormalizedLoaded, "name" | "path">,
+  route: Pick<RouteLocationNormalizedLoaded, "name" | "path" | "query">,
 ) {
-  const routeName = String(route.name ?? "")
-  return routeName === item.routeName || routeName.startsWith(`${item.routeName}___`)
+  const routeName = String(route.name ?? "").replace(/___.*$/, "")
+  if (routeName === "operations") {
+    const tab = typeof route.query.tab === "string" ? route.query.tab : "cash-registers"
+    return operationsDomainByTab[tab] === item.id
+  }
+  return item.routeNames.includes(routeName)
 }

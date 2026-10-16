@@ -1,35 +1,31 @@
 <script setup lang="ts">
-const { size = "md" } = defineProps<{ size?: "sm" | "md" }>()
+import { brand } from "~~/brand.config"
 
-const { t } = useI18n({ useScope: "local" })
+const { size = "md" } = defineProps<{ size?: "sm" | "md" }>()
 
 const compact = computed(() => size === "sm")
 </script>
 
 <template>
   <span class="inline-flex items-center" :class="compact ? 'gap-1.5' : 'gap-2'">
-    <!--
-      Decorative: the wordmark beside it already says NowTech, so an alt here
-      would make a screen reader announce the brand twice.
-    -->
-    <NuxtImg src="/logo.avif" alt="" width="32" height="32" class="shrink-0" :class="compact ? 'size-6' : 'size-8'" />
+    <span
+      class="relative block shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-border"
+      :class="compact ? 'size-6' : 'size-8'"
+      aria-hidden="true"
+    >
+      <NuxtImg
+        :src="brand.logoPath"
+        alt=""
+        width="48"
+        height="48"
+        class="absolute left-1/2 top-0 max-w-none -translate-x-1/2 object-cover"
+        :class="compact ? 'size-9' : 'size-12'"
+      />
+    </span>
 
     <span class="font-bold tracking-tight" :class="compact ? 'text-lg' : 'text-2xl'">
-      <span class="text-foreground">{{ t("now") }}</span
-      ><span class="text-primary">{{ t("tech") }}</span>
+      <span class="text-foreground">{{ brand.wordmark.leading }}</span
+      ><span class="text-primary">{{ brand.wordmark.accent }}</span>
     </span>
   </span>
 </template>
-
-<i18n lang="json">
-{
-  "en": {
-    "now": "Now",
-    "tech": "Tech"
-  },
-  "fr": {
-    "now": "Now",
-    "tech": "Tech"
-  }
-}
-</i18n>

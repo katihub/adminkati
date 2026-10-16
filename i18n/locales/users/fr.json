@@ -6,8 +6,8 @@
       "loading": "Chargement des détails du client…",
       "back": "Retour aux clients",
       "seo": {
-        "title": "Clients · Administration NowTech",
-        "description": "Administration des comptes clients pour le panneau NowTech."
+        "title": "Clients · Administration KatiHub",
+        "description": "Administration des comptes clients pour le panneau KatiHub."
       }
     },
     "filterBar": {

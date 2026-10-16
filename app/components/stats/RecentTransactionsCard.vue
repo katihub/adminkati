@@ -14,7 +14,7 @@ const showAmount = computed(() => transactions.some(transaction => transaction.a
 
 const CLASSES_STATUT: Record<TransactionStatus, string> = {
   in_progress: "bg-cyan-500/15 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400",
-  delivered: "bg-emerald-500/15 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400",
+  delivered: "bg-success/15 text-success",
   canceled: "bg-rose-500/15 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400",
   unverified: "bg-amber-500/15 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400",
 }

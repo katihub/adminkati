@@ -47,6 +47,7 @@ useHead({
 <template>
   <div class="space-y-6 pb-12">
     <AdminPageHeader :title="t('heading')">
+      {{ t("subtitle") }}
       <template #actions>
         <StatsRangePicker v-model="periode" :busy="isFetching" :updated-at="dataUpdatedAt" @refresh="refresh" />
       </template>
@@ -61,21 +62,23 @@ useHead({
 <i18n lang="json">
 {
   "en": {
-    "heading": "Overview",
+    "heading": "Operations overview",
+    "subtitle": "What needs your attention today.",
     "loading": "Loading overview...",
-    "title": "NowTech Admin",
+    "title": "KatiHub Admin",
     "seo": {
-      "title": "NowTech Admin",
-      "description": "Overview of NowTech sales, operations, cash health and open actions."
+      "title": "KatiHub Admin",
+      "description": "Overview of KatiHub sales, operations, cash health and open actions."
     }
   },
   "fr": {
-    "heading": "Vue d’ensemble",
+    "heading": "Pilotage",
+    "subtitle": "Ce qui demande votre attention aujourd’hui.",
     "loading": "Chargement de la vue d’ensemble...",
-    "title": "Administration NowTech",
+    "title": "Administration KatiHub",
     "seo": {
-      "title": "Administration NowTech",
-      "description": "Vue d’ensemble des ventes, opérations, caisse et actions NowTech."
+      "title": "Administration KatiHub",
+      "description": "Vue d’ensemble des ventes, opérations, caisse et actions KatiHub."
     }
   }
 }

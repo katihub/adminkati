@@ -3,8 +3,8 @@
     "heading": "Taxonomy",
     "tabs": { "categories": "Categories", "departments": "Departments", "brands": "Brands" },
     "seo": {
-      "title": "Taxonomy · NowTech Admin",
-      "description": "Catalogue taxonomy administration for the NowTech admin panel."
+      "title": "Taxonomy · KatiHub Admin",
+      "description": "Catalogue taxonomy administration for the KatiHub admin panel."
     },
     "toolbar": {
       "searchLabel": "Categories",

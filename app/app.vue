@@ -2,6 +2,7 @@
 import type { ApiAppelant } from "@/types/api/auth"
 import { useQuery } from "@tanstack/vue-query"
 import { computed } from "vue"
+import { brand } from "../brand.config"
 
 const route = useRoute()
 const apiFetch = useApiFetch()
@@ -27,6 +28,7 @@ const showsStandaloneLanguageSwitcher = computed(() => {
 <template>
   <div>
     <NuxtRouteAnnouncer />
+    <NuxtLoadingIndicator :color="brand.colors.orange" :height="3" />
     <div v-if="showsStandaloneLanguageSwitcher" class="fixed right-4 top-4 z-10">
       <LanguageSwitcher />
     </div>

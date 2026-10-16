@@ -112,9 +112,9 @@
       },
       "emplacement": {
         "principal": "Main banner",
-        "promo": "Promo",
+        "promo": "KatiHub home promo",
         "principalHint": "The large carousel at the top of the home page. Its artwork must be wider than it is tall.",
-        "promoHint": "The carousel beside it. Any artwork format.",
+        "promoHint": "The promotions carousel, under the large banner of the KatiHub home page (two images shown at a time). A strip artwork is best: about 1200 × 500 px. Promotions scroll in their order.",
         "pub_accueil": "KatiHub home advert",
         "pub_accueilHint": "The KatiHub home page advert, in the right-hand column. A portrait artwork is best (about 600 × 750 px). The first active banner of this placement is shown."
       },

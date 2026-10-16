@@ -29,37 +29,84 @@ const marketplace: MarketplaceCommandCenter = {
   ],
 }
 
-describe("marketplace super-admin command center", () => {
-  it("renders global metrics, operational queues and working destination links", async () => {
+describe("marketplace direction cockpit", () => {
+  it("composes priorities, health, flow, alerts, and quick actions from the marketplace payload", async () => {
     const wrapper = await mountSuspended(StatsMarketplaceCommandCenter, {
       props: { marketplace },
     })
 
-    expect(wrapper.text()).toContain("Marketplace GMV")
-    expect(wrapper.text()).toContain("Active sellers")
-    expect(wrapper.text()).toContain("TechStore")
-    expect(wrapper.text()).toContain("Pending approvals")
-    expect(wrapper.text()).toContain("Needs attention")
-    expect(wrapper.find('[href="/operations"]').exists()).toBe(true)
-    expect(wrapper.find('[href="/orders"]').exists()).toBe(true)
+    expect(wrapper.get("[data-testid='direction-priority-queues']").text()).toContain("2")
+    expect(wrapper.get("[data-testid='direction-health']").text()).toContain("1,250,000")
+    expect(wrapper.get("[data-testid='direction-operational-flow']").text()).toMatch(/2.*3.*4.*5/s)
+    expect(wrapper.get("[data-testid='direction-alerts']").text()).toContain("3")
+    expect(wrapper.get("[data-testid='direction-quick-actions']").text()).toContain("2")
 
     wrapper.unmount()
   })
 
-  it("renders a calm empty state when no marketplace action is waiting", async () => {
+  it("renders the six real queues with their exact destinations and no aggregate approval duplicate", async () => {
+    const wrapper = await mountSuspended(StatsMarketplaceCommandCenter, {
+      props: { marketplace },
+    })
+
+    const queues = wrapper.findAll("[data-testid^='direction-queue-']")
+    expect(queues.map(queue => queue.attributes("data-testid")?.replace("direction-queue-", ""))).toEqual([
+      "orders-review",
+      "seller-approvals",
+      "product-moderation",
+      "offer-moderation",
+      "open-disputes",
+    ])
+    expect(wrapper.get("[data-testid='direction-queue-orders-review']").text()).toContain("2")
+    expect(wrapper.get("[data-testid='direction-queue-orders-review'] a").attributes("href")).toBe("/orders")
+    expect(wrapper.get("[data-testid='direction-queue-seller-approvals'] a").attributes("href")).toBe(
+      "/operations?tab=seller-onboarding",
+    )
+    expect(wrapper.get("[data-testid='direction-queue-product-moderation'] a").attributes("href")).toBe(
+      "/operations?tab=marketplace-catalogue",
+    )
+    expect(wrapper.get("[data-testid='direction-queue-offer-moderation'] a").attributes("href")).toBe(
+      "/operations?tab=marketplace-catalogue",
+    )
+    expect(wrapper.get("[data-testid='direction-queue-open-disputes'] a").attributes("href")).toBe(
+      "/operations?tab=marketplace-disputes",
+    )
+    wrapper.unmount()
+  })
+
+  it("does not render mockup-only metrics, payment stages, timestamps, or references", async () => {
+    const wrapper = await mountSuspended(StatsMarketplaceCommandCenter, {
+      props: { marketplace },
+    })
+
+    expect(wrapper.text()).not.toMatch(/average basket|panier moyen/i)
+    expect(wrapper.text()).not.toMatch(/on-time|à l'heure/i)
+    expect(wrapper.text()).not.toMatch(/payments?|paiements?/i)
+    expect(wrapper.text()).not.toMatch(/\b\d{1,2}:\d{2}\b/)
+    expect(wrapper.text()).not.toMatch(/(?:CMD|ORD|INC)-\d+/i)
+
+    wrapper.unmount()
+  })
+
+  it("renders calm priority and alert states when every actionable volume is zero", async () => {
     const wrapper = await mountSuspended(StatsMarketplaceCommandCenter, {
       props: {
         marketplace: {
           ...marketplace,
+          kpis: { ...marketplace.kpis, openDisputes: { valeur: 0, precedent: null } },
+          orderStatuses: marketplace.orderStatuses.map(status =>
+            status.id === "attention" ? { ...status, count: 0 } : status,
+          ),
           approvals: { sellers: 0, products: 0, offers: 0 },
-          topSellers: [],
           alerts: [],
         },
       },
     })
 
-    expect(wrapper.text()).toContain("No marketplace alert")
-    expect(wrapper.text()).toContain("No seller activity for this period")
+    expect(wrapper.get("[data-testid='direction-priority-queues-empty']").text()).toContain("No priority work")
+    expect(wrapper.find("[data-testid^='direction-queue-']").exists()).toBe(false)
+    expect(wrapper.get("[data-testid='direction-alerts-empty']").text()).toContain("No marketplace alert")
+    expect(wrapper.find("[data-testid='direction-quick-actions']").exists()).toBe(false)
 
     wrapper.unmount()
   })

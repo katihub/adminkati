@@ -24,9 +24,7 @@ const isConverted = computed(() => quote.statut === "commande")
     <div
       class="flex items-center gap-1.5 shrink-0"
       :class="
-        isConverted
-          ? 'text-emerald-600 dark:text-emerald-400 font-semibold'
-          : 'rounded-lg bg-primary/10 px-2.5 py-1 font-bold text-foreground'
+        isConverted ? 'text-success font-semibold' : 'rounded-lg bg-primary/10 px-2.5 py-1 font-bold text-foreground'
       "
     >
       <Icon
@@ -40,7 +38,7 @@ const isConverted = computed(() => quote.statut === "commande")
 
     <div
       class="h-0.5 min-w-4 flex-1 mx-2 rounded-full transition-colors"
-      :class="isConverted ? 'bg-emerald-500/40' : 'bg-muted-foreground/15'"
+      :class="isConverted ? 'bg-success/40' : 'bg-muted-foreground/15'"
     />
 
     <div

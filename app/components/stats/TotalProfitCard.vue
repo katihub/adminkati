@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Granularite, TotalProfit } from "@/types/api/statistiques"
 import { computed } from "vue"
+import { brand } from "~~/brand.config"
 import { formatLabelSeau } from "@/utils/dates"
 import { formatMontant } from "@/utils/money"
 
@@ -22,11 +23,11 @@ const totalDisplay = computed(() => total.value?.affiche ?? "—")
 const categories = computed(() => ({
   profit: {
     name: t("stats.profit.totalProfit"),
-    color: "#10b981",
+    color: brand.colors.orange,
   },
   cout: {
     name: t("stats.profit.cout"),
-    color: "#0d9488",
+    color: brand.colors.navy,
   },
 }))
 
@@ -57,11 +58,11 @@ function xFormatter(_tick: number | Date, i?: number): string {
       class="mt-2 flex items-center gap-3 text-xs font-medium text-muted-foreground"
     >
       <div class="flex items-center gap-1.5">
-        <span class="size-2.5 rounded-full bg-emerald-500" />
+        <span class="size-2.5 rounded-full bg-brand-orange" />
         <span>{{ t("stats.profit.totalProfit") }}</span>
       </div>
       <div class="flex items-center gap-1.5">
-        <span class="size-2.5 rounded-full bg-teal-600 dark:bg-teal-400" />
+        <span class="size-2.5 rounded-full bg-brand-navy dark:bg-blue-300" />
         <span>{{ t("stats.profit.cout") }}</span>
       </div>
     </div>

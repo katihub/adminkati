@@ -13,7 +13,7 @@ const statusColor: Record<MarketplaceOrderStatus, string> = {
   submitted: "bg-blue-500",
   preparing: "bg-amber-500",
   shipping: "bg-violet-500",
-  delivered: "bg-emerald-500",
+  delivered: "bg-success",
   cancelled: "bg-red-500",
   attention: "bg-orange-500",
 }
@@ -168,7 +168,7 @@ function formatNumber(value: number) {
       <div class="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
         <NuxtLinkLocale
           to="/operations?tab=seller-onboarding"
-          class="flex min-h-12 items-center gap-3 rounded-xl bg-emerald-500/10 px-4 font-semibold text-emerald-700 hover:bg-emerald-500/15 dark:text-emerald-300"
+          class="flex min-h-12 items-center gap-3 rounded-xl bg-success/10 px-4 font-semibold text-success hover:bg-success/15"
         >
           <Icon name="ph:storefront" size="20" aria-hidden="true" />{{ t("quick.sellers") }}
         </NuxtLinkLocale>

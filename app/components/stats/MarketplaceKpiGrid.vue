@@ -35,7 +35,7 @@ const cards = computed(() => [
     metric: marketplace.kpis.clients,
     icon: "ph:users",
     to: "/users",
-    color: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
+    color: "bg-brand-navy/10 text-brand-navy dark:bg-blue-300/15 dark:text-blue-300",
   },
   {
     key: "activeProducts",

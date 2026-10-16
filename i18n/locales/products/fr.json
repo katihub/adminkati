@@ -272,8 +272,8 @@
       "empty": "Aucun produit pour l’instant — ajoutez-en un pour commencer.",
       "loading": "Chargement du produit…",
       "seo": {
-        "title": "Produits · Administration NowTech",
-        "description": "Administration des produits du catalogue pour le panneau NowTech."
+        "title": "Produits · Administration KatiHub",
+        "description": "Administration des produits du catalogue pour le panneau KatiHub."
       }
     },
     "common": {
@@ -758,16 +758,16 @@
         }
       },
       "popup": {
-        "title": "NowTech AI",
+        "title": "KatiHub AI",
         "launcher": {
-          "open": "NowTech AI",
+          "open": "KatiHub AI",
           "loading": "Génération des suggestions…",
           "ready": "De nouvelles suggestions sont prêtes",
           "error": "Une génération a échoué"
         },
         "close": "Fermer",
         "sections": {
-          "label": "Sections de NowTech AI",
+          "label": "Sections de KatiHub AI",
           "suggestions": "Suggestions",
           "conversations": "Conversations",
           "settings": "Paramètres",
@@ -778,7 +778,7 @@
         "settings": {
           "language": {
             "label": "Langue des suggestions",
-            "description": "La langue dans laquelle NowTech AI rédige les textes des produits."
+            "description": "La langue dans laquelle KatiHub AI rédige les textes des produits."
           },
           "fields": {
             "label": "Champs à générer",

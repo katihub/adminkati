@@ -21,9 +21,9 @@ const total = computed(() => order.totalFacturableTtc ?? order.totalFermeTtc ?? 
 const balanceTone = computed(() => {
   const hasRemaining = (order.resteAPayer ?? 0) > 0
   return {
-    box: hasRemaining ? "bg-amber-500/10" : "bg-emerald-500/10",
-    label: hasRemaining ? "text-amber-700 dark:text-amber-400" : "text-emerald-700 dark:text-emerald-400",
-    amount: hasRemaining ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400",
+    box: hasRemaining ? "bg-amber-500/10" : "bg-success/10",
+    label: hasRemaining ? "text-amber-700 dark:text-amber-400" : "text-success",
+    amount: hasRemaining ? "text-amber-600 dark:text-amber-400" : "text-success",
   }
 })
 </script>
@@ -82,7 +82,7 @@ const balanceTone = computed(() => {
 
       <span
         v-else-if="order.resteAPayer === 0"
-        class="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400"
+        class="inline-flex items-center gap-1 rounded-full bg-success/20 px-2.5 py-0.5 text-xs font-semibold text-success"
       >
         <Icon name="ph:check-circle-fill" size="14" aria-hidden="true" />
         <span>{{ t("orders.detail.settled") }}</span>

@@ -2,6 +2,7 @@
 import type { Granularite, SalesStatisticsPoint } from "@/types/api/statistiques"
 import { computed } from "vue"
 import { CurveType } from "vue-chrts/enums"
+import { brand } from "~~/brand.config"
 import { formatLabelSeau } from "@/utils/dates"
 
 const { data = [], granularite } = defineProps<{
@@ -14,11 +15,11 @@ const { locale, t } = useI18n()
 const categories = computed(() => ({
   current: {
     name: t("stats.chart.current"),
-    color: "#10b981",
+    color: brand.colors.orange,
   },
   previous: {
     name: t("stats.chart.previous"),
-    color: "#0d9488",
+    color: brand.colors.navy,
   },
 }))
 

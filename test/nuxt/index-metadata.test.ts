@@ -23,14 +23,14 @@ describe("index page metadata", () => {
     })
     await flushPromises()
     await flushPromises()
-    await vi.waitFor(() => expect(document.title).toBe("NowTech Admin"))
+    await vi.waitFor(() => expect(document.title).toBe("KatiHub Admin"))
 
     expect(document.head.querySelector("meta[name='description']")?.getAttribute("content")).toBe(
-      "Overview of NowTech sales, operations, cash health and open actions.",
+      "Overview of KatiHub sales, operations, cash health and open actions.",
     )
-    expect(document.head.querySelector("meta[property='og:title']")?.getAttribute("content")).toBe("NowTech Admin")
+    expect(document.head.querySelector("meta[property='og:title']")?.getAttribute("content")).toBe("KatiHub Admin")
     expect(document.head.querySelector("meta[property='og:description']")?.getAttribute("content")).toBe(
-      "Overview of NowTech sales, operations, cash health and open actions.",
+      "Overview of KatiHub sales, operations, cash health and open actions.",
     )
     expect(document.head.querySelector("meta[name='twitter:card']")).toBeNull()
 

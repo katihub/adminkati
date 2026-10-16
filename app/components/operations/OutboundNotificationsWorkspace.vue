@@ -13,7 +13,7 @@ import { OUTBOUND_NOTIFICATION_STATUSES } from "@/types/api/notifications"
 const STATUS_CLASSES: Record<OutboundNotificationStatus, string> = {
   en_attente: "bg-sky-100 text-sky-800",
   en_cours: "bg-indigo-100 text-indigo-800",
-  envoyee: "bg-emerald-100 text-emerald-800",
+  envoyee: "bg-success/10 text-success",
   abandonnee: "bg-red-100 text-red-800",
 }
 

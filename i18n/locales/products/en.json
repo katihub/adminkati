@@ -272,8 +272,8 @@
       "empty": "No products yet — add one to get started.",
       "loading": "Loading product…",
       "seo": {
-        "title": "Products · NowTech Admin",
-        "description": "Catalogue product administration for the NowTech admin panel."
+        "title": "Products · KatiHub Admin",
+        "description": "Catalogue product administration for the KatiHub admin panel."
       }
     },
     "common": {
@@ -758,16 +758,16 @@
         }
       },
       "popup": {
-        "title": "NowTech AI",
+        "title": "KatiHub AI",
         "launcher": {
-          "open": "NowTech AI",
+          "open": "KatiHub AI",
           "loading": "Generating suggestions…",
           "ready": "New suggestions are ready",
           "error": "A generation failed"
         },
         "close": "Close",
         "sections": {
-          "label": "NowTech AI sections",
+          "label": "KatiHub AI sections",
           "suggestions": "Suggestions",
           "conversations": "Conversations",
           "settings": "Settings",
@@ -778,7 +778,7 @@
         "settings": {
           "language": {
             "label": "Language of the suggestions",
-            "description": "The language NowTech AI writes product copy in."
+            "description": "The language KatiHub AI writes product copy in."
           },
           "fields": {
             "label": "Fields to generate",

@@ -36,7 +36,7 @@ const { panelSection, unread } = storeToRefs(store)
             v-if="section === 'suggestions' && unread"
             data-testid="ai-generation-unread-dot"
             aria-hidden="true"
-            class="size-2 rounded-full bg-emerald-500 sm:ml-auto max-sm:absolute max-sm:top-1.5 max-sm:right-1.5"
+            class="size-2 rounded-full bg-success sm:ml-auto max-sm:absolute max-sm:top-1.5 max-sm:right-1.5"
           />
         </button>
       </li>

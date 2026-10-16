@@ -6,8 +6,8 @@
       "loading": "Loading customer details…",
       "back": "Back to users",
       "seo": {
-        "title": "Users · NowTech Admin",
-        "description": "Customer account administration for the NowTech admin panel."
+        "title": "Users · KatiHub Admin",
+        "description": "Customer account administration for the KatiHub admin panel."
       }
     },
     "filterBar": {

@@ -23,12 +23,12 @@ import { formatIndicatorValue, pilotIndicators } from "@/utils/pilot-measures"
 const STATUS_CLASSES: Record<PilotStatus, string> = {
   brouillon: "bg-zinc-100 text-zinc-700",
   pret: "bg-sky-100 text-sky-800",
-  en_cours: "bg-emerald-100 text-emerald-800",
+  en_cours: "bg-success/10 text-success",
   suspendu: "bg-amber-100 text-amber-800",
   termine: "bg-zinc-200 text-zinc-700",
 }
 const DECISION_CLASSES: Record<PilotDecision, string> = {
-  go: "border-emerald-200 bg-emerald-50 text-emerald-800",
+  go: "border-success/20 bg-success/10 text-success",
   prolonger: "border-amber-200 bg-amber-50 text-amber-800",
   bloque: "border-red-200 bg-red-50 text-red-800",
 }
@@ -224,7 +224,7 @@ function runEvaluation() {
                   v-for="proof in proofs"
                   :key="proof.key"
                   class="flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs"
-                  :class="proof.ok ? 'border-emerald-200 text-emerald-800' : 'border-red-200 text-red-800'"
+                  :class="proof.ok ? 'border-success/20 text-success' : 'border-red-200 text-red-800'"
                 >
                   <Icon :name="proof.ok ? 'ph:check-circle-fill' : 'ph:x-circle'" />{{
                     t(`operations.pilot.proofs.${proof.key}`)

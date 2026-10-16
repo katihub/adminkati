@@ -5,8 +5,8 @@
       "empty": "Select an order to view its details",
       "loading": "Loading order details…",
       "seo": {
-        "title": "Orders · NowTech Admin",
-        "description": "Customer order administration for the NowTech admin panel."
+        "title": "Orders · KatiHub Admin",
+        "description": "Customer order administration for the KatiHub admin panel."
       }
     },
     "tabs": {

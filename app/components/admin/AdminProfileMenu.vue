@@ -25,6 +25,7 @@ const session = useCachedSession(queryClient)
 const displayName = computed(() => session.value?.nom || t("admin.profile.name"))
 const displayEmail = computed(() => session.value?.courriel || t("admin.profile.identity"))
 const initials = computed(() => getInitials(session.value?.nom) || t("admin.profile.initials"))
+const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
 
 const isDark = computed({
   get: () => colorMode.preference === "dark" || (colorMode.preference === "system" && colorMode.value === "dark"),
@@ -70,6 +71,9 @@ async function logout() {
         }}</span>
         <span data-testid="admin-profile-email" class="block truncate text-xs font-normal text-muted-foreground">{{
           displayEmail
+        }}</span>
+        <span v-if="isDirection" class="mt-1 block text-xs font-semibold text-brand-orange">{{
+          t("admin.profile.direction")
         }}</span>
       </DropdownMenuLabel>
       <DropdownMenuSeparator />

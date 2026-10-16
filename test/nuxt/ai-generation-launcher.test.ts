@@ -108,7 +108,7 @@ describe("AiGenerationLauncher", () => {
 
       const button = wrapper.get(LAUNCHER)
       expect(button.text()).toBe("")
-      expect(button.attributes("aria-label")).toBe("NowTech AI")
+      expect(button.attributes("aria-label")).toBe("KatiHub AI")
       expect(button.find("svg").exists()).toBe(true)
 
       wrapper.unmount()

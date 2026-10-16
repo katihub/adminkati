@@ -90,11 +90,11 @@ const moneyFormatter = computed(
 
 const statusTone: Record<MarketplaceReturnStatus, string> = {
   demande: "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200",
-  autorise: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200",
+  autorise: "bg-success/10 text-success",
   refuse: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200",
   en_transit: "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
   recu: "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
-  rembourse: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200",
+  rembourse: "bg-success/10 text-success",
 }
 
 function selectReturn(id: string) {

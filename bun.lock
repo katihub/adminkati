@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "nowtech-admin",
+      "name": "katihub-admin",
       "dependencies": {
         "@ark-ui/vue": "^5.39.1",
         "@iconify-json/circle-flags": "^1.2.10",

@@ -9,8 +9,8 @@ and keep the file uncommitted: `NUXT_SESSION_PASSWORD` (at least 32 characters),
 `NUXT_SUPABASE_URL`, `NUXT_SUPABASE_ANON_KEY`, and `NUXT_API_BASE_URL` (the backend origin without
 `/v1`). Generate the session password with `openssl rand -hex 32`.
 
-`NUXT_PUBLIC_STOREFRONT_URL` is the storefront origin (default `https://nowtech.newvcreatives.com`); the
-product header links to `<origin>/produit/<slug>`. It is sent to the browser.
+`NUXT_PUBLIC_STOREFRONT_URL` is the KatiHub storefront origin; the product header links to
+`<origin>/produit/<slug>`. It is sent to the browser. No production domain is assumed by default.
 
 `NUXT_PUBLIC_LOGO_DEV_PUBLISHABLE_KEY` is optional and enables brand-logo previews in the product
 admin. Use a Logo.dev publishable (`pk_`) key only; this value is sent to the browser. Never put a

@@ -7,6 +7,7 @@ import { defineConfig } from "vitest/config"
 for (const [key, value] of Object.entries({
   BACKEND_URL: undefined,
   CATALOGUE_IMAGE_ORIGIN: undefined,
+  DEBUG: undefined,
   NUXT_API_BASE_URL: undefined,
   NUXT_IMAGE_PROVIDER: "ipx",
   NUXT_PUBLIC_CATALOGUE_IMAGE_ORIGIN: "https://api.test",
@@ -44,6 +45,7 @@ export default defineConfig({
             nuxt: {
               rootDir: fileURLToPath(new URL(".", import.meta.url)),
               domEnvironment: "happy-dom",
+              overrides: { debug: false },
             },
           },
         },

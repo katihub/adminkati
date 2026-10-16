@@ -51,7 +51,7 @@ const isoTime = computed(() => new Date(props.entry.createdAt).toISOString())
         cn(
           'absolute top-0.5 left-0 grid size-6 place-items-center rounded-full border',
           entry.status === 'ready'
-            ? 'border-emerald-600/40 bg-emerald-600/10 text-emerald-600'
+            ? 'border-success/40 bg-success/10 text-success'
             : 'border-destructive/40 bg-destructive/10 text-destructive',
         )
       "
@@ -71,7 +71,7 @@ const isoTime = computed(() => new Date(props.entry.createdAt).toISOString())
         <span class="min-w-0 flex-1 truncate">
           <time :datetime="isoTime" class="font-mono">{{ time }}</time>
           · {{ t(`products.aiCopy.language.${entry.language}`) }} ·
-          <span :class="entry.status === 'ready' ? 'text-emerald-600' : 'text-destructive'">
+          <span :class="entry.status === 'ready' ? 'text-success' : 'text-destructive'">
             {{ t(`products.aiCopy.popup.history.status.${entry.status}`) }}
           </span>
         </span>

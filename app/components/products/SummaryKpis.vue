@@ -101,9 +101,7 @@ const completeness = computed(() => {
       </div>
       <div class="mt-3 flex items-center justify-between">
         <span class="text-base font-bold text-foreground">{{ completeness.text }}</span>
-        <span
-          class="rounded-full bg-emerald-100 px-2 py-0.5 font-mono text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300"
-        >
+        <span class="rounded-full bg-success/10 px-2 py-0.5 font-mono text-[11px] font-bold text-success">
           {{ completeness.pct }}
         </span>
       </div>

@@ -1,6 +1,7 @@
 import { env } from "node:process"
 import { fileURLToPath } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
+import { brand } from "./brand.config"
 
 function parseOrigin(value: string): string | null {
   if (value.includes("${") || !URL.canParse(value)) return null
@@ -52,6 +53,16 @@ const bannerImageOrigins = [
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      link: [{ rel: "icon", type: "image/png", href: brand.logoPath }],
+      style: [
+        {
+          innerHTML: `:root{--brand-navy:${brand.colors.navy};--brand-orange:${brand.colors.orange}}`,
+        },
+      ],
+    },
+  },
   modules: [
     "@nuxt/fonts",
     "@nuxt/icon",
@@ -123,10 +134,10 @@ export default defineNuxtConfig({
     public: {
       catalogueImageOrigin: "",
       // Origin of the public storefront, without a trailing path. Override with NUXT_PUBLIC_STOREFRONT_URL.
-      storefrontUrl: "https://nowtech.newvcreatives.com",
+      storefrontUrl: brand.storefrontUrl,
       // Publishable Logo.dev key; intentionally browser-visible and restricted to img.logo.dev.
       logoDevPublishableKey: "",
-      // TODO: unset until the real NowTech support address is confirmed. The
+      // TODO: unset until the real KatiHub support address is confirmed. The
       // login page renders its mailto: link only when this is non-empty, so
       // nothing fake ships. Override with NUXT_PUBLIC_SUPPORT_EMAIL.
       supportEmail: "",
@@ -212,7 +223,7 @@ export default defineNuxtConfig({
        * et locales — UMD eux aussi — sont redirigés vers leur propre ESM.
        */
       {
-        name: "nowtech:dayjs-esm",
+        name: "katihub:dayjs-esm",
         enforce: "pre" as const,
         resolveId(id: string) {
           if (id === "dayjs") return this.resolve("dayjs/esm/index.js", undefined, { skipSelf: true })
@@ -230,7 +241,7 @@ export default defineNuxtConfig({
     ],
   },
   site: {
-    name: "NowTech Admin",
+    name: brand.adminName,
   },
   seo: {
     automaticOgAndTwitterTags: false,

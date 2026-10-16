@@ -9,7 +9,7 @@ type Indicator = "loading" | "ready" | "error"
 
 const INDICATOR_CLASS: Record<Indicator, string> = {
   loading: "-inset-1 rounded-full border-2 border-transparent border-t-foreground/60 motion-safe:hidden",
-  ready: "top-0 right-0 size-3 rounded-full bg-emerald-500 ring-2 ring-white",
+  ready: "top-0 right-0 size-3 rounded-full bg-success ring-2 ring-white",
   error: "top-0 right-0 size-3 rounded-full bg-destructive ring-2 ring-white",
 }
 
@@ -111,7 +111,7 @@ const indicator = computed<Indicator | null>(() => {
           :class="
             cn(
               'mt-0.5 grid size-6 shrink-0 place-items-center rounded-full',
-              notice.kind === 'ready' ? 'bg-emerald-600/10 text-emerald-600' : 'bg-destructive/10 text-destructive',
+              notice.kind === 'ready' ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive',
             )
           "
         >
