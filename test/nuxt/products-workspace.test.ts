@@ -1,7 +1,7 @@
 import type { ProductDetail, ProductListItem, ProductListResponse } from "@/types/api/produits"
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
-import { getQuery } from "h3"
+import { createError, getQuery } from "h3"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import ProductsSummaryKpis from "@/components/products/SummaryKpis.vue"
 import ProductsPage from "@/pages/products.vue"
@@ -211,6 +211,36 @@ describe("products workspace page", () => {
     expect(otherRow?.attributes("aria-pressed")).toBe("false")
 
     wrapper.unmount()
+  })
+
+  it("shows the catalogue request error and lets the operator retry it", async () => {
+    seedSession()
+    seedTaxonomie()
+    useNuxtApp().$queryClient.setDefaultOptions({ queries: { retry: false } })
+    const product = makeProduct({ id: 590, nom: "Routeur Wi-Fi" })
+    seedProduit(product.id, makeProductDetail({ id: product.id, nom: product.nom }))
+    let backendAvailable = false
+    const cleanup = registerEndpoint("/api/v1/catalogue/administration/produits", {
+      method: "GET",
+      handler: () => {
+        if (!backendAvailable) throw createError({ statusCode: 500 })
+        return makeResponse({ produits: [product] })
+      },
+    })
+
+    const wrapper = await mountSuspended(ProductsPage, { route: "/products" })
+    await flushPromises()
+
+    expect(wrapper.find("[data-testid='products-detail-empty']").exists()).toBe(false)
+    expect(wrapper.find("[data-testid='api-error-card']").exists()).toBe(true)
+
+    backendAvailable = true
+    await wrapper.get("[data-testid='api-error-card'] button").trigger("click")
+    await vi.waitFor(() => expect(wrapper.get("[data-testid='products-list-item-name']").text()).toBe(product.nom))
+
+    cleanup()
+    wrapper.unmount()
+    useNuxtApp().$queryClient.setDefaultOptions({ queries: { retry: 1 } })
   })
 
   it("synchronizes the inline filter bar's search input with the list query", async () => {

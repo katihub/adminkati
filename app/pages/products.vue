@@ -126,7 +126,7 @@ if (import.meta.server) {
   }
 }
 
-const { data: listData } = useProduits(listFilters)
+const { data: listData, error: listError, refetch: refetchProducts } = useProduits(listFilters)
 const autoSelectedId = computed(() => listData.value?.pages[0]?.produits[0]?.id ?? null)
 
 const effectiveId = computed(() => {
@@ -242,7 +242,14 @@ useHead({
 
       <!-- Center Workspace  -->
       <div class="h-full overflow-y-auto bg-muted/50" data-testid="products-detail-panel">
-        <div v-if="productError" class="flex h-full items-center justify-center p-6 text-center">
+        <div
+          v-if="listError && !isNewMode && effectiveId === null"
+          class="flex h-full items-center justify-center p-6 text-center"
+        >
+          <ApiErrorCard :error="listError" @retry="() => void refetchProducts()" />
+        </div>
+
+        <div v-else-if="productError" class="flex h-full items-center justify-center p-6 text-center">
           <ApiErrorCard :error="productError" @retry="() => void refetchProduct()" />
         </div>
 
