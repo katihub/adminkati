@@ -44,6 +44,14 @@ export const banniereSchema = z.object({
   emplacement: z.enum(BANNIERE_EMPLACEMENTS, { error: "validation.required" }),
   href: hrefSchema,
   libelle: z.string().trim().min(1, { error: "validation.required" }).max(80, { error: "validation.tooLong" }),
+  description: z.string().trim().max(180, { error: "validation.tooLong" }).optional(),
+  action: z
+    .string()
+    .trim()
+    .min(1, { error: "validation.required" })
+    .max(40, { error: "validation.tooLong" })
+    .optional(),
+  tonalite: z.enum(["navy", "light", "orange"]).optional(),
   alt: z
     .string()
     .trim()

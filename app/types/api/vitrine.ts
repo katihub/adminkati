@@ -5,6 +5,7 @@
  * (`sql/vitrine.sql:139-142`) in nowtech-backend.
  */
 export type EmplacementBanniere = "principal" | "promo" | "pub_accueil"
+export type TonaliteBanniere = "navy" | "light" | "orange"
 
 /**
  * Mirrors `BanniereDetaillee` (`src/vitrine/vitrine.service.ts:30-41`) and `sql/vitrine.sql`
@@ -28,6 +29,9 @@ export interface BanniereAdmin {
   hauteur_mobile: number | null
   href: string
   libelle: string
+  description?: string
+  action?: string
+  tonalite?: TonaliteBanniere
   alt: string
   focus: number
   creee_le: string
@@ -48,6 +52,9 @@ export interface CreerBanniereInput {
   emplacement?: EmplacementBanniere
   href: string
   libelle: string
+  description?: string
+  action?: string
+  tonalite?: TonaliteBanniere
   alt: string
   focus?: number
   active?: boolean

@@ -112,9 +112,9 @@
       },
       "emplacement": {
         "principal": "Bannière principale",
-        "promo": "Promo accueil KatiHub",
+        "promo": "Campagnes du header KatiHub",
         "principalHint": "Le grand carrousel en tête de l'accueil. Son visuel doit être plus large que haut.",
-        "promoHint": "Le carrousel des promotions, sous la grande bannière de l'accueil KatiHub (deux images visibles à la fois). Format bandeau conseillé : environ 1200 × 500 px. Les promotions défilent dans leur ordre.",
+        "promoHint": "Les cartes du header de l'accueil KatiHub. Ajoutez, retirez et réordonnez librement les campagnes. Format vertical ou carré conseillé.",
         "pub_accueil": "Pub accueil KatiHub",
         "pub_accueilHint": "La publicité de l'accueil KatiHub, dans la colonne de droite. Format vertical conseillé (environ 600 × 750 px). La première bannière active de cet emplacement est affichée."
       },
@@ -166,6 +166,16 @@
         "emplacementMoveHint": "Changer d'emplacement place la bannière en fin de l'autre carrousel.",
         "libelleLabel": "Libellé",
         "libellePlaceholder": "ex. Soldes d'été",
+        "descriptionLabel": "Description de la carte",
+        "descriptionPlaceholder": "Une phrase courte affichée sous le titre",
+        "actionLabel": "Texte du bouton",
+        "actionPlaceholder": "ex. Découvrir",
+        "tonaliteLabel": "Style de couleur",
+        "tonalite": {
+          "navy": "Bleu nuit",
+          "light": "Clair",
+          "orange": "Orange doux"
+        },
         "altLabel": "Texte alternatif",
         "altPlaceholder": "Décrivez le visuel pour les lecteurs d'écran",
         "altCounter": "{count}/{max}",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BanniereAdmin, EmplacementBanniere, ModifierBanniereInput } from "@/types/api/vitrine"
+import type { BanniereAdmin, EmplacementBanniere, ModifierBanniereInput, TonaliteBanniere } from "@/types/api/vitrine"
 import type { Dimensions } from "@/utils/banner-artwork"
 import type { z } from "zod/v4"
 import { computed, reactive, ref, toRef, useId, watch } from "vue"
@@ -13,15 +13,25 @@ import { apiErrorText } from "@/utils/api-error"
 import { bannerEmplacement, storedMobileDimensions, validateBannerArtwork } from "@/utils/banner-artwork"
 
 type BanniereFormValues = z.infer<typeof banniereSchema>
-type FieldName = "libelle" | "alt" | "href"
+type FieldName = "libelle" | "description" | "action" | "alt" | "href"
 
 const props = defineProps<{ banner: BanniereAdmin | null; formId: string }>()
 
 const emit = defineEmits<{ cancel: []; saved: [banner: BanniereAdmin] }>()
 
-const FIELD_NAMES: FieldName[] = ["libelle", "alt", "href"]
+const FIELD_NAMES: FieldName[] = ["libelle", "description", "action", "alt", "href"]
 /** Every field a `PATCH` may carry. The artworks have their own routes. */
-const PATCH_FIELDS = ["emplacement", "href", "libelle", "alt", "focus", "active"] as const
+const PATCH_FIELDS = [
+  "emplacement",
+  "href",
+  "libelle",
+  "description",
+  "action",
+  "tonalite",
+  "alt",
+  "focus",
+  "active",
+] as const
 
 const banner = toRef(props, "banner")
 
@@ -39,6 +49,9 @@ const isSaving = computed(() =>
 const values = reactive({
   emplacement: "principal" as EmplacementBanniere,
   libelle: "",
+  description: "",
+  action: "Découvrir",
+  tonalite: "light" as TonaliteBanniere,
   alt: "",
   href: "",
   focus: 50,
@@ -53,7 +66,13 @@ const mobileDimensions = ref<Dimensions | null>(null)
 const removeMobile = ref(false)
 
 const initialSnapshot = ref("")
-const errorKeys = reactive<Record<FieldName, string>>({ libelle: "", alt: "", href: "" })
+const errorKeys = reactive<Record<FieldName, string>>({
+  libelle: "",
+  description: "",
+  action: "",
+  alt: "",
+  href: "",
+})
 const submitError = ref("")
 
 function createFormSnapshot() {
@@ -71,6 +90,9 @@ function applyFieldErrors(keys: Record<string, string>) {
 const BLANK_FIELD_VALUES = {
   emplacement: "principal" as EmplacementBanniere,
   libelle: "",
+  description: "",
+  action: "Découvrir",
+  tonalite: "light" as TonaliteBanniere,
   alt: "",
   href: "",
   focus: 50,
@@ -80,8 +102,18 @@ const BLANK_FIELD_VALUES = {
 function deriveFieldValues(current: BanniereAdmin | null) {
   if (!current) return { ...BLANK_FIELD_VALUES }
 
-  const { libelle, alt, href, focus, active } = current
-  return { emplacement: bannerEmplacement(current), libelle, alt, href, focus, active }
+  const { libelle, description, action, tonalite, alt, href, focus, active } = current
+  return {
+    emplacement: bannerEmplacement(current),
+    libelle,
+    description: description ?? "",
+    action: action ?? "Découvrir",
+    tonalite: tonalite ?? "light",
+    alt,
+    href,
+    focus,
+    active,
+  }
 }
 
 /** Populates from `banner`, or clears when it's `null` — the same function drives the
@@ -160,6 +192,9 @@ function buildPayload() {
     emplacement: values.emplacement,
     href: values.href,
     libelle: values.libelle,
+    description: values.description,
+    action: values.action,
+    tonalite: values.tonalite,
     alt: values.alt,
     focus: values.focus,
     active: values.active,
@@ -169,7 +204,13 @@ function buildPayload() {
 /** Only the fields that actually changed — an empty `PATCH` body is a 400
  *  (« Aucun champ à modifier. », `vitrine.service.ts:418`), so Save must never send one. */
 function buildPatch(validated: BanniereFormValues, original: BanniereAdmin): ModifierBanniereInput {
-  const saved = { ...original, emplacement: bannerEmplacement(original) }
+  const saved = {
+    ...original,
+    emplacement: bannerEmplacement(original),
+    description: original.description ?? "",
+    action: original.action ?? "Découvrir",
+    tonalite: original.tonalite ?? "light",
+  }
   return Object.fromEntries(
     PATCH_FIELDS.filter(field => validated[field] !== saved[field]).map(field => [field, validated[field]]),
   ) as ModifierBanniereInput
@@ -297,6 +338,9 @@ function onSubmit() {
 }
 
 const libelleId = useId()
+const descriptionId = useId()
+const actionId = useId()
+const tonaliteId = useId()
 const altId = useId()
 
 /** Read-write so the footer's toggle (outside this `<form>`, like Save/Cancel) can flip
@@ -354,6 +398,55 @@ defineExpose({ saveDisabled, isSaving, submitError, active: activeValue })
       <p v-if="errorKeys.libelle" data-testid="banner-form-libelle-error" class="text-sm text-destructive">
         {{ t(errorKeys.libelle) }}
       </p>
+    </div>
+
+    <ContentBannerFormField
+      data-testid="banner-form-field-description"
+      icon="ph:text-align-left-duotone"
+      :label="t('content.banners.form.descriptionLabel')"
+      :label-for="descriptionId"
+    >
+      <Textarea
+        :id="descriptionId"
+        v-model="values.description"
+        data-testid="banner-form-description"
+        :placeholder="t('content.banners.form.descriptionPlaceholder')"
+        :aria-invalid="!!errorKeys.description"
+      />
+      <p v-if="errorKeys.description" class="mt-1 text-sm text-destructive">{{ t(errorKeys.description) }}</p>
+    </ContentBannerFormField>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <ContentBannerFormField
+        icon="ph:cursor-click-duotone"
+        :label="t('content.banners.form.actionLabel')"
+        :label-for="actionId"
+      >
+        <Input
+          :id="actionId"
+          v-model="values.action"
+          data-testid="banner-form-action"
+          :placeholder="t('content.banners.form.actionPlaceholder')"
+          :aria-invalid="!!errorKeys.action"
+        />
+        <p v-if="errorKeys.action" class="mt-1 text-sm text-destructive">{{ t(errorKeys.action) }}</p>
+      </ContentBannerFormField>
+      <ContentBannerFormField
+        icon="ph:palette-duotone"
+        :label="t('content.banners.form.tonaliteLabel')"
+        :label-for="tonaliteId"
+      >
+        <select
+          :id="tonaliteId"
+          v-model="values.tonalite"
+          data-testid="banner-form-tonalite"
+          class="h-10 w-full rounded-md border bg-background px-3 text-sm"
+        >
+          <option value="navy">{{ t("content.banners.form.tonalite.navy") }}</option>
+          <option value="light">{{ t("content.banners.form.tonalite.light") }}</option>
+          <option value="orange">{{ t("content.banners.form.tonalite.orange") }}</option>
+        </select>
+      </ContentBannerFormField>
     </div>
 
     <ContentBannerFormField

@@ -112,9 +112,9 @@
       },
       "emplacement": {
         "principal": "Main banner",
-        "promo": "KatiHub home promo",
+        "promo": "KatiHub header campaigns",
         "principalHint": "The large carousel at the top of the home page. Its artwork must be wider than it is tall.",
-        "promoHint": "The promotions carousel, under the large banner of the KatiHub home page (two images shown at a time). A strip artwork is best: about 1200 × 500 px. Promotions scroll in their order.",
+        "promoHint": "The campaign cards in the KatiHub home header. Add, remove, and reorder campaigns freely. Portrait or square artwork is recommended.",
         "pub_accueil": "KatiHub home advert",
         "pub_accueilHint": "The KatiHub home page advert, in the right-hand column. A portrait artwork is best (about 600 × 750 px). The first active banner of this placement is shown."
       },
@@ -166,6 +166,16 @@
         "emplacementMoveHint": "Changing the placement moves the banner to the end of the other carousel.",
         "libelleLabel": "Label",
         "libellePlaceholder": "e.g. Summer sale",
+        "descriptionLabel": "Card description",
+        "descriptionPlaceholder": "A short sentence shown below the title",
+        "actionLabel": "Button text",
+        "actionPlaceholder": "e.g. Discover",
+        "tonaliteLabel": "Colour style",
+        "tonalite": {
+          "navy": "Midnight blue",
+          "light": "Light",
+          "orange": "Soft orange"
+        },
         "altLabel": "Alt text",
         "altPlaceholder": "Describe the artwork for screen readers",
         "altCounter": "{count}/{max}",
