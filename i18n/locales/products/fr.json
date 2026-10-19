@@ -1,5 +1,42 @@
 {
   "products": {
+    "productImport": {
+      "button": "Importer des produits",
+      "title": "Importer des produits",
+      "description": "Prévisualisez chaque ligne avant de créer les produits valides dans le catalogue.",
+      "choose": "Choisir un fichier CSV ou Excel",
+      "limits": "CSV ou XLSX · 5 Mo maximum · 500 produits",
+      "columns": "Colonnes obligatoires : nom et prix. Facultatives : slug, prix_reference, marque, categorie_id, quantite_stock, description, fiche_technique, caracteristiques, image_url et image_alt.",
+      "template": "Télécharger le modèle CSV",
+      "templateFilename": "modele-import-produits.csv",
+      "errorFilename": "erreurs-import-produits.csv",
+      "preview": "Prévisualiser",
+      "checking": "Vérification du fichier…",
+      "importing": "Création des produits…",
+      "ready": "Prêts à importer",
+      "created": "Produits créés",
+      "failed": "Lignes en erreur",
+      "total": "Lignes analysées",
+      "line": "Ligne",
+      "product": "Produit",
+      "price": "Prix",
+      "status": "État",
+      "result": "{count} produit créé | {count} produits créés",
+      "apply": "Importer {count} produit | Importer {count} produits",
+      "back": "Retour",
+      "another": "Nouvel import",
+      "errors": "Télécharger les erreurs",
+      "done": "Terminer",
+      "wrongType": "Choisissez un fichier CSV ou XLSX.",
+      "legacyXls": "L’ancien format .xls n’est pas accepté. Ouvrez le fichier dans Excel puis enregistrez-le au format .xlsx.",
+      "tooLarge": "Le fichier dépasse la limite de 5 Mo.",
+      "requestError": "Le fichier n’a pas pu être analysé. Vérifiez son format puis réessayez.",
+      "statuses": {
+        "pret": "Prêt",
+        "cree": "Créé",
+        "echec": "À corriger"
+      }
+    },
     "stockImport": {
       "headings": {
         "setup": {

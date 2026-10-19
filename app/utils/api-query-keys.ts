@@ -11,6 +11,7 @@ const caisse = ["v1", "caisses"] as const
 const banners = ["v1", "vitrine", "administration", "bannieres"] as const
 const pointsOfSale = ["v1", "vitrine", "administration", "points-vente"] as const
 const statistics = ["v1", "statistiques"] as const
+const customerSearches = ["v1", "catalogue", "administration", "requetes-clients"] as const
 const deliveryIntervals = ["v1", "catalogue", "administration", "delais-livraison"] as const
 const assistant = ["v1", "assistant", "administration", "demandes"] as const
 const marketplaceOperations = ["v1", "marketplace", "operations"] as const
@@ -76,6 +77,10 @@ export const apiQueryKeys = {
   statistics: {
     all: statistics,
     overview: (period?: string) => [...statistics, "apercu", ...(period ? [period] : [])] as const,
+  },
+  customerSearches: {
+    all: customerSearches,
+    overview: (days: number) => [...customerSearches, days] as const,
   },
   assistant: {
     all: assistant,

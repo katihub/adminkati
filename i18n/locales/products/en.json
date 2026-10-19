@@ -1,5 +1,42 @@
 {
   "products": {
+    "productImport": {
+      "button": "Import products",
+      "title": "Import products",
+      "description": "Preview every row before creating valid products in the catalogue.",
+      "choose": "Choose a CSV or Excel file",
+      "limits": "CSV or XLSX · 5 MB maximum · 500 products",
+      "columns": "Required columns: nom and prix. Optional: slug, prix_reference, marque, categorie_id, quantite_stock, description, fiche_technique, caracteristiques, image_url and image_alt.",
+      "template": "Download CSV template",
+      "templateFilename": "product-import-template.csv",
+      "errorFilename": "product-import-errors.csv",
+      "preview": "Preview",
+      "checking": "Checking the file…",
+      "importing": "Creating products…",
+      "ready": "Ready to import",
+      "created": "Products created",
+      "failed": "Rows with errors",
+      "total": "Rows checked",
+      "line": "Line",
+      "product": "Product",
+      "price": "Price",
+      "status": "Status",
+      "result": "{count} product created | {count} products created",
+      "apply": "Import {count} product | Import {count} products",
+      "back": "Back",
+      "another": "New import",
+      "errors": "Download errors",
+      "done": "Done",
+      "wrongType": "Choose a CSV or XLSX file.",
+      "legacyXls": "The legacy .xls format is not accepted. Open the file in Excel and save it as .xlsx.",
+      "tooLarge": "The file exceeds the 5 MB limit.",
+      "requestError": "The file could not be checked. Verify its format and try again.",
+      "statuses": {
+        "pret": "Ready",
+        "cree": "Created",
+        "echec": "Needs correction"
+      }
+    },
     "stockImport": {
       "headings": {
         "setup": {

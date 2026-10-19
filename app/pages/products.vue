@@ -184,6 +184,14 @@ useHead({
       <div class="flex flex-wrap items-center justify-between gap-3" data-testid="products-title-actions-row">
         <AdminPageHeader :title="pageTitle" class="shrink-0" />
         <div v-if="canCreate" class="ml-auto flex shrink-0 items-center gap-2">
+          <ProductsProductImportDialog>
+            <template #trigger>
+              <Button variant="outline" data-testid="products-product-import-button">
+                <PhUploadSimple data-icon="inline-start" aria-hidden="true" />
+                {{ t("products.productImport.button") }}
+              </Button>
+            </template>
+          </ProductsProductImportDialog>
           <ProductsStockExportDialog :filters="filters" :total="listData?.pages[0]?.total ?? null">
             <template #trigger>
               <Button variant="outline" data-testid="products-export-button">

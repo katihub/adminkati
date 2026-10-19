@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { CustomerSearchPeriod } from "@/types/api/customer-searches"
 import type { ApiStatistiquesApercu } from "@/types/api/statistiques"
+import { computed, ref } from "vue"
+import CustomerSearchRequests from "@/components/stats/CustomerSearchRequests/CustomerSearchRequests.vue"
 import { prefetchApi } from "@/composables/useApi"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 
@@ -15,6 +18,9 @@ defineI18nRoute({
 const { t } = useI18n({ useScope: "local" })
 const { periode } = usePeriode()
 const queryClient = useNuxtApp().$queryClient
+const session = useCachedSession(queryClient)
+const canViewCustomerSearches = computed(() => session.value?.roles.includes("direction") ?? false)
+const customerSearchDays = ref<CustomerSearchPeriod>(30)
 
 if (import.meta.server) {
   await prefetchApi<ApiStatistiquesApercu>(
@@ -26,9 +32,20 @@ if (import.meta.server) {
 }
 
 const { data, dataUpdatedAt, error, isFetching, isPending, refetch } = useStatistiquesApercu(periode)
+const {
+  data: customerSearches,
+  error: customerSearchesError,
+  isFetching: customerSearchesFetching,
+  isPending: customerSearchesPending,
+  refetch: refetchCustomerSearches,
+} = useCustomerSearches(customerSearchDays, canViewCustomerSearches)
 
 function refresh() {
   void refetch()
+}
+
+function refreshCustomerSearches() {
+  void refetchCustomerSearches()
 }
 
 useSeoMeta({
@@ -56,6 +73,16 @@ useHead({
     <ApiErrorCard v-if="error" :error="error" @retry="refresh" />
     <StatsOverviewSkeleton v-else-if="isPending && !data" :label="t('loading')" />
     <StatsOverviewBlocks v-else-if="data" :data="data" :busy="isFetching" />
+
+    <CustomerSearchRequests
+      v-if="canViewCustomerSearches"
+      v-model:days="customerSearchDays"
+      :data="customerSearches"
+      :error="customerSearchesError"
+      :pending="customerSearchesPending"
+      :busy="customerSearchesFetching"
+      @retry="refreshCustomerSearches"
+    />
   </div>
 </template>
 
