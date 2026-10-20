@@ -20,3 +20,9 @@
 
 - Les images de campagne téléversées peuvent encore inclure l’ancien nom dans leurs pixels ; elles sont éditoriales et gérées séparément depuis le tableau de bord.
 - L’asset PNG historique reste dans les dossiers publics mais n’est plus utilisé par le mot-symbole ou le favicon actifs.
+
+## Complément — logos officiels KatiMarket
+
+À la suite de la réception des fichiers officiels, le monogramme rond fourni est maintenant utilisé dans l'en-tête de la vitrine et de l'administration, ainsi que pour les icônes de navigateur, Apple et PWA. Le logo complet avec le nom et la signature est placé dans le pied de page de la vitrine. Les icônes PWA comprennent également une variante avec marge de sécurité pour l'affichage adaptatif. Le nom légal de l'entreprise reste inchangé.
+
+Vérifications complémentaires : le test unitaire admin `bun.cmd x vitest run test/unit/brand-config.test.ts` passe (2 tests). La vitrine passe `npm.cmd run typecheck` et `npm.cmd run build` après génération d'un favicon ICO valide en RGBA. Le test E2E ciblé de l'accueil avait également confirmé l'affichage des logos d'en-tête et de pied de page, ainsi que le manifeste KatiMarket.

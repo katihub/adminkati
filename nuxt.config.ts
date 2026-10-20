@@ -55,7 +55,7 @@ const bannerImageOrigins = [
 export default defineNuxtConfig({
   app: {
     head: {
-      link: [{ rel: "icon", type: "image/svg+xml", href: brand.logoPath }],
+      link: [{ rel: "icon", type: "image/png", href: brand.logoPath }],
       style: [
         {
           innerHTML: `:root{--brand-navy:${brand.colors.navy};--brand-orange:${brand.colors.orange}}`,

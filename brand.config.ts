@@ -6,7 +6,7 @@ export const brand = {
     leading: "KATI",
     accent: "MARKET",
   },
-  logoPath: "/katimarket-mark.svg",
+  logoPath: "/brand/katimarket-mark.png",
   storefrontUrl: "",
   colors: {
     navy: "#08265c",

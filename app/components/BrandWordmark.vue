@@ -8,13 +8,14 @@ const compact = computed(() => size === "sm")
 
 <template>
   <span class="inline-flex items-center" :class="compact ? 'gap-1.5' : 'gap-2'">
-    <span
-      class="inline-flex shrink-0 items-center justify-center rounded-lg bg-primary font-black leading-none text-white"
-      :class="compact ? 'size-6 text-xs' : 'size-8 text-sm'"
-      aria-hidden="true"
-    >
-      K
-    </span>
+    <NuxtImg
+      :src="brand.logoPath"
+      alt=""
+      :width="compact ? 28 : 36"
+      :height="compact ? 28 : 36"
+      sizes="36px"
+      class="shrink-0 rounded-full bg-white object-contain"
+    />
 
     <span class="font-bold tracking-tight" :class="compact ? 'text-lg' : 'text-2xl'">
       <span class="text-foreground">{{ brand.wordmark.leading }}</span

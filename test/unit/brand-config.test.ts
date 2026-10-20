@@ -12,6 +12,9 @@ describe("KatiMarket brand contract", () => {
 
     const { brand } = await import(/* @vite-ignore */ pathToFileURL(configPath).href)
 
+    expect(existsSync(resolve(rootDirectory, "public/brand/katimarket-mark.png"))).toBe(true)
+    expect(existsSync(resolve(rootDirectory, "public/favicon.ico"))).toBe(true)
+
     expect(brand).toMatchObject({
       name: "KatiMarket",
       adminName: "KatiMarket Admin",
@@ -20,7 +23,7 @@ describe("KatiMarket brand contract", () => {
         leading: "KATI",
         accent: "MARKET",
       },
-      logoPath: "/katimarket-mark.svg",
+      logoPath: "/brand/katimarket-mark.png",
       storefrontUrl: "",
       colors: {
         navy: "#08265c",
