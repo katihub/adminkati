@@ -1,11 +1,14 @@
+import type { LocalityCity } from "@/types/api/localities"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 
-/** The priced modes: Kati Express, shop delivery and travel-agency shipping. Pickup is always free and has no fee. */
-export type DeliveryMode = "katihub" | "vendeur" | "agence"
+/** Fixed-price modes; agency shipping is calculated as 10% of the order value. */
+export type DeliveryMode = "katihub" | "vendeur"
 
 export interface DeliveryFee {
   id: string
+  quartierId: string
+  quartier: string
   ville: string
   mode: DeliveryMode
   montantFcfa: number
@@ -16,7 +19,7 @@ export interface DeliveryFee {
 }
 
 export interface DeliveryFeeInput {
-  ville: string
+  quartierId: string
   mode: DeliveryMode
   montantFcfa: number
   gratuitDesFcfa?: number
@@ -35,6 +38,14 @@ export function useDeliveryFees() {
   return useQuery<DeliveryFee[]>({
     queryKey: apiQueryKeys.deliveryFees.admin,
     queryFn: () => apiFetch("/marketplace/livraison/tarifs/administration"),
+  })
+}
+
+export function useDeliveryFeeLocalities() {
+  const apiFetch = useApiFetch()
+  return useQuery<LocalityCity[]>({
+    queryKey: apiQueryKeys.localities.admin,
+    queryFn: () => apiFetch("/marketplace/localites/administration"),
   })
 }
 

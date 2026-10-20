@@ -9,6 +9,7 @@ const team = ["v1", "equipe", "membres"] as const
 const catalogue = ["v1", "catalogue"] as const
 const caisse = ["v1", "caisses"] as const
 const banners = ["v1", "vitrine", "administration", "bannieres"] as const
+const announcements = ["v1", "vitrine", "administration", "annonces"] as const
 const pointsOfSale = ["v1", "vitrine", "administration", "points-vente"] as const
 const statistics = ["v1", "statistiques"] as const
 const customerSearches = ["v1", "catalogue", "administration", "requetes-clients"] as const
@@ -73,6 +74,7 @@ export const apiQueryKeys = {
   },
   deliveryIntervals: { all: deliveryIntervals },
   banners: { all: banners },
+  announcements: { all: announcements },
   pointsOfSale: { all: pointsOfSale },
   statistics: {
     all: statistics,

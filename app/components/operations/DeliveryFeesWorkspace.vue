@@ -24,30 +24,52 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
-import { useDeliveryFeeMutations, useDeliveryFees } from "@/composables/useDeliveryFees"
+import { useDeliveryFeeLocalities, useDeliveryFeeMutations, useDeliveryFees } from "@/composables/useDeliveryFees"
 import { useToastAction } from "@/composables/useToastAction"
 
 const { t, locale } = useI18n()
 const query = useDeliveryFees()
+const localities = useDeliveryFeeLocalities()
 const mutations = useDeliveryFeeMutations()
 const run = useToastAction()
 const editing = ref<DeliveryFee | null>(null)
 const creating = ref(false)
 const formOpen = computed(() => creating.value || Boolean(editing.value))
 const deleting = ref<DeliveryFee | null>(null)
-const form = reactive({ ville: "", mode: "katihub" as DeliveryMode, montant: 0, seuil: "" })
+const form = reactive({
+  quartierId: "",
+  quartier: "",
+  ville: "",
+  mode: "katihub" as DeliveryMode,
+  montant: 0,
+  seuil: "",
+})
 const pending = computed(() => Object.values(mutations).some(mutation => mutation.isPending.value))
 const money = computed(
   () => new Intl.NumberFormat(locale.value, { style: "currency", currency: "XAF", maximumFractionDigits: 0 }),
 )
-const cities = computed(() => {
-  const groups = new Map<string, DeliveryFee[]>()
-  for (const fee of query.data.value ?? []) groups.set(fee.ville, [...(groups.get(fee.ville) ?? []), fee])
-  return [...groups.entries()].map(([ville, fees]) => ({ ville, fees }))
+const districts = computed(() => {
+  const fees = new Map<string, DeliveryFee[]>()
+  for (const fee of query.data.value ?? []) fees.set(fee.quartierId, [...(fees.get(fee.quartierId) ?? []), fee])
+  return (localities.data.value ?? []).map(city => ({
+    ...city,
+    quartiers: city.quartiers.map(quartier => ({
+      ...quartier,
+      fees: fees.get(quartier.id) ?? [],
+    })),
+  }))
 })
+const availableDistricts = computed(() =>
+  districts.value.flatMap(city =>
+    city.quartiers
+      .filter(quartier => quartier.actif && city.active)
+      .map(quartier => ({ id: quartier.id, nom: quartier.nom, ville: city.nom })),
+  ),
+)
 const threshold = computed(() => (form.seuil.trim() ? Number(form.seuil) : null))
 const formError = computed(() => {
-  if (creating.value && form.ville.trim().length < 2) return t("operations.deliveryFees.cityRequired")
+  if (creating.value && !availableDistricts.value.some(quartier => quartier.id === form.quartierId))
+    return t("operations.deliveryFees.districtRequired")
   if (!Number.isInteger(form.montant) || form.montant < 0) return t("operations.deliveryFees.amountInvalid")
   if (threshold.value !== null && (!Number.isInteger(threshold.value) || threshold.value < 1))
     return t("operations.deliveryFees.thresholdInvalid")
@@ -57,7 +79,6 @@ const formError = computed(() => {
 const MODE_LABELS: Record<DeliveryMode, string> = {
   katihub: "operations.deliveryFees.modeKatihub",
   vendeur: "operations.deliveryFees.modeShop",
-  agence: "operations.deliveryFees.modeAgency",
 }
 const MODES = Object.keys(MODE_LABELS) as DeliveryMode[]
 
@@ -65,14 +86,24 @@ function modeLabel(mode: DeliveryMode) {
   return t(MODE_LABELS[mode] ?? mode)
 }
 
-function openNew(ville = "") {
-  Object.assign(form, { ville, mode: "katihub", montant: 0, seuil: "" })
+function openNew(quartierId = "") {
+  const quartier = availableDistricts.value.find(candidate => candidate.id === quartierId)
+  Object.assign(form, {
+    quartierId,
+    quartier: quartier?.nom ?? "",
+    ville: quartier?.ville ?? "",
+    mode: "katihub",
+    montant: 0,
+    seuil: "",
+  })
   editing.value = null
   creating.value = true
 }
 
 function openEdit(fee: DeliveryFee) {
   Object.assign(form, {
+    quartierId: fee.quartierId,
+    quartier: fee.quartier,
     ville: fee.ville,
     mode: fee.mode,
     montant: fee.montantFcfa,
@@ -90,7 +121,7 @@ async function submit() {
       ? await run(
           () =>
             mutations.create.mutateAsync({
-              ville: form.ville.trim(),
+              quartierId: form.quartierId,
               mode: form.mode,
               montantFcfa: form.montant,
               ...(threshold.value ? { gratuitDesFcfa: threshold.value } : {}),
@@ -132,72 +163,109 @@ async function confirmDelete() {
     <div
       class="flex shrink-0 flex-col gap-3 border-t border-border bg-background px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10"
     >
-      <p class="max-w-3xl text-sm text-muted-foreground">{{ t("operations.deliveryFees.help") }}</p>
+      <div class="max-w-3xl space-y-1">
+        <p class="text-sm text-muted-foreground">{{ t("operations.deliveryFees.help") }}</p>
+        <p class="text-xs font-medium text-foreground">{{ t("operations.deliveryFees.agencyRule") }}</p>
+      </div>
       <Button size="sm" data-testid="delivery-fee-create" @click="openNew()"
         ><Icon name="ph:plus" /> {{ t("operations.deliveryFees.create") }}</Button
       >
     </div>
 
     <div class="min-h-0 flex-1 overflow-y-auto border-t border-border bg-muted/60 p-4 sm:p-6 lg:px-10">
-      <div v-if="query.isPending.value" class="space-y-2">
+      <div v-if="query.isPending.value || localities.isPending.value" class="space-y-2">
         <div v-for="n in 4" :key="n" class="h-16 animate-pulse rounded-lg bg-muted" />
       </div>
-      <ApiErrorCard v-else-if="query.error.value" :error="query.error.value" @retry="query.refetch()" />
-      <EmptyStateCard v-else-if="!cities.length" icon="ph:truck" :text="t('operations.deliveryFees.empty')" />
+      <ApiErrorCard
+        v-else-if="query.error.value || localities.error.value"
+        :error="query.error.value ?? localities.error.value"
+        @retry="
+          () => {
+            query.refetch()
+            localities.refetch()
+          }
+        "
+      />
+      <EmptyStateCard
+        v-else-if="!districts.some(city => city.quartiers.length)"
+        icon="ph:truck"
+        :text="t('operations.deliveryFees.empty')"
+      />
       <ul v-else class="grid gap-3 lg:grid-cols-2">
         <li
-          v-for="city in cities"
-          :key="city.ville"
+          v-for="city in districts"
+          :key="city.id"
           class="rounded-lg border border-border bg-card"
-          :data-testid="`delivery-city-${city.ville}`"
+          :data-testid="`delivery-city-${city.nom}`"
         >
           <div class="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-            <h3 class="font-heading font-semibold">{{ city.ville }}</h3>
-            <Button
-              v-if="city.fees.length < MODES.length"
-              size="sm"
-              variant="ghost"
-              :disabled="pending"
-              @click="openNew(city.ville)"
-              ><Icon name="ph:plus" /> {{ t("operations.deliveryFees.addMode") }}</Button
-            >
+            <h3 class="font-heading font-semibold">{{ city.nom }}</h3>
           </div>
-          <ul>
+          <ul class="divide-y divide-border">
             <li
-              v-for="fee in city.fees"
-              :key="fee.id"
-              class="flex flex-wrap items-center gap-3 border-b border-border px-4 py-3 last:border-b-0"
-              :data-testid="`delivery-fee-${fee.id}`"
+              v-for="quartier in city.quartiers"
+              :key="quartier.id"
+              class="px-4 py-3"
+              :data-testid="`delivery-district-${quartier.nom}`"
             >
-              <div class="min-w-0 flex-1">
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="text-sm font-medium">{{ modeLabel(fee.mode) }}</span>
-                  <Badge v-if="!fee.actif" variant="outline">{{ t("operations.deliveryFees.inactive") }}</Badge>
+              <div class="mb-2 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                  <h4 class="text-sm font-semibold">{{ quartier.nom }}</h4>
+                  <Badge v-if="!quartier.actif" variant="outline">{{ t("operations.deliveryFees.inactive") }}</Badge>
                 </div>
-                <p class="mt-1 text-xs text-muted-foreground">
-                  <strong class="text-foreground">{{ money.format(fee.montantFcfa) }}</strong>
-                  <template v-if="fee.gratuitDesFcfa">
-                    ·
-                    {{ t("operations.deliveryFees.freeFrom", { amount: money.format(fee.gratuitDesFcfa) }) }}</template
-                  >
-                </p>
-              </div>
-              <div class="flex flex-wrap gap-1">
-                <Button size="sm" variant="ghost" :disabled="pending" @click="openEdit(fee)">{{
-                  t("operations.deliveryFees.edit")
-                }}</Button>
-                <Button size="sm" variant="ghost" :disabled="pending" @click="toggle(fee)">{{
-                  fee.actif ? t("operations.deliveryFees.deactivate") : t("operations.deliveryFees.activate")
-                }}</Button>
                 <Button
+                  v-if="quartier.fees.length < MODES.length"
                   size="sm"
                   variant="ghost"
-                  class="text-destructive"
-                  :disabled="pending"
-                  @click="deleting = fee"
-                  >{{ t("operations.deliveryFees.delete") }}</Button
+                  :disabled="pending || !quartier.actif || !city.active"
+                  @click="openNew(quartier.id)"
                 >
+                  <Icon name="ph:plus" /> {{ t("operations.deliveryFees.addMode") }}
+                </Button>
               </div>
+              <p v-if="!quartier.fees.length" class="text-xs text-muted-foreground">
+                {{ t("operations.deliveryFees.noTariff") }}
+              </p>
+              <ul v-else class="space-y-2">
+                <li
+                  v-for="fee in quartier.fees"
+                  :key="fee.id"
+                  class="flex flex-wrap items-center gap-3"
+                  :data-testid="`delivery-fee-${fee.id}`"
+                >
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="text-sm font-medium">{{ modeLabel(fee.mode) }}</span>
+                      <Badge v-if="!fee.actif" variant="outline">{{ t("operations.deliveryFees.inactive") }}</Badge>
+                    </div>
+                    <p class="mt-1 text-xs text-muted-foreground">
+                      <strong class="text-foreground">{{ money.format(fee.montantFcfa) }}</strong>
+                      <template v-if="fee.gratuitDesFcfa">
+                        ·
+                        {{
+                          t("operations.deliveryFees.freeFrom", { amount: money.format(fee.gratuitDesFcfa) })
+                        }}</template
+                      >
+                    </p>
+                  </div>
+                  <div class="flex flex-wrap gap-1">
+                    <Button size="sm" variant="ghost" :disabled="pending" @click="openEdit(fee)">{{
+                      t("operations.deliveryFees.edit")
+                    }}</Button>
+                    <Button size="sm" variant="ghost" :disabled="pending" @click="toggle(fee)">{{
+                      fee.actif ? t("operations.deliveryFees.deactivate") : t("operations.deliveryFees.activate")
+                    }}</Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      class="text-destructive"
+                      :disabled="pending"
+                      @click="deleting = fee"
+                      >{{ t("operations.deliveryFees.delete") }}</Button
+                    >
+                  </div>
+                </li>
+              </ul>
             </li>
           </ul>
         </li>
@@ -210,15 +278,38 @@ async function confirmDelete() {
           <DialogTitle>{{
             creating
               ? t("operations.deliveryFees.createTitle")
-              : t("operations.deliveryFees.editTitle", { city: form.ville, mode: modeLabel(form.mode) })
+              : t("operations.deliveryFees.editTitle", {
+                  district: form.quartier,
+                  city: form.ville,
+                  mode: modeLabel(form.mode),
+                })
           }}</DialogTitle>
           <DialogDescription>{{ t("operations.deliveryFees.formHelp") }}</DialogDescription>
         </DialogHeader>
         <form class="grid gap-4" @submit.prevent="submit">
           <template v-if="creating">
             <div class="grid gap-2">
-              <Label for="delivery-fee-city">{{ t("operations.deliveryFees.city") }}</Label>
-              <Input id="delivery-fee-city" v-model="form.ville" maxlength="60" data-testid="delivery-fee-city" />
+              <Label for="delivery-fee-district">{{ t("operations.deliveryFees.district") }}</Label>
+              <NativeSelect
+                id="delivery-fee-district"
+                v-model="form.quartierId"
+                data-testid="delivery-fee-district"
+                @update:model-value="
+                  value => {
+                    const quartier = availableDistricts.find(candidate => candidate.id === value)
+                    Object.assign(form, {
+                      quartierId: value,
+                      quartier: quartier?.nom ?? '',
+                      ville: quartier?.ville ?? '',
+                    })
+                  }
+                "
+              >
+                <NativeSelectOption value="">{{ t("operations.deliveryFees.chooseDistrict") }}</NativeSelectOption>
+                <NativeSelectOption v-for="quartier in availableDistricts" :key="quartier.id" :value="quartier.id"
+                  >{{ quartier.nom }} · {{ quartier.ville }}</NativeSelectOption
+                >
+              </NativeSelect>
             </div>
             <div class="grid gap-2">
               <Label for="delivery-fee-mode">{{ t("operations.deliveryFees.mode") }}</Label>
@@ -271,6 +362,7 @@ async function confirmDelete() {
           <AlertDialogTitle>{{
             t("operations.deliveryFees.deleteTitle", {
               city: deleting?.ville ?? "",
+              district: deleting?.quartier ?? "",
               mode: deleting ? modeLabel(deleting.mode) : "",
             })
           }}</AlertDialogTitle>

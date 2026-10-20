@@ -10,11 +10,32 @@
       },
       "pointsOfSale": {
         "label": "Points de vente"
+      },
+      "announcements": {
+        "label": "Annonces"
       }
     },
     "seo": {
       "title": "Contenu · Administration KatiHub",
       "description": "Administration du contenu de la marketplace pour le panneau KatiHub."
+    },
+    "announcements": {
+      "title": "Barre d'annonces",
+      "description": "Les messages actifs défilent en haut de la vitrine. 120 caractères maximum.",
+      "placeholder": "Ex. Livraison rapide partout au Cameroun",
+      "add": "Ajouter",
+      "loading": "Chargement des annonces…",
+      "retry": "Réessayer",
+      "empty": "Aucune annonce. Ajoutez le premier message.",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "activate": "Activer",
+      "deactivate": "Désactiver",
+      "active": "Active",
+      "inactive": "Inactive",
+      "moveUp": "Monter l'annonce",
+      "moveDown": "Descendre l'annonce"
     },
     "propositions": {
       "status": {

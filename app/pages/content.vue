@@ -2,7 +2,7 @@
 import type { Filter } from "@/components/vuzeno/filters"
 import type { CatalogueProposal, CatalogueProposalList, CatalogueProposalQuery } from "@/types/api/catalogue"
 import type { TaxonomieResponse } from "@/types/api/taxonomie"
-import type { PointVenteAdmin, ReordonnerBannieresInput } from "@/types/api/vitrine"
+import type { AnnonceAdmin, PointVenteAdmin, ReordonnerBannieresInput } from "@/types/api/vitrine"
 import type { BannerStatusFilter } from "@/types/content"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue-sonner"
@@ -31,7 +31,7 @@ const route = useRoute()
 /** The query is the shareable source of truth for the content sub-workspace. Banner
  *  links intentionally keep their historical query shape and therefore remain on the
  *  default tab. */
-const QUERY_TABS = ["propositions", "points-de-vente"] as const
+const QUERY_TABS = ["propositions", "points-de-vente", "annonces"] as const
 type ContentTab = "banners" | (typeof QUERY_TABS)[number]
 function tabFromQuery(value: unknown): ContentTab {
   return QUERY_TABS.find(tab => tab === value) ?? "banners"
@@ -59,6 +59,12 @@ const tabs = computed(() => [
     label: t("content.tabs.pointsOfSale.label"),
     icon: "ph:storefront",
     testid: "content-tab-points-of-sale",
+  },
+  {
+    value: "annonces",
+    label: t("content.tabs.announcements.label"),
+    icon: "ph:megaphone-simple",
+    testid: "content-tab-announcements",
   },
 ])
 
@@ -116,6 +122,8 @@ if (import.meta.server) {
     await prefetchBannieres(queryClient)
   } else if (activeTab.value === "points-de-vente") {
     await prefetchApi<PointVenteAdmin[]>(queryClient, apiQueryKeys.pointsOfSale.all, POINTS_VENTE_PATH)
+  } else if (activeTab.value === "annonces") {
+    await prefetchApi<AnnonceAdmin[]>(queryClient, apiQueryKeys.announcements.all, "/vitrine/administration/annonces")
   } else {
     const detailPrefetch =
       proposalId.value === null
@@ -273,6 +281,8 @@ useHead({
     </template>
 
     <PointsOfSaleWorkspace v-else-if="activeTab === 'points-de-vente'" />
+
+    <ContentAnnouncementsWorkspace v-else-if="activeTab === 'annonces'" />
 
     <ContentPropositionsWorkspace v-else />
   </div>

@@ -5,6 +5,14 @@
  * (`sql/vitrine.sql:139-142`) in nowtech-backend.
  */
 export type EmplacementBanniere = "principal" | "promo" | "pub_accueil"
+
+/** Announcement displayed in the scrolling storefront strip. */
+export interface AnnonceAdmin {
+  id: number
+  texte: string
+  ordre: number
+  active: boolean
+}
 export type TonaliteBanniere = "navy" | "light" | "orange"
 
 /**

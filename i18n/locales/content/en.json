@@ -10,11 +10,32 @@
       },
       "pointsOfSale": {
         "label": "Points of sale"
+      },
+      "announcements": {
+        "label": "Announcements"
       }
     },
     "seo": {
       "title": "Content · KatiHub Admin",
       "description": "Storefront content administration for the KatiHub admin panel."
+    },
+    "announcements": {
+      "title": "Announcement bar",
+      "description": "Active messages scroll across the top of the storefront. 120 characters maximum.",
+      "placeholder": "E.g. Fast delivery across Cameroon",
+      "add": "Add",
+      "loading": "Loading announcements…",
+      "retry": "Retry",
+      "empty": "No announcements. Add the first message.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "active": "Active",
+      "inactive": "Inactive",
+      "moveUp": "Move announcement up",
+      "moveDown": "Move announcement down"
     },
     "propositions": {
       "status": {
