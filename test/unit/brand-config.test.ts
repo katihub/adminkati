@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest"
 
 const rootDirectory = resolve(dirname(fileURLToPath(import.meta.url)), "../..")
 
-describe("KatiHub brand contract", () => {
+describe("KatiMarket brand contract", () => {
   it("centralizes the platform, admin, assistant, wordmark, logo and storefront values", async () => {
     const configPath = resolve(rootDirectory, "brand.config.ts")
     expect(existsSync(configPath), "brand.config.ts must be the single source of brand values").toBe(true)
@@ -13,14 +13,14 @@ describe("KatiHub brand contract", () => {
     const { brand } = await import(/* @vite-ignore */ pathToFileURL(configPath).href)
 
     expect(brand).toMatchObject({
-      name: "KatiHub",
-      adminName: "KatiHub Admin",
-      assistantName: "KatiHub AI",
+      name: "KatiMarket",
+      adminName: "KatiMarket Admin",
+      assistantName: "KatiMarket AI",
       wordmark: {
         leading: "KATI",
-        accent: "HUB",
+        accent: "MARKET",
       },
-      logoPath: "/katihub-logo-official.png",
+      logoPath: "/katimarket-mark.svg",
       storefrontUrl: "",
       colors: {
         navy: "#08265c",

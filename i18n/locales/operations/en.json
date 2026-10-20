@@ -3,8 +3,8 @@
     "page": {
       "heading": "Operations",
       "seo": {
-        "title": "Operations · KatiHub Admin",
-        "description": "Cash reconciliation and customer requests for the KatiHub team."
+        "title": "Operations · KatiMarket Admin",
+        "description": "Cash reconciliation and customer requests for the KatiMarket team."
       }
     },
     "tabs": {
@@ -112,7 +112,7 @@
       "count": "{count} item | {count} items",
       "empty": "The queue is empty.",
       "select": "Select an item to review.",
-      "katihubCatalogue": "KatiHub catalogue",
+      "katihubCatalogue": "KatiMarket catalogue",
       "claim": "Claim",
       "productClaimed": "Product claimed.",
       "offerClaimed": "Offer claimed.",
@@ -258,7 +258,7 @@
       "client": "Customer",
       "seller": "Seller",
       "courier": "Courier",
-      "platform": "KATIHUB",
+      "platform": "KATIMARKET",
       "returnFees": "Return fees XAF",
       "reasonPlaceholder": "Factual reasoning (10 characters minimum)",
       "submitArbitration": "Submit arbitration",
@@ -628,14 +628,14 @@
       }
     },
     "reportedReviews": {
-      "help": "Reviews reported by their shop or by KatiHub. A review stays published while it has fewer than three distinct reporters; beyond that it is hidden pending your decision. A reason is required to keep or hide it.",
+      "help": "Reviews reported by their shop or by KatiMarket. A review stays published while it has fewer than three distinct reporters; beyond that it is hidden pending your decision. A reason is required to keep or hide it.",
       "empty": "No reported review to moderate.",
       "hiddenPending": "Hidden, pending",
       "stillPublished": "Still published",
       "noComment": "Review without comment.",
       "reports": "{count} report | {count} reports",
       "byShop": "The shop",
-      "byKatihub": "KatiHub",
+      "byKatihub": "KatiMarket",
       "reason": "Reason for the decision",
       "keep": "Keep published",
       "hide": "Hide review",
@@ -643,20 +643,20 @@
       "hidden": "Review hidden."
     },
     "verifiedOffers": {
-      "help": "The \"Verified by KatiHub\" badge tells customers KatiHub received this shop’s item and tested it. It applies to this shop’s offer only, not to the same product at other shops.",
+      "help": "The \"Verified by KatiMarket\" badge tells customers KatiMarket received this shop’s item and tested it. It applies to this shop’s offer only, not to the same product at other shops.",
       "search": "Search an offer, product or shop…",
       "filter": "Filter offers",
       "all": "All published offers",
       "onlyVerified": "Verified offers",
       "empty": "No published offer matches.",
-      "badge": "Verified by KatiHub",
+      "badge": "Verified by KatiMarket",
       "minimum": "minimum {count}",
       "since": "Verified on {date}",
       "verify": "Set the badge",
       "editNote": "Edit the note",
       "remove": "Remove the badge",
-      "dialogTitle": "Verified by KatiHub",
-      "dialogHelp": "{offer}, at {shop}. Confirm KatiHub received and tested this item.",
+      "dialogTitle": "Verified by KatiMarket",
+      "dialogHelp": "{offer}, at {shop}. Confirm KatiMarket received and tested this item.",
       "note": "Verification note",
       "noteHelp": "Optional, internal: what was checked and when (3 to 300 characters).",
       "noteInvalid": "The note is 3 to 300 characters long.",
@@ -714,7 +714,7 @@
         "gains": "Customer gains",
         "commissions": "Sponsorship commissions",
         "adjustments": "Adjustments",
-        "cost": "Cost to KatiHub",
+        "cost": "Cost to KatiMarket",
         "underReview": "commission(s) under review",
         "activeSponsorships": "active sponsorship(s)"
       },
@@ -726,7 +726,7 @@
         "annulation": "Taken back",
         "expiration": "Expired",
         "correction": "Correction",
-        "ajustement": "KatiHub adjustment"
+        "ajustement": "KatiMarket adjustment"
       },
       "clients": {
         "search": "Search a customer: name, e-mail or phone…",
@@ -813,14 +813,14 @@
     },
     "orderServices": {
       "insuranceTitle": "KATI insurance",
-      "insuranceHelp": "A share of the products only, offered on every order and checked by default; the customer can uncheck it. The amount goes to KatiHub.",
+      "insuranceHelp": "A share of the products only, offered on every order and checked by default; the customer can uncheck it. The amount goes to KatiMarket.",
       "insuranceActive": "Offer the insurance at checkout",
       "rate": "Rate (% of products)",
       "rateInvalid": "A rate between 0 and 30%.",
       "save": "Save",
       "insuranceSaved": "Insurance saved.",
       "installationTitle": "Installation assistance",
-      "installationHelp": "A fixed price per order, for each category where KatiHub installs the products. A sub-category without its own setting follows its category.",
+      "installationHelp": "A fixed price per order, for each category where KatiMarket installs the products. A sub-category without its own setting follows its category.",
       "offered": "offered · {price}",
       "price": "Installation price, {name}",
       "offer": "Offer",

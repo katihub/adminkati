@@ -309,8 +309,8 @@
       "empty": "No products yet — add one to get started.",
       "loading": "Loading product…",
       "seo": {
-        "title": "Products · KatiHub Admin",
-        "description": "Catalogue product administration for the KatiHub admin panel."
+        "title": "Products · KatiMarket Admin",
+        "description": "Catalogue product administration for the KatiMarket admin panel."
       }
     },
     "common": {
@@ -795,16 +795,16 @@
         }
       },
       "popup": {
-        "title": "KatiHub AI",
+        "title": "KatiMarket AI",
         "launcher": {
-          "open": "KatiHub AI",
+          "open": "KatiMarket AI",
           "loading": "Generating suggestions…",
           "ready": "New suggestions are ready",
           "error": "A generation failed"
         },
         "close": "Close",
         "sections": {
-          "label": "KatiHub AI sections",
+          "label": "KatiMarket AI sections",
           "suggestions": "Suggestions",
           "conversations": "Conversations",
           "settings": "Settings",
@@ -815,7 +815,7 @@
         "settings": {
           "language": {
             "label": "Language of the suggestions",
-            "description": "The language KatiHub AI writes product copy in."
+            "description": "The language KatiMarket AI writes product copy in."
           },
           "fields": {
             "label": "Fields to generate",

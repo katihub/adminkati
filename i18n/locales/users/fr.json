@@ -6,8 +6,8 @@
       "loading": "Chargement des détails du client…",
       "back": "Retour aux clients",
       "seo": {
-        "title": "Clients · Administration KatiHub",
-        "description": "Administration des comptes clients pour le panneau KatiHub."
+        "title": "Clients · Administration KatiMarket",
+        "description": "Administration des comptes clients pour le panneau KatiMarket."
       }
     },
     "filterBar": {

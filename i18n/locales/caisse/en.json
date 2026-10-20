@@ -5,8 +5,8 @@
       "empty": "Select a caisse to view its details",
       "loading": "Loading caisse details…",
       "seo": {
-        "title": "Cash Register · KatiHub Admin",
-        "description": "End-of-shift cash reconciliation for the KatiHub admin panel."
+        "title": "Cash Register · KatiMarket Admin",
+        "description": "End-of-shift cash reconciliation for the KatiMarket admin panel."
       }
     },
     "status": {

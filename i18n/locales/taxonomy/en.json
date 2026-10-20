@@ -3,8 +3,8 @@
     "heading": "Taxonomy",
     "tabs": { "categories": "Categories", "departments": "Departments", "brands": "Brands" },
     "seo": {
-      "title": "Taxonomy · KatiHub Admin",
-      "description": "Catalogue taxonomy administration for the KatiHub admin panel."
+      "title": "Taxonomy · KatiMarket Admin",
+      "description": "Catalogue taxonomy administration for the KatiMarket admin panel."
     },
     "toolbar": {
       "searchLabel": "Categories",

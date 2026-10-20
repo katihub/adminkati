@@ -3,8 +3,8 @@
     "page": {
       "heading": "Opérations",
       "seo": {
-        "title": "Opérations · Administration KatiHub",
-        "description": "Rapprochement de caisse et demandes clients pour l'équipe KatiHub."
+        "title": "Opérations · Administration KatiMarket",
+        "description": "Rapprochement de caisse et demandes clients pour l'équipe KatiMarket."
       }
     },
     "tabs": {
@@ -112,7 +112,7 @@
       "count": "{count} élément | {count} éléments",
       "empty": "La file est vide.",
       "select": "Sélectionnez un élément à examiner.",
-      "katihubCatalogue": "Catalogue KatiHub",
+      "katihubCatalogue": "Catalogue KatiMarket",
       "claim": "Prendre en charge",
       "productClaimed": "Produit pris en charge.",
       "offerClaimed": "Offre prise en charge.",
@@ -258,7 +258,7 @@
       "client": "Client",
       "seller": "Vendeur",
       "courier": "Livreur",
-      "platform": "KATIHUB",
+      "platform": "KATIMARKET",
       "returnFees": "Frais retour FCFA",
       "reasonPlaceholder": "Motivation factuelle (10 caractères minimum)",
       "submitArbitration": "Rendre l’arbitrage",
@@ -628,14 +628,14 @@
       }
     },
     "reportedReviews": {
-      "help": "Les avis signalés par leur boutique ou par KatiHub. Un avis reste publié tant qu’il compte moins de trois signalants distincts ; au-delà, il est masqué en attendant votre décision. Un motif est requis pour garder ou masquer.",
+      "help": "Les avis signalés par leur boutique ou par KatiMarket. Un avis reste publié tant qu’il compte moins de trois signalants distincts ; au-delà, il est masqué en attendant votre décision. Un motif est requis pour garder ou masquer.",
       "empty": "Aucun avis signalé à modérer.",
       "hiddenPending": "Masqué en attente",
       "stillPublished": "Toujours publié",
       "noComment": "Avis sans commentaire.",
       "reports": "{count} signalement | {count} signalements",
       "byShop": "La boutique",
-      "byKatihub": "KatiHub",
+      "byKatihub": "KatiMarket",
       "reason": "Motif de la décision",
       "keep": "Garder publié",
       "hide": "Masquer l’avis",
@@ -643,20 +643,20 @@
       "hidden": "Avis masqué."
     },
     "verifiedOffers": {
-      "help": "Le badge « Vérifié par KatiHub » dit au client que KatiHub a reçu l’article de cette boutique et l’a testé. Il ne vaut que pour l’offre de cette boutique, pas pour le même produit chez les autres.",
+      "help": "Le badge « Vérifié par KatiMarket » dit au client que KatiMarket a reçu l’article de cette boutique et l’a testé. Il ne vaut que pour l’offre de cette boutique, pas pour le même produit chez les autres.",
       "search": "Rechercher une offre, un produit ou une boutique…",
       "filter": "Filtrer les offres",
       "all": "Toutes les offres publiées",
       "onlyVerified": "Offres vérifiées",
       "empty": "Aucune offre publiée ne correspond.",
-      "badge": "Vérifié par KatiHub",
+      "badge": "Vérifié par KatiMarket",
       "minimum": "minimum {count}",
       "since": "Vérifiée le {date}",
       "verify": "Poser le badge",
       "editNote": "Modifier la note",
       "remove": "Retirer le badge",
-      "dialogTitle": "Vérifié par KatiHub",
-      "dialogHelp": "{offer}, chez {shop}. Confirmez que KatiHub a reçu et testé cet article.",
+      "dialogTitle": "Vérifié par KatiMarket",
+      "dialogHelp": "{offer}, chez {shop}. Confirmez que KatiMarket a reçu et testé cet article.",
       "note": "Note de vérification",
       "noteHelp": "Facultative, interne : ce qui a été contrôlé et quand (3 à 300 caractères).",
       "noteInvalid": "La note fait de 3 à 300 caractères.",
@@ -714,7 +714,7 @@
         "gains": "Gains clients",
         "commissions": "Commissions de parrainage",
         "adjustments": "Ajustements",
-        "cost": "Coût pour KatiHub",
+        "cost": "Coût pour KatiMarket",
         "underReview": "commission(s) en revue",
         "activeSponsorships": "parrainage(s) actif(s)"
       },
@@ -726,7 +726,7 @@
         "annulation": "Repris",
         "expiration": "Expiré",
         "correction": "Correction",
-        "ajustement": "Ajustement KatiHub"
+        "ajustement": "Ajustement KatiMarket"
       },
       "clients": {
         "search": "Rechercher un client : nom, e-mail ou téléphone…",
@@ -813,14 +813,14 @@
     },
     "orderServices": {
       "insuranceTitle": "Assurance KATI",
-      "insuranceHelp": "Un pourcentage des produits seuls, proposé à chaque commande et coché par défaut ; le client peut le décocher. Le montant revient à KatiHub.",
+      "insuranceHelp": "Un pourcentage des produits seuls, proposé à chaque commande et coché par défaut ; le client peut le décocher. Le montant revient à KatiMarket.",
       "insuranceActive": "Proposer l’assurance à la commande",
       "rate": "Taux (% des produits)",
       "rateInvalid": "Un taux entre 0 et 30 %.",
       "save": "Enregistrer",
       "insuranceSaved": "Assurance enregistrée.",
       "installationTitle": "Assistance à l’installation",
-      "installationHelp": "Un prix fixe par commande, pour chaque catégorie où KatiHub installe les produits. Une sous-catégorie sans réglage propre suit sa catégorie.",
+      "installationHelp": "Un prix fixe par commande, pour chaque catégorie où KatiMarket installe les produits. Une sous-catégorie sans réglage propre suit sa catégorie.",
       "offered": "proposée · {price}",
       "price": "Prix de l’installation, {name}",
       "offer": "Proposer",

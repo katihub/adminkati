@@ -1,12 +1,12 @@
 export const brand = {
-  name: "KatiHub",
-  adminName: "KatiHub Admin",
-  assistantName: "KatiHub AI",
+  name: "KatiMarket",
+  adminName: "KatiMarket Admin",
+  assistantName: "KatiMarket AI",
   wordmark: {
     leading: "KATI",
-    accent: "HUB",
+    accent: "MARKET",
   },
-  logoPath: "/katihub-logo-official.png",
+  logoPath: "/katimarket-mark.svg",
   storefrontUrl: "",
   colors: {
     navy: "#08265c",

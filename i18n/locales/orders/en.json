@@ -5,8 +5,8 @@
       "empty": "Select an order to view its details",
       "loading": "Loading order details…",
       "seo": {
-        "title": "Orders · KatiHub Admin",
-        "description": "Customer order administration for the KatiHub admin panel."
+        "title": "Orders · KatiMarket Admin",
+        "description": "Customer order administration for the KatiMarket admin panel."
       }
     },
     "tabs": {

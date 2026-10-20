@@ -16,8 +16,8 @@
       }
     },
     "seo": {
-      "title": "Contenu · Administration KatiHub",
-      "description": "Administration du contenu de la marketplace pour le panneau KatiHub."
+      "title": "Contenu · Administration KatiMarket",
+      "description": "Administration du contenu de la marketplace pour le panneau KatiMarket."
     },
     "announcements": {
       "title": "Barre d'annonces",
@@ -133,11 +133,11 @@
       },
       "emplacement": {
         "principal": "Bannière principale",
-        "promo": "Campagnes du header KatiHub",
+        "promo": "Campagnes du header KatiMarket",
         "principalHint": "Le grand carrousel en tête de l'accueil. Son visuel doit être plus large que haut.",
-        "promoHint": "Les cartes du header de l'accueil KatiHub. Ajoutez, retirez et réordonnez librement les campagnes. Format vertical ou carré conseillé.",
-        "pub_accueil": "Pub accueil KatiHub",
-        "pub_accueilHint": "La publicité de l'accueil KatiHub, dans la colonne de droite. Format vertical conseillé (environ 600 × 750 px). La première bannière active de cet emplacement est affichée."
+        "promoHint": "Les cartes du header de l'accueil KatiMarket. Ajoutez, retirez et réordonnez librement les campagnes. Format vertical ou carré conseillé.",
+        "pub_accueil": "Pub accueil KatiMarket",
+        "pub_accueilHint": "La publicité de l'accueil KatiMarket, dans la colonne de droite. Format vertical conseillé (environ 600 × 750 px). La première bannière active de cet emplacement est affichée."
       },
       "grid": {
         "empty": "Aucune bannière pour le moment.",

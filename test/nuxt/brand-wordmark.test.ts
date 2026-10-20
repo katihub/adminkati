@@ -2,14 +2,12 @@ import { mountSuspended } from "@nuxt/test-utils/runtime"
 import { describe, expect, it } from "vitest"
 import BrandWordmark from "@/components/BrandWordmark.vue"
 
-describe("BrandWordmark", () => {
-  it.each(["sm", "md"] as const)("renders the KatiHub identity in its %s size", async size => {
-    const wrapper = await mountSuspended(BrandWordmark, { props: { size } })
+describe("admin wordmark", () => {
+  it("presents KatiMarket without the former logo lockup", async () => {
+    const wrapper = await mountSuspended(BrandWordmark)
 
-    expect(wrapper.text()).toBe("KATIHUB")
-    expect(wrapper.text()).not.toMatch(/now\s*tech/i)
-    expect(wrapper.get("img").attributes("src")).toContain("/katihub-logo-official.png")
-
+    expect(wrapper.text()).toContain("KATIMARKET")
+    expect(wrapper.find("img").exists()).toBe(false)
     wrapper.unmount()
   })
 })

@@ -92,20 +92,20 @@ useHead({
     "heading": "Operations overview",
     "subtitle": "What needs your attention today.",
     "loading": "Loading overview...",
-    "title": "KatiHub Admin",
+    "title": "KatiMarket Admin",
     "seo": {
-      "title": "KatiHub Admin",
-      "description": "Overview of KatiHub sales, operations, cash health and open actions."
+      "title": "KatiMarket Admin",
+      "description": "Overview of KatiMarket sales, operations, cash health and open actions."
     }
   },
   "fr": {
     "heading": "Pilotage",
     "subtitle": "Ce qui demande votre attention aujourd’hui.",
     "loading": "Chargement de la vue d’ensemble...",
-    "title": "Administration KatiHub",
+    "title": "Administration KatiMarket",
     "seo": {
-      "title": "Administration KatiHub",
-      "description": "Vue d’ensemble des ventes, opérations, caisse et actions KatiHub."
+      "title": "Administration KatiMarket",
+      "description": "Vue d’ensemble des ventes, opérations, caisse et actions KatiMarket."
     }
   }
 }

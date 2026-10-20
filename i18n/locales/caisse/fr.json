@@ -5,8 +5,8 @@
       "empty": "Sélectionnez une caisse pour voir son détail",
       "loading": "Chargement du détail…",
       "seo": {
-        "title": "Caisse · Administration KatiHub",
-        "description": "Rapprochement de caisse en fin de service pour le panneau KatiHub."
+        "title": "Caisse · Administration KatiMarket",
+        "description": "Rapprochement de caisse en fin de service pour le panneau KatiMarket."
       }
     },
     "status": {

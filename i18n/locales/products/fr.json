@@ -309,8 +309,8 @@
       "empty": "Aucun produit pour l’instant — ajoutez-en un pour commencer.",
       "loading": "Chargement du produit…",
       "seo": {
-        "title": "Produits · Administration KatiHub",
-        "description": "Administration des produits du catalogue pour le panneau KatiHub."
+        "title": "Produits · Administration KatiMarket",
+        "description": "Administration des produits du catalogue pour le panneau KatiMarket."
       }
     },
     "common": {
@@ -795,16 +795,16 @@
         }
       },
       "popup": {
-        "title": "KatiHub AI",
+        "title": "KatiMarket AI",
         "launcher": {
-          "open": "KatiHub AI",
+          "open": "KatiMarket AI",
           "loading": "Génération des suggestions…",
           "ready": "De nouvelles suggestions sont prêtes",
           "error": "Une génération a échoué"
         },
         "close": "Fermer",
         "sections": {
-          "label": "Sections de KatiHub AI",
+          "label": "Sections de KatiMarket AI",
           "suggestions": "Suggestions",
           "conversations": "Conversations",
           "settings": "Paramètres",
@@ -815,7 +815,7 @@
         "settings": {
           "language": {
             "label": "Langue des suggestions",
-            "description": "La langue dans laquelle KatiHub AI rédige les textes des produits."
+            "description": "La langue dans laquelle KatiMarket AI rédige les textes des produits."
           },
           "fields": {
             "label": "Champs à générer",

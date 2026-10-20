@@ -16,8 +16,8 @@
       }
     },
     "seo": {
-      "title": "Content · KatiHub Admin",
-      "description": "Storefront content administration for the KatiHub admin panel."
+      "title": "Content · KatiMarket Admin",
+      "description": "Storefront content administration for the KatiMarket admin panel."
     },
     "announcements": {
       "title": "Announcement bar",
@@ -133,11 +133,11 @@
       },
       "emplacement": {
         "principal": "Main banner",
-        "promo": "KatiHub header campaigns",
+        "promo": "KatiMarket header campaigns",
         "principalHint": "The large carousel at the top of the home page. Its artwork must be wider than it is tall.",
-        "promoHint": "The campaign cards in the KatiHub home header. Add, remove, and reorder campaigns freely. Portrait or square artwork is recommended.",
-        "pub_accueil": "KatiHub home advert",
-        "pub_accueilHint": "The KatiHub home page advert, in the right-hand column. A portrait artwork is best (about 600 × 750 px). The first active banner of this placement is shown."
+        "promoHint": "The campaign cards in the KatiMarket home header. Add, remove, and reorder campaigns freely. Portrait or square artwork is recommended.",
+        "pub_accueil": "KatiMarket home advert",
+        "pub_accueilHint": "The KatiMarket home page advert, in the right-hand column. A portrait artwork is best (about 600 × 750 px). The first active banner of this placement is shown."
       },
       "grid": {
         "empty": "No banners yet.",

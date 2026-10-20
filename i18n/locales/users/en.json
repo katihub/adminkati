@@ -6,8 +6,8 @@
       "loading": "Loading customer details…",
       "back": "Back to users",
       "seo": {
-        "title": "Users · KatiHub Admin",
-        "description": "Customer account administration for the KatiHub admin panel."
+        "title": "Users · KatiMarket Admin",
+        "description": "Customer account administration for the KatiMarket admin panel."
       }
     },
     "filterBar": {
