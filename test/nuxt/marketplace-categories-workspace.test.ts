@@ -37,6 +37,22 @@ const TREE = [
         produits: 4,
         garantie: warranty(12, "annees", true),
         attributsVariante: [],
+        sousCategories: [
+          {
+            id: "a1",
+            nom: "Accessoires pour téléphones",
+            slug: "electronique-telephones-accessoires-pour-telephones",
+            parentId: "s1",
+            garantieMinimaleMois: null,
+            uniteGarantie: "mois",
+            ordre: 0,
+            active: true,
+            produits: 2,
+            garantie: warranty(12, "annees", true),
+            attributsVariante: [],
+            sousCategories: [],
+          },
+        ],
       },
     ],
   },
@@ -73,6 +89,7 @@ function api(commands: Array<{ method: string; path: string; body?: unknown }>) 
     registerEndpoint("/api/v1/marketplace/categories/administration", { method: "GET", handler: () => TREE }),
     registerEndpoint("/api/v1/marketplace/categories", { method: "POST", handler: record("POST", "/") }),
     registerEndpoint("/api/v1/marketplace/categories/s1", { method: "PATCH", handler: record("PATCH", "s1") }),
+    registerEndpoint("/api/v1/marketplace/categories/a1", { method: "PATCH", handler: record("PATCH", "a1") }),
     registerEndpoint("/api/v1/marketplace/categories/c2", { method: "PATCH", handler: record("PATCH", "c2") }),
     registerEndpoint("/api/v1/marketplace/categories/c2", { method: "DELETE", handler: record("DELETE", "c2") }),
   ]
@@ -189,6 +206,76 @@ describe("marketplace categories workspace", () => {
         body: { nom: "Téléphones", ordre: 0, garantie: null, attributsVariante: ["Capacité", "RAM"] },
       },
     ])
+    wrapper.unmount()
+  })
+
+  it("renders and searches third-level accessory categories without losing their ancestors", async () => {
+    api([])
+    const wrapper = await mount()
+
+    expect(
+      wrapper.get("[data-testid='category-electronique-telephones-accessoires-pour-telephones']").text(),
+    ).toContain("Accessoires pour téléphones")
+    const search = wrapper.get('input[aria-label="Search categories"]')
+    await search.setValue("accessoires pour téléphones")
+    await flushPromises()
+    expect(wrapper.find("[data-testid='category-electronique']").exists()).toBe(true)
+    expect(wrapper.find("[data-testid='category-electronique-telephones']").exists()).toBe(true)
+    expect(wrapper.find("[data-testid='category-electronique-telephones-accessoires-pour-telephones']").exists()).toBe(
+      true,
+    )
+    expect(wrapper.find("[data-testid='category-mode-style']").exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  it("creates an accessory category under its level-two source and submits that parent id", async () => {
+    const commands: Array<{ method: string; path: string; body?: unknown }> = []
+    api(commands)
+    const wrapper = await mount()
+
+    const phones = wrapper.get("[data-testid='category-electronique-telephones']")
+    const createAccessory = phones
+      .findAll("button")
+      .find(button => /accessory sub-category|accessoire/i.test(button.text()))
+    expect(createAccessory).toBeDefined()
+    await createAccessory!.trigger("click")
+    await flushPromises()
+    await setInput("category-name", "Chargeurs pour téléphones")
+    byTestId("category-submit")!.click()
+    await flushPromises()
+
+    expect(commands).toContainEqual({
+      method: "POST",
+      path: "/",
+      body: { nom: "Chargeurs pour téléphones", ordre: 0, parentId: "s1" },
+    })
+    wrapper.unmount()
+  })
+
+  it("edits a third-level category through the regular category update endpoint", async () => {
+    const commands: Array<{ method: string; path: string; body?: unknown }> = []
+    api(commands)
+    const wrapper = await mount()
+    const accessory = wrapper.get("[data-testid='category-electronique-telephones-accessoires-pour-telephones']")
+    await accessory
+      .findAll("button")
+      .find(button => button.text() === "Edit")!
+      .trigger("click")
+    await flushPromises()
+    await setInput("category-name", "Accessoires téléphoniques")
+    byTestId("category-submit")!.click()
+    await flushPromises()
+
+    expect(commands).toContainEqual({
+      method: "PATCH",
+      path: "a1",
+      body: {
+        nom: "Accessoires téléphoniques",
+        ordre: 0,
+        garantie: null,
+        attributsVariante: [],
+      },
+    })
     wrapper.unmount()
   })
 

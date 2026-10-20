@@ -132,6 +132,23 @@ describe("verified offers workspace", () => {
     expect(plain.find("[data-testid='offer-verified-badge']").exists()).toBe(false)
     expect(plain.text()).toContain("minimum 10")
 
+    await wrapper.get("[data-testid='verified-offers-filter']").setValue("non_verifiees")
+    await flushPromises()
+    expect(wrapper.find("[data-testid='published-offer-o1']").exists()).toBe(false)
+    expect(wrapper.find("[data-testid='published-offer-o2']").exists()).toBe(true)
+    await wrapper.get("[data-testid='verified-offers-filter']").setValue("toutes")
+    await wrapper.get("[data-testid='verified-offers-shop-filter']").setValue("b1")
+    await flushPromises()
+    expect(wrapper.find("[data-testid='published-offer-o1']").exists()).toBe(true)
+    expect(wrapper.find("[data-testid='published-offer-o2']").exists()).toBe(false)
+    await wrapper.get("[data-testid='verified-offers-shop-filter']").setValue("")
+    await wrapper.get("[data-testid='verified-offers-sort']").setValue("priceAsc")
+    await flushPromises()
+    expect(wrapper.findAll("[data-testid^='published-offer-']").map(item => item.attributes("data-testid"))).toEqual([
+      "published-offer-o2",
+      "published-offer-o1",
+    ])
+
     await plain
       .findAll("button")
       .find(button => button.text() === "Set the badge")!

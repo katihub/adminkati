@@ -28,6 +28,7 @@ describe("admin shell", () => {
     expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").attributes("aria-current")).toBe("page")
     expect(wrapper.get("[data-testid='admin-page-header-title']").text()).toBe("Operations overview")
     expect(wrapper.text()).toContain("KATIMARKET")
+    expect(wrapper.get("header [data-testid='language-switcher-trigger']").attributes("aria-label")).toBe("Language")
 
     wrapper.unmount()
   })
@@ -57,6 +58,7 @@ describe("admin shell", () => {
 
     expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").text()).toContain("Pilotage")
     expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").attributes("aria-current")).toBe("page")
+    expect(wrapper.get("header [data-testid='language-switcher-trigger']").attributes("aria-label")).toBe("Langue")
 
     wrapper.unmount()
   })

@@ -34,7 +34,7 @@ import { useMarketplaceCategories, useMarketplaceCategoryMutations } from "@/com
 import { useToastAction } from "@/composables/useToastAction"
 
 type Node = MarketplaceCategory | MarketplaceSubcategory
-type FormMode = { kind: "create"; parent: MarketplaceCategory | null } | { kind: "edit"; node: Node }
+type FormMode = { kind: "create"; parent: Node | null } | { kind: "edit"; node: Node }
 
 const { t } = useI18n()
 const query = useMarketplaceCategories()
@@ -50,12 +50,12 @@ const categories = computed(() => {
   const needle = search.value.trim().toLowerCase()
   const all = query.data.value ?? []
   if (!needle) return all
-  return all
-    .map(category => ({
-      ...category,
-      sousCategories: category.sousCategories.filter(sub => sub.nom.toLowerCase().includes(needle)),
-    }))
-    .filter(category => category.nom.toLowerCase().includes(needle) || category.sousCategories.length)
+  const filterNode = (node: Node): Node | null => {
+    if (node.nom.toLowerCase().includes(needle)) return node
+    const sousCategories = node.sousCategories.map(filterNode).filter((sub): sub is Node => sub !== null)
+    return sousCategories.length ? ({ ...node, sousCategories } as Node) : null
+  }
+  return all.map(filterNode).filter((category): category is MarketplaceCategory => category !== null)
 })
 const isSubcategory = computed(() =>
   formMode.value?.kind === "create" ? Boolean(formMode.value.parent) : Boolean(formMode.value?.node.parentId),
@@ -99,7 +99,7 @@ function attributesText(node: Node) {
   return node.parentId ? t("operations.categories.attributesInherited") : t("operations.categories.noAttributes")
 }
 
-function openCreate(parent: MarketplaceCategory | null) {
+function openCreate(parent: Node | null) {
   Object.assign(form, { nom: "", inherit: Boolean(parent), valeur: 0, unite: "mois", ordre: 0, attributs: "" })
   formMode.value = { kind: "create", parent }
 }
@@ -272,6 +272,9 @@ async function confirmDelete() {
                 </p>
               </div>
               <div class="flex flex-wrap gap-1">
+                <Button size="sm" variant="outline" :disabled="pending" @click="openCreate(sub)"
+                  ><Icon name="ph:plus" /> {{ t("operations.categories.addAccessory") }}</Button
+                >
                 <Button size="sm" variant="ghost" :disabled="pending" @click="openEdit(sub)">{{
                   t("operations.categories.edit")
                 }}</Button>
@@ -288,6 +291,57 @@ async function confirmDelete() {
                   >{{ t("operations.categories.delete") }}</Button
                 >
               </div>
+              <ul v-if="sub.sousCategories.length" class="basis-full border-t border-border pl-8">
+                <li
+                  v-for="accessory in sub.sousCategories"
+                  :key="accessory.id"
+                  class="flex flex-wrap items-center gap-3 border-b border-border py-3 last:border-b-0"
+                  :data-testid="`category-${accessory.slug}`"
+                >
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <Icon name="ph:arrow-elbow-down-right" class="text-muted-foreground" />
+                      <span class="font-medium">{{ accessory.nom }}</span>
+                      <Badge v-if="!accessory.active" variant="outline">{{
+                        t("operations.categories.inactive")
+                      }}</Badge>
+                    </div>
+                    <p class="mt-1 text-xs text-muted-foreground">
+                      {{ t("operations.categories.minimumWarranty") }} :
+                      <strong class="text-foreground" data-testid="category-warranty">{{
+                        warrantyText(accessory)
+                      }}</strong>
+                      <span v-if="accessory.garantie.heritee"> ({{ t("operations.categories.inherited") }})</span>
+                      · {{ t("operations.categories.productCount", { count: accessory.produits }) }} ·
+                      {{ t("operations.categories.variantAttributes") }} :
+                      <strong class="text-foreground" data-testid="category-attributes">{{
+                        attributesText(accessory)
+                      }}</strong>
+                    </p>
+                  </div>
+                  <div class="flex flex-wrap gap-1">
+                    <Button size="sm" variant="ghost" :disabled="pending" @click="openEdit(accessory)">{{
+                      t("operations.categories.edit")
+                    }}</Button>
+                    <Button size="sm" variant="ghost" :disabled="pending" @click="toggleActive(accessory)">{{
+                      accessory.active ? t("operations.categories.deactivate") : t("operations.categories.activate")
+                    }}</Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      class="text-destructive"
+                      :disabled="pending || accessory.produits > 0 || accessory.sousCategories.length > 0"
+                      :title="
+                        accessory.produits || accessory.sousCategories.length
+                          ? t('operations.categories.deleteBlocked')
+                          : ''
+                      "
+                      @click="deleting = accessory"
+                      >{{ t("operations.categories.delete") }}</Button
+                    >
+                  </div>
+                </li>
+              </ul>
             </li>
           </ul>
         </li>

@@ -78,7 +78,6 @@ async function logout() {
       </DropdownMenuLabel>
       <DropdownMenuSeparator />
       <div class="flex items-center justify-between gap-3 px-3 py-2" data-testid="admin-profile-preferences">
-        <LanguageSwitcher variant="ghost" />
         <div
           class="flex shrink-0 items-center gap-2"
           role="group"

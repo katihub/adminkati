@@ -24,11 +24,11 @@ export interface MarketplaceSubcategory {
   /** KatiHub installs the category's products, at a fixed price per order. */
   installationActive: boolean
   installationPrixFcfa: number | null
+  sousCategories: MarketplaceSubcategory[]
 }
 
 export interface MarketplaceCategory extends Omit<MarketplaceSubcategory, "parentId"> {
   parentId: null
-  sousCategories: MarketplaceSubcategory[]
 }
 
 export interface CategoryWarrantyInput {

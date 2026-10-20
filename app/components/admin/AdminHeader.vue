@@ -18,7 +18,10 @@ const { t } = useI18n()
         </div>
       </div>
 
-      <AdminProfileMenu />
+      <div class="flex shrink-0 items-center gap-2">
+        <LanguageSwitcher />
+        <AdminProfileMenu />
+      </div>
     </div>
   </header>
 </template>

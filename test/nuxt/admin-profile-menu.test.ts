@@ -31,35 +31,18 @@ describe("admin profile menu", () => {
     wrapper.unmount()
   })
 
-  it("selects French from the profile menu and persists the localized route", async () => {
-    window.localStorage.clear()
+  it("does not duplicate the global language switcher in the profile menu", async () => {
     const { default: App } = await import("@/app.vue")
     const wrapper = await mountSuspended(App, {
       attachTo: document.body,
       route: "/",
     })
     await flushPromises()
-    const router = useRouter()
-    useNuxtApp().$i18n.locale.value = "en"
-    const switchLocalePath = useSwitchLocalePath()
-    expect(switchLocalePath("fr")).toBe("/fr")
-    const push = vi.spyOn(router, "push").mockResolvedValue()
-
     await wrapper.get("[data-testid='admin-profile-trigger']").trigger("click")
-    const languageTrigger = document.body.querySelector("[data-testid='language-switcher-trigger']")
-    languageTrigger?.dispatchEvent(new MouseEvent("click", { bubbles: true }))
-    await flushPromises()
-    const frenchOption = document.body.querySelector("[data-testid='language-switcher-option-fr']")
-    expect(frenchOption).not.toBeNull()
-    frenchOption?.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }))
-    await flushPromises()
-
-    expect(window.localStorage.getItem("NT-LANG")).toBe("fr")
-    expect(push).toHaveBeenCalledWith("/fr")
-
-    push.mockRestore()
+    expect(
+      document.body.querySelector("[data-testid='admin-profile-content'] [data-testid='language-switcher-trigger']"),
+    ).toBeNull()
     wrapper.unmount()
-    window.localStorage.clear()
   })
 
   it("logs out, clears the cached identity, and returns to the login page", async () => {
