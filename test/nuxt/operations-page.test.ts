@@ -12,6 +12,9 @@ const operationsWorkspaceStubs = {
   OperationsMarketplaceDisputesWorkspace: {
     template: '<div data-testid="operations-marketplace-disputes-workspace" />',
   },
+  OperationsMarketplaceOffersWorkspace: {
+    template: '<div data-testid="operations-marketplace-offers-workspace" />',
+  },
   OperationsMarketplaceCategoriesWorkspace: {
     template: '<div data-testid="operations-marketplace-categories-workspace" />',
   },
@@ -55,6 +58,7 @@ const workspaces = [
   "customer-requests",
   "seller-onboarding",
   "marketplace-catalogue",
+  "marketplace-offers",
   "marketplace-categories",
   "delivery-fees",
   "localities",
@@ -107,6 +111,7 @@ describe("operations page tabs", () => {
     ["customer-requests", "/operations?tab=customer-requests"],
     ["seller-onboarding", "/operations?tab=seller-onboarding"],
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
+    ["marketplace-offers", "/operations?tab=marketplace-offers"],
     ["marketplace-categories", "/operations?tab=marketplace-categories"],
     ["delivery-fees", "/operations?tab=delivery-fees"],
     ["localities", "/operations?tab=localities"],
@@ -138,6 +143,7 @@ describe("operations page tabs", () => {
   it.each([
     "seller-onboarding",
     "marketplace-catalogue",
+    "marketplace-offers",
     "marketplace-categories",
     "delivery-fees",
     "localities",
@@ -175,6 +181,7 @@ describe("operations page tabs", () => {
   })
 
   it.each([
+    "marketplace-offers",
     "marketplace-pilot",
     "outbound-notifications",
     "marketplace-categories",

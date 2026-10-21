@@ -22,6 +22,7 @@ const deliveryFees = ["v1", "marketplace", "livraison", "tarifs"] as const
 const localities = ["v1", "marketplace", "localites"] as const
 const shopAgents = ["v1", "marketplace", "expeditions", "agents-boutiques"] as const
 const verifiedOffers = ["v1", "marketplace", "moderation", "offres-publiees"] as const
+const marketplaceAdminOffers = ["v1", "marketplace", "administration", "offres"] as const
 const refusedLines = ["v1", "marketplace", "refus-lignes"] as const
 const kati = ["v1", "marketplace", "kati"] as const
 const orderServices = ["v1", "marketplace", "services-commande"] as const
@@ -125,6 +126,10 @@ export const apiQueryKeys = {
   verifiedOffers: {
     all: verifiedOffers,
     list: (params: Record<string, string | undefined>) => [...verifiedOffers, params] as const,
+  },
+  marketplaceAdminOffers: {
+    all: marketplaceAdminOffers,
+    list: (params: QueryParams = {}) => [...marketplaceAdminOffers, params] as const,
   },
   orderServices: {
     all: orderServices,

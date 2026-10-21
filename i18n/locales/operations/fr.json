@@ -55,6 +55,9 @@
       },
       "orderServices": {
         "label": "Services de commande"
+      },
+      "marketplaceOffers": {
+        "label": "Catalogue marketplace"
       }
     },
     "common": {
@@ -837,6 +840,57 @@
       "stop": "Ne plus proposer",
       "installationOn": "Installation proposée.",
       "installationOff": "Installation retirée."
+    },
+    "marketplaceOffers": {
+      "search": "Rechercher un produit, une marque, une référence ou une boutique…",
+      "clear": "Effacer les filtres",
+      "shop": "Boutique",
+      "allShops": "Toutes les boutiques",
+      "status": "Statut",
+      "allStatuses": "Tous les statuts",
+      "category": "Catégorie",
+      "allCategories": "Toutes les catégories",
+      "stock": "Stock",
+      "allStock": "Tous les niveaux de stock",
+      "sort": "Trier",
+      "resultCount": "Aucune offre | {count} offre | {count} offres",
+      "empty": "Aucune offre ne correspond à ces critères.",
+      "statuses": {
+        "publiee": "Publiées",
+        "brouillon": "Brouillons",
+        "suspendue": "Suspendues",
+        "archivee": "Archivées"
+      },
+      "stockLevels": {
+        "rupture": "En rupture",
+        "faible": "Stock faible (5 ou moins)",
+        "disponible": "Disponible"
+      },
+      "sorts": {
+        "recent": "Plus récentes",
+        "boutique": "Par boutique",
+        "nom": "Par nom",
+        "prix_asc": "Prix croissant",
+        "prix_desc": "Prix décroissant",
+        "stock_asc": "Stock croissant",
+        "stock_desc": "Stock décroissant"
+      },
+      "columns": {
+        "product": "Produit",
+        "shop": "Boutique",
+        "status": "Statut",
+        "price": "Prix",
+        "stock": "Disponible",
+        "published": "Publiée le"
+      },
+      "stockNotTracked": "Non suivi",
+      "verified": "Vérifié par KatiMarket",
+      "open": "Ouvrir",
+      "openOnStorefront": "Voir « {offer} » sur la vitrine",
+      "pages": "Pages de résultats",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "pageOf": "Page {page} sur {pages}"
     }
   }
 }

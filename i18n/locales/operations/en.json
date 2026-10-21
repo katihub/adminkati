@@ -55,6 +55,9 @@
       },
       "orderServices": {
         "label": "Order services"
+      },
+      "marketplaceOffers": {
+        "label": "Marketplace catalogue"
       }
     },
     "common": {
@@ -837,6 +840,57 @@
       "stop": "Stop offering",
       "installationOn": "Installation offered.",
       "installationOff": "Installation removed."
+    },
+    "marketplaceOffers": {
+      "search": "Search a product, brand, reference or shop…",
+      "clear": "Clear filters",
+      "shop": "Shop",
+      "allShops": "All shops",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "category": "Category",
+      "allCategories": "All categories",
+      "stock": "Stock",
+      "allStock": "All stock levels",
+      "sort": "Sort",
+      "resultCount": "No offers | {count} offer | {count} offers",
+      "empty": "No offer matches these criteria.",
+      "statuses": {
+        "publiee": "Published",
+        "brouillon": "Drafts",
+        "suspendue": "Suspended",
+        "archivee": "Archived"
+      },
+      "stockLevels": {
+        "rupture": "Out of stock",
+        "faible": "Low stock (5 or fewer)",
+        "disponible": "Available"
+      },
+      "sorts": {
+        "recent": "Newest",
+        "boutique": "By shop",
+        "nom": "By name",
+        "prix_asc": "Price, low to high",
+        "prix_desc": "Price, high to low",
+        "stock_asc": "Stock, low to high",
+        "stock_desc": "Stock, high to low"
+      },
+      "columns": {
+        "product": "Product",
+        "shop": "Shop",
+        "status": "Status",
+        "price": "Price",
+        "stock": "Available",
+        "published": "Published"
+      },
+      "stockNotTracked": "Not tracked",
+      "verified": "Verified by KatiMarket",
+      "open": "Open",
+      "openOnStorefront": "View “{offer}” on the storefront",
+      "pages": "Result pages",
+      "previous": "Previous",
+      "next": "Next",
+      "pageOf": "Page {page} of {pages}"
     }
   }
 }
