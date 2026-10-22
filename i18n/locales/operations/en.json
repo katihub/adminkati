@@ -56,6 +56,9 @@
       "orderServices": {
         "label": "Order services"
       },
+      "installmentPlans": {
+        "label": "Pay in instalments"
+      },
       "marketplaceOffers": {
         "label": "Marketplace catalogue"
       }
@@ -892,6 +895,72 @@
       "previous": "Previous",
       "next": "Next",
       "pageOf": "Page {page} of {pages}"
+    },
+    "installments": {
+      "settingsTitle": "Global switch",
+      "settingsHelp": "Off, no new instalment plan opens; plans already open carry on. Switch it on once the no-refund clause is legally validated.",
+      "active": "Open pay-in-instalments to customers",
+      "maxPlans": "Open plans per customer",
+      "maxPlansInvalid": "Between 1 and 20 plans per customer.",
+      "settingsSaved": "Settings saved.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "rulesTitle": "Rules per category",
+      "rulesHelp": "Set on a main category and inherited by its sub-categories. Plans already open keep the rules they opened with. Each shop then chooses, offer by offer, whether it accepts this mode.",
+      "rule": {
+        "on": "Allowed",
+        "off": "Not allowed",
+        "edit": "Edit",
+        "summary": "{days} days max · first payment {deposit} % · minimum {min} · reserved at {threshold} %",
+        "active": "Allow pay-in-instalments in this category",
+        "maxDays": "Maximum duration (days)",
+        "deposit": "Minimum first payment (%)",
+        "minPayment": "Minimum payment (FCFA)",
+        "threshold": "Stock reserved from (%)",
+        "minPrice": "Minimum product price (FCFA)",
+        "inactivity": "Reminder after inactivity (days)",
+        "mode": "Payment type",
+        "modes": {
+          "libre": "Free (the customer chooses the amount)",
+          "tranches_fixes": "Fixed monthly instalments"
+        },
+        "instalments": "Number of instalments",
+        "saved": "Rules of “{category}” saved.",
+        "errors": {
+          "duration": "The duration ranges from 7 to 730 days.",
+          "percent": "Percentages range from 0 to 100.",
+          "amount": "Amounts are positive whole numbers.",
+          "inactivity": "The inactivity delay ranges from 1 to 365 days.",
+          "instalments": "Enter 2 to 24 instalments."
+        }
+      },
+      "plans": {
+        "title": "Customer plans",
+        "allStatuses": "All statuses",
+        "empty": "No instalment plan.",
+        "progress": "{paid} paid of {total} · due {due}",
+        "order": "order {order}",
+        "failure": "Cancel for failure",
+        "failureReason": "Reason (e.g. shop suspended, permanently out of stock)",
+        "failureHelp": "The stock is released and everything the customer paid becomes owed to them. Then confirm the refund.",
+        "refund": "Mark refunded",
+        "refundNote": "Refund reference (Fapshi payout, deposit…)",
+        "refundDone": "Refunded",
+        "retry": "Retry creating the order",
+        "confirm": "Confirm",
+        "cancelled": "Plan cancelled: the refund is due.",
+        "refunded": "Refund recorded.",
+        "converted": "The order is created."
+      },
+      "status": {
+        "ouvert": "In progress",
+        "reserve": "Stock reserved",
+        "solde": "Paid, delivery to choose",
+        "converti": "Order created",
+        "expire": "Expired",
+        "abandonne": "Abandoned",
+        "annule_defaillance": "Cancelled (failure)"
+      }
     }
   }
 }

@@ -56,6 +56,9 @@
       "orderServices": {
         "label": "Services de commande"
       },
+      "installmentPlans": {
+        "label": "Paiement en plusieurs fois"
+      },
       "marketplaceOffers": {
         "label": "Catalogue marketplace"
       }
@@ -892,6 +895,72 @@
       "previous": "Précédent",
       "next": "Suivant",
       "pageOf": "Page {page} sur {pages}"
+    },
+    "installments": {
+      "settingsTitle": "Interrupteur général",
+      "settingsHelp": "Éteint, aucun nouveau paiement en plusieurs fois ne s’ouvre ; ceux déjà ouverts continuent. À allumer après validation juridique de la clause de non-remboursement.",
+      "active": "Ouvrir le paiement en plusieurs fois aux clients",
+      "maxPlans": "Plans en cours par client",
+      "maxPlansInvalid": "Entre 1 et 20 plans par client.",
+      "settingsSaved": "Réglages enregistrés.",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "rulesTitle": "Règles par catégorie",
+      "rulesHelp": "Fixées sur une catégorie principale et héritées par ses sous-catégories. Les plans déjà ouverts gardent les règles de leur ouverture. Chaque boutique choisit ensuite, offre par offre, si elle accepte ce mode.",
+      "rule": {
+        "on": "Autorisé",
+        "off": "Non autorisé",
+        "edit": "Modifier",
+        "summary": "{days} jours max · 1er versement {deposit} % · minimum {min} · réservé à {threshold} %",
+        "active": "Autoriser le paiement en plusieurs fois dans cette catégorie",
+        "maxDays": "Durée maximale (jours)",
+        "deposit": "Premier versement minimum (%)",
+        "minPayment": "Versement minimum (FCFA)",
+        "threshold": "Stock réservé à partir de (%)",
+        "minPrice": "Prix minimum du produit (FCFA)",
+        "inactivity": "Rappel après inactivité (jours)",
+        "mode": "Type de versements",
+        "modes": {
+          "libre": "Libres (le client choisit le montant)",
+          "tranches_fixes": "Mensualités fixes"
+        },
+        "instalments": "Nombre de mensualités",
+        "saved": "Règles de « {category} » enregistrées.",
+        "errors": {
+          "duration": "La durée va de 7 à 730 jours.",
+          "percent": "Les pourcentages vont de 0 à 100.",
+          "amount": "Les montants sont des nombres entiers positifs.",
+          "inactivity": "Le délai d’inactivité va de 1 à 365 jours.",
+          "instalments": "Indiquez de 2 à 24 mensualités."
+        }
+      },
+      "plans": {
+        "title": "Plans des clients",
+        "allStatuses": "Tous les états",
+        "empty": "Aucun paiement en plusieurs fois.",
+        "progress": "{paid} versés sur {total} · échéance {due}",
+        "order": "commande {order}",
+        "failure": "Annuler pour défaillance",
+        "failureReason": "Motif (ex. boutique suspendue, rupture définitive)",
+        "failureHelp": "Le stock est libéré et tout ce que le client a versé lui devient dû. Confirmez ensuite le remboursement.",
+        "refund": "Marquer remboursé",
+        "refundNote": "Référence du remboursement (payout Fapshi, dépôt…)",
+        "refundDone": "Remboursé",
+        "retry": "Relancer la création de la commande",
+        "confirm": "Confirmer",
+        "cancelled": "Plan annulé : le remboursement est à faire.",
+        "refunded": "Remboursement enregistré.",
+        "converted": "La commande est créée."
+      },
+      "status": {
+        "ouvert": "En cours",
+        "reserve": "Stock réservé",
+        "solde": "Payé, livraison à choisir",
+        "converti": "Commande créée",
+        "expire": "Expiré",
+        "abandonne": "Abandonné",
+        "annule_defaillance": "Annulé (défaillance)"
+      }
     }
   }
 }

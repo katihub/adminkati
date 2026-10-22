@@ -26,6 +26,7 @@ const marketplaceAdminOffers = ["v1", "marketplace", "administration", "offres"]
 const refusedLines = ["v1", "marketplace", "refus-lignes"] as const
 const kati = ["v1", "marketplace", "kati"] as const
 const orderServices = ["v1", "marketplace", "services-commande"] as const
+const installmentPlans = ["v1", "marketplace", "echelonnement"] as const
 const marketplaceQuotes = ["v1", "marketplace", "administration", "devis"] as const
 const reportedReviews = ["v1", "marketplace", "reputation", "avis", "a-moderer"] as const
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
@@ -134,6 +135,12 @@ export const apiQueryKeys = {
   orderServices: {
     all: orderServices,
     settings: [...orderServices, "reglages"] as const,
+  },
+  installmentPlans: {
+    all: installmentPlans,
+    settings: [...installmentPlans, "parametres"] as const,
+    rules: [...installmentPlans, "regles"] as const,
+    list: (status: string) => [...installmentPlans, "plans", status] as const,
   },
   kati: {
     all: kati,
