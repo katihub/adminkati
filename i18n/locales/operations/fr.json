@@ -603,7 +603,8 @@
       "verify": "Vérifier",
       "verified": "{name} est vérifié : la boutique peut lui affecter des livraisons.",
       "emptyPending": "Aucun agent à vérifier.",
-      "empty": "Aucun agent de boutique."
+      "empty": "Aucun agent de boutique.",
+      "idNumber": "Pièce n° {numero}"
     },
     "quotes": {
       "filterStatus": "Filtrer par statut",

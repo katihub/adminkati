@@ -603,7 +603,8 @@
       "verify": "Verify",
       "verified": "{name} is verified: the shop can assign deliveries to them.",
       "emptyPending": "No agent to verify.",
-      "empty": "No shop agent."
+      "empty": "No shop agent.",
+      "idNumber": "ID no. {numero}"
     },
     "quotes": {
       "filterStatus": "Filter by status",

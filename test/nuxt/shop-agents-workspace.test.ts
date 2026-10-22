@@ -16,7 +16,10 @@ const agent = (id: string, nom: string, extra: Record<string, unknown> = {}) => 
   boutique: { id: "b1", nom: "TechMall", ville: "Douala" },
   ...extra,
 })
-const PENDING = [agent("a1", "Paul Comptoir"), agent("a2", "Awa Livreuse")]
+const PENDING = [
+  agent("a1", "Paul Comptoir", { courriel: "paul@techmall.cm", numeroPieceIdentite: "112233445" }),
+  agent("a2", "Awa Livreuse"),
+]
 const ALL = [
   ...PENDING,
   agent("a3", "Jean Verified", { verifieLe: "2026-10-14T08:00:00.000Z", plafondEspecesFcfa: 200000 }),
@@ -99,6 +102,19 @@ describe("shop agents workspace", () => {
     expect(verified).toContain("Verified on")
     expect(verified).toMatch(/ceiling .*200,000/)
     expect(wrapper.find("[data-testid='shop-agent-verify-a3']").exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  it("shows the e-mail and ID number the shop gave, so the team can verify the agent", async () => {
+    api([])
+    const wrapper = await mountSuspended(ShopAgentsWorkspace, { attachTo: document.body })
+    await flushPromises()
+    await vi.waitFor(() => expect(byTestId("shop-agent-a1")).not.toBeNull())
+    expect(wrapper.get("[data-testid='shop-agent-a1'] [data-testid='shop-agent-email']").text()).toBe(
+      "paul@techmall.cm",
+    )
+    expect(wrapper.get("[data-testid='shop-agent-a1'] [data-testid='shop-agent-id']").text()).toBe("ID no. 112233445")
+    expect(wrapper.find("[data-testid='shop-agent-a2'] [data-testid='shop-agent-email']").exists()).toBe(false)
     wrapper.unmount()
   })
 })

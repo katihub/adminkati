@@ -93,6 +93,15 @@ function verifyAgent(agent: ShopAgent) {
             <div class="flex flex-wrap items-center gap-2">
               <span class="text-sm font-medium">{{ agent.nom }}</span>
               <span class="text-xs text-muted-foreground">{{ agent.telephone }}</span>
+              <span v-if="agent.courriel" class="text-xs text-muted-foreground" data-testid="shop-agent-email">{{
+                agent.courriel
+              }}</span>
+              <span
+                v-if="agent.numeroPieceIdentite"
+                class="text-xs text-muted-foreground"
+                data-testid="shop-agent-id"
+                >{{ t("operations.shopAgents.idNumber", { numero: agent.numeroPieceIdentite }) }}</span
+              >
               <Badge :variant="agent.verifieLe && agent.actif ? 'default' : 'outline'">{{ stateOf(agent) }}</Badge>
             </div>
             <p class="mt-1 text-xs text-muted-foreground">
