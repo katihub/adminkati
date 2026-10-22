@@ -349,6 +349,14 @@
         "added": "Section ajoutée : {title}",
         "changed": "Section modifiée : {title}",
         "removed": "Section retirée : {title}"
+      },
+      "readings": {
+        "title": "Lecture du dernier changement important",
+        "none": "Aucun changement important publié depuis la version de départ : rien à faire lire aux boutiques.",
+        "count": "Version {number} : {read} boutique(s) sur {total} en ont pris connaissance.",
+        "readOn": "Lu le {date}",
+        "acceptedOn": "Accepté le {date}",
+        "notRead": "Pas encore lu"
       }
     }
   }

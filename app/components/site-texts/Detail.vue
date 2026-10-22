@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { SiteTextRights } from "@/types/api/site-texts"
 import { computed } from "vue"
+import SiteTextsContractReadings from "@/components/site-texts/ContractReadings.vue"
 import SiteTextsDraft from "@/components/site-texts/Draft.vue"
 import SiteTextsHistory from "@/components/site-texts/History.vue"
 import { Badge } from "@/components/ui/badge"
@@ -19,6 +20,8 @@ const formatDate = (iso: string | null) =>
 
 const live = computed(() => detail.data.value?.publiee ?? null)
 const draft = computed(() => detail.data.value?.enCours ?? null)
+// The direction follows who has read the latest important change of the seller contract.
+const isContract = computed(() => props.textKey === "contrat-vendeurs" && props.rights.publier)
 
 function open(fromVersionId?: string) {
   void run(() => openDraft.mutateAsync({ key: props.textKey, fromVersionId }), t("content.siteTexts.draftOpened"))
@@ -59,6 +62,7 @@ function open(fromVersionId?: string) {
         :draft="draft"
         :rights="rights"
       />
+      <SiteTextsContractReadings v-if="isContract" class="mt-6" />
       <SiteTextsHistory
         class="mt-6"
         :entries="detail.data.value.historique"

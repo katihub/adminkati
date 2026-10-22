@@ -349,6 +349,14 @@
         "added": "Section added: {title}",
         "changed": "Section changed: {title}",
         "removed": "Section removed: {title}"
+      },
+      "readings": {
+        "title": "Reading of the latest important change",
+        "none": "No important change published since the initial version: nothing for shops to read.",
+        "count": "Version {number}: {read} of {total} shop(s) have read it.",
+        "readOn": "Read on {date}",
+        "acceptedOn": "Accepted on {date}",
+        "notRead": "Not read yet"
       }
     }
   }

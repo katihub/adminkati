@@ -214,4 +214,48 @@ describe("site texts workspace", () => {
     await vi.waitFor(() => expect(byTestId("site-texts-forbidden")).not.toBeNull())
     expect(byTestId("site-text-cgv")).toBeNull()
   })
+
+  it("shows the direction which shops have read the latest important change of the seller contract", async () => {
+    api([])
+    cleanups.push(
+      registerEndpoint("/api/v1/contenus", {
+        method: "GET",
+        handler: () => [
+          {
+            cle: "contrat-vendeurs",
+            type: "legal",
+            titre: "Contrat avec les vendeurs",
+            publiee: { numero: 4, publieLe: PUBLISHED.publieLe, anglais: "absent" },
+            enCours: null,
+          },
+        ],
+      }),
+      registerEndpoint("/api/v1/contenus/contrat-vendeurs", {
+        method: "GET",
+        handler: () => ({
+          cle: "contrat-vendeurs",
+          type: "legal",
+          publiee: { ...PUBLISHED, contenuCle: "contrat-vendeurs", numero: 4 },
+          enCours: null,
+          historique: [],
+          defaut: null,
+          variables: [],
+        }),
+      }),
+      registerEndpoint("/api/v1/contenus/contrat-vendeurs/lectures", {
+        method: "GET",
+        handler: () => ({
+          version: { numero: 4, publieLe: PUBLISHED.publieLe, resume: null },
+          boutiques: [
+            { id: "b1", nom: "TechMall", statut: "active", luLe: "2026-10-22T12:00:00.000Z", par: "lecture" },
+            { id: "b2", nom: "ModeCM", statut: "active", luLe: null, par: null },
+          ],
+        }),
+      }),
+    )
+    await mountSuspended(SiteTextsWorkspace, { attachTo: document.body })
+    await click("site-text-contrat-vendeurs")
+    await vi.waitFor(() => expect(byTestId("site-text-contract-readings")?.textContent).toContain("ModeCM"))
+    expect(byTestId("site-text-contract-readings")?.textContent).toMatch(/1\D+2/)
+  })
 })

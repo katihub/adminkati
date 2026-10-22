@@ -141,6 +141,7 @@ export const apiQueryKeys = {
     all: siteTexts,
     rights: [...siteTexts, "droits"] as const,
     settings: [...siteTexts, "reglages"] as const,
+    readings: [...siteTexts, "contrat-vendeurs", "lectures"] as const,
     list: (type: string) => [...siteTexts, "liste", type] as const,
     detail: (key: string) => [...siteTexts, "detail", key] as const,
   },

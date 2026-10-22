@@ -96,3 +96,24 @@ export function useSiteTextMutations() {
     }),
   }
 }
+
+export interface ContractReadings {
+  version: { numero: number; publieLe: string; resume: string | null } | null
+  boutiques: Array<{
+    id: string
+    nom: string
+    statut: string
+    luLe: string | null
+    par: "acceptation" | "lecture" | null
+  }>
+}
+
+/** Which shops have read the latest important change of the seller contract (direction only). */
+export function useContractReadings(enabled: MaybeRefOrGetter<boolean>) {
+  const apiFetch = useApiFetch()
+  return useQuery<ContractReadings>({
+    queryKey: apiQueryKeys.siteTexts.readings,
+    queryFn: () => apiFetch(`${BASE}/contrat-vendeurs/lectures`),
+    enabled: computed(() => toValue(enabled)),
+  })
+}
