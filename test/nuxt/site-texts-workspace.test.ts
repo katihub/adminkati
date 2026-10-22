@@ -258,4 +258,84 @@ describe("site texts workspace", () => {
     await vi.waitFor(() => expect(byTestId("site-text-contract-readings")?.textContent).toContain("ModeCM"))
     expect(byTestId("site-text-contract-readings")?.textContent).toMatch(/1\D+2/)
   })
+
+  it("edits an e-mail not customised yet from its original text, with its variables", async () => {
+    const commands: Command[] = []
+    api(commands)
+    const EMAIL = {
+      sujet: "Retour autorisé — {commande}",
+      paragraphes: ["Votre demande de retour (dossier {dossier}) est acceptée."],
+      bouton: "Voir ma commande",
+    }
+    const EMAIL_EN = {
+      sujet: "Return approved — {commande}",
+      paragraphes: ["Your return request (case {dossier}) is approved."],
+      bouton: "View my order",
+    }
+    const draft = {
+      ...DRAFT,
+      id: "v9",
+      contenuCle: "courriel.retour.autorise",
+      statut: "brouillon",
+      fr: EMAIL,
+      en: EMAIL_EN,
+      baseVersionId: null,
+    }
+    cleanups.push(
+      registerEndpoint("/api/v1/contenus", {
+        method: "GET",
+        handler: () => [
+          {
+            cle: "courriel.retour.autorise",
+            type: "courriel",
+            titre: "Client — Retour autorisé",
+            publiee: null,
+            enCours: null,
+          },
+        ],
+      }),
+      registerEndpoint("/api/v1/contenus/courriel.retour.autorise", {
+        method: "GET",
+        handler: () => ({
+          cle: "courriel.retour.autorise",
+          type: "courriel",
+          publiee: null,
+          enCours: commands.some(c => c.path === "brouillon-email") ? draft : null,
+          historique: [],
+          defaut: { fr: EMAIL, en: EMAIL_EN },
+          variables: ["dossier", "commande"],
+        }),
+      }),
+      registerEndpoint("/api/v1/contenus/courriel.retour.autorise/brouillon", {
+        method: "POST",
+        handler: async (event: Parameters<typeof readBody>[0]) => {
+          commands.push({ method: "POST", path: "brouillon-email", body: await readBody(event) })
+          return draft
+        },
+      }),
+      registerEndpoint("/api/v1/contenus/versions/v9", {
+        method: "PUT",
+        handler: async (event: Parameters<typeof readBody>[0]) => {
+          commands.push({ method: "PUT", path: "v9", body: await readBody(event) })
+          return draft
+        },
+      }),
+    )
+    await mountSuspended(SiteTextsWorkspace, { attachTo: document.body })
+    await click("site-text-courriel.retour.autorise")
+    await vi.waitFor(() => expect(byTestId("site-text-live")?.textContent).toMatch(/original|origine/))
+    await click("site-text-open-draft")
+    await type("site-text-fr-subject", "Bonne nouvelle : retour accepté — {commande}")
+    expect(document.body.textContent).toContain("{dossier}")
+    await click("site-text-save")
+    await vi.waitFor(() =>
+      expect(commands).toContainEqual({
+        method: "PUT",
+        path: "v9",
+        body: expect.objectContaining({
+          fr: expect.objectContaining({ sujet: "Bonne nouvelle : retour accepté — {commande}" }),
+        }),
+      }),
+    )
+  })
 })

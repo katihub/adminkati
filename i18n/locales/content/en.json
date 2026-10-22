@@ -289,6 +289,7 @@
       },
       "live": "Live: version {number}, published on {date}",
       "notLive": "Not published yet: the site shows its original text.",
+      "notLiveEmail": "Not customised yet: the e-mail is sent with its original text. “Edit” starts from that text.",
       "edit": "Edit",
       "draftOpened": "Draft opened.",
       "history": "Published versions",

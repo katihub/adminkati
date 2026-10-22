@@ -40,7 +40,11 @@ function open(fromVersionId?: string) {
             {{
               live
                 ? t("content.siteTexts.live", { number: live.numero, date: formatDate(live.publieLe) })
-                : t("content.siteTexts.notLive")
+                : t(
+                    detail.data.value.type === "courriel"
+                      ? "content.siteTexts.notLiveEmail"
+                      : "content.siteTexts.notLive",
+                  )
             }}
           </p>
         </div>

@@ -289,6 +289,7 @@
       },
       "live": "En ligne : version {number}, publiée le {date}",
       "notLive": "Pas encore publié : le site affiche son texte d’origine.",
+      "notLiveEmail": "Pas encore personnalisé : l’e-mail part avec son texte d’origine. « Modifier » repart de ce texte.",
       "edit": "Modifier",
       "draftOpened": "Brouillon ouvert.",
       "history": "Versions publiées",
