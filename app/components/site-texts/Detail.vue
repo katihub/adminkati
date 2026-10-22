@@ -22,6 +22,14 @@ const live = computed(() => detail.data.value?.publiee ?? null)
 const draft = computed(() => detail.data.value?.enCours ?? null)
 // The direction follows who has read the latest important change of the seller contract.
 const isContract = computed(() => props.textKey === "contrat-vendeurs" && props.rights.publier)
+const hasHistory = computed(() => Boolean(detail.data.value?.historique.length))
+// An e-mail without a published version still goes out with the original text of the code.
+const liveText = computed(() => {
+  if (live.value) {
+    return t("content.siteTexts.live", { number: live.value.numero, date: formatDate(live.value.publieLe) })
+  }
+  return t(detail.data.value?.type === "courriel" ? "content.siteTexts.notLiveEmail" : "content.siteTexts.notLive")
+})
 
 function open(fromVersionId?: string) {
   void run(() => openDraft.mutateAsync({ key: props.textKey, fromVersionId }), t("content.siteTexts.draftOpened"))
@@ -37,15 +45,7 @@ function open(fromVersionId?: string) {
         <div>
           <p class="font-mono text-xs text-muted-foreground">{{ detail.data.value.cle }}</p>
           <p class="mt-1 text-sm" data-testid="site-text-live">
-            {{
-              live
-                ? t("content.siteTexts.live", { number: live.numero, date: formatDate(live.publieLe) })
-                : t(
-                    detail.data.value.type === "courriel"
-                      ? "content.siteTexts.notLiveEmail"
-                      : "content.siteTexts.notLive",
-                  )
-            }}
+            {{ liveText }}
           </p>
         </div>
         <Badge v-if="draft" data-testid="site-text-status">{{ t(`content.siteTexts.status.${draft.statut}`) }}</Badge>
@@ -68,6 +68,7 @@ function open(fromVersionId?: string) {
       />
       <SiteTextsContractReadings v-if="isContract" class="mt-6" />
       <SiteTextsHistory
+        v-if="hasHistory"
         class="mt-6"
         :entries="detail.data.value.historique"
         :can-restart="!draft"
