@@ -249,6 +249,107 @@
           "mobileNotNarrower": "The phone artwork must be narrower than the large artwork."
         }
       }
+    },
+    "siteTexts": {
+      "heading": "Site texts",
+      "openLink": "Site texts (legal pages, About, FAQ, e-mails)",
+      "seo": {
+        "title": "Site texts · KatiMarket Administration",
+        "description": "Writing and publishing the legal pages, the FAQ and the e-mails."
+      },
+      "forbiddenTitle": "Writing not allowed",
+      "forbidden": "Your role cannot write the site texts. The direction chooses which roles may write.",
+      "pick": "Pick a text in the list to read or edit it.",
+      "rolesTitle": "Who may write",
+      "rolesHelp": "The direction always writes and publishes. Tick the roles that may also write and submit a text; only the direction publishes.",
+      "roles": {
+        "direction": "Direction",
+        "comptoir": "Counter",
+        "preparation": "Preparation",
+        "livreur": "Courier"
+      },
+      "rolesSaved": "Writing roles saved.",
+      "save": "Save",
+      "filter": "Text type",
+      "allTypes": "All texts",
+      "types": {
+        "legal": "Legal page",
+        "editorial": "Page",
+        "faq": "FAQ",
+        "courriel": "E-mail"
+      },
+      "empty": "No text",
+      "versionShort": "Version {number}",
+      "englishLate": "English to update",
+      "status": {
+        "brouillon": "Draft",
+        "soumis": "Submitted to the direction",
+        "publie": "Published",
+        "archive": "Archived"
+      },
+      "live": "Live: version {number}, published on {date}",
+      "notLive": "Not published yet: the site shows its original text.",
+      "edit": "Edit",
+      "draftOpened": "Draft opened.",
+      "history": "Published versions",
+      "restartFrom": "Start again from this version",
+      "nature": {
+        "mineur": "Minor change",
+        "important": "Important change"
+      },
+      "natureLabel": "Type of change",
+      "summaryLabel": "Summary of changes",
+      "sentBackWith": "Sent back by the direction: {comment}",
+      "french": "French",
+      "english": "English",
+      "addEnglish": "Add the English version",
+      "preview": "Preview",
+      "backToEdit": "Back to editing",
+      "englishLateHelp": "The French changed but the English did not follow: the English site will show the French until the English is updated.",
+      "englishConfirmed": "I have reviewed the English: it matches the French.",
+      "saved": "Draft saved.",
+      "submitted": "Text submitted to the direction.",
+      "published": "Text published: it is live.",
+      "sentBack": "Text sent back to the writer.",
+      "discarded": "Draft discarded.",
+      "submit": "Submit to the direction",
+      "publish": "Publish",
+      "sendBack": "Send back",
+      "discard": "Discard the draft",
+      "sendBackPlaceholder": "What needs to be reworked…",
+      "sendBackConfirm": "Send back to the writer",
+      "markupHelp": "One paragraph per block separated by an empty line, one bullet per line. Formatting available: **bold** and [link text](/page).",
+      "fields": {
+        "title": "Title",
+        "eyebrow": "Eyebrow",
+        "intro": "Introduction",
+        "sectionTitle": "Section title",
+        "paragraphs": "Paragraphs",
+        "bullets": "Bullets (one per line)",
+        "blockTitle": "Block title",
+        "subject": "Subject",
+        "button": "Button text",
+        "topic": "Topic",
+        "question": "Question",
+        "answer": "Answer"
+      },
+      "moveUp": "Move the section up",
+      "moveDown": "Move the section down",
+      "removeSection": "Remove",
+      "addSection": "Add a section",
+      "emailHelp": "The greeting, signature and link are added automatically. Available variables:",
+      "remove": "Remove",
+      "linkedSheet": "Also updates the “{sheet}” sheet (assistant and checkout page).",
+      "addQuestion": "Add a question",
+      "addTopic": "Add a topic",
+      "changesTitle": "Changes against the live version",
+      "noChanges": "No change yet.",
+      "headerChanged": "Title or introduction changed",
+      "change": {
+        "added": "Section added: {title}",
+        "changed": "Section changed: {title}",
+        "removed": "Section removed: {title}"
+      }
     }
   }
 }

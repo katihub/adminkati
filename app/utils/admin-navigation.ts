@@ -71,7 +71,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     id: "marketing",
     labelKey: "admin.navigation.marketing",
     to: adminDestinations.marketing,
-    routeNames: ["content"],
+    routeNames: ["content", "site-texts"],
     icon: "ph:megaphone",
     roles: ["direction", "comptoir"],
   },

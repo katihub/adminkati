@@ -243,6 +243,15 @@ useHead({
             @update:model-value="setActiveTab"
           />
         </template>
+        <template #actions>
+          <NuxtLinkLocale
+            to="/site-texts"
+            class="text-sm font-medium text-primary underline-offset-4 hover:underline"
+            data-testid="content-site-texts-link"
+          >
+            {{ t("content.siteTexts.openLink") }}
+          </NuxtLinkLocale>
+        </template>
       </AdminPageHeader>
     </div>
 

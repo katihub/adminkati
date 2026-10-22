@@ -27,6 +27,7 @@ const refusedLines = ["v1", "marketplace", "refus-lignes"] as const
 const kati = ["v1", "marketplace", "kati"] as const
 const orderServices = ["v1", "marketplace", "services-commande"] as const
 const installmentPlans = ["v1", "marketplace", "echelonnement"] as const
+const siteTexts = ["v1", "contenus"] as const
 const marketplaceQuotes = ["v1", "marketplace", "administration", "devis"] as const
 const reportedReviews = ["v1", "marketplace", "reputation", "avis", "a-moderer"] as const
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
@@ -135,6 +136,13 @@ export const apiQueryKeys = {
   orderServices: {
     all: orderServices,
     settings: [...orderServices, "reglages"] as const,
+  },
+  siteTexts: {
+    all: siteTexts,
+    rights: [...siteTexts, "droits"] as const,
+    settings: [...siteTexts, "reglages"] as const,
+    list: (type: string) => [...siteTexts, "liste", type] as const,
+    detail: (key: string) => [...siteTexts, "detail", key] as const,
   },
   installmentPlans: {
     all: installmentPlans,

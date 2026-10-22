@@ -249,6 +249,107 @@
           "mobileNotNarrower": "Le visuel mobile doit être plus étroit que le visuel large."
         }
       }
+    },
+    "siteTexts": {
+      "heading": "Textes du site",
+      "openLink": "Textes du site (pages légales, À propos, FAQ, e-mails)",
+      "seo": {
+        "title": "Textes du site · Administration KatiMarket",
+        "description": "Rédaction et publication des pages légales, de la FAQ et des e-mails."
+      },
+      "forbiddenTitle": "Rédaction non autorisée",
+      "forbidden": "Votre rôle ne permet pas de rédiger les textes du site. La direction choisit les rôles autorisés.",
+      "pick": "Choisissez un texte dans la liste pour le lire ou le modifier.",
+      "rolesTitle": "Qui peut rédiger",
+      "rolesHelp": "La direction rédige et publie toujours. Cochez les rôles qui peuvent aussi rédiger et soumettre un texte ; seule la direction publie.",
+      "roles": {
+        "direction": "Direction",
+        "comptoir": "Comptoir",
+        "preparation": "Préparation",
+        "livreur": "Livreur"
+      },
+      "rolesSaved": "Rôles de rédaction enregistrés.",
+      "save": "Enregistrer",
+      "filter": "Type de texte",
+      "allTypes": "Tous les textes",
+      "types": {
+        "legal": "Page légale",
+        "editorial": "Page",
+        "faq": "FAQ",
+        "courriel": "E-mail"
+      },
+      "empty": "Aucun texte",
+      "versionShort": "Version {number}",
+      "englishLate": "Anglais à mettre à jour",
+      "status": {
+        "brouillon": "Brouillon",
+        "soumis": "Soumis à la direction",
+        "publie": "Publié",
+        "archive": "Archivé"
+      },
+      "live": "En ligne : version {number}, publiée le {date}",
+      "notLive": "Pas encore publié : le site affiche son texte d’origine.",
+      "edit": "Modifier",
+      "draftOpened": "Brouillon ouvert.",
+      "history": "Versions publiées",
+      "restartFrom": "Repartir de cette version",
+      "nature": {
+        "mineur": "Changement mineur",
+        "important": "Changement important"
+      },
+      "natureLabel": "Nature du changement",
+      "summaryLabel": "Résumé des changements",
+      "sentBackWith": "Renvoyé par la direction : {comment}",
+      "french": "Français",
+      "english": "Anglais",
+      "addEnglish": "Ajouter la version anglaise",
+      "preview": "Aperçu",
+      "backToEdit": "Revenir à l’édition",
+      "englishLateHelp": "Le français a changé sans que l’anglais suive : le site anglais affichera le français tant que l’anglais n’est pas mis à jour.",
+      "englishConfirmed": "J’ai relu l’anglais : il correspond au français.",
+      "saved": "Brouillon enregistré.",
+      "submitted": "Texte soumis à la direction.",
+      "published": "Texte publié : il est en ligne.",
+      "sentBack": "Texte renvoyé au rédacteur.",
+      "discarded": "Brouillon abandonné.",
+      "submit": "Soumettre à la direction",
+      "publish": "Publier",
+      "sendBack": "Renvoyer",
+      "discard": "Abandonner le brouillon",
+      "sendBackPlaceholder": "Ce qu’il faut reprendre…",
+      "sendBackConfirm": "Renvoyer au rédacteur",
+      "markupHelp": "Un paragraphe par bloc séparé d’une ligne vide, une puce par ligne. Mise en forme possible : **gras** et [texte du lien](/page).",
+      "fields": {
+        "title": "Titre",
+        "eyebrow": "Surtitre",
+        "intro": "Introduction",
+        "sectionTitle": "Titre de la section",
+        "paragraphs": "Paragraphes",
+        "bullets": "Puces (une par ligne)",
+        "blockTitle": "Titre du bloc",
+        "subject": "Sujet",
+        "button": "Texte du bouton",
+        "topic": "Rubrique",
+        "question": "Question",
+        "answer": "Réponse"
+      },
+      "moveUp": "Monter la section",
+      "moveDown": "Descendre la section",
+      "removeSection": "Retirer",
+      "addSection": "Ajouter une section",
+      "emailHelp": "La salutation, la signature et le lien sont ajoutés automatiquement. Variables disponibles :",
+      "remove": "Retirer",
+      "linkedSheet": "Met aussi à jour la fiche « {sheet} » (assistant et page de commande).",
+      "addQuestion": "Ajouter une question",
+      "addTopic": "Ajouter une rubrique",
+      "changesTitle": "Changements par rapport à la version en ligne",
+      "noChanges": "Aucun changement pour l’instant.",
+      "headerChanged": "Titre ou introduction modifiés",
+      "change": {
+        "added": "Section ajoutée : {title}",
+        "changed": "Section modifiée : {title}",
+        "removed": "Section retirée : {title}"
+      }
     }
   }
 }
