@@ -826,7 +826,7 @@
     },
     "orderServices": {
       "insuranceTitle": "KATI insurance",
-      "insuranceHelp": "A share of the products only, offered on every order and checked by default; the customer can uncheck it. The amount goes to KatiMarket.",
+      "insuranceHelp": "A share of the products only, offered on every order and unchecked by default; the customer ticks it if they want it. The amount goes to KatiMarket.",
       "insuranceActive": "Offer the insurance at checkout",
       "rate": "Rate (% of products)",
       "rateInvalid": "A rate between 0 and 30%.",

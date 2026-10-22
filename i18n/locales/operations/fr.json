@@ -826,7 +826,7 @@
     },
     "orderServices": {
       "insuranceTitle": "Assurance KATI",
-      "insuranceHelp": "Un pourcentage des produits seuls, proposé à chaque commande et coché par défaut ; le client peut le décocher. Le montant revient à KatiMarket.",
+      "insuranceHelp": "Un pourcentage des produits seuls, proposé à chaque commande et décoché par défaut ; le client le coche s’il le souhaite. Le montant revient à KatiMarket.",
       "insuranceActive": "Proposer l’assurance à la commande",
       "rate": "Taux (% des produits)",
       "rateInvalid": "Un taux entre 0 et 30 %.",

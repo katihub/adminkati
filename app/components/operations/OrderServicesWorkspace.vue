@@ -11,7 +11,7 @@ import { useOrderServicesMutations, useOrderServicesSettings } from "@/composabl
 import { useToastAction } from "@/composables/useToastAction"
 
 /* KATIHUB'S PAID ORDER SERVICES. The KATI insurance is a share of the products
-   only, checked by default at checkout and removable by the customer; the
+   only, unchecked by default at checkout and ticked by the customer who wants it; the
    direction sets its rate or suspends it. Installation is a fixed price per
    order for each category where KatiHub offers it; a sub-category without its
    own setting follows its category. */
