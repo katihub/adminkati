@@ -332,7 +332,6 @@
       "decisionReason": "Motif de décision",
       "sanction": "Sanctionner",
       "rehabilitate": "Réhabiliter",
-      "arbitrate": "Arbitrer",
       "status": {
         "actif": "Actif",
         "inactif": "Inactif",
@@ -351,6 +350,38 @@
         "surveillance": "Surveillance",
         "suspension": "Suspension",
         "exclusion": "Exclusion"
+      },
+      "cancel": "Annuler",
+      "reasonMin": "{min} caractères au moins.",
+      "rehabilitated": "Sanction levée, vendeur réhabilité.",
+      "arbitrated": {
+        "confirmee": "Sanction confirmée.",
+        "levee": "Sanction levée après contestation."
+      },
+      "contestation": "Contestation du vendeur :",
+      "confirm": "Confirmer",
+      "lift": "Lever",
+      "ownDecision": "Une contestation attend : elle doit être arbitrée par un autre membre de la direction que celui qui a sanctionné.",
+      "sanctionForm": {
+        "title": "Sanctionner {name}",
+        "help": "La sanction est inscrite au journal. Le vendeur peut la contester ; la contestation est arbitrée par un autre membre de la direction.",
+        "type": "Sanction",
+        "blocksShops": "Toutes les boutiques du vendeur seront suspendues : leurs offres ne seront plus vendues. Leurs produits et photos restent exportables.",
+        "reason": "Motif",
+        "end": "Fin de la sanction (facultatif)",
+        "endHelp": "Sans date, la sanction dure jusqu'à sa levée.",
+        "done": "Sanction enregistrée."
+      },
+      "export": {
+        "title": "Produits et photos des boutiques",
+        "help": "Fichier CSV de toutes les offres de la boutique, quel que soit leur statut, avec les liens de leurs photos. Disponible même si la boutique est suspendue ou exclue.",
+        "download": "Exporter (CSV)"
+      },
+      "shopStatus": {
+        "inactive": "Inactive",
+        "active": "Active",
+        "suspendue": "Suspendue",
+        "archivee": "Archivée"
       }
     },
     "pilot": {

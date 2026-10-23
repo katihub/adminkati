@@ -332,7 +332,6 @@
       "decisionReason": "Decision reason",
       "sanction": "Sanction",
       "rehabilitate": "Rehabilitate",
-      "arbitrate": "Arbitrate",
       "status": {
         "actif": "Active",
         "inactif": "Inactive",
@@ -351,6 +350,38 @@
         "surveillance": "Monitoring",
         "suspension": "Suspension",
         "exclusion": "Exclusion"
+      },
+      "cancel": "Cancel",
+      "reasonMin": "At least {min} characters.",
+      "rehabilitated": "Sanction lifted, seller rehabilitated.",
+      "arbitrated": {
+        "confirmee": "Sanction confirmed.",
+        "levee": "Sanction lifted after the appeal."
+      },
+      "contestation": "Seller's appeal:",
+      "confirm": "Confirm",
+      "lift": "Lift",
+      "ownDecision": "An appeal is pending: it must be decided by a member of the management other than the one who imposed the sanction.",
+      "sanctionForm": {
+        "title": "Sanction {name}",
+        "help": "The sanction is logged. The seller can appeal it; the appeal is decided by another member of the management.",
+        "type": "Sanction",
+        "blocksShops": "Every shop of the seller will be suspended: their offers will no longer be sold. Their products and photos stay exportable.",
+        "reason": "Reason",
+        "end": "End of the sanction (optional)",
+        "endHelp": "Without a date, the sanction lasts until it is lifted.",
+        "done": "Sanction recorded."
+      },
+      "export": {
+        "title": "Shop products and photos",
+        "help": "CSV file of every offer of the shop, whatever its status, with the links to its photos. Available even when the shop is suspended or excluded.",
+        "download": "Export (CSV)"
+      },
+      "shopStatus": {
+        "inactive": "Inactive",
+        "active": "Active",
+        "suspendue": "Suspended",
+        "archivee": "Archived"
       }
     },
     "pilot": {

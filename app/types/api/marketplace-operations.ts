@@ -134,6 +134,27 @@ export interface SellerTrustDetail extends SellerTrustListItem {
   capacites: { sanctionner: boolean; arbitrer: boolean; rehabiliter: boolean }
 }
 
+export const SELLER_SANCTION_TYPES = ["avertissement", "surveillance", "suspension", "exclusion"] as const
+export type SellerSanctionType = (typeof SELLER_SANCTION_TYPES)[number]
+
+/** The backend requires a reason of 10 to 1000 characters for every sanction decision. */
+export const SANCTION_REASON_MIN = 10
+
+export interface SellerSanctionInput {
+  sellerId: string
+  type: SellerSanctionType
+  motif: string
+  /** ISO date; absent = until lifted. */
+  termineLe?: string
+}
+
+export interface SellerArbitrationInput {
+  sellerId: string
+  sanctionId: string
+  decision: "confirmee" | "levee"
+  motif: string
+}
+
 export interface SellerTrustPage {
   total: number
   page: number

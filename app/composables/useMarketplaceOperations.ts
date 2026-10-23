@@ -5,6 +5,8 @@ import type {
   SellerWithdrawalFilters,
   SellerWithdrawalsPage,
   CommissionAcquisitionResult,
+  SellerArbitrationInput,
+  SellerSanctionInput,
   SellerTrustDetail,
   SellerTrustFilters,
   SellerTrustPage,
@@ -131,7 +133,23 @@ export function useSellerTrustMutations() {
       }),
     onSuccess: (_data, variables) => invalidate(variables.sellerId),
   })
-  return { rehabilitate }
+  const sanction = useMutation({
+    mutationFn: ({ sellerId, ...body }: SellerSanctionInput) =>
+      apiWrite(`/marketplace/reputation/vendeurs/${encodeURIComponent(sellerId)}/sanctions`, {
+        method: "POST",
+        body: { ...body, preuves: [] },
+      }),
+    onSuccess: (_data, variables) => invalidate(variables.sellerId),
+  })
+  const arbitrate = useMutation({
+    mutationFn: ({ sanctionId, decision, motif }: SellerArbitrationInput) =>
+      apiWrite(`/marketplace/reputation/sanctions/${encodeURIComponent(sanctionId)}/arbitrage`, {
+        method: "POST",
+        body: { decision, motif },
+      }),
+    onSuccess: (_data, variables) => invalidate(variables.sellerId),
+  })
+  return { rehabilitate, sanction, arbitrate }
 }
 
 export function useSellerWithdrawals(filters: MaybeRefOrGetter<SellerWithdrawalFilters>) {

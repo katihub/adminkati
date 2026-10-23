@@ -1,23 +1,18 @@
 <script setup lang="ts">
 // fallow-ignore-file complexity code-duplication -- operations workspaces intentionally share a declarative responsive master-detail frame
 import type { SellerTrustFilters } from "@/types/api/marketplace-operations"
-import { computed, ref, watch } from "vue"
+import { computed, ref } from "vue"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import {
-  useSellerTrustDetail,
-  useSellerTrustList,
-  useSellerTrustMutations,
-} from "@/composables/useMarketplaceOperations"
+import { useSellerTrustDetail, useSellerTrustList } from "@/composables/useMarketplaceOperations"
 import { routeQueryString } from "@/utils/route-query"
 
 const route = useRoute()
 const { locale, t } = useI18n()
 const search = ref("")
 const status = ref<string | undefined>()
-const rehabilitationReason = ref("")
 const explicitId = computed(() => routeQueryString(route.query.vendeur) ?? null)
 const filters = computed<SellerTrustFilters>(() => ({
   ...(search.value.trim() ? { q: search.value.trim() } : {}),
@@ -27,14 +22,10 @@ const filters = computed<SellerTrustFilters>(() => ({
 const listQuery = useSellerTrustList(filters)
 const effectiveId = computed(() => explicitId.value ?? listQuery.data.value?.elements[0]?.id ?? null)
 const detailQuery = useSellerTrustDetail(effectiveId)
-const { rehabilitate } = useSellerTrustMutations()
+const sanctionOpen = ref(false)
 const dateFormatter = computed(
   () => new Intl.DateTimeFormat(locale.value, { day: "2-digit", month: "short", year: "numeric" }),
 )
-
-watch(effectiveId, () => {
-  rehabilitationReason.value = ""
-})
 
 function selectSeller(id: string) {
   void navigateTo({ path: route.path, query: { tab: "seller-trust", vendeur: id } })
@@ -42,14 +33,6 @@ function selectSeller(id: string) {
 
 function clearSelection() {
   void navigateTo({ path: route.path, query: { tab: "seller-trust" } })
-}
-
-function rehabilitateSeller() {
-  const detail = detailQuery.data.value
-  const sanction = detail?.sanctions.find(item => ["active", "contestee", "confirmee"].includes(item.statut))
-  const motif = rehabilitationReason.value.trim()
-  if (!detail || !sanction || !motif) return
-  rehabilitate.mutate({ sellerId: detail.id, sanctionId: sanction.id, motif })
 }
 </script>
 
@@ -163,9 +146,19 @@ function rehabilitateSeller() {
                 {{ detailQuery.data.value.boutiques.map(item => item.nom).join(", ") }}
               </p>
             </div>
-            <Button size="sm" variant="outline" :disabled="!detailQuery.data.value.capacites.sanctionner"
+            <Button
+              size="sm"
+              variant="outline"
+              :disabled="!detailQuery.data.value.capacites.sanctionner"
+              data-testid="seller-sanction-open"
+              @click="sanctionOpen = true"
               ><Icon name="ph:warning" /> {{ t("operations.trust.sanction") }}</Button
             >
+            <OperationsTrustSanctionDialog
+              v-model:open="sanctionOpen"
+              :seller-id="detailQuery.data.value.id"
+              :seller-name="detailQuery.data.value.nomLegal"
+            />
           </header>
 
           <div class="grid gap-4 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_280px]">
@@ -216,32 +209,12 @@ function rehabilitateSeller() {
                   </li>
                 </ol>
               </section>
-            </div>
-            <section class="h-fit rounded-lg border border-border bg-card p-4 xl:sticky xl:top-24">
-              <h3 class="font-heading text-base font-semibold">{{ t("operations.trust.decision") }}</h3>
-              <label for="rehabilitation-reason" class="mt-4 block text-sm font-medium">{{
-                t("operations.trust.decisionReason")
-              }}</label>
-              <textarea
-                id="rehabilitation-reason"
-                v-model="rehabilitationReason"
-                rows="5"
-                class="mt-2 w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              <OperationsTrustCatalogueExport
+                v-if="detailQuery.data.value.boutiques.length"
+                :shops="detailQuery.data.value.boutiques"
               />
-              <Button
-                class="mt-3 w-full"
-                :disabled="
-                  !detailQuery.data.value.capacites.rehabiliter ||
-                  !rehabilitationReason.trim() ||
-                  rehabilitate.isPending.value
-                "
-                @click="rehabilitateSeller"
-                ><Icon name="ph:shield-check" /> {{ t("operations.trust.rehabilitate") }}</Button
-              >
-              <Button class="mt-2 w-full" variant="outline" :disabled="!detailQuery.data.value.capacites.arbitrer"
-                ><Icon name="ph:scales" /> {{ t("operations.trust.arbitrate") }}</Button
-              >
-            </section>
+            </div>
+            <OperationsTrustDecisionPanel :seller="detailQuery.data.value" />
           </div>
         </div>
       </section>
