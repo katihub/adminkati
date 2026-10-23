@@ -314,6 +314,7 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                   </div>
                 </dl>
               </section>
+              <OperationsDisputeCustomer :demande="detailQuery.data.value.demande" />
               <section class="overflow-hidden rounded-lg border border-border bg-card">
                 <h3 class="px-4 pt-4 font-heading text-base font-semibold">{{ t("operations.disputes.items") }}</h3>
                 <div class="overflow-x-auto p-4">

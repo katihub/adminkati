@@ -28,7 +28,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 const sessionStringFields = ["accessToken", "refreshToken"] as const
 const userStringFields = ["userId", "membreId", "nom", "courriel"] as const
-const validRoles = ["direction", "comptoir", "preparation", "livreur"] as const
+const validRoles = ["direction", "comptoir", "preparation", "livreur", "point_focal"] as const
 
 function hasStringFields(value: Record<string, unknown>, fields: readonly string[]): boolean {
   return fields.every(field => typeof value[field] === "string")

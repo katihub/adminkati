@@ -61,6 +61,12 @@
       },
       "marketplaceOffers": {
         "label": "Catalogue marketplace"
+      },
+      "focalShops": {
+        "label": "Mes boutiques"
+      },
+      "focalPoints": {
+        "label": "Points focaux"
       }
     },
     "common": {
@@ -312,6 +318,13 @@
         "quarantine": "En analyse",
         "infected": "Bloquée : menace",
         "purged": "Effacée (conservation)"
+      },
+      "customer": {
+        "title": "Client",
+        "name": "Nom",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "address": "Adresse de livraison"
       }
     },
     "trust": {
@@ -1005,6 +1018,38 @@
         "expire": "Expiré",
         "abandonne": "Abandonné",
         "annule_defaillance": "Annulé (défaillance)"
+      }
+    },
+    "focal": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "shops": {
+        "title": "Mes boutiques",
+        "help": "Les boutiques que la direction vous a assignées. Leurs inscriptions, produits, litiges, devis, avis et agents sont dans les onglets ci-dessus, limités à ces boutiques.",
+        "empty": "Aucune boutique ne vous est encore assignée. La direction les attribue depuis l’onglet « Points focaux »."
+      },
+      "orders": {
+        "title": "Commandes de la boutique",
+        "empty": "Aucune commande pour cette boutique.",
+        "amount": "{amount} FCFA"
+      },
+      "points": {
+        "title": "Points focaux KATI",
+        "help": "Choisissez, boutique par boutique, le point focal qui traite ses demandes. Le rôle se donne dans la page Équipe.",
+        "unassigned": "Sans point focal",
+        "all": "Toutes les boutiques",
+        "count": "{count} boutique | {count} boutiques",
+        "inactive": "Inactif",
+        "none": "Aucun membre n’a encore le rôle Point focal KATI.",
+        "search": "Boutique, ville ou vendeur…",
+        "emptyShops": "Aucune boutique ne correspond."
+      },
+      "assign": {
+        "label": "Point focal de {shop}",
+        "none": "Aucun point focal",
+        "assigned": "{shop} est assignée.",
+        "removed": "{shop} n’a plus de point focal.",
+        "inactive": "Point focal inactif : à réassigner"
       }
     }
   }

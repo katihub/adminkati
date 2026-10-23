@@ -61,6 +61,12 @@
       },
       "marketplaceOffers": {
         "label": "Marketplace catalogue"
+      },
+      "focalShops": {
+        "label": "My shops"
+      },
+      "focalPoints": {
+        "label": "Focal points"
       }
     },
     "common": {
@@ -312,6 +318,13 @@
         "quarantine": "Being scanned",
         "infected": "Blocked: threat",
         "purged": "Erased (retention)"
+      },
+      "customer": {
+        "title": "Customer",
+        "name": "Name",
+        "email": "E-mail",
+        "phone": "Phone",
+        "address": "Delivery address"
       }
     },
     "trust": {
@@ -1005,6 +1018,38 @@
         "expire": "Expired",
         "abandonne": "Abandoned",
         "annule_defaillance": "Cancelled (failure)"
+      }
+    },
+    "focal": {
+      "previous": "Previous",
+      "next": "Next",
+      "shops": {
+        "title": "My shops",
+        "help": "The shops the direction assigned to you. Their onboarding, products, disputes, quotes, reviews and agents are in the tabs above, limited to these shops.",
+        "empty": "No shop is assigned to you yet. The direction assigns them from the “Focal points” tab."
+      },
+      "orders": {
+        "title": "Shop orders",
+        "empty": "No order for this shop.",
+        "amount": "{amount} FCFA"
+      },
+      "points": {
+        "title": "KATI focal points",
+        "help": "Pick, shop by shop, the focal point who handles its requests. The role itself is given on the Team page.",
+        "unassigned": "Without a focal point",
+        "all": "All shops",
+        "count": "{count} shop | {count} shops",
+        "inactive": "Inactive",
+        "none": "No member holds the KATI focal point role yet.",
+        "search": "Shop, city or seller…",
+        "emptyShops": "No shop matches."
+      },
+      "assign": {
+        "label": "Focal point of {shop}",
+        "none": "No focal point",
+        "assigned": "{shop} is assigned.",
+        "removed": "{shop} no longer has a focal point.",
+        "inactive": "Inactive focal point: reassign"
       }
     }
   }

@@ -8,6 +8,7 @@ export const adminDestinations = {
   finance: "/operations?tab=seller-finance",
   marketing: "/content",
   administration: "/team",
+  focal: "/operations?tab=focal-shops",
 } as const
 
 export type AdminDomain = keyof typeof adminDestinations
@@ -21,6 +22,8 @@ export const operationalDestinations = {
 } as const
 
 export const operationsDomainByTab: Readonly<Partial<Record<string, AdminDomain>>> = {
+  "focal-shops": "focal",
+  "focal-points": "sellers",
   "cash-registers": "finance",
   "customer-requests": "clients",
   "seller-onboarding": "sellers",

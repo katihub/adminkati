@@ -68,6 +68,7 @@ const fields = computed(() => {
       { value: "comptoir", label: t("team.roles.comptoir") },
       { value: "preparation", label: t("team.roles.preparation") },
       { value: "livreur", label: t("team.roles.livreur") },
+      { value: "point_focal", label: t("team.roles.point_focal") },
     ]),
     selectField("actif", t("team.filterBar.activityLabel"), t("team.filterBar.activityOperatorIs"), PhListChecks, [
       { value: "true", label: t("team.filterBar.active") },

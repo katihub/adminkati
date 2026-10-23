@@ -18,6 +18,15 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.pilotage,
     routeNames: ["index"],
     icon: "ph:chart-donut",
+    roles: ["direction", "comptoir", "preparation", "livreur"],
+  },
+  {
+    id: "focal",
+    labelKey: "admin.navigation.focal",
+    to: adminDestinations.focal,
+    routeNames: [],
+    icon: "ph:map-pin-area",
+    roles: ["point_focal"],
   },
   {
     id: "commerce",

@@ -56,7 +56,24 @@ describe("admin navigation visibility", () => {
   })
 
   it("withholds every role-gated destination from a session that has not loaded", () => {
-    expect(idsFor(null)).toEqual(["pilotage", "administration"])
+    expect(idsFor(null)).toEqual(["administration"])
+  })
+
+  it("gives a KATI focal point its shops and the team directory, but no dashboard", () => {
+    expect(idsFor(sessionWith("point_focal"))).toEqual(["focal", "administration"])
+  })
+
+  it("adds the focal point's shops to a counter who also holds the role", () => {
+    expect(idsFor(sessionWith("comptoir", "point_focal"))).toEqual([
+      "pilotage",
+      "focal",
+      "commerce",
+      "catalogue",
+      "sellers",
+      "clients",
+      "marketing",
+      "administration",
+    ])
   })
 
   it("admits an item when any one of the caller's roles satisfies its gate", () => {

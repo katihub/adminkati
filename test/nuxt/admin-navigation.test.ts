@@ -4,6 +4,9 @@ import { flushPromises } from "@vue/test-utils"
 import { afterEach, describe, expect, it } from "vitest"
 import { adminNavigationItems } from "@/utils/admin-navigation"
 
+/** The focal point's own destination is the only one the direction does not see. */
+const rolesFor = (itemId: string): Role[] => (itemId === "focal" ? ["point_focal"] : ["direction"])
+
 function signIn(...roles: Role[]) {
   useNuxtApp().$queryClient.setQueryData(["v1", "moi"], {
     type: "equipe",
@@ -42,7 +45,7 @@ describe("admin navigation destinations", () => {
    */
   it("routes every navigation destination to a page that renders inside the admin shell", async () => {
     for (const item of adminNavigationItems) {
-      signIn("direction")
+      signIn(...rolesFor(item.id))
       const wrapper = await mountAppAt(item.to)
 
       expect(wrapper.find("[data-testid='admin-shell']").exists()).toBe(true)
@@ -68,10 +71,11 @@ describe("admin navigation destinations", () => {
       finance: "/fr/operations?tab=seller-finance",
       marketing: "/fr/contenu",
       administration: "/fr/equipe",
+      focal: "/fr/operations?tab=focal-shops",
     }
 
     for (const item of adminNavigationItems) {
-      signIn("direction")
+      signIn(...rolesFor(item.id))
       const wrapper = await mountAppAt(frenchPaths[item.id]!)
 
       expect(wrapper.find("[data-testid='admin-shell']").exists()).toBe(true)
@@ -91,7 +95,7 @@ describe("admin navigation rendering", () => {
     signIn("direction")
     const wrapper = await mountAppAt("/")
 
-    expect(desktopIds(wrapper)).toEqual(adminNavigationItems.map(item => item.id))
+    expect(desktopIds(wrapper)).toEqual(adminNavigationItems.filter(item => item.id !== "focal").map(item => item.id))
 
     wrapper.unmount()
   })

@@ -4,6 +4,7 @@ import type { Comptoir } from "@/types/api/vitrine"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { TEAM_PHONE_PLACEHOLDER } from "@/composables/useTeamPhone"
+import { TEAM_ROLES } from "@/types/api/equipe"
 
 const { comptoirs, pending, submitted, errorMessage, courrielError, nomError, rolesError, telephoneError } =
   defineProps<{
@@ -26,8 +27,6 @@ const roles = defineModel<TeamRole[]>("roles", { required: true })
 const selectedComptoirs = defineModel<string[]>("selectedComptoirs", { required: true })
 
 const { t } = useI18n()
-
-const TEAM_ROLES: TeamRole[] = ["direction", "comptoir", "preparation", "livreur"]
 
 /** Les messages ne s'affichent qu'après une tentative : un formulaire vide n'est pas une faute. */
 function fieldError(message: string) {

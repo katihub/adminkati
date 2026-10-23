@@ -32,7 +32,8 @@
       "direction": "Direction",
       "comptoir": "Counter",
       "preparation": "Preparation",
-      "livreur": "Delivery"
+      "livreur": "Delivery",
+      "point_focal": "KATI focal point"
     },
     "listPanel": {
       "empty": "No team members",

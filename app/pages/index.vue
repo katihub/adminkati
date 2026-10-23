@@ -20,6 +20,12 @@ const { periode } = usePeriode()
 const queryClient = useNuxtApp().$queryClient
 const session = useCachedSession(queryClient)
 const canViewCustomerSearches = computed(() => session.value?.roles.includes("direction") ?? false)
+
+// A KATI focal point has no dashboard here: its work starts with the shops it was assigned.
+const sessionRoles = session.value?.roles ?? []
+if (sessionRoles.length && sessionRoles.every(role => role === "point_focal")) {
+  await navigateTo(useLocalePath()({ path: "/operations", query: { tab: "focal-shops" } }), { replace: true })
+}
 const customerSearchDays = ref<CustomerSearchPeriod>(30)
 
 if (import.meta.server) {

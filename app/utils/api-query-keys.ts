@@ -33,6 +33,7 @@ const reportedReviews = ["v1", "marketplace", "reputation", "avis", "a-moderer"]
 const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] as const
 const marketplacePilots = ["v1", "marketplace", "deploiement", "pilotes"] as const
 const outboundNotifications = ["v1", "notifications"] as const
+const focalPoints = ["v1", "points-focaux"] as const
 
 export const apiQueryKeys = {
   products: {
@@ -182,5 +183,12 @@ export const apiQueryKeys = {
     all: outboundNotifications,
     summary: [...outboundNotifications, "synthese"] as const,
     list: (params: QueryParams = {}) => [...outboundNotifications, "liste", params] as const,
+  },
+  focalPoints: {
+    all: focalPoints,
+    members: [...focalPoints, "membres"] as const,
+    shops: (params: QueryParams = {}) => [...focalPoints, "boutiques", params] as const,
+    mine: [...focalPoints, "mes-boutiques"] as const,
+    orders: (shopId: string | null, page: number) => [...focalPoints, "commandes", shopId, page] as const,
   },
 } as const

@@ -1,5 +1,13 @@
-/** Mirrors `prisma/schema.prisma:256-263` in the backend. */
-export type TeamRole = "direction" | "comptoir" | "preparation" | "livreur"
+/**
+ * Mirrors the `Role` enum of the backend schema. `point_focal` represents
+ * KatiMarket in a region and only handles the shops the direction assigns it.
+ */
+export const TEAM_ROLES = ["direction", "comptoir", "preparation", "livreur", "point_focal"] as const
+export type TeamRole = (typeof TEAM_ROLES)[number]
+
+export function isTeamRole(value: unknown): value is TeamRole {
+  return TEAM_ROLES.includes(value as TeamRole)
+}
 export type TeamSort = "nom" | "recent"
 
 /** Mirrors `src/equipe/equipe.dto.ts:83-103` in the backend. */

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir"] })
+definePageMeta({ layout: "admin", roles: ["direction", "comptoir", "point_focal"] })
 
 defineI18nRoute({
   paths: {
@@ -16,6 +16,8 @@ const session = useCachedSession()
 const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
 
 const QUERY_TABS = [
+  "focal-shops",
+  "focal-points",
   "customer-requests",
   "seller-onboarding",
   "marketplace-catalogue",
@@ -39,28 +41,45 @@ const QUERY_TABS = [
   "outbound-notifications",
 ] as const
 type OperationsTab = "cash-registers" | (typeof QUERY_TABS)[number]
-const DIRECTION_TABS: ReadonlySet<OperationsTab> = new Set([
-  "marketplace-offers",
-  "marketplace-categories",
-  "delivery-fees",
-  "localities",
+
+/* WHO SEES WHICH TAB. The counter keeps its desk; the KATI focal point gets
+   the requests of its shops (the backend narrows every list to them); the
+   direction sees everything except "My shops", which only means something to
+   a focal point. A member holding several roles gets the union. */
+const COUNTER_TABS: readonly OperationsTab[] = [
+  "cash-registers",
+  "customer-requests",
+  "seller-onboarding",
+  "marketplace-catalogue",
+  "marketplace-disputes",
+  "seller-trust",
+]
+const FOCAL_TABS: readonly OperationsTab[] = [
+  "focal-shops",
+  "seller-onboarding",
+  "marketplace-catalogue",
+  "marketplace-disputes",
   "shop-agents",
   "verified-offers",
-  "refused-lines",
-  "kati-points",
-  "order-services",
-  "installment-plans",
   "marketplace-quotes",
   "reported-reviews",
-  "legal-closure",
-  "seller-finance",
-  "marketplace-pilot",
-  "outbound-notifications",
-])
+]
+const allowedTabs = computed<ReadonlySet<OperationsTab>>(() => {
+  const roles = session.value?.roles ?? []
+  const allowed = new Set<OperationsTab>()
+  if (isDirection.value) for (const tab of ["cash-registers", ...QUERY_TABS] as const) allowed.add(tab)
+  if (isDirection.value || roles.includes("comptoir")) for (const tab of COUNTER_TABS) allowed.add(tab)
+  if (roles.includes("point_focal")) for (const tab of FOCAL_TABS) allowed.add(tab)
+  else allowed.delete("focal-shops")
+  return allowed
+})
+const defaultTab = computed<OperationsTab>(() =>
+  allowedTabs.value.has("cash-registers") ? "cash-registers" : "focal-shops",
+)
 
 function tabFromQuery(value: unknown): OperationsTab {
   const tab = QUERY_TABS.find(candidate => candidate === value)
-  return tab && DIRECTION_TABS.has(tab) && !isDirection.value ? "cash-registers" : (tab ?? "cash-registers")
+  return tab && allowedTabs.value.has(tab) ? tab : defaultTab.value
 }
 
 const activeTab = ref<OperationsTab>(tabFromQuery(route.query.tab))
@@ -70,11 +89,17 @@ watch(
     activeTab.value = tabFromQuery(value)
   },
 )
-watch(isDirection, allowed => {
-  if (!allowed && DIRECTION_TABS.has(activeTab.value)) setActiveTab("cash-registers")
+watch(allowedTabs, allowed => {
+  if (!allowed.has(activeTab.value)) setActiveTab(defaultTab.value)
 })
 
-const tabs = computed(() => [
+const ALL_TABS = computed(() => [
+  {
+    value: "focal-shops",
+    label: t("operations.tabs.focalShops.label"),
+    icon: "ph:map-pin-area",
+    testid: "operations-tab-focal-shops",
+  },
   {
     value: "cash-registers",
     label: t("operations.tabs.cashRegisters.label"),
@@ -111,114 +136,117 @@ const tabs = computed(() => [
     icon: "ph:shield-check",
     testid: "operations-tab-seller-trust",
   },
-  ...(isDirection.value
-    ? [
-        {
-          value: "marketplace-offers",
-          label: t("operations.tabs.marketplaceOffers.label"),
-          icon: "ph:package",
-          testid: "operations-tab-marketplace-offers",
-        },
-        {
-          value: "marketplace-categories",
-          label: t("operations.tabs.marketplaceCategories.label"),
-          icon: "ph:tree-structure",
-          testid: "operations-tab-marketplace-categories",
-        },
-        {
-          value: "delivery-fees",
-          label: t("operations.tabs.deliveryFees.label"),
-          icon: "ph:truck",
-          testid: "operations-tab-delivery-fees",
-        },
-        {
-          value: "localities",
-          label: t("operations.tabs.localities.label"),
-          icon: "ph:map-pin",
-          testid: "operations-tab-localities",
-        },
-        {
-          value: "shop-agents",
-          label: t("operations.tabs.shopAgents.label"),
-          icon: "ph:user-check",
-          testid: "operations-tab-shop-agents",
-        },
-        {
-          value: "verified-offers",
-          label: t("operations.tabs.verifiedOffers.label"),
-          icon: "ph:seal-check",
-          testid: "operations-tab-verified-offers",
-        },
-        {
-          value: "refused-lines",
-          label: t("operations.tabs.refusedLines.label"),
-          icon: "ph:receipt-x",
-          testid: "operations-tab-refused-lines",
-        },
-        {
-          value: "kati-points",
-          label: t("operations.tabs.katiPoints.label"),
-          icon: "ph:coins",
-          testid: "operations-tab-kati-points",
-        },
-        {
-          value: "order-services",
-          label: t("operations.tabs.orderServices.label"),
-          icon: "ph:shield-plus",
-          testid: "operations-tab-order-services",
-        },
-        {
-          value: "installment-plans",
-          label: t("operations.tabs.installmentPlans.label"),
-          icon: "ph:calendar-check",
-          testid: "operations-tab-installment-plans",
-        },
-        {
-          value: "marketplace-quotes",
-          label: t("operations.tabs.marketplaceQuotes.label"),
-          icon: "ph:file-text",
-          testid: "operations-tab-marketplace-quotes",
-        },
-        {
-          value: "reported-reviews",
-          label: t("operations.tabs.reportedReviews.label"),
-          icon: "ph:flag",
-          testid: "operations-tab-reported-reviews",
-        },
-        {
-          value: "seller-finance",
-          label: "Finances vendeurs",
-          icon: "ph:wallet",
-          testid: "operations-tab-seller-finance",
-        },
-        {
-          value: "legal-closure",
-          label: "Clôture juridique P0",
-          icon: "ph:seal-check",
-          testid: "operations-tab-legal-closure",
-        },
-        {
-          value: "marketplace-pilot",
-          label: t("operations.tabs.marketplacePilot.label"),
-          icon: "ph:flag-banner",
-          testid: "operations-tab-marketplace-pilot",
-        },
-        {
-          value: "outbound-notifications",
-          label: t("operations.tabs.outboundNotifications.label"),
-          icon: "ph:envelope-simple",
-          testid: "operations-tab-outbound-notifications",
-        },
-      ]
-    : []),
+  {
+    value: "focal-points",
+    label: t("operations.tabs.focalPoints.label"),
+    icon: "ph:users-three",
+    testid: "operations-tab-focal-points",
+  },
+  {
+    value: "marketplace-offers",
+    label: t("operations.tabs.marketplaceOffers.label"),
+    icon: "ph:package",
+    testid: "operations-tab-marketplace-offers",
+  },
+  {
+    value: "marketplace-categories",
+    label: t("operations.tabs.marketplaceCategories.label"),
+    icon: "ph:tree-structure",
+    testid: "operations-tab-marketplace-categories",
+  },
+  {
+    value: "delivery-fees",
+    label: t("operations.tabs.deliveryFees.label"),
+    icon: "ph:truck",
+    testid: "operations-tab-delivery-fees",
+  },
+  {
+    value: "localities",
+    label: t("operations.tabs.localities.label"),
+    icon: "ph:map-pin",
+    testid: "operations-tab-localities",
+  },
+  {
+    value: "shop-agents",
+    label: t("operations.tabs.shopAgents.label"),
+    icon: "ph:user-check",
+    testid: "operations-tab-shop-agents",
+  },
+  {
+    value: "verified-offers",
+    label: t("operations.tabs.verifiedOffers.label"),
+    icon: "ph:seal-check",
+    testid: "operations-tab-verified-offers",
+  },
+  {
+    value: "refused-lines",
+    label: t("operations.tabs.refusedLines.label"),
+    icon: "ph:receipt-x",
+    testid: "operations-tab-refused-lines",
+  },
+  {
+    value: "kati-points",
+    label: t("operations.tabs.katiPoints.label"),
+    icon: "ph:coins",
+    testid: "operations-tab-kati-points",
+  },
+  {
+    value: "order-services",
+    label: t("operations.tabs.orderServices.label"),
+    icon: "ph:shield-plus",
+    testid: "operations-tab-order-services",
+  },
+  {
+    value: "installment-plans",
+    label: t("operations.tabs.installmentPlans.label"),
+    icon: "ph:calendar-check",
+    testid: "operations-tab-installment-plans",
+  },
+  {
+    value: "marketplace-quotes",
+    label: t("operations.tabs.marketplaceQuotes.label"),
+    icon: "ph:file-text",
+    testid: "operations-tab-marketplace-quotes",
+  },
+  {
+    value: "reported-reviews",
+    label: t("operations.tabs.reportedReviews.label"),
+    icon: "ph:flag",
+    testid: "operations-tab-reported-reviews",
+  },
+  {
+    value: "seller-finance",
+    label: "Finances vendeurs",
+    icon: "ph:wallet",
+    testid: "operations-tab-seller-finance",
+  },
+  {
+    value: "legal-closure",
+    label: "Clôture juridique P0",
+    icon: "ph:seal-check",
+    testid: "operations-tab-legal-closure",
+  },
+  {
+    value: "marketplace-pilot",
+    label: t("operations.tabs.marketplacePilot.label"),
+    icon: "ph:flag-banner",
+    testid: "operations-tab-marketplace-pilot",
+  },
+  {
+    value: "outbound-notifications",
+    label: t("operations.tabs.outboundNotifications.label"),
+    icon: "ph:envelope-simple",
+    testid: "operations-tab-outbound-notifications",
+  },
 ])
+const tabs = computed(() => ALL_TABS.value.filter(tab => allowedTabs.value.has(tab.value as OperationsTab)))
 
 function setActiveTab(value: string) {
   const nextTab = tabFromQuery(value)
   activeTab.value = nextTab
   void navigateTo({
     path: route.path,
-    query: nextTab === "cash-registers" ? {} : { tab: nextTab },
+    query: nextTab === defaultTab.value ? {} : { tab: nextTab },
   })
 }
 
@@ -253,6 +281,8 @@ useHead({
     </div>
 
     <OperationsCashRegistersWorkspace v-if="activeTab === 'cash-registers'" />
+    <OperationsFocalShopsWorkspace v-else-if="activeTab === 'focal-shops'" />
+    <OperationsFocalPointsWorkspace v-else-if="activeTab === 'focal-points'" />
     <OperationsCustomerRequestsWorkspace v-else-if="activeTab === 'customer-requests'" />
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />

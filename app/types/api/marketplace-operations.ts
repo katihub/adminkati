@@ -1,3 +1,5 @@
+import type { AdresseFigee } from "./commandes"
+
 export type MarketplaceReturnStatus = "demande" | "autorise" | "refuse" | "en_transit" | "recu" | "rembourse"
 export type PspRefundStatus = "prepare" | "soumis" | "reussi" | "echec" | "verification_requise"
 
@@ -28,9 +30,10 @@ export interface MarketplaceReturnListItem {
     objet: string
     categorie: string
     statut: string
-    client: { courriel: string | null; profil: { nom: string | null } | null }
+    client: { courriel: string | null; profil: { nom: string | null; telephone?: string | null } | null }
     boutique: { id: string; nom: string }
-    commande: { id: string; reference: string }
+    /** The detail adds the delivery address and phone: the focal point needs them to work the case. */
+    commande: { id: string; reference: string; adresseFigee?: AdresseFigee | null; telephoneLivraison?: string | null }
     expedition: { id: string; reference: string } | null
   }
 }

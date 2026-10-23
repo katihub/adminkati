@@ -266,7 +266,8 @@
         "direction": "Direction",
         "comptoir": "Comptoir",
         "preparation": "Préparation",
-        "livreur": "Livreur"
+        "livreur": "Livreur",
+        "point_focal": "Point focal KATI"
       },
       "rolesSaved": "Rôles de rédaction enregistrés.",
       "save": "Enregistrer",

@@ -16,6 +16,7 @@ import { prefetchApi } from "@/composables/useApi"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { prefetchTeam, useTeam, useTeamMember } from "@/composables/useTeam"
 import { useTeamMutations } from "@/composables/useTeamMutations"
+import { isTeamRole } from "@/types/api/equipe"
 import { apiErrorText } from "@/utils/api-error"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { routeQueryString, routeQueryUuid } from "@/utils/route-query"
@@ -37,7 +38,7 @@ const session = useCachedSession()
 
 function teamRole(value: unknown): TeamRole | undefined {
   const role = routeQueryString(value)
-  return role === "direction" || role === "comptoir" || role === "preparation" || role === "livreur" ? role : undefined
+  return isTeamRole(role) ? role : undefined
 }
 
 function teamSort(value: unknown): TeamSort {
@@ -156,10 +157,7 @@ const toolbarFilters = computed<Filter[]>({
     const activeValue = chip("actif")
     const sortValue = chip("tri")
     const nextSearch = typeof searchValue === "string" ? searchValue : ""
-    const nextRole =
-      roleValue === "direction" || roleValue === "comptoir" || roleValue === "preparation" || roleValue === "livreur"
-        ? roleValue
-        : undefined
+    const nextRole = isTeamRole(roleValue) ? roleValue : undefined
     const nextActive = activeValue === "true" ? true : activeValue === "false" ? false : undefined
     const nextSort = sortValue === "recent" ? "recent" : "nom"
 

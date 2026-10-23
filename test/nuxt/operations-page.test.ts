@@ -4,6 +4,8 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest"
 
 const operationsWorkspaceStubs = {
   OperationsCashRegistersWorkspace: { template: '<div data-testid="operations-cash-registers-workspace" />' },
+  OperationsFocalShopsWorkspace: { template: '<div data-testid="operations-focal-shops-workspace" />' },
+  OperationsFocalPointsWorkspace: { template: '<div data-testid="operations-focal-points-workspace" />' },
   OperationsCustomerRequestsWorkspace: { template: '<div data-testid="operations-customer-requests-workspace" />' },
   OperationsSellerOnboardingWorkspace: { template: '<div data-testid="operations-seller-onboarding-workspace" />' },
   OperationsMarketplaceCatalogueModerationWorkspace: {
@@ -57,6 +59,8 @@ const operationsWorkspaceStubs = {
 }
 
 const workspaces = [
+  "focal-shops",
+  "focal-points",
   "cash-registers",
   "customer-requests",
   "seller-onboarding",
@@ -132,6 +136,7 @@ describe("operations page tabs", () => {
     ["legal-closure", "/operations?tab=legal-closure"],
     ["marketplace-pilot", "/operations?tab=marketplace-pilot"],
     ["outbound-notifications", "/operations?tab=outbound-notifications"],
+    ["focal-points", "/operations?tab=focal-points"],
   ] as const)("opens only the %s workspace from its shareable URL", async (activeWorkspace, route) => {
     const wrapper = await mountOperations(route)
 
@@ -211,6 +216,56 @@ describe("operations page tabs", () => {
     expect(wrapper.find(`[data-testid='operations-tab-${workspace}']`).exists()).toBe(false)
     expect(wrapper.find(`[data-testid='operations-${workspace}-workspace']`).exists()).toBe(false)
     expect(wrapper.find("[data-testid='operations-cash-registers-workspace']").exists()).toBe(true)
+
+    wrapper.unmount()
+  })
+
+  it("opens a KATI focal point on its shops, with only the tabs of its shops", async () => {
+    const wrapper = await mountOperations("/operations", ["point_focal"])
+
+    expect(wrapper.find("[data-testid='operations-focal-shops-workspace']").exists()).toBe(true)
+    const visible = wrapper
+      .findAll("[data-testid^='operations-tab-']")
+      .map(tab => tab.attributes("data-testid")?.replace("operations-tab-", ""))
+      .filter(id => !id?.endsWith("-icon"))
+    expect(visible).toEqual([
+      "focal-shops",
+      "seller-onboarding",
+      "marketplace-catalogue",
+      "marketplace-disputes",
+      "shop-agents",
+      "verified-offers",
+      "marketplace-quotes",
+      "reported-reviews",
+    ])
+
+    wrapper.unmount()
+  })
+
+  it.each([
+    "cash-registers",
+    "kati-points",
+    "seller-finance",
+    "seller-trust",
+    "focal-points",
+    "installment-plans",
+  ] as const)("keeps the %s workspace closed to a KATI focal point", async workspace => {
+    const wrapper = await mountOperations(`/operations?tab=${workspace}`, ["point_focal"])
+
+    expect(wrapper.find(`[data-testid='operations-tab-${workspace}']`).exists()).toBe(false)
+    expect(wrapper.find(`[data-testid='operations-${workspace}-workspace']`).exists()).toBe(false)
+    expect(wrapper.find("[data-testid='operations-focal-shops-workspace']").exists()).toBe(true)
+
+    wrapper.unmount()
+  })
+
+  it("gives a counter who is also a focal point the union of both desks", async () => {
+    const wrapper = await mountOperations("/operations?tab=marketplace-quotes", ["comptoir", "point_focal"])
+
+    expect(wrapper.find("[data-testid='operations-marketplace-quotes-workspace']").exists()).toBe(true)
+    expect(wrapper.find("[data-testid='operations-tab-cash-registers']").exists()).toBe(true)
+    expect(wrapper.find("[data-testid='operations-tab-focal-shops']").exists()).toBe(true)
+    expect(wrapper.find("[data-testid='operations-tab-kati-points']").exists()).toBe(false)
 
     wrapper.unmount()
   })

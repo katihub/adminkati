@@ -3,7 +3,7 @@ export type SiteTextType = "legal" | "editorial" | "faq" | "courriel"
 export type SiteTextStatus = "brouillon" | "soumis" | "publie" | "archive"
 export type SiteTextEnglish = "absent" | "a_jour" | "a_mettre_a_jour"
 export type SiteTextChange = "mineur" | "important"
-export type TeamRole = "direction" | "comptoir" | "preparation" | "livreur"
+export type TeamRole = "direction" | "comptoir" | "preparation" | "livreur" | "point_focal"
 
 export interface PageBlock {
   titre: string

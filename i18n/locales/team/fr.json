@@ -32,7 +32,8 @@
       "direction": "Direction",
       "comptoir": "Comptoir",
       "preparation": "Préparation",
-      "livreur": "Livraison"
+      "livreur": "Livraison",
+      "point_focal": "Point focal KATI"
     },
     "listPanel": {
       "empty": "Aucun membre",

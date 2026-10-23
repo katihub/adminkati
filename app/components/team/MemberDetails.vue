@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useComptoirs } from "@/composables/usePointsVente"
 import { isTeamPhoneValid, TEAM_PHONE_PLACEHOLDER } from "@/composables/useTeamPhone"
+import { TEAM_ROLES } from "@/types/api/equipe"
 import { buildTeamMemberUpdate } from "@/utils/team-member-update"
 
 const props = defineProps<{
@@ -26,7 +27,7 @@ const selectedComptoirs = ref<string[]>([])
 const roles = ref<TeamRole[]>([])
 const { comptoirs } = useComptoirs()
 const errorMessage = ref<string | null>(null)
-const teamRoles: TeamRole[] = ["direction", "comptoir", "preparation", "livreur"]
+const teamRoles: readonly TeamRole[] = TEAM_ROLES
 const roleOptions = computed(() =>
   teamRoles.map(role => ({
     id: role,
