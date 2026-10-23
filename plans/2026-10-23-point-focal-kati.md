@@ -1,6 +1,6 @@
 # Point focal KATI : un représentant régional limité à ses boutiques
 
-Statut : validé le 23 octobre 2026, en cours de réalisation.
+Statut : validé et réalisé le 23 octobre 2026 (lots 1 à 7) ; compte rendu dans `walkthroughs/2026-10-23-point-focal-kati.md`.
 
 ## Le besoin
 
