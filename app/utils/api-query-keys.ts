@@ -158,6 +158,7 @@ export const apiQueryKeys = {
     client: (id: string | null) => [...kati, "client", id] as const,
     sponsorships: (filter: string) => [...kati, "parrainages", filter] as const,
     policies: [...kati, "politiques"] as const,
+    transfers: (filters: object) => [...kati, "transferts", filters] as const,
   },
   refusedLines: {
     all: refusedLines,

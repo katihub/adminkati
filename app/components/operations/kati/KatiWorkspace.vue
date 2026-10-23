@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 
-/* THE KATI POINTS ADMINISTRATION. Four views of one programme: what it holds
-   and costs, each client's balance and history, the sponsorships and the
-   commissions under review, and the versioned policy that sets every rate. */
-type Section = "overview" | "clients" | "sponsorships" | "policy"
+/* THE KATI POINTS ADMINISTRATION. Five views of one programme: what it holds
+   and costs, each client's balance and history, the transfers between clients,
+   the sponsorships and the commissions under review, and the versioned policy
+   that sets every rate. */
+type Section = "overview" | "clients" | "transfers" | "sponsorships" | "policy"
 
 const { t } = useI18n()
-const SECTIONS: Section[] = ["overview", "clients", "sponsorships", "policy"]
+const SECTIONS: Section[] = ["overview", "clients", "transfers", "sponsorships", "policy"]
 const section = ref<Section>("overview")
 const labels = computed<Record<Section, string>>(() => ({
   overview: t("operations.kati.sections.overview"),
   clients: t("operations.kati.sections.clients"),
+  transfers: t("operations.kati.sections.transfers"),
   sponsorships: t("operations.kati.sections.sponsorships"),
   policy: t("operations.kati.sections.policy"),
 }))
@@ -39,6 +41,7 @@ const labels = computed<Record<Section, string>>(() => ({
     <div class="min-h-0 flex-1 overflow-y-auto border-t border-border bg-muted/60 p-4 sm:p-6 lg:px-10">
       <OperationsKatiOverview v-if="section === 'overview'" @open="value => (section = value)" />
       <OperationsKatiClients v-else-if="section === 'clients'" />
+      <OperationsKatiTransfers v-else-if="section === 'transfers'" />
       <OperationsKatiSponsorships v-else-if="section === 'sponsorships'" />
       <OperationsKatiPolicy v-else />
     </div>

@@ -41,6 +41,8 @@ const TYPE_KEYS: Record<KatiOperationType, string> = {
   expiration: "operations.kati.types.expiration",
   correction: "operations.kati.types.correction",
   ajustement: "operations.kati.types.ajustement",
+  transfert: "operations.kati.types.transfert",
+  restitution: "operations.kati.types.restitution",
 }
 const formError = computed(() => {
   if (!Number.isInteger(form.points) || form.points <= 0) return t("operations.kati.clients.pointsInvalid")

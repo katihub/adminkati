@@ -55,6 +55,8 @@ export type KatiOperationType =
   | "expiration"
   | "correction"
   | "ajustement"
+  | "transfert"
+  | "restitution"
 
 export interface KatiOperation {
   id: string
@@ -66,6 +68,40 @@ export interface KatiOperation {
   disponible: number
   enAttente: number
   reserve: number
+}
+
+export interface KatiTransferParty {
+  id: string
+  nom: string | null
+  courriel: string | null
+  telephone: string | null
+}
+
+export interface KatiTransfer {
+  id: string
+  creeLe: string
+  points: number
+  valeurFcfa: number
+  expediteur: KatiTransferParty
+  destinataire: KatiTransferParty
+}
+
+export interface KatiTransferFilters {
+  recherche?: string
+  /** Inclusive calendar days, YYYY-MM-DD. */
+  du?: string
+  au?: string
+  page?: number
+}
+
+export interface KatiTransfersPage {
+  total: number
+  page: number
+  taille: number
+  pages: number
+  /** Over every transfer matching the filters, not only this page. */
+  totaux: { transferts: number; points: number; valeurFcfa: number }
+  elements: KatiTransfer[]
 }
 
 interface PersonRef {

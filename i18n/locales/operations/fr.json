@@ -744,6 +744,7 @@
         "label": "Sections des points KATI",
         "overview": "Vue d’ensemble",
         "clients": "Clients",
+        "transfers": "Transferts",
         "sponsorships": "Parrainages",
         "policy": "Politique"
       },
@@ -773,7 +774,9 @@
         "annulation": "Repris",
         "expiration": "Expiré",
         "correction": "Correction",
-        "ajustement": "Ajustement KatiMarket"
+        "ajustement": "Ajustement KatiMarket",
+        "transfert": "Transfert entre clients",
+        "restitution": "Restitué"
       },
       "clients": {
         "search": "Rechercher un client : nom, e-mail ou téléphone…",
@@ -856,6 +859,17 @@
         "confirmHelp": "Elle s’applique aux prochains gains, dès maintenant. La politique actuelle est archivée.",
         "history": "Historique des versions",
         "version": "v{version}"
+      },
+      "transfers": {
+        "search": "Expéditeur ou destinataire : nom, e-mail, téléphone…",
+        "from": "Du",
+        "to": "Au",
+        "totals": "{count} transfert, {points} KATI ({fcfa} FCFA) | {count} transferts, {points} KATI ({fcfa} FCFA)",
+        "empty": "Aucun transfert de KATI ne correspond.",
+        "points": "{points} KATI",
+        "previous": "Précédent",
+        "next": "Suivant",
+        "valueAndDate": "{fcfa} FCFA · {date}"
       }
     },
     "orderServices": {

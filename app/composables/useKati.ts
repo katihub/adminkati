@@ -7,9 +7,11 @@ import type {
   KatiPolicy,
   KatiRules,
   KatiSponsorship,
+  KatiTransferFilters,
+  KatiTransfersPage,
 } from "@/types/api/kati"
 import type { MaybeRefOrGetter } from "vue"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { computed, toValue } from "vue"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 
@@ -40,6 +42,17 @@ export function useKatiClientSheet(clientId: MaybeRefOrGetter<string | null>) {
     queryKey: computed(() => apiQueryKeys.kati.client(id.value)),
     queryFn: () => apiFetch(`${BASE}/administration/clients/${encodeURIComponent(id.value!)}`),
     enabled: computed(() => Boolean(id.value)),
+  })
+}
+
+/** Every KATI transfer between clients, newest first. */
+export function useKatiTransfers(filters: MaybeRefOrGetter<KatiTransferFilters>) {
+  const apiFetch = useApiFetch()
+  const query = computed(() => toValue(filters))
+  return useQuery<KatiTransfersPage>({
+    queryKey: computed(() => apiQueryKeys.kati.transfers(query.value)),
+    queryFn: () => apiFetch(`${BASE}/administration/transferts`, { query: query.value }),
+    placeholderData: keepPreviousData,
   })
 }
 
