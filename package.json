@@ -42,7 +42,6 @@
     "@tanstack/vue-query": "^5.102.8",
     "@unovis/ts": "1.6.7",
     "@unovis/vue": "1.6.7",
-    "@vercel/analytics": "2.0.1",
     "@vueuse/core": "^14.4.0",
     "@vueuse/nuxt": "14.4.0",
     "class-variance-authority": "^0.7.1",
@@ -99,5 +98,8 @@
       "oxfmt --no-error-on-unmatched-pattern"
     ],
     "*.{json,jsonc,yml,yaml,toml}": "oxfmt --no-error-on-unmatched-pattern"
+  },
+  "overrides": {
+    "xss": "1.0.15"
   }
 }

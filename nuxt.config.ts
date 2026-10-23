@@ -70,7 +70,6 @@ export default defineNuxtConfig({
     "@nuxt/test-utils",
     "@nuxtjs/color-mode",
     "@pinia/nuxt",
-    "@vercel/analytics",
     "@vueuse/nuxt",
     "dayjs-nuxt",
     "evlog",
