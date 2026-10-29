@@ -75,7 +75,19 @@
       "settled": "Settled",
       "call": "Call",
       "assignedCourier": "Assigned courier",
-      "collect": "Collect"
+      "collect": "Collect",
+      "mobileMoney": {
+        "title": "Request a mobile money payment",
+        "help": "The prompt goes to the customer’s phone, who enters their code. The balance drops by itself once Kratospay confirms; no cash is collected.",
+        "phone": "Customer number",
+        "operator": "Operator",
+        "auto": "Automatic (from the number)",
+        "send": "Send the request",
+        "sent": "Request sent: the customer enters their code.",
+        "paid": "Payment confirmed by Kratospay.",
+        "orange": "Orange Money",
+        "mtn": "MTN Mobile Money"
+      }
     },
     "deliveryModes": {
       "retrait": "Pickup",

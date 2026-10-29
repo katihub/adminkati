@@ -66,8 +66,9 @@ function retry() {
         @click="action = 'failure'"
         >{{ t("operations.installments.plans.failure") }}</Button
       >
+      <OperationsInstallmentGatewayRefund v-if="canRefund" :plan="plan" />
       <Button
-        v-if="canRefund"
+        v-if="canRefund && !plan.remboursementPasserelle"
         size="sm"
         variant="outline"
         :data-testid="`installment-plan-refund-${plan.reference}`"

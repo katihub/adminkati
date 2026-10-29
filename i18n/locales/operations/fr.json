@@ -67,6 +67,9 @@
       },
       "focalPoints": {
         "label": "Points focaux"
+      },
+      "paymentGateway": {
+        "label": "Passerelle de paiement"
       }
     },
     "common": {
@@ -283,8 +286,8 @@
       "refundPhone": "Téléphone de remboursement (facultatif)",
       "refundPhonePlaceholder": "6XXXXXXXX",
       "refundPhoneHint": "À défaut, le numéro du paiement initial est utilisé.",
-      "pspRefund": "Remboursement Fapshi",
-      "reconcileRefund": "Rapprocher avec Fapshi",
+      "pspRefund": "Remboursement Kratospay",
+      "reconcileRefund": "Rapprocher avec Kratospay",
       "pspStatus": {
         "prepare": "Préparé",
         "soumis": "En cours",
@@ -735,18 +738,18 @@
       "owed": "Acompte dû au client",
       "reason": "Motif de la boutique",
       "refund": "Rembourser",
-      "reconcile": "Vérifier chez Fapshi",
-      "reconciled": "État Fapshi relu.",
+      "reconcile": "Vérifier chez Kratospay",
+      "reconciled": "État Kratospay relu.",
       "refundTitle": "Rembourser l’acompte",
-      "refundHelp": "{amount} pour la commande {order}, par un virement Mobile Money Fapshi.",
+      "refundHelp": "{amount} pour la commande {order}, par un transfert Mobile Money Kratospay.",
       "phone": "Numéro de remboursement",
       "phoneHelp": "Vide : le numéro du paiement initial, à défaut celui du client.",
       "phoneInvalid": "Numéro camerounais attendu (6XXXXXXXX).",
       "cancel": "Annuler",
       "confirmRefund": "Lancer le remboursement",
-      "refundSent": "Remboursement envoyé à Fapshi.",
+      "refundSent": "Remboursement envoyé à Kratospay.",
       "statusPrepared": "Préparé",
-      "statusSubmitted": "Envoyé à Fapshi",
+      "statusSubmitted": "Envoyé à Kratospay",
       "statusPaid": "Remboursé",
       "statusFailed": "Échec",
       "statusCheck": "À vérifier"
@@ -1001,14 +1004,25 @@
         "failure": "Annuler pour défaillance",
         "failureReason": "Motif (ex. boutique suspendue, rupture définitive)",
         "failureHelp": "Le stock est libéré et tout ce que le client a versé lui devient dû. Confirmez ensuite le remboursement.",
-        "refund": "Marquer remboursé",
-        "refundNote": "Référence du remboursement (payout Fapshi, dépôt…)",
+        "refund": "Marquer remboursé (hors passerelle)",
+        "refundNote": "Référence du remboursement (remboursement en espèces, dépôt…)",
         "refundDone": "Remboursé",
         "retry": "Relancer la création de la commande",
         "confirm": "Confirmer",
         "cancelled": "Plan annulé : le remboursement est à faire.",
         "refunded": "Remboursement enregistré.",
-        "converted": "La commande est créée."
+        "converted": "La commande est créée.",
+        "gatewayRefund": "Rembourser par Kratospay",
+        "gatewayCheck": "Vérifier chez Kratospay",
+        "gatewaySent": "Remboursement envoyé à Kratospay.",
+        "gatewayChecked": "État du remboursement relu chez Kratospay.",
+        "gatewayStatus": {
+          "prepare": "Remboursement préparé",
+          "soumis": "Remboursement envoyé au {phone}",
+          "reussi": "Remboursé au {phone}",
+          "echec": "Remboursement refusé",
+          "verification_requise": "Issue inconnue : à vérifier"
+        }
       },
       "status": {
         "ouvert": "En cours",
@@ -1050,6 +1064,44 @@
         "assigned": "{shop} est assignée.",
         "removed": "{shop} n’a plus de point focal.",
         "inactive": "Point focal inactif : à réassigner"
+      }
+    },
+    "gateway": {
+      "status": {
+        "title": "Kratospay",
+        "ready": "Prêt à encaisser",
+        "notReady": "Configuration incomplète",
+        "environment": "Environnement",
+        "env": {
+          "test": "Test",
+          "production": "Production"
+        },
+        "notifications": "Notifications signées",
+        "lookup": "Consultation du statut",
+        "yes": "Oui",
+        "no": "Non",
+        "attempt": {
+          "CREATED": "Demandée",
+          "PENDING": "En attente",
+          "SUCCESSFUL": "Encaissée",
+          "FAILED": "Refusée",
+          "EXPIRED": "Expirée"
+        }
+      },
+      "states": {
+        "attente": "En attente ({count})",
+        "echec": "Refusées ({count})",
+        "tous": "Toutes"
+      },
+      "empty": "Aucune tentative de paiement ici.",
+      "amount": "{amount} FCFA",
+      "check": "Vérifier chez Kratospay",
+      "collected": "Paiement confirmé et encaissé.",
+      "checked": "État relu chez Kratospay : {status}.",
+      "object": {
+        "commande": "Commande {reference}",
+        "versement": "Versement {reference}",
+        "livraison": "Livraison {reference}"
       }
     }
   }

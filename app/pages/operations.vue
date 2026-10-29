@@ -18,6 +18,7 @@ const isDirection = computed(() => session.value?.roles.includes("direction") ??
 const QUERY_TABS = [
   "focal-shops",
   "focal-points",
+  "payment-gateway",
   "customer-requests",
   "seller-onboarding",
   "marketplace-catalogue",
@@ -215,6 +216,12 @@ const ALL_TABS = computed(() => [
     testid: "operations-tab-reported-reviews",
   },
   {
+    value: "payment-gateway",
+    label: t("operations.tabs.paymentGateway.label"),
+    icon: "ph:credit-card",
+    testid: "operations-tab-payment-gateway",
+  },
+  {
     value: "seller-finance",
     label: "Finances vendeurs",
     icon: "ph:wallet",
@@ -283,6 +290,7 @@ useHead({
     <OperationsCashRegistersWorkspace v-if="activeTab === 'cash-registers'" />
     <OperationsFocalShopsWorkspace v-else-if="activeTab === 'focal-shops'" />
     <OperationsFocalPointsWorkspace v-else-if="activeTab === 'focal-points'" />
+    <OperationsPaymentGatewayWorkspace v-else-if="activeTab === 'payment-gateway'" />
     <OperationsCustomerRequestsWorkspace v-else-if="activeTab === 'customer-requests'" />
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />

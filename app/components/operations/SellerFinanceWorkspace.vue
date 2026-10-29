@@ -241,8 +241,8 @@ function proofUrl(withdrawalId: string, proofId: string) {
     "payoutPhone": "Mobile Money number (e.g. 699000001)",
     "startTransfer": "Send payout",
     "retryTransfer": "Retry payout",
-    "payoutPending": "Fapshi reference: {reference}",
-    "reconcile": "Check with Fapshi",
+    "payoutPending": "Kratospay reference: {reference}",
+    "reconcile": "Check with Kratospay",
     "uploadProof": "Upload supporting document",
     "decision": "Decision:"
   },
@@ -267,8 +267,8 @@ function proofUrl(withdrawalId: string, proofId: string) {
     "payoutPhone": "Numéro Mobile Money (ex. 699000001)",
     "startTransfer": "Envoyer le reversement",
     "retryTransfer": "Relancer le reversement",
-    "payoutPending": "Référence Fapshi : {reference}",
-    "reconcile": "Vérifier chez Fapshi",
+    "payoutPending": "Référence Kratospay : {reference}",
+    "reconcile": "Vérifier chez Kratospay",
     "uploadProof": "Ajouter un justificatif",
     "decision": "Décision :"
   }

@@ -24,6 +24,7 @@ export const operationalDestinations = {
 export const operationsDomainByTab: Readonly<Partial<Record<string, AdminDomain>>> = {
   "focal-shops": "focal",
   "focal-points": "sellers",
+  "payment-gateway": "finance",
   "cash-registers": "finance",
   "customer-requests": "clients",
   "seller-onboarding": "sellers",

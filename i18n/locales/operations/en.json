@@ -67,6 +67,9 @@
       },
       "focalPoints": {
         "label": "Focal points"
+      },
+      "paymentGateway": {
+        "label": "Payment gateway"
       }
     },
     "common": {
@@ -283,8 +286,8 @@
       "refundPhone": "Refund phone (optional)",
       "refundPhonePlaceholder": "6XXXXXXXX",
       "refundPhoneHint": "The original payment phone is used when left empty.",
-      "pspRefund": "Fapshi refund",
-      "reconcileRefund": "Reconcile with Fapshi",
+      "pspRefund": "Kratospay refund",
+      "reconcileRefund": "Reconcile with Kratospay",
       "pspStatus": {
         "prepare": "Prepared",
         "soumis": "Processing",
@@ -735,18 +738,18 @@
       "owed": "Deposit owed to the customer",
       "reason": "Shop’s reason",
       "refund": "Refund",
-      "reconcile": "Check with Fapshi",
-      "reconciled": "Fapshi status refreshed.",
+      "reconcile": "Check with Kratospay",
+      "reconciled": "Kratospay status refreshed.",
       "refundTitle": "Refund the deposit",
-      "refundHelp": "{amount} for order {order}, by a Fapshi Mobile Money transfer.",
+      "refundHelp": "{amount} for order {order}, by a Kratospay Mobile Money transfer.",
       "phone": "Refund number",
       "phoneHelp": "Empty: the original payment number, otherwise the customer’s.",
       "phoneInvalid": "Cameroonian number expected (6XXXXXXXX).",
       "cancel": "Cancel",
       "confirmRefund": "Start the refund",
-      "refundSent": "Refund sent to Fapshi.",
+      "refundSent": "Refund sent to Kratospay.",
       "statusPrepared": "Prepared",
-      "statusSubmitted": "Sent to Fapshi",
+      "statusSubmitted": "Sent to Kratospay",
       "statusPaid": "Refunded",
       "statusFailed": "Failed",
       "statusCheck": "To check"
@@ -1001,14 +1004,25 @@
         "failure": "Cancel for failure",
         "failureReason": "Reason (e.g. shop suspended, permanently out of stock)",
         "failureHelp": "The stock is released and everything the customer paid becomes owed to them. Then confirm the refund.",
-        "refund": "Mark refunded",
-        "refundNote": "Refund reference (Fapshi payout, deposit…)",
+        "refund": "Mark refunded (outside the gateway)",
+        "refundNote": "Refund reference (cash refund, deposit…)",
         "refundDone": "Refunded",
         "retry": "Retry creating the order",
         "confirm": "Confirm",
         "cancelled": "Plan cancelled: the refund is due.",
         "refunded": "Refund recorded.",
-        "converted": "The order is created."
+        "converted": "The order is created.",
+        "gatewayRefund": "Refund through Kratospay",
+        "gatewayCheck": "Check with Kratospay",
+        "gatewaySent": "Refund sent to Kratospay.",
+        "gatewayChecked": "Refund status refreshed from Kratospay.",
+        "gatewayStatus": {
+          "prepare": "Refund prepared",
+          "soumis": "Refund sent to {phone}",
+          "reussi": "Refunded to {phone}",
+          "echec": "Refund refused",
+          "verification_requise": "Unknown outcome: to check"
+        }
       },
       "status": {
         "ouvert": "In progress",
@@ -1050,6 +1064,44 @@
         "assigned": "{shop} is assigned.",
         "removed": "{shop} no longer has a focal point.",
         "inactive": "Inactive focal point: reassign"
+      }
+    },
+    "gateway": {
+      "status": {
+        "title": "Kratospay",
+        "ready": "Ready to collect",
+        "notReady": "Incomplete configuration",
+        "environment": "Environment",
+        "env": {
+          "test": "Test",
+          "production": "Production"
+        },
+        "notifications": "Signed notifications",
+        "lookup": "Status lookup",
+        "yes": "Yes",
+        "no": "No",
+        "attempt": {
+          "CREATED": "Requested",
+          "PENDING": "Waiting",
+          "SUCCESSFUL": "Collected",
+          "FAILED": "Refused",
+          "EXPIRED": "Expired"
+        }
+      },
+      "states": {
+        "attente": "Waiting ({count})",
+        "echec": "Refused ({count})",
+        "tous": "All"
+      },
+      "empty": "No payment attempt here.",
+      "amount": "{amount} FCFA",
+      "check": "Check with Kratospay",
+      "collected": "Payment confirmed and collected.",
+      "checked": "Status read from Kratospay: {status}.",
+      "object": {
+        "commande": "Order {reference}",
+        "versement": "Instalment {reference}",
+        "livraison": "Delivery {reference}"
       }
     }
   }

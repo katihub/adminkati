@@ -202,10 +202,10 @@ describe("refused lines workspace", () => {
     expect(first.text()).toContain("CM-ABC123")
     expect(first.text()).toContain("Écran épuisé chez notre fournisseur")
     expect(first.get("[data-testid='refused-line-owed']").text()).toMatch(/9,100/)
-    // A payout already sent to Fapshi is reconciled, not sent twice.
+    // A payout already sent to Kratospay is reconciled, not sent twice.
     const second = wrapper.get("[data-testid='refused-line-r2']")
     expect(second.find("[data-testid='refused-line-refund']").exists()).toBe(false)
-    expect(second.text()).toContain("Sent to Fapshi")
+    expect(second.text()).toContain("Sent to Kratospay")
 
     await first.get("[data-testid='refused-line-refund']").trigger("click")
     await vi.waitFor(() => expect(byTestId("refused-line-phone")).not.toBeNull())

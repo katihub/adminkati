@@ -63,6 +63,15 @@ export function useInstallmentMutations() {
         apiWrite(plan(reference, "remboursement"), { method: "POST", body: { note } }),
       onSuccess: refresh,
     }),
+    refundViaGateway: useMutation({
+      mutationFn: (reference: string) =>
+        apiWrite(plan(reference, "remboursement/passerelle"), { method: "POST", body: {} }),
+      onSuccess: refresh,
+    }),
+    reconcileRefund: useMutation({
+      mutationFn: (reference: string) => apiWrite(plan(reference, "remboursement/rapprocher"), { method: "POST" }),
+      onSuccess: refresh,
+    }),
     retryConversion: useMutation({
       mutationFn: (reference: string) => apiWrite(plan(reference, "conversion"), { method: "POST" }),
       onSuccess: refresh,

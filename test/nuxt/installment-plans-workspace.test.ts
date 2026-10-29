@@ -183,8 +183,12 @@ describe("installment plans workspace", () => {
     await mount()
     expect(byTestId("installment-plan-failure-PE-4F7KM3")).toBeNull()
     await click("installment-plan-refund-PE-4F7KM3")
-    await type("installment-plan-refund-note", "Payout Fapshi TX-42")
+    await type("installment-plan-refund-note", "Espèces au comptoir, reçu 42")
     await click("installment-plan-refund-confirm")
-    expect(commands).toContainEqual({ method: "POST", path: "remboursement", body: { note: "Payout Fapshi TX-42" } })
+    expect(commands).toContainEqual({
+      method: "POST",
+      path: "remboursement",
+      body: { note: "Espèces au comptoir, reçu 42" },
+    })
   })
 })

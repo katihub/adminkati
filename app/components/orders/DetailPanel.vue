@@ -158,6 +158,7 @@ function confirmLivreur() {
       </div>
       <div class="flex min-w-0 flex-col gap-5">
         <OrdersPaymentStatus :order="order" :can-collect="canCollect" @collect="paymentOpen = true" />
+        <OrdersMobileMoneyRequest v-if="canCollect && (order.resteAPayer ?? 0) > 0" :order="order" />
         <OrdersCustomerInfo
           :order="order"
           :can-assign-livreur="canAssignLivreur"

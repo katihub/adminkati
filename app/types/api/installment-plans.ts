@@ -67,4 +67,11 @@ export interface InstallmentPlan {
   client: { nom: string | null; courriel: string | null; telephone: string | null }
   /** A plan cancelled for failure whose refund has been confirmed. */
   rembourse: boolean
+  /** The Kratospay refund of a plan cancelled for failure, once started. */
+  remboursementPasserelle?: {
+    statut: "prepare" | "soumis" | "reussi" | "echec" | "verification_requise"
+    telephone: string
+    montantFcfa: number
+    raisonEchec: string | null
+  } | null
 }

@@ -34,6 +34,7 @@ const legalClosure = ["v1", "marketplace", "deploiement", "cloture-juridique"] a
 const marketplacePilots = ["v1", "marketplace", "deploiement", "pilotes"] as const
 const outboundNotifications = ["v1", "notifications"] as const
 const focalPoints = ["v1", "points-focaux"] as const
+const paymentGateway = ["v1", "paiements", "kratospay"] as const
 
 export const apiQueryKeys = {
   products: {
@@ -190,5 +191,10 @@ export const apiQueryKeys = {
     shops: (params: QueryParams = {}) => [...focalPoints, "boutiques", params] as const,
     mine: [...focalPoints, "mes-boutiques"] as const,
     orders: (shopId: string | null, page: number) => [...focalPoints, "commandes", shopId, page] as const,
+  },
+  paymentGateway: {
+    all: paymentGateway,
+    certification: [...paymentGateway, "certification"] as const,
+    attempts: (state: string) => [...paymentGateway, "transactions", state] as const,
   },
 } as const

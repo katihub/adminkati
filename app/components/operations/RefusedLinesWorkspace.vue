@@ -21,7 +21,7 @@ import { useToastAction } from "@/composables/useToastAction"
 /* LINES REFUSED BY SHOPS WITHOUT STOCK TRACKING. The shop did not have the
    item: the line left the order, the delivery collects less, and the part of
    the deposit that no longer covers any product is owed to the customer.
-   The direction pays it back by a Fapshi payout, as for a return. */
+   The direction pays it back by a Kratospay payout, as for a return. */
 const { t, locale } = useI18n()
 const filter = ref<RefusedLineFilter>("a_rembourser")
 const query = useRefusedLines(filter)

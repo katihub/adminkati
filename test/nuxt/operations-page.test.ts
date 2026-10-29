@@ -6,6 +6,7 @@ const operationsWorkspaceStubs = {
   OperationsCashRegistersWorkspace: { template: '<div data-testid="operations-cash-registers-workspace" />' },
   OperationsFocalShopsWorkspace: { template: '<div data-testid="operations-focal-shops-workspace" />' },
   OperationsFocalPointsWorkspace: { template: '<div data-testid="operations-focal-points-workspace" />' },
+  OperationsPaymentGatewayWorkspace: { template: '<div data-testid="operations-payment-gateway-workspace" />' },
   OperationsCustomerRequestsWorkspace: { template: '<div data-testid="operations-customer-requests-workspace" />' },
   OperationsSellerOnboardingWorkspace: { template: '<div data-testid="operations-seller-onboarding-workspace" />' },
   OperationsMarketplaceCatalogueModerationWorkspace: {
@@ -61,6 +62,7 @@ const operationsWorkspaceStubs = {
 const workspaces = [
   "focal-shops",
   "focal-points",
+  "payment-gateway",
   "cash-registers",
   "customer-requests",
   "seller-onboarding",
@@ -137,6 +139,7 @@ describe("operations page tabs", () => {
     ["marketplace-pilot", "/operations?tab=marketplace-pilot"],
     ["outbound-notifications", "/operations?tab=outbound-notifications"],
     ["focal-points", "/operations?tab=focal-points"],
+    ["payment-gateway", "/operations?tab=payment-gateway"],
   ] as const)("opens only the %s workspace from its shareable URL", async (activeWorkspace, route) => {
     const wrapper = await mountOperations(route)
 
@@ -249,6 +252,7 @@ describe("operations page tabs", () => {
     "seller-trust",
     "focal-points",
     "installment-plans",
+    "payment-gateway",
   ] as const)("keeps the %s workspace closed to a KATI focal point", async workspace => {
     const wrapper = await mountOperations(`/operations?tab=${workspace}`, ["point_focal"])
 

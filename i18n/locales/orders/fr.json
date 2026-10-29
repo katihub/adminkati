@@ -75,7 +75,19 @@
       "settled": "Soldé",
       "call": "Appeler",
       "assignedCourier": "Livreur assigné",
-      "collect": "Encaisser"
+      "collect": "Encaisser",
+      "mobileMoney": {
+        "title": "Faire payer par mobile money",
+        "help": "La demande part sur le téléphone du client, qui compose son code. Le solde baisse seul dès que Kratospay confirme ; aucune espèce n’est encaissée.",
+        "phone": "Numéro du client",
+        "operator": "Opérateur",
+        "auto": "Automatique (selon le numéro)",
+        "send": "Envoyer la demande",
+        "sent": "Demande envoyée : le client compose son code.",
+        "paid": "Paiement confirmé par Kratospay.",
+        "orange": "Orange Money",
+        "mtn": "MTN Mobile Money"
+      }
     },
     "deliveryModes": {
       "retrait": "Retrait",
