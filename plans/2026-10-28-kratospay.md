@@ -1,6 +1,6 @@
 # Kratospay : brancher l'agrégateur sur tous les paiements de KatiMarket
 
-Statut : validé le 28 octobre 2026, en cours de réalisation. Les clés Kratospay seront fournies en dernier.
+Statut : validé et réalisé le 29 octobre 2026 (lots 1 à 7) ; recette réelle à faire avec les clés Kratospay. Compte rendu : `walkthroughs/2026-10-28-kratospay.md`.
 
 ## 1. Ce que dit la documentation Kratospay
 
