@@ -196,6 +196,11 @@ Le choix final du modèle se fait sur le jeu d'évaluation du lot 7, en comparan
 
 Chaque lot aura son compte rendu dans `walkthroughs/`, comme les autres.
 
+**État au 30 octobre** : les 7 lots sont réalisés.
+- Lot 1 : `walkthroughs/2026-10-30-assistant-kati-lot-1.md`.
+- Lots 2 à 7 : `walkthroughs/2026-10-30-assistant-kati-lots-2-a-7.md`.
+- Reste à faire : la mise en ligne progressive (variables Coolify, puis 10 %, 50 % et 100 %).
+
 ## Fichiers principalement touchés
 
 | Dépôt | Fichiers |
