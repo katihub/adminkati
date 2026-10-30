@@ -26,12 +26,14 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const customerName = computed(() => detail?.profil?.nom ?? detail?.client.id ?? "")
+const customerName = computed(() => detail?.profil?.nom ?? detail?.client.courriel ?? detail?.client.id ?? "")
 
-const localTab = ref<"profile" | "orders">("profile")
+const localTab = ref<"profile" | "orders" | "activity" | "kati">("profile")
 const tabs = computed(() => [
   { value: "profile", label: t("users.tabs.profile"), testid: "users-detail-tab-profile" },
   { value: "orders", label: t("users.tabs.orders"), testid: "users-detail-tab-orders" },
+  { value: "activity", label: t("users.tabs.activity"), testid: "users-detail-tab-activity" },
+  ...(canWrite ? [{ value: "kati", label: t("users.tabs.kati"), testid: "users-detail-tab-kati" }] : []),
 ])
 
 watch(
@@ -75,13 +77,20 @@ watch(
             :model-value="localTab"
             :items="tabs"
             data-testid="users-detail-tabs"
-            @update:model-value="value => (localTab = value as 'profile' | 'orders')"
+            class="max-w-full flex-wrap"
+            @update:model-value="value => (localTab = value as typeof localTab)"
           />
         </template>
       </UsersDetailHeader>
       <div class="p-4 sm:p-6">
         <UsersProfileTab v-if="localTab === 'profile'" :detail="detail" :name="customerName" />
         <UsersOrdersTab v-else-if="localTab === 'orders'" :client-id="detail.client.id" />
+        <UsersActivityTab v-else-if="localTab === 'activity'" :key="detail.client.id" :client-id="detail.client.id" />
+        <UsersKatiTab
+          v-else-if="localTab === 'kati' && canWrite"
+          :key="detail.client.id"
+          :client-id="detail.client.id"
+        />
       </div>
     </article>
   </div>

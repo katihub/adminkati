@@ -20,7 +20,7 @@ const STATUS_TONE: Record<CustomerStatus, string> = {
 
 <template>
   <header
-    class="sticky top-0 z-10 grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-border bg-background p-4 sm:p-5"
+    class="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background p-4 sm:p-5"
     data-testid="users-detail-header"
   >
     <div class="flex min-w-0 items-center gap-2">
@@ -42,7 +42,7 @@ const STATUS_TONE: Record<CustomerStatus, string> = {
         {{ t(`users.listItem.status.${props.status}`) }}
       </Badge>
     </div>
-    <div class="flex justify-center">
+    <div class="order-3 w-full overflow-x-auto">
       <slot name="tabs" />
     </div>
     <div

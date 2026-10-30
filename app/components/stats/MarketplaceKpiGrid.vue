@@ -77,19 +77,27 @@ const cards = computed(() => [
         {{ t("operations") }}
       </NuxtLinkLocale>
     </div>
-    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-7">
-      <StatsKpiCard
+    <div
+      data-testid="marketplace-kpi-grid"
+      class="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4 2xl:grid-cols-7"
+    >
+      <div
         v-for="card in cards"
         :key="card.key"
-        :title="card.title"
-        :valeur="card.metric.valeur"
-        :precedent="card.metric.precedent"
-        :period-label="card.metric.precedent === null ? t('currentTotal') : t('previousPeriod')"
-        :icon="card.icon"
-        :icon-bg-class="card.color"
-        :to="card.to"
-        :is-currency="card.metric.isCurrency"
-      />
+        :data-testid="`marketplace-kpi-${card.key}`"
+        class="min-w-[78vw] snap-start sm:min-w-0"
+      >
+        <StatsKpiCard
+          :title="card.title"
+          :valeur="card.metric.valeur"
+          :precedent="card.metric.precedent"
+          :period-label="card.metric.precedent === null ? t('currentTotal') : t('previousPeriod')"
+          :icon="card.icon"
+          :icon-bg-class="card.color"
+          :to="card.to"
+          :is-currency="card.metric.isCurrency"
+        />
+      </div>
     </div>
   </section>
 </template>

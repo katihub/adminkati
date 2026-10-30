@@ -2,6 +2,8 @@
   "operations": {
     "page": {
       "heading": "Operations",
+      "chooseModule": "Choose a module",
+      "moduleHelp": "Manage this module here, or use the sidebar to open another area.",
       "seo": {
         "title": "Operations · KatiMarket Admin",
         "description": "Cash reconciliation and customer requests for the KatiMarket team."
@@ -492,6 +494,12 @@
       }
     },
     "notifications": {
+      "restricted": "This queue is reserved for direction.",
+      "trace": "Details and traceability",
+      "identifier": "Notification ID",
+      "source": "Source",
+      "provider": "Provider",
+      "attempts": "Attempts",
       "title": "Outbound notifications",
       "explanation": "Each notification is recorded together with the event that triggers it, then sent with progressive retries. A notification abandoned after repeated failures stays here until it is retried.",
       "dispatch": {

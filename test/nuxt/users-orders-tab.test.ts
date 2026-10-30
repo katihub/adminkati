@@ -189,8 +189,13 @@ describe("customer orders tab", () => {
     const row = wrapper.get("[data-testid='users-orders-link']")
     expect(row.text()).toContain("NT-000042")
 
+    const navigation = vi.spyOn(useRouter(), "push")
     await row.trigger("click")
-    await vi.waitFor(() => expect(useRoute().fullPath).toBe("/fr/commandes?order=NT-000042"))
+    expect(navigation).toHaveBeenCalled()
+    expect(navigation.mock.calls[0]?.[0]).toBe("/fr/commandes?order=NT-000042")
+    expect(await navigation.mock.results[0]?.value).toBeUndefined()
+    navigation.mockRestore()
+    await vi.waitFor(() => expect(useRouter().currentRoute.value.fullPath).toBe("/fr/commandes?order=NT-000042"))
   })
 
   it("shows an empty customer history even when the selected account has no profile", async () => {

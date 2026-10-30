@@ -31,7 +31,7 @@ export interface MarketplaceReturnListItem {
     categorie: string
     statut: string
     client: { courriel: string | null; profil: { nom: string | null; telephone?: string | null } | null }
-    boutique: { id: string; nom: string }
+    boutique: { id: string; nom: string; vendeur?: { id: string; nomLegal: string } }
     /** The detail adds the delivery address and phone: the focal point needs them to work the case. */
     commande: { id: string; reference: string; adresseFigee?: AdresseFigee | null; telephoneLivraison?: string | null }
     expedition: { id: string; reference: string } | null
@@ -81,6 +81,7 @@ export interface MarketplaceReturnDetail extends MarketplaceReturnListItem {
     }>
   }
   capacites: {
+    repondre?: boolean
     decider: boolean
     recevoir: boolean
     rembourser: boolean
@@ -203,6 +204,8 @@ export interface SellerPayoutProof {
   tailleOctets: number
   empreinteSha256: string
   creeLe: string
+  statutAnalyse?: string
+  purgeeLe?: string | null
 }
 
 export interface SellerWithdrawal {

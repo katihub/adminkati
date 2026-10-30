@@ -1,5 +1,19 @@
 {
   "users": {
+    "activity": {
+      "limit": "Showing up to {count} recent entries per list.",
+      "assistance": "Support tickets ({count})",
+      "cases": "After-sales cases and refunds ({count})",
+      "empty": "No recorded activity.",
+      "openReturn": "Open the return case",
+      "refunded": "Refunded: {amount}"
+    },
+    "kati": {
+      "disponible": "Available KATI",
+      "enAttente": "Pending KATI",
+      "reserve": "Reserved KATI",
+      "history": "KATI history ({count})"
+    },
     "page": {
       "heading": "Users",
       "empty": "Select a customer to view account details.",
@@ -39,7 +53,9 @@
     },
     "tabs": {
       "profile": "Profile",
-      "orders": "Orders"
+      "orders": "Orders",
+      "activity": "Support & refunds",
+      "kati": "KATI"
     },
     "orders": {
       "emptyTitle": "No orders yet",

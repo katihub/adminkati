@@ -1,6 +1,7 @@
 {
   "admin": {
     "brandLabel": "Administration KatiMarket",
+    "marketplace": "Voir la marketplace",
     "navigation": {
       "administration": "Administration",
       "catalogue": "Catalogue",
@@ -8,12 +9,44 @@
       "commerce": "Commerce",
       "finance": "Finance",
       "label": "Navigation principale",
-      "logistics": "Logistique",
-      "marketing": "Marketing",
+      "description": "Accéder aux modules autorisés du panneau d’administration.",
+      "logistics": "Livraison et SAV",
+      "marketing": "Communication",
       "open": "Ouvrir la navigation",
-      "pilotage": "Pilotage",
-      "sellers": "Vendeurs",
-      "focal": "Mes boutiques"
+      "close": "Fermer la navigation",
+      "pilotage": "Tableau de bord",
+      "sellers": "Réseau commercial",
+      "focal": "Mes boutiques",
+      "items": {
+        "settings": "Paramètres de la plateforme",
+        "orders": "Commandes",
+        "quotes": "Devis",
+        "products": "Produits",
+        "taxonomy": "Catégories et rayons",
+        "catalogueModeration": "Modération",
+        "catalogueOffers": "Offres boutiques",
+        "sellerOnboarding": "Candidatures vendeurs",
+        "shopAgents": "Agents des boutiques",
+        "sellerTrust": "Qualité et sanctions",
+        "customerDirectory": "Annuaire clients",
+        "customerAssistance": "Assistance",
+        "reportedReviews": "Avis signalés",
+        "disputes": "Litiges",
+        "deliveryFees": "Tarifs de livraison",
+        "localities": "Villes et quartiers",
+        "orderServices": "Services après-vente",
+        "refusedLines": "Articles refusés",
+        "cashRegisters": "Caisses",
+        "sellerFinance": "Finances vendeurs",
+        "installmentPlans": "Paiements échelonnés",
+        "katiPoints": "KATI",
+        "content": "Bannières et annonces",
+        "siteTexts": "Textes du site",
+        "outboundNotifications": "Notifications",
+        "team": "Équipe et rôles",
+        "marketplacePilot": "Déploiements",
+        "legalClosure": "Clôture juridique"
+      }
     },
     "profile": {
       "dark": "Sombre",
@@ -26,12 +59,17 @@
       "logout": "Se déconnecter",
       "name": "Admin",
       "theme": "Thème"
+    },
+    "moduleSearch": {
+      "label": "Rechercher un module",
+      "placeholder": "Rechercher un module…",
+      "empty": "Aucun module accessible ne correspond à cette recherche."
     }
   },
   "language": {
     "label": "Langue",
     "english": "Anglais",
-    "french": "Francais"
+    "french": "Français"
   },
   "filters": {
     "selectOption": "Choisir",

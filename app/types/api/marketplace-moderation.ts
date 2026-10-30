@@ -46,9 +46,20 @@ export interface SellerDocument {
 }
 
 export interface SellerReviewDetail extends SellerReviewListItem {
+  reputations?: Array<{ scoreRisque: number; tauxLitigeBps: number; creeLe: string }>
+  sanctions?: Array<{ id: string; type: string; statut: string; motif: string; commenceLe: string }>
   documents: SellerDocument[]
   boutiques: Array<
     SellerShopSummary & {
+      description?: string | null
+      ville?: string | null
+      villesLivraison?: string[]
+      modesLivraison?: string[]
+      adresseRetrait?: string | null
+      gestionSav?: "boutique" | "kati_service"
+      suiviStock?: boolean
+      pointFocal?: { id: string; nom: string } | null
+      _count?: { offres: number }
       membres: Array<{ id: string; courriel: string; nom: string; roles: string[]; actif: boolean }>
     }
   >

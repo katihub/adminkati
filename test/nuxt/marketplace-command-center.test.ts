@@ -35,11 +35,34 @@ describe("marketplace direction cockpit", () => {
       props: { marketplace },
     })
 
+    expect(wrapper.get("[data-testid='marketplace-kpi-gmv']").text()).toContain("1.3M")
+    expect(wrapper.get("[data-testid='marketplace-kpi-orders']").text()).toContain("17")
+    expect(wrapper.get("[data-testid='marketplace-kpi-activeSellers']").text()).toContain("8")
+    expect(wrapper.get("[data-testid='marketplace-kpi-clients']").text()).toContain("43")
+    expect(wrapper.get("[data-testid='marketplace-kpi-activeProducts']").text()).toContain("21")
+    expect(wrapper.get("[data-testid='marketplace-kpi-commissions']").text()).toContain("125,000")
+    expect(wrapper.get("[data-testid='marketplace-kpi-openDisputes']").text()).toContain("3")
     expect(wrapper.get("[data-testid='direction-priority-queues']").text()).toContain("2")
     expect(wrapper.get("[data-testid='direction-health']").text()).toContain("1,250,000")
     expect(wrapper.get("[data-testid='direction-operational-flow']").text()).toMatch(/2.*3.*4.*5/s)
     expect(wrapper.get("[data-testid='direction-alerts']").text()).toContain("3")
     expect(wrapper.get("[data-testid='direction-quick-actions']").text()).toContain("2")
+
+    wrapper.unmount()
+  })
+
+  it("opens each headline metric in its existing operational destination", async () => {
+    const wrapper = await mountSuspended(StatsMarketplaceCommandCenter, {
+      props: { marketplace },
+    })
+
+    expect(wrapper.get("[data-testid='marketplace-kpi-gmv'] a").attributes("href")).toBe("/orders")
+    expect(wrapper.get("[data-testid='marketplace-kpi-activeProducts'] a").attributes("href")).toBe(
+      "/operations?tab=marketplace-catalogue",
+    )
+    expect(wrapper.get("[data-testid='marketplace-kpi-openDisputes'] a").attributes("href")).toBe(
+      "/operations?tab=marketplace-disputes",
+    )
 
     wrapper.unmount()
   })

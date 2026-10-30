@@ -2,6 +2,8 @@
   "operations": {
     "page": {
       "heading": "Opérations",
+      "chooseModule": "Choisir un module",
+      "moduleHelp": "Gérez ce module ici ou utilisez le menu latéral pour ouvrir un autre espace.",
       "seo": {
         "title": "Opérations · Administration KatiMarket",
         "description": "Rapprochement de caisse et demandes clients pour l'équipe KatiMarket."
@@ -492,6 +494,12 @@
       }
     },
     "notifications": {
+      "restricted": "Cette file est réservée à la direction.",
+      "trace": "Détails et traçabilité",
+      "identifier": "Identifiant de notification",
+      "source": "Source",
+      "provider": "Fournisseur",
+      "attempts": "Tentatives",
       "title": "Notifications sortantes",
       "explanation": "Chaque notification est enregistrée avec le fait qui la déclenche, puis envoyée avec des reprises progressives. Une notification abandonnée après plusieurs échecs reste ici jusqu’à sa relance.",
       "dispatch": {

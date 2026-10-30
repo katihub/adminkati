@@ -179,11 +179,13 @@ useHead({
 </script>
 
 <template>
-  <div class="-mx-4 flex h-workspace flex-col overflow-hidden sm:-mx-6 lg:-mx-10">
-    <div class="flex flex-col gap-3 px-4 pb-3 sm:px-6 lg:px-10">
+  <div class="flex min-h-[calc(100dvh-4rem)] flex-col gap-4 py-4 lg:h-workspace lg:min-h-0 lg:overflow-hidden">
+    <div class="flex flex-col gap-3">
       <div class="flex flex-wrap items-center justify-between gap-3" data-testid="products-title-actions-row">
-        <AdminPageHeader :title="pageTitle" class="shrink-0" />
-        <div v-if="canCreate" class="ml-auto flex shrink-0 items-center gap-2">
+        <AdminPageHeader :title="pageTitle" class="min-w-0 flex-1">
+          {{ t("products.page.subtitle") }}
+        </AdminPageHeader>
+        <div v-if="canCreate" class="flex w-full flex-wrap items-center gap-2 sm:ml-auto sm:w-auto sm:flex-nowrap">
           <ProductsProductImportDialog>
             <template #trigger>
               <Button variant="outline" data-testid="products-product-import-button">
@@ -229,9 +231,14 @@ useHead({
       </div>
     </div>
 
-    <div class="grid flex-1 min-h-0 w-full grid-cols-1 border-t border-border bg-card lg:grid-cols-[300px_1fr]">
+    <div
+      class="grid min-h-0 w-full flex-1 grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-xs lg:grid-cols-[320px_1fr]"
+    >
       <!--  Products List Rail -->
-      <div class="h-full overflow-hidden border-r border-border bg-card" data-testid="products-workspace-sidebar">
+      <div
+        class="h-[26rem] overflow-hidden border-b border-border bg-card lg:h-full lg:border-r lg:border-b-0"
+        data-testid="products-workspace-sidebar"
+      >
         <ProductsListPanel
           :filters="filters"
           :selected-id="effectiveId"
@@ -241,7 +248,7 @@ useHead({
       </div>
 
       <!-- Center Workspace  -->
-      <div class="h-full overflow-y-auto bg-muted/50" data-testid="products-detail-panel">
+      <div class="min-h-[38rem] overflow-y-auto bg-muted/35 lg:h-full lg:min-h-0" data-testid="products-detail-panel">
         <div
           v-if="listError && !isNewMode && effectiveId === null"
           class="flex h-full items-center justify-center p-6 text-center"

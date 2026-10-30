@@ -17,9 +17,15 @@ import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
 
 const route = useRoute()
+const session = useCachedSession()
+const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
 const { locale, t } = useI18n()
 const search = ref("")
 const verification = ref<SellerVerificationStatus | undefined>()
+const page = ref(1)
+watch([search, verification], () => {
+  page.value = 1
+})
 const reason = ref("")
 const selectedDocumentId = ref<string | null>(null)
 const openingDocumentId = ref<string | null>(null)
@@ -45,10 +51,15 @@ const filters = computed<SellerReviewFilters>(() => ({
   ...(search.value.trim() ? { q: search.value.trim() } : {}),
   ...(verification.value ? { verification: verification.value } : {}),
   taille: 50,
+  page: page.value,
 }))
 const listQuery = useSellerReviewList(filters)
 const effectiveId = computed(() => explicitId.value ?? listQuery.data.value?.elements[0]?.id ?? null)
 const detailQuery = useSellerReviewDetail(effectiveId)
+if (import.meta.server) {
+  await listQuery.suspense().catch(() => undefined) // The query owns the rendered error state.
+  if (effectiveId.value) await detailQuery.suspense().catch(() => undefined)
+}
 const mutations = useSellerReviewMutations()
 const date = computed(() => new Intl.DateTimeFormat(locale.value, { day: "2-digit", month: "short", year: "numeric" }))
 const allDocumentsValid = computed(() => {
@@ -171,7 +182,7 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
 
     <div class="grid min-h-0 flex-1 grid-cols-1 border-t border-border bg-card lg:grid-cols-[310px_minmax(0,1fr)]">
       <aside
-        class="h-full overflow-hidden border-r border-border bg-card"
+        class="flex h-full min-h-0 flex-col overflow-hidden border-r border-border bg-card"
         :class="explicitId ? 'hidden lg:block' : 'block'"
       >
         <div class="border-b border-border px-4 py-3">
@@ -180,7 +191,7 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
             {{ t("operations.onboarding.applicationCount", { count: listQuery.data.value?.total ?? 0 }) }}
           </p>
         </div>
-        <ScrollArea class="h-[calc(100%-61px)]">
+        <ScrollArea class="min-h-0 flex-1">
           <div v-if="listQuery.isPending.value" class="space-y-2 p-3">
             <div v-for="n in 7" :key="n" class="h-20 animate-pulse rounded-md bg-muted" />
           </div>
@@ -218,6 +229,28 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
             }}</span>
           </button>
         </ScrollArea>
+        <nav
+          v-if="(listQuery.data.value?.pages ?? 1) > 1"
+          class="flex shrink-0 items-center justify-center gap-3 border-t border-border p-3"
+        >
+          <Button
+            variant="outline"
+            size="icon"
+            :aria-label="t('operations.focal.previous')"
+            :disabled="page <= 1 || listQuery.isFetching.value"
+            @click="page--"
+            ><Icon name="ph:caret-left"
+          /></Button>
+          <span class="text-xs">{{ page }} / {{ listQuery.data.value?.pages }}</span>
+          <Button
+            variant="outline"
+            size="icon"
+            :aria-label="t('operations.focal.next')"
+            :disabled="page >= (listQuery.data.value?.pages ?? 1) || listQuery.isFetching.value"
+            @click="page++"
+            ><Icon name="ph:caret-right"
+          /></Button>
+        </nav>
       </aside>
 
       <section class="h-full overflow-y-auto bg-muted/60" :class="explicitId ? 'block' : 'hidden lg:block'">
@@ -366,23 +399,7 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
                 </ul>
               </section>
 
-              <section class="rounded-lg border border-border bg-card p-4">
-                <h3 class="font-heading font-semibold">{{ t("operations.onboarding.shopsAndOwners") }}</h3>
-                <div
-                  v-for="shop in detailQuery.data.value.boutiques"
-                  :key="shop.id"
-                  class="mt-3 rounded-md border border-border p-3"
-                >
-                  <div class="flex flex-wrap items-center justify-between gap-2">
-                    <strong>{{ shop.nom }}</strong
-                    ><Badge variant="outline">{{ shop.statut }}</Badge>
-                  </div>
-                  <p class="mt-1 text-xs text-muted-foreground">{{ shop.slug }}</p>
-                  <p v-for="member in shop.membres" :key="member.id" class="mt-2 text-sm">
-                    {{ member.nom }} · {{ member.courriel }}
-                  </p>
-                </div>
-              </section>
+              <OperationsSellerShops :seller="detailQuery.data.value" :can-view-finance="isDirection" />
             </div>
 
             <section class="h-fit rounded-lg border border-border bg-card p-4 xl:sticky xl:top-24">

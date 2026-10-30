@@ -20,6 +20,7 @@ const { periode } = usePeriode()
 const queryClient = useNuxtApp().$queryClient
 const session = useCachedSession(queryClient)
 const canViewCustomerSearches = computed(() => session.value?.roles.includes("direction") ?? false)
+const heading = computed(() => (session.value?.nom ? t("greeting", { name: session.value.nom }) : t("heading")))
 
 // A KATI focal point has no dashboard here: its work starts with the shops it was assigned.
 const sessionRoles = session.value?.roles ?? []
@@ -69,7 +70,7 @@ useHead({
 
 <template>
   <div class="space-y-6 pb-12">
-    <AdminPageHeader :title="t('heading')">
+    <AdminPageHeader :title="heading">
       {{ t("subtitle") }}
       <template #actions>
         <StatsRangePicker v-model="periode" :busy="isFetching" :updated-at="dataUpdatedAt" @refresh="refresh" />
@@ -96,6 +97,7 @@ useHead({
 {
   "en": {
     "heading": "Operations overview",
+    "greeting": "Hello {name}",
     "subtitle": "What needs your attention today.",
     "loading": "Loading overview...",
     "title": "KatiMarket Admin",
@@ -106,6 +108,7 @@ useHead({
   },
   "fr": {
     "heading": "Pilotage",
+    "greeting": "Bonjour {name}",
     "subtitle": "Ce qui demande votre attention aujourd’hui.",
     "loading": "Chargement de la vue d’ensemble...",
     "title": "Administration KatiMarket",

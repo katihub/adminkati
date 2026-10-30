@@ -24,9 +24,12 @@ describe("admin shell", () => {
     await flushPromises()
 
     expect(wrapper.get("[data-testid='admin-shell']")).toBeTruthy()
-    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").text()).toContain("Overview")
+    expect(wrapper.get("[data-testid='admin-desktop-sidebar']")).toBeTruthy()
+    expect(wrapper.get("[data-testid='admin-sidebar-brand']").text()).toContain("KATIMARKET")
+    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").text()).toContain("Dashboard")
     expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").attributes("aria-current")).toBe("page")
-    expect(wrapper.get("[data-testid='admin-page-header-title']").text()).toBe("Operations overview")
+    expect(wrapper.get("[data-testid='admin-navigation-child-products']").text()).toContain("Products")
+    expect(wrapper.get("[data-testid='admin-page-header-title']").text()).toBe("Hello Admin")
     expect(wrapper.text()).toContain("KATIMARKET")
     expect(wrapper.get("header [data-testid='language-switcher-trigger']").attributes("aria-label")).toBe("Language")
 
@@ -56,7 +59,7 @@ describe("admin shell", () => {
     })
     await flushPromises()
 
-    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").text()).toContain("Pilotage")
+    expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").text()).toContain("Tableau de bord")
     expect(wrapper.get("[data-testid='admin-navigation-link-pilotage']").attributes("aria-current")).toBe("page")
     expect(wrapper.get("header [data-testid='language-switcher-trigger']").attributes("aria-label")).toBe("Langue")
 

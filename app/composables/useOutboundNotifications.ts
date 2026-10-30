@@ -12,21 +12,26 @@ import { apiQueryKeys } from "@/utils/api-query-keys"
 
 const PATH = "/notifications"
 
-export function useOutboundNotificationsSummary() {
+export function useOutboundNotificationsSummary(enabled: MaybeRefOrGetter<boolean> = true) {
   const apiFetch = useApiFetch()
   return useQuery<OutboundNotificationsSummary>({
     queryKey: apiQueryKeys.outboundNotifications.summary,
     queryFn: () => apiFetch(`${PATH}/synthese`),
     refetchInterval: 30_000,
+    enabled: computed(() => toValue(enabled)),
   })
 }
 
-export function useOutboundNotifications(filters: MaybeRefOrGetter<OutboundNotificationFilters>) {
+export function useOutboundNotifications(
+  filters: MaybeRefOrGetter<OutboundNotificationFilters>,
+  enabled: MaybeRefOrGetter<boolean> = true,
+) {
   const apiFetch = useApiFetch()
   const params = computed(() => toValue(filters))
   return useQuery<OutboundNotificationsPage>({
     queryKey: computed(() => apiQueryKeys.outboundNotifications.list(params.value)),
     queryFn: () => apiFetch(PATH, { query: params.value }),
+    enabled: computed(() => toValue(enabled)),
   })
 }
 

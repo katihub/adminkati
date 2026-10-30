@@ -34,8 +34,8 @@ const comptoirText = computed(() => {
         {{ t("orders.detail.basicDetailsTitle") }}
       </h3>
     </div>
-    <dl class="grid grid-cols-2 gap-x-6 gap-y-3.5 text-xs sm:grid-cols-5 sm:text-sm">
-      <div>
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-3.5 text-xs sm:text-sm">
+      <div class="col-span-2">
         <dt class="text-xs text-muted-foreground">
           {{ t("orders.detail.orderId") }}
         </dt>

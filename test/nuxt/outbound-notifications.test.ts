@@ -1,6 +1,6 @@
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
 import { getQuery } from "h3"
-import { afterEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import OutboundNotificationsWorkspace from "@/components/operations/OutboundNotificationsWorkspace.vue"
 
 const ABANDONED = {
@@ -53,6 +53,16 @@ function registerApi() {
 }
 
 describe("outbound notifications workspace", () => {
+  beforeEach(() =>
+    useNuxtApp().$queryClient.setQueryData(["v1", "moi"], {
+      type: "equipe",
+      userId: "u1",
+      membreId: "m1",
+      nom: "Direction",
+      courriel: "admin@example.test",
+      roles: ["direction"],
+    }),
+  )
   afterEach(() => useNuxtApp().$queryClient.clear())
 
   it("summarises the queue and surfaces the abandoned notification with its last error", async () => {
@@ -93,9 +103,10 @@ describe("outbound notifications workspace", () => {
 
   it("explains that nothing leaves while no email provider is configured", async () => {
     const { calls, cleanup } = registerApi()
-    const wrapper = await mountSuspended(OutboundNotificationsWorkspace)
+    const wrapper = await mountSuspended(OutboundNotificationsWorkspace, { attachTo: document.body })
 
     await wrapper.get("[data-testid='outbound-notifications-dispatch']").trigger("click")
+    document.querySelector<HTMLButtonElement>("[data-testid='outbound-notifications-dispatch-confirm']")!.click()
     await vi.waitFor(() => expect(calls.dispatch).toHaveBeenCalledTimes(1))
     await vi.waitFor(() => expect(wrapper.find("[role='status']").exists()).toBe(true))
     expect(wrapper.get("[role='status']").text().length).toBeGreaterThan(10)

@@ -1,6 +1,6 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import OrdersPage from "@/pages/orders.vue"
 
 describe("orders page tabs", () => {
@@ -18,7 +18,9 @@ describe("orders page tabs", () => {
     await wrapper.get("[data-testid='orders-tab-quotes']").trigger("click")
     await flushPromises()
 
-    expect(wrapper.get("[data-testid='orders-tab-quotes']").attributes("aria-current")).toBe("true")
+    await vi.waitFor(() =>
+      expect(wrapper.get("[data-testid='orders-tab-quotes']").attributes("aria-current")).toBe("true"),
+    )
     expect(wrapper.get("[data-testid='orders-tab-orders']").attributes("aria-current")).toBeUndefined()
 
     wrapper.unmount()

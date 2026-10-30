@@ -101,6 +101,7 @@ watch(
           <TeamContactDetails v-else :member="member" />
           <TeamLifecycleDetails :member="member" />
         </PeopleProfileCard>
+        <TeamRoleGuide :selected-roles="member.roles" />
       </div>
     </article>
   </div>

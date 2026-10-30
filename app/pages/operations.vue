@@ -50,7 +50,6 @@ type OperationsTab = "cash-registers" | (typeof QUERY_TABS)[number]
 const COUNTER_TABS: readonly OperationsTab[] = [
   "cash-registers",
   "customer-requests",
-  "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-disputes",
   "seller-trust",
@@ -67,11 +66,12 @@ const FOCAL_TABS: readonly OperationsTab[] = [
 ]
 const allowedTabs = computed<ReadonlySet<OperationsTab>>(() => {
   const roles = session.value?.roles ?? []
-  const allowed = new Set<OperationsTab>()
-  if (isDirection.value) for (const tab of ["cash-registers", ...QUERY_TABS] as const) allowed.add(tab)
-  if (isDirection.value || roles.includes("comptoir")) for (const tab of COUNTER_TABS) allowed.add(tab)
-  if (roles.includes("point_focal")) for (const tab of FOCAL_TABS) allowed.add(tab)
-  else allowed.delete("focal-shops")
+  const allowed = new Set<OperationsTab>([
+    ...(isDirection.value ? ["cash-registers" as const, ...QUERY_TABS] : []),
+    ...(roles.includes("comptoir") ? COUNTER_TABS : []),
+    ...(roles.includes("point_focal") ? FOCAL_TABS : []),
+  ])
+  if (!roles.includes("point_focal")) allowed.delete("focal-shops")
   return allowed
 })
 const defaultTab = computed<OperationsTab>(() =>
@@ -115,13 +115,13 @@ const ALL_TABS = computed(() => [
   },
   {
     value: "seller-onboarding",
-    label: "Validation vendeurs",
+    label: t("admin.navigation.items.sellerOnboarding"),
     icon: "ph:storefront",
     testid: "operations-tab-seller-onboarding",
   },
   {
     value: "marketplace-catalogue",
-    label: "Modération catalogue",
+    label: t("admin.navigation.items.catalogueModeration"),
     icon: "ph:checks",
     testid: "operations-tab-marketplace-catalogue",
   },
@@ -223,13 +223,13 @@ const ALL_TABS = computed(() => [
   },
   {
     value: "seller-finance",
-    label: "Finances vendeurs",
+    label: t("admin.navigation.items.sellerFinance"),
     icon: "ph:wallet",
     testid: "operations-tab-seller-finance",
   },
   {
     value: "legal-closure",
-    label: "Clôture juridique P0",
+    label: t("admin.navigation.items.legalClosure"),
     icon: "ph:seal-check",
     testid: "operations-tab-legal-closure",
   },
@@ -247,6 +247,7 @@ const ALL_TABS = computed(() => [
   },
 ])
 const tabs = computed(() => ALL_TABS.value.filter(tab => allowedTabs.value.has(tab.value as OperationsTab)))
+const currentModule = computed(() => tabs.value.find(tab => tab.value === activeTab.value))
 
 function setActiveTab(value: string) {
   const nextTab = tabFromQuery(value)
@@ -274,15 +275,33 @@ useHead({
   <div class="-mx-4 flex h-workspace flex-col overflow-hidden sm:-mx-6 lg:-mx-10">
     <div class="shrink-0 px-4 sm:px-6 lg:px-10">
       <!-- fallow-ignore-next-line complexity -->
-      <AdminPageHeader :title="t('operations.page.heading')">
-        <template #tabs>
-          <PillTabs
-            class="*:shrink-0 *:whitespace-nowrap"
-            :model-value="activeTab"
-            :items="tabs"
-            data-testid="operations-tabs"
-            @update:model-value="setActiveTab"
-          />
+      <AdminPageHeader :title="currentModule?.label ?? t('operations.page.heading')">
+        {{ t("operations.page.moduleHelp") }}
+        <template #actions>
+          <div class="flex w-full flex-col gap-1 sm:w-72">
+            <label for="operations-module" class="text-xs font-medium text-muted-foreground">
+              {{ t("operations.page.chooseModule") }}
+            </label>
+            <select
+              id="operations-module"
+              data-testid="operations-module-select"
+              :aria-label="t('operations.page.chooseModule')"
+              :value="activeTab"
+              class="h-11 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              @change="setActiveTab(($event.target as HTMLSelectElement).value)"
+            >
+              <option
+                v-for="tab in tabs"
+                :key="tab.value"
+                :value="tab.value"
+                :selected="tab.value === activeTab"
+                :data-testid="tab.testid"
+                :aria-current="tab.value === activeTab ? 'true' : undefined"
+              >
+                {{ tab.label }}
+              </option>
+            </select>
+          </div>
         </template>
       </AdminPageHeader>
     </div>

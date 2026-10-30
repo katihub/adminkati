@@ -294,11 +294,12 @@ async function confirmDelete() {
                 id="delivery-fee-district"
                 v-model="form.quartierId"
                 data-testid="delivery-fee-district"
-                @update:model-value="
-                  value => {
-                    const quartier = availableDistricts.find(candidate => candidate.id === value)
+                @change="
+                  (event: Event) => {
+                    const quartierId = (event.target as HTMLSelectElement).value
+                    const quartier = availableDistricts.find(candidate => candidate.id === quartierId)
                     Object.assign(form, {
-                      quartierId: value,
+                      quartierId,
                       quartier: quartier?.nom ?? '',
                       ville: quartier?.ville ?? '',
                     })

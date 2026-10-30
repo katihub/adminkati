@@ -27,11 +27,11 @@ const { t } = useI18n()
 
 <template>
   <div
-    class="grid flex-1 min-h-0 w-full grid-cols-1 border-t border-border bg-card lg:grid-cols-[300px_1fr]"
+    class="grid min-h-0 w-full flex-1 grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-xs lg:grid-cols-[320px_minmax(0,1fr)]"
     data-testid="quotes-workspace"
   >
     <div
-      class="h-full overflow-hidden border-r border-border bg-card lg:col-span-1"
+      class="h-56 overflow-hidden border-b border-border bg-card lg:h-full lg:border-r lg:border-b-0"
       data-testid="quotes-workspace-sidebar"
     >
       <QuotesListPanel
@@ -42,7 +42,10 @@ const { t } = useI18n()
       />
     </div>
 
-    <div class="h-full overflow-y-auto bg-muted/70 lg:col-start-2 lg:row-start-1" data-testid="quotes-detail-panel">
+    <div
+      class="min-h-96 overflow-y-auto bg-muted/35 lg:col-start-2 lg:row-start-1 lg:h-full lg:min-h-0"
+      data-testid="quotes-detail-panel"
+    >
       <div v-if="error" class="flex h-full items-center justify-center p-6 text-center">
         <ApiErrorCard :error="error" @retry="emit('retry')" />
       </div>

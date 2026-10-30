@@ -45,13 +45,16 @@ function teamSort(value: unknown): TeamSort {
   return routeQueryString(value) === "recent" ? "recent" : "nom"
 }
 
+function activeFilter(value: unknown): boolean | undefined {
+  if (value === "true") return true
+  if (value === "false") return false
+  return undefined
+}
+
 const selectedId = computed(() => routeQueryUuid(route.query.id))
 const autoSelectionDismissed = ref(false)
 const role = computed(() => teamRole(route.query.role))
-const active = computed(() => {
-  const value = routeQueryString(route.query.actif)
-  return value === "true" ? true : value === "false" ? false : undefined
-})
+const active = computed(() => activeFilter(routeQueryString(route.query.actif)))
 const sort = computed(() => teamSort(route.query.tri))
 const searchInput = ref(routeQueryString(route.query.q) ?? "")
 const isDirty = ref(false)
@@ -79,19 +82,21 @@ const listFilters = computed(() => {
 })
 
 function workspaceQuery(overrides: { id?: string; q?: string; role?: TeamRole; actif?: boolean; tri?: TeamSort } = {}) {
-  const q = "q" in overrides ? overrides.q : searchInput.value.trim() || undefined
-  const id = "id" in overrides ? overrides.id : (selectedId.value ?? undefined)
-  const selectedRole = "role" in overrides ? overrides.role : role.value
-  const selectedActive = "actif" in overrides ? overrides.actif : active.value
-  const tri = "tri" in overrides ? overrides.tri : sort.value
-
-  return {
-    ...(id ? { id } : {}),
-    ...(q ? { q } : {}),
-    ...(selectedRole ? { role: selectedRole } : {}),
-    ...(selectedActive === undefined ? {} : { actif: String(selectedActive) }),
-    ...(tri !== "nom" ? { tri } : {}),
+  const values = {
+    id: selectedId.value,
+    q: searchInput.value.trim(),
+    role: role.value,
+    actif: active.value,
+    tri: sort.value,
+    ...overrides,
   }
+  return Object.fromEntries(
+    Object.entries(values)
+      .filter(
+        ([key, value]) => value !== undefined && value !== null && value !== "" && !(key === "tri" && value === "nom"),
+      )
+      .map(([key, value]) => [key, String(value)]),
+  )
 }
 
 function runAfterDiscard(action: () => void) {
@@ -157,9 +162,9 @@ const toolbarFilters = computed<Filter[]>({
     const activeValue = chip("actif")
     const sortValue = chip("tri")
     const nextSearch = typeof searchValue === "string" ? searchValue : ""
-    const nextRole = isTeamRole(roleValue) ? roleValue : undefined
-    const nextActive = activeValue === "true" ? true : activeValue === "false" ? false : undefined
-    const nextSort = sortValue === "recent" ? "recent" : "nom"
+    const nextRole = teamRole(roleValue)
+    const nextActive = activeFilter(activeValue)
+    const nextSort = teamSort(sortValue)
 
     if (nextSearch !== searchInput.value) updateSearch(nextSearch)
     if (nextRole !== role.value) updateRole(nextRole)
@@ -316,20 +321,22 @@ useHead({
 </script>
 
 <template>
-  <div class="-mx-4 flex h-workspace flex-col overflow-hidden sm:-mx-6 lg:-mx-10">
+  <div class="flex min-h-[calc(100dvh-4rem)] min-w-0 flex-col gap-4 py-4 lg:h-workspace lg:min-h-0 lg:overflow-hidden">
     <TeamDiscardDialog
       :open="discardDialogOpen"
       @update:open="value => (value ? (discardDialogOpen = true) : cancelDiscard())"
       @confirm="confirmDiscard"
     />
-    <div class="px-4 sm:px-6 lg:px-10">
+    <div class="min-w-0">
       <AdminPageHeader :title="t('team.page.heading')">
-        <template #toolbar>
-          <TeamFilterBar
-            v-model:filters="toolbarFilters"
-            :has-active-filters="hasActiveToolbarFilters"
-            @clear="clearToolbarFilters"
-          />
+        <template #default>
+          <div class="max-w-full overflow-x-auto pb-2">
+            <TeamFilterBar
+              v-model:filters="toolbarFilters"
+              :has-active-filters="hasActiveToolbarFilters"
+              @clear="clearToolbarFilters"
+            />
+          </div>
         </template>
         <template v-if="canWrite" #actions>
           <TeamHireDialog @hired="announceHire" @open="openHiredMember" />
@@ -337,9 +344,11 @@ useHead({
       </AdminPageHeader>
     </div>
 
-    <div class="grid flex-1 min-h-0 w-full grid-cols-1 border-t border-border bg-card lg:grid-cols-[300px_1fr]">
+    <div
+      class="grid min-h-0 w-full flex-1 grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-[320px_minmax(0,1fr)]"
+    >
       <div
-        class="h-full overflow-hidden border-r border-border bg-card"
+        class="min-h-96 overflow-hidden border-r border-border bg-card lg:h-full lg:min-h-0"
         :class="effectiveId ? 'hidden lg:block' : 'block'"
         data-testid="team-workspace-sidebar"
       >
@@ -356,7 +365,7 @@ useHead({
       </div>
 
       <div
-        class="h-full overflow-y-auto bg-muted/70"
+        class="min-h-96 overflow-y-auto bg-muted/35 lg:h-full lg:min-h-0"
         :class="effectiveId ? 'block' : 'hidden lg:block'"
         data-testid="team-workspace-detail"
       >

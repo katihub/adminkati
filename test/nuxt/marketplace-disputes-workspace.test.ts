@@ -90,7 +90,7 @@ function signIn(roles: string[]) {
   })
 }
 
-function registerApi() {
+function registerApi(returnDetail = detail) {
   const exportCalls = vi.fn()
   const cleanups = [
     registerEndpoint("/api/v1/marketplace/demandes-client/retours", {
@@ -99,7 +99,7 @@ function registerApi() {
     }),
     registerEndpoint(`/api/v1/marketplace/demandes-client/retours/${RETURN_ID}`, {
       method: "GET",
-      handler: () => detail,
+      handler: () => returnDetail,
     }),
     registerEndpoint(`/api/v1/marketplace/demandes-client/${DEMAND_ID}/export`, {
       method: "GET",
@@ -156,6 +156,17 @@ describe("marketplace disputes workspace — evidence and export", () => {
 
     expect(wrapper.find("[data-testid='disputes-export-case']").exists()).toBe(false)
 
+    wrapper.unmount()
+    cleanup()
+  })
+
+  it("keeps a resolved case readable while disabling further customer replies", async () => {
+    signIn(["direction"])
+    const { cleanup } = registerApi({ ...detail, demande: { ...detail.demande, statut: "resolue" } })
+    const wrapper = await mountSuspended(MarketplaceDisputesWorkspace)
+    await vi.waitFor(() => expect(wrapper.find("[data-testid='disputes-evidence-saine']").exists()).toBe(true))
+    expect(wrapper.text()).toContain("Voici les photos.")
+    expect(wrapper.get("textarea").attributes("disabled")).toBeDefined()
     wrapper.unmount()
     cleanup()
   })

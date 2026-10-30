@@ -15,6 +15,7 @@ const { clientId } = defineProps<{
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const route = useRoute()
 
 const filters = computed(() => ({ clientId, tri: "recent" as const, taille: 50 }))
 const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useOrders(filters)
@@ -27,7 +28,9 @@ function amountFor(order: CommandeAnnuaireItem) {
 }
 
 function openOrder(reference: string) {
-  void navigateTo(localePath({ path: "/orders", query: { order: reference } }))
+  void navigateTo(
+    localePath({ name: "orders", query: { order: reference } }, route.path.startsWith("/fr/") ? "fr" : "en"),
+  )
 }
 </script>
 
@@ -81,6 +84,8 @@ function openOrder(reference: string) {
               :key="order.id"
               data-testid="users-orders-link"
               class="cursor-pointer"
+              tabindex="0"
+              @keydown.enter="openOrder(order.reference)"
               @click="openOrder(order.reference)"
             >
               <Table.Cell class="rounded-l-lg py-3 font-medium text-foreground">

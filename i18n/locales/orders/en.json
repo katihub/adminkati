@@ -2,12 +2,21 @@
   "orders": {
     "page": {
       "heading": "Orders",
+      "subtitle": "Review items, payment and delivery, then perform the actions available to your role.",
       "empty": "Select an order to view its details",
       "loading": "Loading order details…",
       "seo": {
         "title": "Orders · KatiMarket Admin",
         "description": "Customer order administration for the KatiMarket admin panel."
       }
+    },
+    "events": {
+      "title": "Recorded events",
+      "help": "Only events with a recorded date are shown.",
+      "created": "Order created",
+      "courierAssigned": "Courier assigned",
+      "received": "Receipt recorded",
+      "closed": "Order closed"
     },
     "tabs": {
       "orders": "Orders",

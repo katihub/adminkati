@@ -3,7 +3,7 @@ import type { Filter } from "@/components/vuzeno/filters"
 import type { CommandesFilters } from "@/composables/useOrders"
 import type { CommandeAnnuairePage, CommandeDetail, StatutCommande } from "@/types/api/commandes"
 import type { DevisDetail, DevisListItem, StatutDevis } from "@/types/api/devis"
-import { computed, ref, watch } from "vue"
+import { computed } from "vue"
 import { prefetchApi } from "@/composables/useApi"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { prefetchOrders, useOrder, useOrders } from "@/composables/useOrders"
@@ -27,7 +27,7 @@ defineI18nRoute({
 const { t } = useI18n()
 const route = useRoute()
 
-const activeTab = ref(route.query.quote !== undefined ? "quotes" : "orders")
+const activeTab = computed(() => (route.query.quote !== undefined ? "quotes" : "orders"))
 const orderWorkspace = useOrderWorkspaceStore()
 const quoteWorkspace = useQuoteWorkspaceStore()
 const session = useCachedSession()
@@ -116,7 +116,10 @@ function parseReference(raw: string | (string | null)[] | null | undefined): str
 }
 
 const explicitReference = computed(() => parseReference(route.query.order))
-const explicitQuoteReference = computed(() => parseReference(route.query.quote))
+const explicitQuoteReference = computed(() => {
+  const reference = parseReference(route.query.quote)
+  return reference === "1" ? null : reference
+})
 
 const queryClient = useNuxtApp().$queryClient
 
@@ -150,7 +153,11 @@ if (import.meta.server) {
 }
 
 const listFilters = computed(() => filters.value)
-const { data: listData } = useOrders(
+const {
+  data: listData,
+  error: listError,
+  refetch: refetchOrders,
+} = useOrders(
   listFilters,
   computed(() => activeTab.value === "orders"),
 )
@@ -205,30 +212,18 @@ function retryQuote() {
 }
 
 function onQuoteArchived() {
-  void navigateTo({ path: route.path, query: { ...route.query, quote: undefined } })
+  void navigateTo({ path: route.path, query: { ...route.query, quote: "1" } })
 }
 
 function switchTab(tab: string) {
   if (tab !== "orders" && tab !== "quotes") return
 
-  activeTab.value = tab
-  const query = tab === "orders" ? { ...route.query, quote: undefined } : { ...route.query, order: undefined }
+  const query =
+    tab === "orders"
+      ? { ...route.query, quote: undefined }
+      : { ...route.query, order: undefined, quote: explicitQuoteReference.value ?? "1" }
   void navigateTo({ path: route.path, query })
 }
-
-watch(
-  () => route.query.quote,
-  quote => {
-    if (quote !== undefined) activeTab.value = "quotes"
-  },
-)
-
-watch(
-  () => route.query.order,
-  order => {
-    if (order !== undefined && route.query.quote === undefined) activeTab.value = "orders"
-  },
-)
 
 useSeoMeta({
   title: () => t("orders.page.seo.title"),
@@ -244,19 +239,16 @@ useHead({
 </script>
 
 <template>
-  <div class="-mx-4 flex h-workspace flex-col overflow-hidden sm:-mx-6 lg:-mx-10">
-    <div class="px-4 sm:px-6 lg:px-10">
+  <div class="flex min-h-[calc(100dvh-4rem)] flex-col gap-4 py-4 lg:h-workspace lg:min-h-0 lg:overflow-hidden">
+    <div>
       <AdminPageHeader :title="t('orders.page.heading')">
+        {{ t("orders.page.subtitle") }}
         <template #tabs>
           <PillTabs :model-value="activeTab" :items="tabs" data-testid="orders-tabs" @update:model-value="switchTab" />
         </template>
       </AdminPageHeader>
     </div>
-    <div
-      v-if="activeTab === 'orders'"
-      class="w-full bg-background px-4 py-3 sm:px-6 lg:px-10"
-      data-testid="orders-filter-row"
-    >
+    <div v-if="activeTab === 'orders'" class="w-full min-w-0" data-testid="orders-filter-row">
       <OrdersFilterBar
         v-model:filters="toolbarFilters"
         :comptoirs="comptoirs"
@@ -267,9 +259,12 @@ useHead({
 
     <div
       v-if="activeTab === 'orders'"
-      class="grid flex-1 min-h-0 w-full grid-cols-1 border-t border-border bg-card lg:grid-cols-[300px_1fr]"
+      class="grid min-h-0 w-full flex-1 grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-xs lg:grid-cols-[320px_minmax(0,1fr)]"
     >
-      <div class="h-full overflow-hidden border-r border-border bg-card" data-testid="orders-workspace-sidebar">
+      <div
+        class="h-56 overflow-hidden border-b border-border bg-card lg:h-full lg:border-r lg:border-b-0"
+        data-testid="orders-workspace-sidebar"
+      >
         <OrdersListPanel
           :filters="filters"
           :date-range="orderWorkspace.dateRange"
@@ -279,8 +274,14 @@ useHead({
         />
       </div>
 
-      <div class="h-full overflow-y-auto bg-muted/70" data-testid="orders-detail-panel">
-        <div v-if="orderError" class="flex h-full items-center justify-center p-6 text-center">
+      <div class="min-h-96 overflow-y-auto bg-muted/35 lg:h-full lg:min-h-0" data-testid="orders-detail-panel">
+        <div
+          v-if="listError && effectiveReference === null"
+          class="flex h-full items-center justify-center p-6 text-center"
+        >
+          <ApiErrorCard :error="listError" @retry="() => void refetchOrders()" />
+        </div>
+        <div v-else-if="orderError" class="flex h-full items-center justify-center p-6 text-center">
           <ApiErrorCard :error="orderError" @retry="() => void refetchOrder()" />
         </div>
         <div

@@ -18,13 +18,42 @@ const STATUS_CLASSES: Record<OutboundNotificationStatus, string> = {
 }
 
 const { t, locale } = useI18n()
+const session = useCachedSession()
+const canManage = computed(() => session.value?.roles.includes("direction") ?? false)
 const status = ref<OutboundNotificationStatus | undefined>()
 const page = ref(1)
 watch(status, () => (page.value = 1))
 
-const summary = useOutboundNotificationsSummary()
-const list = useOutboundNotifications(computed(() => ({ statut: status.value, page: page.value, taille: 30 })))
+const summary = useOutboundNotificationsSummary(canManage)
+const list = useOutboundNotifications(
+  computed(() => ({ statut: status.value, page: page.value, taille: 30 })),
+  canManage,
+)
 const { retry, dispatch } = useOutboundNotificationMutations()
+const dispatchOpen = ref(false)
+const dispatchLocked = ref(false)
+const retryLocked = ref(false)
+if (import.meta.server && canManage.value)
+  await Promise.all([summary.suspense(), list.suspense()].map(read => read.catch(() => undefined)))
+function confirmDispatch() {
+  if (!canManage.value || !dispatchOpen.value || dispatchLocked.value) return
+  dispatchLocked.value = true
+  dispatch.mutate(undefined, {
+    onSettled: () => {
+      dispatchLocked.value = false
+      dispatchOpen.value = false
+    },
+  })
+}
+function retryNotification(id: string) {
+  if (!canManage.value || retryLocked.value || dispatchLocked.value) return
+  retryLocked.value = true
+  retry.mutate(id, {
+    onSettled: () => {
+      retryLocked.value = false
+    },
+  })
+}
 
 const filters = computed(() => [
   { value: undefined, label: t("operations.notifications.filters.all") },
@@ -44,15 +73,29 @@ const dispatchMessage = computed(() => {
 })
 
 function formatDate(value: string | null) {
-  return value ? new Date(value).toLocaleString(locale.value, { dateStyle: "short", timeStyle: "short" }) : "—"
+  return value
+    ? new Date(value).toLocaleString(locale.value, {
+        dateStyle: "short",
+        timeStyle: "short",
+        timeZone: "Africa/Douala",
+      })
+    : "—"
 }
 </script>
 
 <template>
+  <EmptyStateCard v-if="!canManage" icon="ph:lock" :text="t('operations.notifications.restricted')" />
   <div
+    v-else
     class="min-h-0 flex-1 overflow-y-auto border-t border-border bg-muted/60"
     data-testid="operations-outbound-notifications-workspace"
   >
+    <OperationsNotificationDispatchDialog
+      :open="dispatchOpen"
+      :pending="dispatchLocked"
+      @update:open="dispatchOpen = $event"
+      @confirm="confirmDispatch"
+    />
     <div class="mx-auto max-w-7xl space-y-4 p-4 sm:p-6">
       <div class="flex flex-wrap items-start justify-between gap-4 rounded-xl border bg-card p-5 shadow-sm">
         <div class="max-w-3xl">
@@ -64,12 +107,13 @@ function formatDate(value: string | null) {
           </p>
         </div>
         <Button
-          :disabled="dispatch.isPending.value"
+          :disabled="dispatchLocked || retryLocked"
           data-testid="outbound-notifications-dispatch"
-          @click="dispatch.mutate()"
+          @click="dispatchOpen = true"
           ><Icon name="ph:paper-plane-tilt" />{{ t("operations.notifications.dispatch.action") }}</Button
         >
       </div>
+      <ApiErrorCard v-if="retry.error.value" :error="retry.error.value" @retry="retry.reset()" />
 
       <ApiErrorCard v-if="summary.error.value" :error="summary.error.value" @retry="() => void summary.refetch()" />
       <dl v-else class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -133,6 +177,27 @@ function formatDate(value: string | null) {
             <p v-if="item.derniereErreur && item.statut !== 'envoyee'" class="mt-1 text-xs text-red-700">
               {{ t("operations.notifications.lastError", { attempts: item.tentatives, error: item.derniereErreur }) }}
             </p>
+            <details class="mt-3 text-xs text-muted-foreground">
+              <summary class="cursor-pointer font-medium">{{ t("operations.notifications.trace") }}</summary>
+              <dl class="mt-2 grid gap-2 sm:grid-cols-2">
+                <div>
+                  <dt>{{ t("operations.notifications.identifier") }}</dt>
+                  <dd class="break-all font-mono">{{ item.id }}</dd>
+                </div>
+                <div>
+                  <dt>{{ t("operations.notifications.source") }}</dt>
+                  <dd class="break-all">{{ item.objetType }} · {{ item.objetId }}</dd>
+                </div>
+                <div>
+                  <dt>{{ t("operations.notifications.provider") }}</dt>
+                  <dd>{{ item.fournisseur ?? "—" }}</dd>
+                </div>
+                <div>
+                  <dt>{{ t("operations.notifications.attempts") }}</dt>
+                  <dd>{{ item.tentatives }}</dd>
+                </div>
+              </dl>
+            </details>
           </div>
           <div class="flex items-center gap-2 md:justify-end">
             <span v-if="item.statut === 'en_attente'" class="text-xs text-muted-foreground">
@@ -145,9 +210,9 @@ function formatDate(value: string | null) {
               v-if="item.statut === 'abandonnee'"
               size="sm"
               variant="outline"
-              :disabled="retry.isPending.value"
+              :disabled="retryLocked || dispatchLocked"
               :data-testid="`outbound-notification-retry-${item.id}`"
-              @click="retry.mutate(item.id)"
+              @click="retryNotification(item.id)"
               ><Icon name="ph:arrow-clockwise" />{{ t("operations.notifications.retry") }}</Button
             >
           </div>
@@ -155,13 +220,17 @@ function formatDate(value: string | null) {
       </ul>
 
       <div v-if="(list.data.value?.pages ?? 1) > 1" class="flex items-center justify-end gap-2 text-sm">
-        <Button size="sm" variant="outline" :disabled="page <= 1" @click="page -= 1">{{
+        <Button size="sm" variant="outline" :disabled="page <= 1 || list.isFetching.value" @click="page -= 1">{{
           t("operations.notifications.previous")
         }}</Button>
         <span>{{ t("operations.notifications.page", { page, pages: list.data.value?.pages ?? 1 }) }}</span>
-        <Button size="sm" variant="outline" :disabled="page >= (list.data.value?.pages ?? 1)" @click="page += 1">{{
-          t("operations.notifications.next")
-        }}</Button>
+        <Button
+          size="sm"
+          variant="outline"
+          :disabled="page >= (list.data.value?.pages ?? 1) || list.isFetching.value"
+          @click="page += 1"
+          >{{ t("operations.notifications.next") }}</Button
+        >
       </div>
     </div>
   </div>

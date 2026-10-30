@@ -18,6 +18,10 @@ const route = useRoute()
 const { locale, t } = useI18n()
 const search = ref("")
 const status = ref<MarketplaceReturnStatus | undefined>()
+const page = ref(1)
+watch([search, status], () => {
+  page.value = 1
+})
 const reimbursementPhone = ref("")
 const evidenceError = ref(false)
 const workflowDecision = ref<"autorise" | "refuse">("autorise")
@@ -30,22 +34,45 @@ const filters = computed<MarketplaceReturnFilters>(() => ({
   ...(search.value.trim() ? { q: search.value.trim() } : {}),
   ...(status.value ? { statut: status.value } : {}),
   taille: 40,
+  page: page.value,
 }))
 const listQuery = useMarketplaceReturns(filters)
 const effectiveId = computed(() => explicitId.value ?? listQuery.data.value?.elements[0]?.id ?? null)
 const detailQuery = useMarketplaceReturn(effectiveId)
+// Finish the initial reads before SSR renders: dehydrating a completed query after
+// rendering its skeleton makes a fast client hydrate different markup.
+if (import.meta.server) {
+  await listQuery.suspense().catch(() => undefined) // Query errors render in the existing error state.
+  if (effectiveId.value) await detailQuery.suspense().catch(() => undefined)
+}
 const { reimburse, reconcileRefund, receive, decide, arbitrate, reply } = useMarketplaceReturnMutations()
 
 watch(effectiveId, () => {
   reimbursementPhone.value = ""
   workflowReason.value = ""
   replyText.value = ""
+  workflowDecision.value = "autorise"
+  workflowResponsibility.value = "indetermine"
+  returnFees.value = 0
+  evidenceError.value = false
+  exportError.value = false
+  for (const mutation of [reimburse, reconcileRefund, receive, decide, arbitrate, reply]) mutation.reset()
 })
+const canReply = computed(
+  () =>
+    detailQuery.data.value &&
+    !["fermee", "resolue"].includes(detailQuery.data.value.demande.statut) &&
+    detailQuery.data.value.capacites.repondre !== false,
+)
+const mutationError = computed(
+  () =>
+    [reimburse, reconcileRefund, receive, decide, arbitrate, reply].find(mutation => mutation.error.value)?.error.value,
+)
 
 function submitWorkflowDecision() {
   const detail = detailQuery.data.value
   const motif = workflowReason.value.trim()
-  if (!detail || motif.length < 10) return
+  if (!detail || motif.length < 10 || !Number.isInteger(returnFees.value) || returnFees.value < 0) return
   if (detail.capacites.arbitrer) arbitrate.mutate({ id: detail.id, decision: workflowDecision.value, motif })
   else if (detail.capacites.decider)
     decide.mutate({
@@ -60,12 +87,12 @@ function submitWorkflowDecision() {
 function sendReply() {
   const detail = detailQuery.data.value
   const contenu = replyText.value.trim()
-  if (!detail || contenu.length < 2) return
+  if (!detail || !canReply.value || contenu.length < 2) return
   reply.mutate(
     { id: detail.id, demandId: detail.demande.id, contenu },
     {
       onSuccess: () => {
-        replyText.value = ""
+        if (effectiveId.value === detail.id) replyText.value = ""
       },
     },
   )
@@ -163,9 +190,18 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
             name="ph:magnifying-glass"
             class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
           />
-          <Input v-model="search" class="pl-9 text-sm" :placeholder="t('operations.disputes.search')" />
+          <Input
+            v-model="search"
+            class="pl-9 text-sm"
+            :aria-label="t('operations.disputes.search')"
+            :placeholder="t('operations.disputes.search')"
+          />
         </label>
-        <select v-model="status" class="h-9 rounded-md border border-input bg-background px-3 text-sm">
+        <select
+          v-model="status"
+          :aria-label="t('operations.disputes.allStatuses')"
+          class="h-9 rounded-md border border-input bg-background px-3 text-sm"
+        >
           <option :value="undefined">{{ t("operations.disputes.allStatuses") }}</option>
           <option v-for="value in Object.keys(statusTone)" :key="value" :value="value">
             {{ t(`operations.disputes.status.${value}`) }}
@@ -176,7 +212,7 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
 
     <div class="grid min-h-0 flex-1 grid-cols-1 border-t border-border bg-card lg:grid-cols-[300px_1fr]">
       <aside
-        class="h-full overflow-hidden border-r border-border bg-card"
+        class="flex h-full min-h-0 flex-col overflow-hidden border-r border-border bg-card"
         :class="explicitId ? 'hidden lg:block' : 'block'"
         data-testid="marketplace-disputes-sidebar"
       >
@@ -186,7 +222,7 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
             {{ t("operations.disputes.count", { count: listQuery.data.value?.total ?? 0 }) }}
           </p>
         </div>
-        <ScrollArea class="h-[calc(100%-61px)]">
+        <ScrollArea class="min-h-0 flex-1">
           <div v-if="listQuery.isPending.value" class="space-y-2 p-3">
             <div v-for="n in 7" :key="n" class="h-20 animate-pulse rounded-md bg-muted" />
           </div>
@@ -222,9 +258,31 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
             <span class="text-[11px] text-muted-foreground">{{ dateFormatter.format(new Date(item.creeLe)) }}</span>
           </button>
         </ScrollArea>
+        <nav
+          v-if="listQuery.data.value && listQuery.data.value.total > 40"
+          class="flex shrink-0 items-center justify-center gap-3 border-t border-border p-3"
+        >
+          <Button
+            variant="outline"
+            size="icon"
+            :aria-label="t('operations.focal.previous')"
+            :disabled="page <= 1 || listQuery.isFetching.value"
+            @click="page--"
+            ><Icon name="ph:caret-left"
+          /></Button>
+          <span class="text-xs">{{ page }} / {{ Math.ceil(listQuery.data.value.total / 40) }}</span>
+          <Button
+            variant="outline"
+            size="icon"
+            :aria-label="t('operations.focal.next')"
+            :disabled="page * 40 >= listQuery.data.value.total || listQuery.isFetching.value"
+            @click="page++"
+            ><Icon name="ph:caret-right"
+          /></Button>
+        </nav>
       </aside>
 
-      <section class="h-full overflow-y-auto bg-muted/70" :class="explicitId ? 'block' : 'hidden lg:block'">
+      <section class="h-full overflow-y-auto bg-muted/35" :class="explicitId ? 'block' : 'hidden lg:block'">
         <div
           v-if="detailQuery.isPending.value"
           class="flex h-full items-center justify-center text-sm text-muted-foreground"
@@ -289,9 +347,22 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
             </p>
           </header>
 
+          <nav
+            class="flex flex-wrap gap-4 border-b border-border bg-card px-4 py-3 text-sm font-semibold text-primary"
+            :aria-label="t('operations.disputes.summary')"
+          >
+            <a href="#dispute-summary" class="underline underline-offset-4">{{ t("operations.disputes.summary") }}</a>
+            <a href="#dispute-history" class="underline underline-offset-4">{{ t("operations.disputes.history") }}</a>
+            <a href="#dispute-messages" class="underline underline-offset-4">{{
+              t("operations.disputes.exchanges")
+            }}</a>
+            <a href="#dispute-evidence" class="underline underline-offset-4">{{ t("operations.disputes.evidence") }}</a>
+          </nav>
+          <ApiErrorCard v-if="mutationError" class="m-4" :error="mutationError" />
+
           <div class="grid gap-4 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_280px]">
             <div class="space-y-4">
-              <section class="rounded-lg border border-border bg-card p-4">
+              <section id="dispute-summary" class="scroll-mt-28 rounded-lg border border-border bg-card p-4">
                 <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.summary") }}</h3>
                 <dl class="mt-3 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
                   <div>
@@ -315,6 +386,7 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                 </dl>
               </section>
               <OperationsDisputeCustomer :demande="detailQuery.data.value.demande" />
+              <OperationsReturnSettlement :detail="detailQuery.data.value" />
               <section class="overflow-hidden rounded-lg border border-border bg-card">
                 <h3 class="px-4 pt-4 font-heading text-base font-semibold">{{ t("operations.disputes.items") }}</h3>
                 <div class="overflow-x-auto p-4">
@@ -340,7 +412,7 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                   </table>
                 </div>
               </section>
-              <section class="rounded-lg border border-border bg-card p-4">
+              <section id="dispute-history" class="scroll-mt-28 rounded-lg border border-border bg-card p-4">
                 <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.history") }}</h3>
                 <ol class="mt-4 space-y-4 border-l border-border pl-5">
                   <li
@@ -359,7 +431,7 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                   </li>
                 </ol>
               </section>
-              <section class="rounded-lg border border-border bg-card p-4">
+              <section id="dispute-messages" class="scroll-mt-28 rounded-lg border border-border bg-card p-4">
                 <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.exchanges") }}</h3>
                 <div class="mt-3 space-y-2">
                   <div
@@ -368,11 +440,16 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                     class="rounded-md bg-muted p-3 text-sm"
                   >
                     <strong class="capitalize">{{ message.auteurType }}</strong>
+                    <time class="ml-2 text-xs text-muted-foreground">{{
+                      dateTimeFormatter.format(new Date(message.creeLe))
+                    }}</time>
                     <p class="mt-1 whitespace-pre-wrap">{{ message.contenu }}</p>
                   </div>
                 </div>
                 <textarea
                   v-model="replyText"
+                  :disabled="!canReply"
+                  :aria-label="t('operations.disputes.replyPlaceholder')"
                   class="mt-3 min-h-24 w-full rounded-md border border-input bg-background p-3 text-sm"
                   maxlength="5000"
                   :placeholder="t('operations.disputes.replyPlaceholder')"
@@ -380,12 +457,12 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                 <Button
                   class="mt-2"
                   size="sm"
-                  :disabled="replyText.trim().length < 2 || reply.isPending.value"
+                  :disabled="!canReply || replyText.trim().length < 2 || reply.isPending.value"
                   @click="sendReply"
                   >{{ t("operations.disputes.sendReply") }}</Button
                 >
               </section>
-              <section class="rounded-lg border border-border bg-card p-4">
+              <section id="dispute-evidence" class="scroll-mt-28 rounded-lg border border-border bg-card p-4">
                 <h3 class="font-heading text-base font-semibold">{{ t("operations.disputes.evidence") }}</h3>
                 <p v-if="evidenceError" class="mt-3 text-sm text-destructive" role="alert">
                   {{ t("operations.disputes.evidenceDownloadError") }}
@@ -475,7 +552,13 @@ async function downloadEvidence(demandId: string, piece: { id: string; nomCaptur
                 />
                 <Button
                   class="w-full"
-                  :disabled="workflowReason.trim().length < 10 || decide.isPending.value || arbitrate.isPending.value"
+                  :disabled="
+                    workflowReason.trim().length < 10 ||
+                    !Number.isInteger(returnFees) ||
+                    returnFees < 0 ||
+                    decide.isPending.value ||
+                    arbitrate.isPending.value
+                  "
                   @click="submitWorkflowDecision"
                   ><Icon name="ph:scales" />{{
                     detailQuery.data.value.capacites.arbitrer

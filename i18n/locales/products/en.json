@@ -303,6 +303,7 @@
     },
     "page": {
       "heading": "Products",
+      "subtitle": "Review, correct, and publish the catalogue’s complete product information.",
       "addProduct": "+ Add",
       "newProduct": "New",
       "newProductTitle": "New product",
@@ -410,11 +411,12 @@
       "cancel": "Cancel",
       "save": {
         "add": "Save",
-        "edit": "Save"
+        "edit": "Save changes"
       },
       "withdrawnBanner": "This product was withdrawn on {date}.",
       "invalid": "The product was not saved. Please fix: {fields}.",
       "readOnly": "Only management can create or edit a product.",
+      "editHint": "Edit the fields below; the save action appears after the first change.",
       "images": {
         "label": "Images"
       },

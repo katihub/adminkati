@@ -14,6 +14,9 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useMarketplaceAdminOffers } from "@/composables/useMarketplaceCatalogueAdmin"
 import { useMarketplaceCategories } from "@/composables/useMarketplaceCategories"
+import { formatDayMonthYear } from "@/utils/dates"
+import { formatMontant } from "@/utils/money"
+import { routeQueryString } from "@/utils/route-query"
 import { storefrontMarketplaceProductUrl } from "@/utils/storefront"
 
 /* EVERY OFFER OF EVERY SHOP, FOR THE DIRECTION. The storefront shows what is
@@ -29,7 +32,14 @@ const STOCK_LEVELS: MarketplaceOfferStockLevel[] = ["rupture", "faible", "dispon
 const PAGE_SIZE = 50
 
 const search = ref("")
-const shopId = ref("")
+const route = useRoute()
+const shopId = ref(routeQueryString(route.query.boutique) ?? "")
+watch(
+  () => route.query.boutique,
+  value => {
+    shopId.value = routeQueryString(value) ?? ""
+  },
+)
 const status = ref<MarketplaceOfferStatus | "">("")
 const categoryId = ref("")
 const stockLevel = ref<MarketplaceOfferStockLevel | "">("")
@@ -71,10 +81,6 @@ const hasFilters = computed(
     sort.value !== "recent",
 )
 
-const money = computed(
-  () => new Intl.NumberFormat(locale.value, { style: "currency", currency: "XAF", maximumFractionDigits: 0 }),
-)
-const date = computed(() => new Intl.DateTimeFormat(locale.value, { dateStyle: "medium" }))
 const count = computed(() => new Intl.NumberFormat(locale.value))
 
 function title(offer: MarketplaceAdminOffer) {
@@ -289,9 +295,9 @@ function goTo(next: number) {
                   </Badge>
                 </TableCell>
                 <TableCell class="whitespace-nowrap text-right text-sm">
-                  {{ offer.prixFcfa === null ? "—" : money.format(offer.prixFcfa) }}
+                  {{ offer.prixFcfa === null ? "—" : formatMontant(offer.prixFcfa, locale).exact }}
                   <p v-if="offer.prixReferenceFcfa" class="text-xs text-muted-foreground line-through">
-                    {{ money.format(offer.prixReferenceFcfa) }}
+                    {{ formatMontant(offer.prixReferenceFcfa, locale).exact }}
                   </p>
                 </TableCell>
                 <TableCell
@@ -302,7 +308,7 @@ function goTo(next: number) {
                   {{ stockLabel(offer) }}
                 </TableCell>
                 <TableCell class="whitespace-nowrap text-xs text-muted-foreground">
-                  {{ offer.publieLe ? date.format(new Date(offer.publieLe)) : "—" }}
+                  {{ offer.publieLe ? formatDayMonthYear(offer.publieLe, locale) : "—" }}
                 </TableCell>
                 <TableCell>
                   <a

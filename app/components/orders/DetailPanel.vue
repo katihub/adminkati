@@ -165,6 +165,7 @@ function confirmLivreur() {
           :livreur-pending="livreurPending"
           @assign-livreur="livreurOpen = true"
         />
+        <OrdersRecordedEvents :order="order" />
       </div>
     </div>
   </article>

@@ -58,7 +58,7 @@ const targetLabels = computed<Record<DirectionQueue["target"], string>>(() => ({
       <article
         v-for="queue in queues"
         :key="queue.id"
-        class="grid gap-3 px-5 py-4 lg:grid-cols-[minmax(12rem,1.5fr)_5rem_7rem_8rem_8rem_auto] lg:items-center"
+        class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 px-5 py-4 lg:grid-cols-[minmax(12rem,1.5fr)_5rem_7rem_8rem_8rem_auto] lg:gap-3"
         :data-testid="`direction-queue-${queue.id}`"
       >
         <div class="flex min-w-0 items-center gap-3">
@@ -69,7 +69,11 @@ const targetLabels = computed<Record<DirectionQueue["target"], string>>(() => ({
           </span>
           <span class="font-semibold text-foreground">{{ queueLabels[queue.id] }}</span>
         </div>
-        <strong class="text-xl tabular-nums text-brand-navy dark:text-foreground">{{ queue.count }}</strong>
+        <strong
+          class="justify-self-end text-xl tabular-nums text-brand-navy lg:justify-self-start dark:text-foreground"
+        >
+          {{ queue.count }}
+        </strong>
         <span
           class="w-fit rounded-lg px-2.5 py-1 text-xs font-bold"
           :class="
@@ -80,11 +84,13 @@ const targetLabels = computed<Record<DirectionQueue["target"], string>>(() => ({
         >
           {{ priorityLabels[queue.priority] }}
         </span>
-        <span class="text-sm text-muted-foreground">{{ ownerLabels[queue.owner] }}</span>
+        <span class="justify-self-end text-sm text-muted-foreground lg:justify-self-start">
+          {{ ownerLabels[queue.owner] }}
+        </span>
         <span class="text-sm font-medium">{{ targetLabels[queue.target] }}</span>
         <NuxtLinkLocale
           :to="queue.to"
-          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand-orange px-4 text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          class="inline-flex min-h-9 items-center justify-center gap-2 justify-self-end rounded-xl bg-brand-orange px-4 text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:min-h-11 lg:justify-self-stretch"
         >
           {{ t("open") }} <Icon name="ph:arrow-right" size="16" aria-hidden="true" />
         </NuxtLinkLocale>

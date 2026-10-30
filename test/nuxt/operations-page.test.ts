@@ -110,6 +110,15 @@ async function mountOperations(route = "/operations", roles?: string[]) {
 }
 
 describe("operations page tabs", () => {
+  it("names the current module and exposes a compact, labelled module selector", async () => {
+    const wrapper = await mountOperations("/operations?tab=delivery-fees")
+
+    expect(wrapper.get("[data-testid='admin-page-header-title']").text()).toBe("Delivery fees")
+    expect(wrapper.get("[data-testid='operations-module-select']").attributes("aria-label")).toBe("Choose a module")
+    expect(wrapper.find("[data-testid='operations-tabs']").exists()).toBe(false)
+
+    wrapper.unmount()
+  })
   // The first mount compiles the whole app; paying it here keeps that cost out of the first case.
   beforeAll(async () => {
     await import("@/app.vue")
@@ -180,7 +189,7 @@ describe("operations page tabs", () => {
   ] as const)("updates the route when an operator opens the %s workspace", async activeWorkspace => {
     const wrapper = await mountOperations()
 
-    await wrapper.get(`[data-testid='operations-tab-${activeWorkspace}']`).trigger("click")
+    await wrapper.get("[data-testid='operations-module-select']").setValue(activeWorkspace)
     await flushPromises()
 
     await vi.waitFor(() => expect(useRoute().query).toEqual({ tab: activeWorkspace }))

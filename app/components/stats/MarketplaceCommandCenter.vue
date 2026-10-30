@@ -12,7 +12,8 @@ const queues = computed(() => buildDirectionQueues(marketplace))
 </script>
 
 <template>
-  <div class="space-y-4" data-testid="marketplace-command-center">
+  <div class="flex flex-col gap-4" data-testid="marketplace-command-center">
+    <StatsMarketplaceKpiGrid :marketplace="marketplace" />
     <div class="grid gap-4 xl:grid-cols-12">
       <DirectionPriorityQueues :queues="queues" class="xl:col-span-8" />
       <DirectionHealth :marketplace="marketplace" class="xl:col-span-4" />

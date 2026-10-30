@@ -2,12 +2,21 @@
   "orders": {
     "page": {
       "heading": "Commandes",
+      "subtitle": "Consultez les articles, le paiement et la livraison, puis effectuez les actions autorisées.",
       "empty": "Sélectionnez une commande pour voir ses détails",
       "loading": "Chargement des détails de la commande…",
       "seo": {
         "title": "Commandes · Administration KatiMarket",
         "description": "Administration des commandes clients pour le panneau KatiMarket."
       }
+    },
+    "events": {
+      "title": "Événements enregistrés",
+      "help": "Seuls les événements disposant d’une date enregistrée sont affichés.",
+      "created": "Commande créée",
+      "courierAssigned": "Livreur affecté",
+      "received": "Réception enregistrée",
+      "closed": "Commande clôturée"
     },
     "tabs": {
       "orders": "Commandes",

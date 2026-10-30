@@ -1,19 +1,40 @@
 <script setup lang="ts">
 // fallow-ignore-file complexity -- declarative finance workspace with withdrawal decision and proof states
 import type { SellerWithdrawalFilters, SellerWithdrawalStatus } from "@/types/api/marketplace-operations"
-import { computed, reactive, ref } from "vue"
+import { computed, reactive, ref, watch } from "vue"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useMarketplaceAdminOffers } from "@/composables/useMarketplaceCatalogueAdmin"
 import { useSellerFinanceMutations, useSellerWithdrawals } from "@/composables/useMarketplaceOperations"
+import { downloadBlob } from "@/utils/download-file"
 
 const status = ref<SellerWithdrawalStatus | undefined>()
+const route = useRoute()
+const shopId = ref(typeof route.query.boutique === "string" ? route.query.boutique : "")
+const shopsQuery = useMarketplaceAdminOffers({ taille: 1 })
+const page = ref(1)
+watch([status, shopId], () => {
+  page.value = 1
+})
+watch(
+  () => route.query.boutique,
+  value => {
+    shopId.value = typeof value === "string" ? value : ""
+  },
+)
 const { t } = useI18n({ useScope: "local" })
 const filters = computed<SellerWithdrawalFilters>(() => ({
   ...(status.value ? { statut: status.value } : {}),
-  taille: 50,
+  ...(shopId.value ? { boutiqueId: shopId.value } : {}),
+  page: page.value,
+  taille: 20,
 }))
 const query = useSellerWithdrawals(filters)
+if (import.meta.server) {
+  await Promise.all([shopsQuery.suspense(), query.suspense()].map(read => read.catch(() => undefined)))
+  // Errors remain available in each query and are rendered below.
+}
 const { acquireCommissions, decideWithdrawal, initiateTransfer, reconcileTransfer, uploadTransferProof } =
   useSellerFinanceMutations()
 const reasons = reactive<Record<string, string>>({})
@@ -22,6 +43,39 @@ const proofFiles = reactive<Record<string, File | undefined>>({})
 const statuses: SellerWithdrawalStatus[] = ["demande", "approuve", "refuse", "reverse", "echec", "annule"]
 const money = new Intl.NumberFormat("fr-CM", { style: "currency", currency: "XAF", maximumFractionDigits: 0 })
 const date = new Intl.DateTimeFormat("fr-CM", { dateStyle: "medium", timeStyle: "short" })
+const proofError = ref<unknown>(null)
+const downloading = ref(false)
+const mutationError = computed(
+  () =>
+    proofError.value ||
+    acquireCommissions.error.value ||
+    decideWithdrawal.error.value ||
+    initiateTransfer.error.value ||
+    reconcileTransfer.error.value ||
+    uploadTransferProof.error.value,
+)
+function clearErrors() {
+  proofError.value = null
+  for (const mutation of [
+    acquireCommissions,
+    decideWithdrawal,
+    initiateTransfer,
+    reconcileTransfer,
+    uploadTransferProof,
+  ])
+    mutation.reset()
+}
+async function downloadProof(withdrawalId: string, proof: { id: string; nomCapture: string }) {
+  proofError.value = null
+  downloading.value = true
+  try {
+    downloadBlob(await $fetch<Blob>(proofUrl(withdrawalId, proof.id), { responseType: "blob" }), proof.nomCapture)
+  } catch (error) {
+    proofError.value = error
+  } finally {
+    downloading.value = false
+  }
+}
 
 function reject(id: string) {
   const motif = reasons[id]?.trim()
@@ -67,6 +121,30 @@ function proofUrl(withdrawalId: string, proofId: string) {
           }}</Button
         >
       </section>
+      <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card p-4">
+        <label class="flex min-w-0 flex-1 flex-col gap-2 text-sm font-semibold"
+          >{{ t("shop") }}
+          <select v-model="shopId" class="h-10 w-full rounded-md border border-input bg-background px-3 font-normal">
+            <option value="">{{ t("allShops") }}</option>
+            <option v-for="shop in shopsQuery.data.value?.boutiques ?? []" :key="shop.id" :value="shop.id">
+              {{ shop.nom }}
+            </option>
+          </select>
+        </label>
+        <NuxtLinkLocale
+          :to="{ path: '/operations', query: { tab: 'payment-gateway' } }"
+          class="text-sm font-semibold text-primary underline underline-offset-4"
+          >{{ t("payments") }}</NuxtLinkLocale
+        >
+        <NuxtLinkLocale
+          :to="{ path: '/operations', query: { tab: 'marketplace-disputes' } }"
+          class="text-sm font-semibold text-primary underline underline-offset-4"
+          >{{ t("refunds") }}</NuxtLinkLocale
+        >
+      </div>
+      <ApiErrorCard v-if="shopsQuery.error.value" :error="shopsQuery.error.value" @retry="shopsQuery.refetch()" />
+      <OperationsFinanceLedger v-if="shopId" :key="shopId" :shop-id="shopId" />
+      <ApiErrorCard v-if="mutationError" :error="mutationError" @retry="clearErrors" />
       <div
         v-if="acquireCommissions.data.value"
         class="rounded-lg border border-success/20 bg-success/10 p-4 text-sm text-success"
@@ -83,7 +161,11 @@ function proofUrl(withdrawalId: string, proofId: string) {
           <h3 class="font-heading text-lg font-semibold">{{ t("withdrawals") }}</h3>
           <p class="text-sm text-muted-foreground">{{ t("count", { count: query.data.value?.total ?? 0 }) }}</p>
         </div>
-        <select v-model="status" class="h-9 rounded-md border border-input bg-background px-3 text-sm">
+        <select
+          v-model="status"
+          :aria-label="t('allStatuses')"
+          class="h-9 rounded-md border border-input bg-background px-3 text-sm"
+        >
           <option :value="undefined">{{ t("allStatuses") }}</option>
           <option v-for="value in statuses" :key="value" :value="value">{{ value.replaceAll("_", " ") }}</option>
         </select>
@@ -132,7 +214,7 @@ function proofUrl(withdrawalId: string, proofId: string) {
           >
             <Input v-model="reasons[item.id]" :placeholder="t('refusalReason')" /><Button
               variant="outline"
-              :disabled="decideWithdrawal.isPending.value"
+              :disabled="decideWithdrawal.isPending.value || !reasons[item.id]?.trim()"
               @click="reject(item.id)"
               >{{ t("reject") }}</Button
             ><Button
@@ -200,20 +282,59 @@ function proofUrl(withdrawalId: string, proofId: string) {
             </Button>
           </div>
           <div v-if="item.piecesJustificatives?.length" class="mt-3 flex flex-wrap gap-2">
-            <a
+            <button
               v-for="piece in item.piecesJustificatives"
               :key="piece.id"
-              :href="proofUrl(item.id, piece.id)"
+              type="button"
+              :disabled="downloading || !!piece.purgeeLe || (!!piece.statutAnalyse && piece.statutAnalyse !== 'saine')"
+              @click="downloadProof(item.id, piece)"
               class="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium hover:bg-muted"
+              :title="piece.empreinteSha256"
             >
               <Icon name="ph:file-arrow-down" />{{ piece.nomCapture }}
-            </a>
+              <span v-if="piece.purgeeLe || (piece.statutAnalyse && piece.statutAnalyse !== 'saine')">
+                · {{ t("unavailableProof") }}</span
+              >
+            </button>
           </div>
           <p v-if="item.motifDecision" class="mt-3 text-sm text-muted-foreground">
             {{ t("decision") }} {{ item.motifDecision }}
           </p>
+          <dl class="mt-4 grid gap-2 border-t border-border pt-3 text-xs text-muted-foreground sm:grid-cols-2">
+            <div>
+              <dt>{{ t("decidedAt") }}</dt>
+              <dd>{{ item.decideLe ? date.format(new Date(item.decideLe)) : "—" }}</dd>
+            </div>
+            <div>
+              <dt>{{ t("paidAt") }}</dt>
+              <dd>{{ item.reverseLe ? date.format(new Date(item.reverseLe)) : "—" }}</dd>
+            </div>
+            <div v-if="item.reversementPsp">
+              <dt>{{ t("attempts") }}</dt>
+              <dd>{{ item.reversementPsp.tentatives }} · {{ item.reversementPsp.transId ?? "—" }}</dd>
+            </div>
+            <div v-if="item.reversementPsp">
+              <dt>{{ t("checkedAt") }}</dt>
+              <dd>{{ item.reversementPsp.verifieLe ? date.format(new Date(item.reversementPsp.verifieLe)) : "—" }}</dd>
+            </div>
+          </dl>
         </article>
       </div>
+      <nav
+        v-if="query.data.value && query.data.value.total > query.data.value.taille"
+        class="flex items-center justify-center gap-3"
+      >
+        <Button variant="outline" :disabled="page <= 1 || query.isFetching.value" @click="page--">{{
+          t("previous")
+        }}</Button
+        ><span class="text-sm">{{ page }} / {{ Math.ceil(query.data.value.total / query.data.value.taille) }}</span
+        ><Button
+          variant="outline"
+          :disabled="page * query.data.value.taille >= query.data.value.total || query.isFetching.value"
+          @click="page++"
+          >{{ t("next") }}</Button
+        >
+      </nav>
     </div>
   </div>
 </template>
@@ -221,6 +342,17 @@ function proofUrl(withdrawalId: string, proofId: string) {
 <i18n lang="json">
 {
   "en": {
+    "unavailableProof": "Unavailable (purged or security scan pending)",
+    "shop": "Shop account",
+    "allShops": "All shops — select a shop to view its ledger",
+    "payments": "Payments and PSP reconciliation",
+    "refunds": "Returns and refunds",
+    "decidedAt": "Decision date",
+    "paidAt": "Payout date",
+    "attempts": "PSP attempts and reference",
+    "checkedAt": "Last PSP check",
+    "previous": "Previous",
+    "next": "Next",
     "eyebrow": "Seller financial cycle",
     "title": "Commissions, holds and transfers",
     "description": "Acquisition closes eligible sales. Every payout requires a decision and verifiable evidence.",
@@ -247,6 +379,17 @@ function proofUrl(withdrawalId: string, proofId: string) {
     "decision": "Decision:"
   },
   "fr": {
+    "unavailableProof": "Indisponible (purgée ou analyse de sécurité non validée)",
+    "shop": "Compte boutique",
+    "allShops": "Toutes les boutiques — choisir pour consulter le registre",
+    "payments": "Paiements et rapprochements PSP",
+    "refunds": "Retours et remboursements",
+    "decidedAt": "Date de décision",
+    "paidAt": "Date de reversement",
+    "attempts": "Tentatives et référence PSP",
+    "checkedAt": "Dernière vérification PSP",
+    "previous": "Précédent",
+    "next": "Suivant",
     "eyebrow": "Cycle financier vendeur",
     "title": "Commissions, gels et reversements",
     "description": "L’acquisition clôt les ventes éligibles. Chaque sortie exige une décision et une preuve vérifiable.",

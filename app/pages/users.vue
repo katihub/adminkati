@@ -61,17 +61,15 @@ const listFilters = computed(() => {
 })
 
 function workspaceQuery(overrides: { id?: string; q?: string; statut?: CustomerStatus; tri?: CustomerSort } = {}) {
-  const q = "q" in overrides ? overrides.q : searchInput.value.trim() || undefined
-  const id = "id" in overrides ? overrides.id : (selectedId.value ?? undefined)
-  const statut = "statut" in overrides ? overrides.statut : status.value
-  const tri = "tri" in overrides ? overrides.tri : sort.value
-
-  return {
-    ...(id ? { id } : {}),
-    ...(q ? { q } : {}),
-    ...(statut ? { statut } : {}),
-    ...(tri !== "recent" ? { tri } : {}),
+  const values = {
+    id: selectedId.value ?? undefined,
+    q: searchInput.value.trim() || undefined,
+    statut: status.value,
+    tri: sort.value,
+    ...overrides,
   }
+  if (values.tri === "recent") delete (values as { tri?: CustomerSort }).tri
+  return Object.fromEntries(Object.entries(values).filter(([, value]) => Boolean(value)))
 }
 
 let searchTimer: ReturnType<typeof setTimeout> | undefined
@@ -201,22 +199,23 @@ useHead({
 </script>
 
 <template>
-  <div class="-mx-4 flex h-workspace flex-col overflow-hidden sm:-mx-6 lg:-mx-10">
-    <div class="px-4 sm:px-6 lg:px-10">
-      <AdminPageHeader :title="t('users.page.heading')">
-        <template #toolbar>
-          <UsersFilterBar
-            v-model:filters="toolbarFilters"
-            :has-active-filters="hasActiveToolbarFilters"
-            @clear="clearToolbarFilters"
-          />
-        </template>
-      </AdminPageHeader>
+  <div class="flex min-h-[calc(100dvh-4rem)] flex-col gap-4 py-4 lg:h-workspace lg:min-h-0 lg:overflow-hidden">
+    <div class="min-w-0">
+      <AdminPageHeader :title="t('users.page.heading')" />
+      <div class="max-w-full overflow-x-auto pb-2">
+        <UsersFilterBar
+          v-model:filters="toolbarFilters"
+          :has-active-filters="hasActiveToolbarFilters"
+          @clear="clearToolbarFilters"
+        />
+      </div>
     </div>
 
-    <div class="grid flex-1 min-h-0 w-full grid-cols-1 border-t border-border bg-card lg:grid-cols-[300px_1fr]">
+    <div
+      class="grid min-h-0 w-full flex-1 grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-[320px_minmax(0,1fr)]"
+    >
       <div
-        class="h-full overflow-hidden border-r border-border bg-card"
+        class="min-h-96 overflow-hidden border-r border-border bg-card lg:h-full lg:min-h-0"
         :class="effectiveId ? 'hidden lg:block' : 'block'"
         data-testid="users-workspace-sidebar"
       >
@@ -233,7 +232,7 @@ useHead({
       </div>
 
       <div
-        class="h-full overflow-y-auto bg-muted/70"
+        class="min-h-96 overflow-y-auto bg-muted/35 lg:h-full lg:min-h-0"
         :class="effectiveId ? 'block' : 'hidden lg:block'"
         data-testid="users-workspace-detail"
       >

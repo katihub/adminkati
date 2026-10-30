@@ -1,19 +1,52 @@
 {
   "admin": {
     "brandLabel": "KatiMarket Admin",
+    "marketplace": "View marketplace",
     "navigation": {
       "administration": "Administration",
       "catalogue": "Catalogue",
-      "clients": "Clients",
+      "clients": "Customers",
       "commerce": "Commerce",
       "finance": "Finance",
       "label": "Primary navigation",
-      "logistics": "Logistics",
-      "marketing": "Marketing",
+      "description": "Access the authorised administration modules.",
+      "logistics": "Delivery and support",
+      "marketing": "Communication",
       "open": "Open navigation",
-      "pilotage": "Overview",
-      "sellers": "Sellers",
-      "focal": "My shops"
+      "close": "Close navigation",
+      "pilotage": "Dashboard",
+      "sellers": "Commercial network",
+      "focal": "My shops",
+      "items": {
+        "settings": "Platform settings",
+        "orders": "Orders",
+        "quotes": "Quotes",
+        "products": "Products",
+        "taxonomy": "Categories and departments",
+        "catalogueModeration": "Moderation",
+        "catalogueOffers": "Shop offers",
+        "sellerOnboarding": "Seller applications",
+        "shopAgents": "Shop agents",
+        "sellerTrust": "Quality and sanctions",
+        "customerDirectory": "Customer directory",
+        "customerAssistance": "Support",
+        "reportedReviews": "Reported reviews",
+        "disputes": "Disputes",
+        "deliveryFees": "Delivery fees",
+        "localities": "Cities and neighbourhoods",
+        "orderServices": "After-sales services",
+        "refusedLines": "Refused items",
+        "cashRegisters": "Cash registers",
+        "sellerFinance": "Seller finance",
+        "installmentPlans": "Installment plans",
+        "katiPoints": "KATI",
+        "content": "Banners and announcements",
+        "siteTexts": "Website copy",
+        "outboundNotifications": "Notifications",
+        "team": "Team and roles",
+        "marketplacePilot": "Rollouts",
+        "legalClosure": "Legal closure"
+      }
     },
     "profile": {
       "dark": "Dark",
@@ -26,6 +59,11 @@
       "logout": "Sign out",
       "name": "Admin",
       "theme": "Theme"
+    },
+    "moduleSearch": {
+      "label": "Search modules",
+      "placeholder": "Search a module…",
+      "empty": "No accessible module matches this search."
     }
   },
   "language": {

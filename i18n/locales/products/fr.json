@@ -303,6 +303,7 @@
     },
     "page": {
       "heading": "Produits",
+      "subtitle": "Consultez, corrigez et publiez les informations complètes du catalogue.",
       "addProduct": "+ Ajouter",
       "newProduct": "Nouveau",
       "newProductTitle": "Nouveau produit",
@@ -410,11 +411,12 @@
       "cancel": "Annuler",
       "save": {
         "add": "Enregistrer",
-        "edit": "Enregistrer"
+        "edit": "Enregistrer les modifications"
       },
       "withdrawnBanner": "Ce produit a été retiré le {date}.",
       "invalid": "Le produit n'a pas été enregistré. À corriger : {fields}.",
       "readOnly": "Seule la direction peut créer ou modifier un produit.",
+      "editHint": "Modifiez les champs ci-dessous ; l’action d’enregistrement apparaîtra dès le premier changement.",
       "images": {
         "label": "Images"
       },

@@ -60,6 +60,7 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
+    --container-admin: 100rem;
 }
 
 :root {
@@ -99,14 +100,14 @@
     --stat-slab-muted: color-mix(in oklch, var(--stat-slab-foreground) 70%, transparent);
     --stat-slab-fill: color-mix(in oklch, var(--stat-slab-foreground) 14%, transparent);
     --radius: 0.45rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.141 0.005 285.823);
+    --sidebar: var(--brand-navy);
+    --sidebar-foreground: oklch(0.985 0 0);
     --sidebar-primary: var(--brand-orange);
     --sidebar-primary-foreground: oklch(1 0 0);
-    --sidebar-accent: oklch(0.967 0.001 286.375);
-    --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-    --sidebar-border: oklch(0.92 0.004 286.32);
-    --sidebar-ring: oklch(0.705 0.015 286.067);
+    --sidebar-accent: color-mix(in oklch, white 12%, transparent);
+    --sidebar-accent-foreground: oklch(1 0 0);
+    --sidebar-border: color-mix(in oklch, white 16%, transparent);
+    --sidebar-ring: var(--brand-orange);
 }
 
 .dark {
@@ -144,14 +145,14 @@
     --stat-slab-foreground: var(--primary-foreground);
     --stat-slab-muted: color-mix(in oklch, var(--stat-slab-foreground) 70%, transparent);
     --stat-slab-fill: color-mix(in oklch, var(--stat-slab-foreground) 14%, transparent);
-    --sidebar: oklch(0.21 0.006 285.885);
+    --sidebar: var(--brand-navy);
     --sidebar-foreground: oklch(0.985 0 0);
     --sidebar-primary: var(--brand-orange);
     --sidebar-primary-foreground: var(--brand-navy);
-    --sidebar-accent: oklch(0.274 0.006 286.033);
+    --sidebar-accent: color-mix(in oklch, white 12%, transparent);
     --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.552 0.016 285.938);
+    --sidebar-border: color-mix(in oklch, white 16%, transparent);
+    --sidebar-ring: var(--brand-orange);
 }
 
 @layer base {
@@ -171,6 +172,10 @@
    own panels size themselves with this: a hand-copied `calc(100dvh-100px)` left 35px of dead space. */
 @utility h-workspace {
     height: calc(100dvh - 65px);
+}
+
+@utility admin-shell-columns {
+    grid-template-columns: 16rem minmax(0, 1fr);
 }
 
 /* The colours of the AI icon (components/AiIcon.vue: #FF00D6, #0066FF, #07FFE1). Change the palette here

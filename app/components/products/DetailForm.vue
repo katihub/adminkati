@@ -696,6 +696,7 @@ watch(
         :history-count="historyCount"
         :active-tab="activeTab"
         :show-stock="showStock"
+        :can-write="canWrite"
         @update:active-tab="value => (activeTab = value)"
       >
         <template #actions>

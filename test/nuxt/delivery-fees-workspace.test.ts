@@ -92,6 +92,8 @@ describe("delivery fees workspace", () => {
           montantFcfa: 1200,
           gratuitDesFcfa: null,
           actif: true,
+          creeLe: "2026-10-01T08:00:00.000Z",
+          modifieLe: "2026-10-01T08:00:00.000Z",
         },
         {
           id: "q1-v",
@@ -102,6 +104,8 @@ describe("delivery fees workspace", () => {
           montantFcfa: 800,
           gratuitDesFcfa: 25000,
           actif: true,
+          creeLe: "2026-10-01T08:00:00.000Z",
+          modifieLe: "2026-10-01T08:00:00.000Z",
         },
       ],
     )

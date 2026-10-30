@@ -21,6 +21,24 @@ function idsFor(session: PublicSession | null) {
 }
 
 describe("admin navigation visibility", () => {
+  it("keeps the administration settings entry exclusive to direction", () => {
+    const administration = (roles: Role[]) =>
+      visibleAdminNavigationItems(sessionWith(...roles)).find(item => item.id === "administration")?.children ?? []
+    expect(administration(["direction"]).find(item => item.id === "settings")?.to).toBe("/settings")
+    for (const role of ["comptoir", "preparation", "livreur", "point_focal"] as const) {
+      expect(administration([role]).some(item => item.id === "settings")).toBe(false)
+    }
+    expect(
+      visibleAdminNavigationItems(null)
+        .find(item => item.id === "administration")
+        ?.children?.some(item => item.id === "settings"),
+    ).toBe(false)
+  })
+  it("opens the seller domain on an authorized module for a counter", () => {
+    const sellers = visibleAdminNavigationItems(sessionWith("comptoir")).find(item => item.id === "sellers")
+    expect(sellers?.children?.map(item => item.id)).toEqual(["seller-trust"])
+    expect(sellers?.to).toBe("/operations?tab=seller-trust")
+  })
   it("gives direction every business domain destination", () => {
     expect(idsFor(sessionWith("direction"))).toEqual([
       "pilotage",
@@ -82,6 +100,41 @@ describe("admin navigation visibility", () => {
 })
 
 describe("admin navigation model", () => {
+  it("structures each business domain with direct operational destinations", () => {
+    const children = (id: string) => adminNavigationItems.find(item => item.id === id)?.children?.map(item => item.id)
+
+    expect(children("commerce")).toEqual(["orders", "quotes"])
+    expect(children("catalogue")).toEqual(["products", "taxonomy", "catalogue-moderation", "catalogue-offers"])
+    expect(children("sellers")).toEqual(["seller-onboarding", "shop-agents", "seller-trust"])
+    expect(children("clients")).toEqual(["customer-directory", "customer-assistance", "reported-reviews", "disputes"])
+    expect(children("logistics")).toEqual(["delivery-fees", "localities", "order-services", "refused-lines"])
+    expect(children("finance")).toEqual(["cash-registers", "seller-finance", "installment-plans", "kati-points"])
+    expect(children("marketing")).toEqual(["content", "site-texts", "outbound-notifications"])
+    expect(children("administration")).toEqual(["team", "settings", "marketplace-pilot", "legal-closure"])
+  })
+
+  it("matches an operations child against its exact tab", () => {
+    const sellerTrust = adminNavigationItems
+      .find(item => item.id === "sellers")
+      ?.children?.find(item => item.id === "seller-trust")
+
+    expect(sellerTrust).toBeDefined()
+    expect(
+      isAdminNavigationItemActive(sellerTrust!, {
+        name: "operations",
+        path: "/operations",
+        query: { tab: "seller-trust" },
+      }),
+    ).toBe(true)
+    expect(
+      isAdminNavigationItemActive(sellerTrust!, {
+        name: "operations",
+        path: "/operations",
+        query: { tab: "seller-onboarding" },
+      }),
+    ).toBe(false)
+  })
+
   it("keeps destination ids and deep links unique", () => {
     const unique = (values: string[]) => new Set(values).size === values.length
 

@@ -227,10 +227,10 @@ useHead({
 
 <template>
   <div
-    class="-mx-4 sm:-mx-6 lg:-mx-10"
+    class="flex min-w-0 flex-col gap-4 py-4"
     :class="activeTab === 'propositions' && 'flex h-workspace flex-col overflow-hidden'"
   >
-    <div class="shrink-0 px-6 lg:px-10">
+    <div class="min-w-0 shrink-0">
       <AdminPageHeader :title="t('content.heading')">
         <template #tabs>
           <!-- Labels stay on one line and the strip scrolls on a phone, instead of each tab
@@ -251,11 +251,18 @@ useHead({
           >
             {{ t("content.siteTexts.openLink") }}
           </NuxtLinkLocale>
+          <NuxtLinkLocale
+            v-if="canWrite"
+            :to="{ path: '/operations', query: { tab: 'outbound-notifications' } }"
+            class="text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >{{ t("content.notificationsLink") }}</NuxtLinkLocale
+          >
         </template>
       </AdminPageHeader>
     </div>
 
     <template v-if="activeTab === 'banners'">
+      <ContentBannerOverview :banners="banners" :is-pending="isPending" :error="error" />
       <ContentBannerFilterBar
         v-model:filters="filters"
         :can-write="canWrite"

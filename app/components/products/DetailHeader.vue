@@ -7,9 +7,10 @@ const props = defineProps<{
   historyCount: number
   activeTab: ProductTab
   showStock: boolean
+  canWrite?: boolean
 }>()
 const emit = defineEmits<{ "update:activeTab": [value: ProductTab] }>()
-const { productName, historyCount, activeTab, showStock } = toRefs(props)
+const { productName, historyCount, activeTab, showStock, canWrite } = toRefs(props)
 
 const { t } = useI18n()
 
@@ -21,19 +22,25 @@ const tabs = computed(() => [
 </script>
 
 <template>
-  <div class="border-b border-muted sticky bg-background z-20 top-0 p-3">
-    <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 md:grid md:grid-cols-[1fr_auto_1fr]">
-      <!-- `pl-9` keeps the title where the header's old `pl-12` put it; with the padding symmetric, equal side columns land the tabs dead centre. -->
-      <h3 class="font-medium max-w-1/3 line-clamp-1 pl-9 md:max-w-none">
-        {{ productName }}
-      </h3>
+  <div class="sticky top-0 z-20 border-b border-border bg-background/95 px-4 py-3 backdrop-blur-sm sm:px-6">
+    <div
+      class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 xl:grid xl:grid-cols-[minmax(12rem,1fr)_auto_minmax(12rem,1fr)]"
+    >
+      <div class="min-w-0">
+        <h3 class="truncate font-heading text-base font-bold text-foreground" :title="productName">
+          {{ productName || t("products.page.newProductTitle") }}
+        </h3>
+        <p class="mt-0.5 text-xs text-muted-foreground">
+          {{ canWrite ? t("products.detailForm.editHint") : t("products.detailForm.readOnly") }}
+        </p>
+      </div>
       <PillTabs
-        class="md:justify-self-center"
+        class="xl:justify-self-center"
         :items="tabs"
         :model-value="activeTab"
         @update:model-value="value => emit('update:activeTab', value as ProductTab)"
       />
-      <div class="flex flex-wrap items-center justify-end gap-3 md:flex-nowrap md:justify-self-end">
+      <div class="flex flex-wrap items-center justify-end gap-3 xl:flex-nowrap xl:justify-self-end">
         <slot name="actions" />
       </div>
     </div>

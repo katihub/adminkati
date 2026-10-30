@@ -1,5 +1,19 @@
 {
   "users": {
+    "activity": {
+      "limit": "Affichage des {count} dernières entrées au maximum par liste.",
+      "assistance": "Tickets d’assistance ({count})",
+      "cases": "Dossiers SAV et remboursements ({count})",
+      "empty": "Aucune activité enregistrée.",
+      "openReturn": "Ouvrir le dossier de retour",
+      "refunded": "Remboursé : {amount}"
+    },
+    "kati": {
+      "disponible": "KATI disponibles",
+      "enAttente": "KATI en attente",
+      "reserve": "KATI réservés",
+      "history": "Historique KATI ({count})"
+    },
     "page": {
       "heading": "Clients",
       "empty": "Sélectionnez un client pour voir les détails du compte.",
@@ -39,7 +53,9 @@
     },
     "tabs": {
       "profile": "Profil",
-      "orders": "Commandes"
+      "orders": "Commandes",
+      "activity": "Assistance et remboursements",
+      "kati": "KATI"
     },
     "orders": {
       "emptyTitle": "Aucune commande",
