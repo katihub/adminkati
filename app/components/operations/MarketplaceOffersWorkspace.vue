@@ -366,7 +366,11 @@ function goTo(next: number) {
                   :class="stockClass(offer)"
                   :data-testid="`marketplace-offer-stock-${offer.id}`"
                 >
-                  {{ stockLabel(offer) }}
+                  <CatalogueAvailabilityBadge
+                    v-if="offer.statutStock && offer.statutStock !== 'en_stock'"
+                    :status="offer.statutStock"
+                  />
+                  <template v-else>{{ stockLabel(offer) }}</template>
                 </TableCell>
                 <TableCell class="whitespace-nowrap text-xs text-muted-foreground">
                   {{ offer.publieLe ? formatDayMonthYear(offer.publieLe, locale) : "—" }}

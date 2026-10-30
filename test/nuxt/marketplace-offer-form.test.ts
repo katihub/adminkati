@@ -15,6 +15,7 @@ const offer: AdminMarketplaceOfferDetail["offre"] = {
   quantiteMinimale: 1,
   garantieMois: 12,
   delaiMaxJours: 3,
+  statutStock: "en_stock",
   modifieLe: "2026-10-30T12:00:00.000Z",
   description: null,
   etat: "neuf",

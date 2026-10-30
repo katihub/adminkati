@@ -82,6 +82,32 @@
       "soumise": "Submitted",
       "approuvee": "Approved",
       "refusee": "Rejected"
+    },
+    "availability": {
+      "title": "Availability",
+      "change": "Change availability",
+      "changeAll": "Availability of every offer",
+      "statuses": {
+        "en_stock": "In stock",
+        "rupture": "Out of stock",
+        "reapprovisionnement": "Restocking"
+      },
+      "help": "“Out of stock” and “Restocking” take the offer off sale on the site and the app, whatever its quantity.",
+      "helpAll": "The same availability applies to every offer of this product (archived ones excepted). Quantities do not change.",
+      "status": "Availability",
+      "quantity": "Quantity in stock",
+      "quantityHelp": "Physical units at the seller, {reserved} of them already reserved for customers.",
+      "untracked": "This shop does not track its stock: only the availability can be set.",
+      "reason": "Reason (shown in the history)",
+      "reasonPlaceholder": "E.g. new delivery expected next week",
+      "reasonRequired": "Give a reason of at least 5 characters.",
+      "quantityRequired": "Enter a quantity above the reserved units to put the offer back on sale.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saved": "Availability updated.",
+      "savedAllMissing": "Availability updated. {count} tracked offer(s) without stock remain unsellable: enter their quantity.",
+      "listOut": "{count} out of stock",
+      "listRestock": "{count} restocking"
     }
   }
 }

@@ -8,7 +8,19 @@ export interface AdminMarketplaceProductSummary {
   statut: string
   image: string | null
   offres: number
+  /** How many non-archived offers are on sale, out of stock, or awaiting restock. */
+  disponibilite?: Record<StockStatus, number>
   modifieLe: string
+}
+/** The availability the team sets on an offer: anything but `en_stock` takes it off sale. */
+export type StockStatus = "en_stock" | "rupture" | "reapprovisionnement"
+export const STOCK_STATUSES: readonly StockStatus[] = ["en_stock", "rupture", "reapprovisionnement"]
+/** BackendKati/src/marketplace/produits-administration.dto.ts — DefinirDisponibiliteOffreDto. */
+export interface OfferAvailabilityInput {
+  statutStock: StockStatus
+  /** Only for a shop that tracks its stock. */
+  quantite?: number
+  motif: string
 }
 /** BackendKati/src/marketplace/produits-administration.service.ts:42 — pagination. */
 export interface CataloguePagination {
@@ -41,6 +53,7 @@ export interface LinkedMarketplaceOffer {
   quantiteMinimale: number
   garantieMois: number | null
   delaiMaxJours: number | null
+  statutStock: StockStatus
   boutique: { id: string; nom: string; slug?: string; vendeurId: string; suiviStock: boolean }
   stock: { quantite: number; quantiteReservee: number } | null
 }

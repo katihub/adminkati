@@ -1,5 +1,6 @@
 import type {
   AdminMarketplaceProduct,
+  OfferAvailabilityInput,
   MarketplaceProductCorrection,
   MarketplaceOfferCorrection,
 } from "@/types/api/catalogue-products"
@@ -31,5 +32,19 @@ export function useCatalogueCorrections() {
       api(`/marketplace/administration/offres/${encodeURIComponent(id)}`, { method: "PATCH", body }),
     onSuccess: refresh,
   })
-  return { product, create, offer }
+  const availability = useMutation({
+    mutationFn: ({ id, body }: { id: string; body: OfferAvailabilityInput }) =>
+      api(`/marketplace/administration/offres/${encodeURIComponent(id)}/disponibilite`, { method: "PATCH", body }),
+    onSuccess: refresh,
+  })
+  /** Every offer of the product at once; `sansPieces` lists tracked offers still without stock. */
+  const productAvailability = useMutation({
+    mutationFn: ({ id, body }: { id: string; body: Omit<OfferAvailabilityInput, "quantite"> }) =>
+      api<{ offres: number; sansPieces: string[] }>(
+        `/marketplace/administration/produits/${encodeURIComponent(id)}/disponibilite`,
+        { method: "PATCH", body },
+      ),
+    onSuccess: refresh,
+  })
+  return { product, create, offer, availability, productAvailability }
 }

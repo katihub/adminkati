@@ -22,9 +22,17 @@ const { t } = useI18n()
     <span class="flex min-w-0 flex-1 flex-col gap-1"
       ><span class="line-clamp-2 text-sm font-semibold">{{ product.nom }}</span
       ><span class="text-xs text-muted-foreground">{{ product.marque }} · {{ product.categorie }}</span
-      ><span class="text-xs text-muted-foreground">{{
-        t("catalogue.offerCount", { count: product.offres })
-      }}</span></span
+      ><span class="text-xs text-muted-foreground">{{ t("catalogue.offerCount", { count: product.offres }) }}</span
+      ><span
+        v-if="product.disponibilite?.rupture || product.disponibilite?.reapprovisionnement"
+        class="flex flex-wrap gap-1"
+        ><Badge v-if="product.disponibilite.rupture" variant="destructive">{{
+          t("catalogue.availability.listOut", { count: product.disponibilite.rupture })
+        }}</Badge
+        ><Badge v-if="product.disponibilite.reapprovisionnement" variant="warning">{{
+          t("catalogue.availability.listRestock", { count: product.disponibilite.reapprovisionnement })
+        }}</Badge></span
+      ></span
     >
     <Badge :variant="product.statut === 'actif' ? 'success' : 'secondary'">{{
       t(`catalogue.status.${product.statut}`)

@@ -108,6 +108,7 @@ async function save(body: MarketplaceOfferCorrection) {
         "
       />
       <template v-else>
+        <CatalogueOfferAvailability :offer="query.data.value.offre" />
         <CatalogueOfferFacts :offer="query.data.value.offre" />
         <Button v-if="editable" class="self-start" data-testid="catalogue-edit-offer" @click="editing = true">{{
           t("catalogue.editOffer")
