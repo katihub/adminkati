@@ -82,6 +82,78 @@
       "replied": "Réponse envoyée au client.",
       "repliedWithFiche": "Réponse envoyée et enregistrée comme fiche.",
       "closed": "Demande close."
+    },
+    "kati": {
+      "tab": "Kati",
+      "help": "Les questions que Kati n’a pas comprises, pour lesquelles elle n’a rien trouvé, ou qu’elle a passées à un conseiller. Apprenez-lui un synonyme ou validez une réponse : la correction vaut dès la question suivante.",
+      "report": {
+        "title": "Les 7 derniers jours",
+        "questions": "Questions",
+        "understood": "Comprises",
+        "handedOver": "Passées à un conseiller",
+        "aiShare": "Répondues par l’IA",
+        "tokens": "Jetons OpenAI",
+        "frequent": "Les plus demandées"
+      },
+      "review": {
+        "title": "Questions à revoir",
+        "period": "Période",
+        "days": "{days} derniers jours",
+        "empty": "Rien à revoir : Kati a compris toutes les questions de la période.",
+        "last": "Dernière fois le {date}"
+      },
+      "types": {
+        "incomprise": "Non comprise",
+        "sans_resultat": "Sans résultat",
+        "conseiller": "Conseiller",
+        "hors_perimetre": "Hors sujet",
+        "precision": "Précision",
+        "produits": "Produits",
+        "fiche": "Fiche",
+        "reponse": "Réponse"
+      },
+      "kinds": {
+        "synonyme": "Synonyme",
+        "exemple": "Réponse validée"
+      },
+      "actions": {
+        "synonym": "Apprendre un synonyme",
+        "example": "Valider une réponse",
+        "reviewed": "Marquer comme vue",
+        "withdraw": "Retirer"
+      },
+      "corrections": {
+        "title": "Ce que l’équipe a appris à Kati",
+        "empty": "Aucune correction pour l’instant.",
+        "by": "Par {name}"
+      },
+      "form": {
+        "title": {
+          "synonyme": "Apprendre un synonyme",
+          "exemple": "Valider une réponse"
+        },
+        "help": {
+          "synonyme": "Kati lira l’expression du client comme ce qu’il faut chercher : « tchop » → « alimentation ».",
+          "exemple": "Kati suivra cette réponse pour les questions semblables, en vérifiant prix et stock dans le catalogue."
+        },
+        "expression": {
+          "synonyme": "Ce que le client écrit",
+          "exemple": "La question"
+        },
+        "target": {
+          "synonyme": "Ce qu’il faut chercher",
+          "exemple": "La réponse validée"
+        },
+        "expressionRequired": "Écrivez l’expression du client.",
+        "targetRequired": "Écrivez ce que Kati doit en comprendre.",
+        "cancel": "Annuler",
+        "save": "Enregistrer"
+      },
+      "toast": {
+        "taught": "Kati en tiendra compte dès la prochaine question.",
+        "reviewed": "Question marquée comme vue.",
+        "withdrawn": "Correction retirée."
+      }
     }
   }
 }

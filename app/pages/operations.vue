@@ -20,6 +20,7 @@ const QUERY_TABS = [
   "focal-points",
   "payment-gateway",
   "customer-requests",
+  "kati-review",
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-offers",
@@ -50,6 +51,7 @@ type OperationsTab = "cash-registers" | (typeof QUERY_TABS)[number]
 const COUNTER_TABS: readonly OperationsTab[] = [
   "cash-registers",
   "customer-requests",
+  "kati-review",
   "marketplace-catalogue",
   "marketplace-disputes",
   "seller-trust",
@@ -112,6 +114,12 @@ const ALL_TABS = computed(() => [
     label: t("operations.tabs.customerRequests.label"),
     icon: "ph:chats-circle",
     testid: "operations-tab-customer-requests",
+  },
+  {
+    value: "kati-review",
+    label: t("assistant.kati.tab"),
+    icon: "ph:sparkle",
+    testid: "operations-tab-kati-review",
   },
   {
     value: "seller-onboarding",
@@ -311,6 +319,7 @@ useHead({
     <OperationsFocalPointsWorkspace v-else-if="activeTab === 'focal-points'" />
     <OperationsPaymentGatewayWorkspace v-else-if="activeTab === 'payment-gateway'" />
     <OperationsCustomerRequestsWorkspace v-else-if="activeTab === 'customer-requests'" />
+    <OperationsKatiReviewWorkspace v-else-if="activeTab === 'kati-review'" />
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />
     <OperationsMarketplaceOffersWorkspace v-else-if="activeTab === 'marketplace-offers'" />

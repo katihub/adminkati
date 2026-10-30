@@ -82,6 +82,78 @@
       "replied": "Reply sent to the customer.",
       "repliedWithFiche": "Reply sent and saved as a fiche.",
       "closed": "Request closed."
+    },
+    "kati": {
+      "tab": "Kati",
+      "help": "Questions Kati did not understand, found nothing for, or handed over to an advisor. Teach her a synonym or validate an answer: the correction applies from the next question on.",
+      "report": {
+        "title": "Last 7 days",
+        "questions": "Questions",
+        "understood": "Understood",
+        "handedOver": "Handed over",
+        "aiShare": "Answered by AI",
+        "tokens": "OpenAI tokens",
+        "frequent": "Most asked"
+      },
+      "review": {
+        "title": "Questions to review",
+        "period": "Period",
+        "days": "Last {days} days",
+        "empty": "Nothing to review: Kati understood every question in this period.",
+        "last": "Last asked {date}"
+      },
+      "types": {
+        "incomprise": "Not understood",
+        "sans_resultat": "No result",
+        "conseiller": "Advisor",
+        "hors_perimetre": "Off topic",
+        "precision": "Clarification",
+        "produits": "Products",
+        "fiche": "Sheet",
+        "reponse": "Answer"
+      },
+      "kinds": {
+        "synonyme": "Synonym",
+        "exemple": "Validated answer"
+      },
+      "actions": {
+        "synonym": "Teach a synonym",
+        "example": "Validate an answer",
+        "reviewed": "Mark as reviewed",
+        "withdraw": "Withdraw"
+      },
+      "corrections": {
+        "title": "What the team taught Kati",
+        "empty": "No corrections yet.",
+        "by": "By {name}"
+      },
+      "form": {
+        "title": {
+          "synonyme": "Teach a synonym",
+          "exemple": "Validate an answer"
+        },
+        "help": {
+          "synonyme": "Kati will read the customer's wording as what to search: « tchop » → « food ».",
+          "exemple": "Kati will follow this answer for similar questions, checking price and stock in the catalogue."
+        },
+        "expression": {
+          "synonyme": "What the customer writes",
+          "exemple": "The question"
+        },
+        "target": {
+          "synonyme": "What to search",
+          "exemple": "The validated answer"
+        },
+        "expressionRequired": "Write the customer's wording.",
+        "targetRequired": "Write what Kati should understand.",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "toast": {
+        "taught": "Kati will apply it from the next question.",
+        "reviewed": "Question marked as reviewed.",
+        "withdrawn": "Correction withdrawn."
+      }
     }
   }
 }

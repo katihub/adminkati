@@ -8,6 +8,7 @@ const operationsWorkspaceStubs = {
   OperationsFocalPointsWorkspace: { template: '<div data-testid="operations-focal-points-workspace" />' },
   OperationsPaymentGatewayWorkspace: { template: '<div data-testid="operations-payment-gateway-workspace" />' },
   OperationsCustomerRequestsWorkspace: { template: '<div data-testid="operations-customer-requests-workspace" />' },
+  OperationsKatiReviewWorkspace: { template: '<div data-testid="operations-kati-review-workspace" />' },
   OperationsSellerOnboardingWorkspace: { template: '<div data-testid="operations-seller-onboarding-workspace" />' },
   OperationsMarketplaceCatalogueModerationWorkspace: {
     template: '<div data-testid="operations-marketplace-catalogue-workspace" />',
@@ -65,6 +66,7 @@ const workspaces = [
   "payment-gateway",
   "cash-registers",
   "customer-requests",
+  "kati-review",
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-offers",
@@ -128,6 +130,7 @@ describe("operations page tabs", () => {
   it.each([
     ["cash-registers", "/operations"],
     ["customer-requests", "/operations?tab=customer-requests"],
+    ["kati-review", "/operations?tab=kati-review"],
     ["seller-onboarding", "/operations?tab=seller-onboarding"],
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
     ["marketplace-offers", "/operations?tab=marketplace-offers"],
