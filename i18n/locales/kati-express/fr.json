@@ -1,0 +1,64 @@
+{
+  "katiExpress": {
+    "tab": "Kati Express",
+    "queues": {
+      "a_attribuer": "À attribuer",
+      "en_cours": "En cours",
+      "terminees": "Terminées"
+    },
+    "queueHelp": {
+      "a_attribuer": "Commandes Kati Express sans livreur, ou à réattribuer après un échec ou un report.",
+      "en_cours": "Colis attribués, récupérés ou en route vers le client.",
+      "terminees": "Livraisons terminées, refusées, perdues ou retournées (les plus récentes d’abord)."
+    },
+    "empty": {
+      "a_attribuer": "Aucune livraison à attribuer.",
+      "en_cours": "Aucune livraison en cours.",
+      "terminees": "Aucune livraison terminée."
+    },
+    "status": {
+      "planifiee": "Planifiée",
+      "a_affecter": "À attribuer",
+      "affectee": "Attribuée",
+      "prise_en_charge": "Colis récupéré",
+      "en_livraison": "En livraison",
+      "reportee": "Reportée",
+      "echec": "Échec",
+      "refusee_client": "Refusée par le client",
+      "livree": "Livrée",
+      "perdue": "Perdue",
+      "retour_initie": "Retour en cours",
+      "retour_recu": "Retour reçu",
+      "annulee": "Annulée"
+    },
+    "city": "Ville",
+    "allCities": "Toutes les villes",
+    "pick": "Sélectionnez une livraison pour voir les livreurs proposés.",
+    "from": "Chez {shop}",
+    "items": "{count} article(s)",
+    "toCollect": "À encaisser : {amount}",
+    "prepaid": "Déjà payée",
+    "ready": "Prête chez la boutique",
+    "preparing": "En préparation",
+    "close": "Fermer",
+    "pickup": "Récupérer chez",
+    "customerPhone": "Téléphone du client",
+    "cash": "À encaisser",
+    "order": "Commande",
+    "suggestionsTitle": "Livreurs proposés",
+    "suggestionsHelp": "Classés selon les tournées déjà dans le quartier, la charge de chacun et sa marge d’espèces. Rien n’est attribué sans votre validation.",
+    "noCourier": "Aucun livreur Kati Express vérifié et actif.",
+    "recommended": "Recommandé",
+    "blocked": "Bloqué",
+    "assignTo": "Attribuer à {name}",
+    "assigned": "{reference} attribuée à {name}.",
+    "carriedBy": "Portée par {name}.",
+    "couriersTitle": "Livreurs Kati Express",
+    "noCouriers": "Aucun livreur actif. Créez-les depuis la fiche d’un membre ayant le rôle livreur.",
+    "unverified": "Non vérifié",
+    "missions": "{count} mission(s)",
+    "carrying": "À encaisser : {amount}",
+    "notHandedIn": "non remis : {amount}",
+    "ceiling": "Plafond d’espèces : {amount}"
+  }
+}

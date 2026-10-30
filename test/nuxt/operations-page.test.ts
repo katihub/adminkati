@@ -9,6 +9,7 @@ const operationsWorkspaceStubs = {
   OperationsPaymentGatewayWorkspace: { template: '<div data-testid="operations-payment-gateway-workspace" />' },
   OperationsCustomerRequestsWorkspace: { template: '<div data-testid="operations-customer-requests-workspace" />' },
   OperationsKatiReviewWorkspace: { template: '<div data-testid="operations-kati-review-workspace" />' },
+  OperationsKatiExpressWorkspace: { template: '<div data-testid="operations-kati-express-workspace" />' },
   OperationsSellerOnboardingWorkspace: { template: '<div data-testid="operations-seller-onboarding-workspace" />' },
   OperationsMarketplaceCatalogueModerationWorkspace: {
     template: '<div data-testid="operations-marketplace-catalogue-workspace" />',
@@ -67,6 +68,7 @@ const workspaces = [
   "cash-registers",
   "customer-requests",
   "kati-review",
+  "kati-express",
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-offers",
@@ -131,6 +133,7 @@ describe("operations page tabs", () => {
     ["cash-registers", "/operations"],
     ["customer-requests", "/operations?tab=customer-requests"],
     ["kati-review", "/operations?tab=kati-review"],
+    ["kati-express", "/operations?tab=kati-express"],
     ["seller-onboarding", "/operations?tab=seller-onboarding"],
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
     ["marketplace-offers", "/operations?tab=marketplace-offers"],
@@ -207,6 +210,7 @@ describe("operations page tabs", () => {
   })
 
   it.each([
+    "kati-express",
     "marketplace-offers",
     "marketplace-pilot",
     "outbound-notifications",

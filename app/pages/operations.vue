@@ -21,6 +21,7 @@ const QUERY_TABS = [
   "payment-gateway",
   "customer-requests",
   "kati-review",
+  "kati-express",
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-offers",
@@ -120,6 +121,12 @@ const ALL_TABS = computed(() => [
     label: t("assistant.kati.tab"),
     icon: "ph:sparkle",
     testid: "operations-tab-kati-review",
+  },
+  {
+    value: "kati-express",
+    label: t("katiExpress.tab"),
+    icon: "ph:truck",
+    testid: "operations-tab-kati-express",
   },
   {
     value: "seller-onboarding",
@@ -320,6 +327,7 @@ useHead({
     <OperationsPaymentGatewayWorkspace v-else-if="activeTab === 'payment-gateway'" />
     <OperationsCustomerRequestsWorkspace v-else-if="activeTab === 'customer-requests'" />
     <OperationsKatiReviewWorkspace v-else-if="activeTab === 'kati-review'" />
+    <OperationsKatiExpressWorkspace v-else-if="activeTab === 'kati-express'" />
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />
     <OperationsMarketplaceOffersWorkspace v-else-if="activeTab === 'marketplace-offers'" />

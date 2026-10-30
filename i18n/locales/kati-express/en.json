@@ -1,0 +1,64 @@
+{
+  "katiExpress": {
+    "tab": "Kati Express",
+    "queues": {
+      "a_attribuer": "To assign",
+      "en_cours": "In progress",
+      "terminees": "Finished"
+    },
+    "queueHelp": {
+      "a_attribuer": "Kati Express orders without a courier, or to reassign after a failure or a postponement.",
+      "en_cours": "Parcels assigned, picked up or on their way to the customer.",
+      "terminees": "Deliveries completed, refused, lost or returned (most recent first)."
+    },
+    "empty": {
+      "a_attribuer": "Nothing to assign.",
+      "en_cours": "No delivery in progress.",
+      "terminees": "No finished delivery."
+    },
+    "status": {
+      "planifiee": "Planned",
+      "a_affecter": "To assign",
+      "affectee": "Assigned",
+      "prise_en_charge": "Picked up",
+      "en_livraison": "Out for delivery",
+      "reportee": "Postponed",
+      "echec": "Failed",
+      "refusee_client": "Refused by customer",
+      "livree": "Delivered",
+      "perdue": "Lost",
+      "retour_initie": "Return in progress",
+      "retour_recu": "Return received",
+      "annulee": "Cancelled"
+    },
+    "city": "City",
+    "allCities": "All cities",
+    "pick": "Select a delivery to see the suggested couriers.",
+    "from": "From {shop}",
+    "items": "{count} item(s)",
+    "toCollect": "To collect: {amount}",
+    "prepaid": "Already paid",
+    "ready": "Ready at the shop",
+    "preparing": "Being prepared",
+    "close": "Close",
+    "pickup": "Pick up at",
+    "customerPhone": "Customer phone",
+    "cash": "To collect",
+    "order": "Order",
+    "suggestionsTitle": "Suggested couriers",
+    "suggestionsHelp": "Ranked by rounds already in the neighbourhood, each courier's load and cash margin. Nothing is assigned without your validation.",
+    "noCourier": "No verified and active Kati Express courier.",
+    "recommended": "Recommended",
+    "blocked": "Blocked",
+    "assignTo": "Assign to {name}",
+    "assigned": "{reference} assigned to {name}.",
+    "carriedBy": "Carried by {name}.",
+    "couriersTitle": "Kati Express couriers",
+    "noCouriers": "No active courier. Create them from a team member with the courier role.",
+    "unverified": "Unverified",
+    "missions": "{count} mission(s)",
+    "carrying": "To collect: {amount}",
+    "notHandedIn": "not handed in: {amount}",
+    "ceiling": "Cash ceiling: {amount}"
+  }
+}
