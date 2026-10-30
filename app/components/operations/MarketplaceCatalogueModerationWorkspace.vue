@@ -17,38 +17,46 @@ import {
   useMarketplaceProductReviews,
 } from "@/composables/useMarketplaceModeration"
 import { apiErrorText } from "@/utils/api-error"
+import { formatMontant } from "@/utils/money"
+import { routeQueryUuid } from "@/utils/route-query"
 
 type Queue = "products" | "offers" | "contents"
 const { t, locale } = useI18n()
-const queue = ref<Queue>("products")
+const route = useRoute()
+const queue = ref<Queue>(route.query.file === "offers" ? "offers" : "products")
+const productFilter = computed(() => routeQueryUuid(route.query.produit))
+const offerFilter = computed(() => routeQueryUuid(route.query.offre))
 const search = ref("")
-const selectedId = ref<string | null>(null)
+const selectedId = ref<string | null>(productFilter.value)
 const reason = ref("")
 const productsQuery = useMarketplaceProductReviews()
 const offersQuery = useMarketplaceOfferReviews()
 const contentsQuery = useMarketplaceContentReviews()
 const mutations = useMarketplaceCatalogueModerationMutations()
 const queries = { products: productsQuery, offers: offersQuery, contents: contentsQuery }
-const money = computed(
-  () => new Intl.NumberFormat(locale.value, { style: "currency", currency: "XAF", maximumFractionDigits: 0 }),
-)
+function amount(value: number) {
+  return formatMontant(value, locale.value).exact
+}
 const date = computed(() => new Intl.DateTimeFormat(locale.value, { day: "2-digit", month: "short", year: "numeric" }))
 const products = computed(() =>
   (productsQuery.data.value ?? []).filter(
     item =>
-      !search.value.trim() ||
-      `${item.nom} ${item.marque ?? ""} ${item.proposeParBoutique?.nom ?? ""}`
-        .toLowerCase()
-        .includes(search.value.trim().toLowerCase()),
+      (!productFilter.value || item.id === productFilter.value) &&
+      (!search.value.trim() ||
+        `${item.nom} ${item.marque ?? ""} ${item.proposeParBoutique?.nom ?? ""}`
+          .toLowerCase()
+          .includes(search.value.trim().toLowerCase())),
   ),
 )
 const offers = computed(() =>
   (offersQuery.data.value ?? []).filter(
     item =>
-      !search.value.trim() ||
-      `${item.titre} ${item.offre.produit.nom} ${item.offre.boutique.nom}`
-        .toLowerCase()
-        .includes(search.value.trim().toLowerCase()),
+      (!offerFilter.value || item.offre.id === offerFilter.value) &&
+      (!productFilter.value || item.offre.produit.id === productFilter.value) &&
+      (!search.value.trim() ||
+        `${item.titre} ${item.offre.produit.nom} ${item.offre.boutique.nom}`
+          .toLowerCase()
+          .includes(search.value.trim().toLowerCase())),
   ),
 )
 const selectedProduct = computed(
@@ -58,8 +66,9 @@ const selectedOffer = computed(() => offers.value.find(item => item.id === selec
 const contents = computed(() =>
   (contentsQuery.data.value ?? []).filter(
     item =>
-      !search.value.trim() ||
-      `${item.produit.nom} ${item.boutique?.nom ?? ""}`.toLowerCase().includes(search.value.trim().toLowerCase()),
+      (!productFilter.value || item.produit.id === productFilter.value) &&
+      (!search.value.trim() ||
+        `${item.produit.nom} ${item.boutique?.nom ?? ""}`.toLowerCase().includes(search.value.trim().toLowerCase())),
   ),
 )
 const selectedContent = computed(
@@ -206,6 +215,23 @@ async function decide(decision: "approve" | "changes" | "refuse") {
 <template>
   <div class="flex min-h-0 flex-1 flex-col" data-testid="marketplace-catalogue-moderation-workspace">
     <div
+      v-if="productFilter || offerFilter"
+      class="flex flex-wrap items-center gap-4 border-t border-border px-4 py-3 text-sm sm:px-6 lg:px-10"
+    >
+      <NuxtLinkLocale
+        v-if="productFilter"
+        :to="{ path: '/products', query: { id: productFilter } }"
+        class="font-medium text-primary"
+        >{{ t("catalogue.product") }}</NuxtLinkLocale
+      >
+      <Button
+        variant="outline"
+        size="sm"
+        @click="navigateTo({ path: route.path, query: { tab: 'marketplace-catalogue' } })"
+        >{{ t("operations.marketplaceOffers.clear") }}</Button
+      >
+    </div>
+    <div
       class="flex shrink-0 flex-col gap-3 border-t border-border bg-background px-4 py-3 sm:flex-row sm:items-center sm:px-6 lg:px-10"
     >
       <div class="flex rounded-md border border-border bg-muted p-1">
@@ -311,8 +337,7 @@ async function decide(decision: "approve" | "changes" | "refuse") {
               ><span class="truncate text-xs text-muted-foreground"
                 >{{ offer.offre.boutique.nom }} · {{ offer.offre.produit.nom }}</span
               ><span class="text-[11px] text-muted-foreground"
-                >{{ money.format(offer.prixFcfa)
-                }}{{ offer.libelleVariante ? ` · ${offer.libelleVariante}` : "" }}</span
+                >{{ amount(offer.prixFcfa) }}{{ offer.libelleVariante ? ` · ${offer.libelleVariante}` : "" }}</span
               >
             </button>
             <button
@@ -427,12 +452,12 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                 <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-3">
                   <div>
                     <dt class="text-muted-foreground">{{ t("operations.catalogue.price") }}</dt>
-                    <dd class="text-lg font-semibold">{{ money.format(selectedOffer.prixFcfa) }}</dd>
+                    <dd class="text-lg font-semibold">{{ amount(selectedOffer.prixFcfa) }}</dd>
                   </div>
                   <div>
                     <dt class="text-muted-foreground">{{ t("operations.catalogue.referencePrice") }}</dt>
                     <dd class="font-medium">
-                      {{ selectedOffer.prixReferenceFcfa ? money.format(selectedOffer.prixReferenceFcfa) : "—" }}
+                      {{ selectedOffer.prixReferenceFcfa ? amount(selectedOffer.prixReferenceFcfa) : "—" }}
                     </dd>
                   </div>
                   <div>

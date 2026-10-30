@@ -1,287 +1,215 @@
 <script setup lang="ts">
-import type { Filter } from "@/components/vuzeno/filters"
-import type { ProductDetail, ProductListResponse, Taxonomie } from "@/types/api/produits"
-import { PhDownloadSimple, PhPlus, PhUploadSimple } from "@phosphor-icons/vue"
-import { computed } from "vue"
+import type { MarketplaceProductCorrection, MarketplaceProductFilters } from "@/types/api/catalogue-products"
+import type { MarketplaceCategory } from "@/types/api/marketplace-categories"
+import { useQuery } from "@tanstack/vue-query"
 import { toast } from "vue-sonner"
 import { Button } from "@/components/ui/button"
-import { prefetchApi } from "@/composables/useApi"
-import { useProduit } from "@/composables/useProduit"
-import { prefetchProduits, useProduits } from "@/composables/useProduits"
-import { useProductListStore } from "@/stores/product-list"
-import { apiQueryKeys } from "@/utils/api-query-keys"
+import { apiErrorText } from "@/utils/api-error"
+import { routeQueryId, routeQueryString, routeQueryUuid } from "@/utils/route-query"
 
 definePageMeta({ layout: "admin", roles: ["direction", "comptoir"] })
-
-defineI18nRoute({
-  paths: {
-    en: "/products",
-    fr: "/produits",
-  },
-})
-
+defineI18nRoute({ paths: { en: "/products", fr: "/produits" } })
 const { t } = useI18n()
 const route = useRoute()
+const localePath = useLocalePath()
+if (routeQueryId(route.query.id))
+  await navigateTo({ path: localePath("/legacy-products"), query: { id: String(route.query.id) } }, { replace: true })
 const session = useCachedSession()
-/** The backend restricts product creation to `direction`; `comptoir` can only read. */
-const canCreate = computed(() => session.value?.roles.includes("direction") ?? false)
-
-const productList = useProductListStore()
-const filters = computed({
-  get: () => productList.filters,
-  set: value => productList.replaceFilters(value),
+const canEdit = computed(() => session.value?.roles.includes("direction") ?? false)
+const selectedId = computed(() => routeQueryUuid(route.query.id))
+const creating = computed(() => route.query.new === "1" && canEdit.value)
+const editing = ref(false)
+const dirty = ref(false)
+const corrections = useCatalogueCorrections()
+const locked = ref(false)
+const saving = computed(() => locked.value || corrections.product.isPending.value || corrections.create.isPending.value)
+const maySave = computed(() => canEdit.value && !saving.value)
+const guard = useCatalogueDraftGuard(dirty, saving)
+const search = ref(routeQueryString(route.query.q) ?? "")
+const statuses = [
+  "brouillon",
+  "soumis",
+  "en_verification",
+  "modification_demandee",
+  "actif",
+  "refuse",
+  "suspendu",
+  "archive",
+]
+const filters = computed<MarketplaceProductFilters>(() => ({
+  recherche: routeQueryString(route.query.q),
+  categorieId: routeQueryUuid(route.query.categorie) ?? undefined,
+  statut: statuses.includes(String(route.query.statut)) ? String(route.query.statut) : undefined,
+  page: Math.min(10000, routeQueryId(route.query.page) ?? 1),
+  taille: 30,
+}))
+const list = useMarketplaceProducts(filters)
+const detail = useMarketplaceProduct(selectedId)
+const api = useApiFetch()
+const categories = useQuery<MarketplaceCategory[]>({
+  queryKey: ["v1", "marketplace", "categories", "edition-produits"],
+  queryFn: () => api("/marketplace/categories/administration"),
+  enabled: computed(() => canEdit.value && (editing.value || creating.value)),
 })
-
-/**
- * A derived view onto `filters`, not its own source of truth — `filters` is also written by
- * `ProductsListQuickFilters`' pill row inside `ProductsListPanel`, so an independently-owned
- * `ref<Filter[]>` here would drift out of sync with the pills. Reading straight off `filters`
- * on every `get()` keeps both controls showing the same state; writing back through the store's
- * individual setters preserves the status state owned by the list quick filters.
- */
-const toolbarFilters = computed<Filter[]>({
-  get: () => {
-    const next: Filter[] = [
-      { field: "q", operator: "contains", value: filters.value.q ?? null },
-      {
-        field: "categorie",
-        operator: "eq",
-        value: filters.value.categorie != null ? String(filters.value.categorie) : null,
-      },
-      { field: "tri", operator: "eq", value: filters.value.tri ?? "recent" },
-    ]
-
-    if (filters.value.rayon) next.splice(1, 0, { field: "rayon", operator: "eq", value: filters.value.rayon })
-    if (filters.value.marque) next.splice(-1, 0, { field: "marque", operator: "eq", value: filters.value.marque })
-
-    return next
-  },
-  set: next => {
-    const chip = (field: string) => next.find(candidate => candidate.field === field)?.value
-    const searchValue = chip("q")
-    const rayonValue = chip("rayon")
-    const categorieValue = chip("categorie")
-    const marqueValue = chip("marque")
-    const triValue = chip("tri")
-
-    productList.setSearchTerm(typeof searchValue === "string" ? searchValue : "")
-    productList.setRayon(typeof rayonValue === "string" ? rayonValue : "")
-    productList.setCategory(typeof categorieValue === "string" ? Number(categorieValue) : undefined)
-    productList.setBrand(typeof marqueValue === "string" ? marqueValue : "")
-    productList.setSort(
-      triValue === "nom" || triValue === "prix-croissant" || triValue === "prix-decroissant" ? triValue : "recent",
-    )
-  },
+const publicCategories = useQuery<MarketplaceCategory[]>({
+  queryKey: ["v1", "marketplace", "categories", "publiques"],
+  queryFn: () => api("/marketplace/categories"),
 })
-
-const hasActiveToolbarFilters = computed(
-  () =>
-    Boolean(filters.value.q) ||
-    Boolean(filters.value.rayon) ||
-    filters.value.categorie !== undefined ||
-    Boolean(filters.value.marque) ||
-    (filters.value.tri !== undefined && filters.value.tri !== "recent"),
+const selectedProduct = computed(() => detail.data.value?.produit ?? null)
+const editableCategories = computed(() => categories.data.value ?? [])
+const saveMessage = computed(() => t(creating.value ? "catalogue.created" : "catalogue.saved"))
+const editor = computed(() => ({
+  product: creating.value ? null : selectedProduct.value,
+  categories: editableCategories.value,
+  loading: categories.isPending.value,
+  error: categories.error.value,
+  saveError: creating.value ? corrections.create.error.value : corrections.product.error.value,
+  saving: saving.value,
+}))
+watch(
+  () => route.query.q,
+  value => {
+    search.value = routeQueryString(value) ?? ""
+  },
 )
-
-function clearToolbarFilters() {
-  productList.setSearchTerm("")
-  productList.setRayon("")
-  productList.setCategory(undefined)
-  productList.setBrand("")
-  productList.setSort("recent")
+watch(selectedId, () => {
+  editing.value = false
+  dirty.value = false
+})
+function updateQuery(changes: Record<string, string | undefined>) {
+  void navigateTo({ path: route.path, query: { ...route.query, ...changes } })
 }
-
-function parseId(raw: string | (string | null)[] | null | undefined): number | null {
-  const value = Array.isArray(raw) ? raw[0] : raw
-  if (typeof value !== "string") return null
-  const parsed = Number(value)
-  return Number.isFinite(parsed) ? parsed : null
+function select(id: string) {
+  updateQuery({ id, new: undefined })
 }
-
-const explicitId = computed(() => parseId(route.query.id))
-const isNewMode = computed(() => explicitId.value === null && route.query.new !== undefined)
-
-const queryClient = useNuxtApp().$queryClient
-const listFilters = computed(() => filters.value)
-
-if (import.meta.server) {
-  await Promise.allSettled([
-    prefetchProduits(queryClient, listFilters.value),
-    prefetchApi<Taxonomie>(queryClient, apiQueryKeys.taxonomy.all, "/catalogue/administration/taxonomie"),
-  ])
-
-  if (!isNewMode.value) {
-    const listData = queryClient.getQueryData<{ pages: ProductListResponse[] }>(
-      apiQueryKeys.products.list(listFilters.value),
-    )
-    const detailId = explicitId.value ?? listData?.pages[0]?.produits[0]?.id
-
-    if (detailId !== undefined && detailId !== null) {
-      await prefetchApi<ProductDetail>(
-        queryClient,
-        apiQueryKeys.products.detail(detailId),
-        `/catalogue/administration/produits/${detailId}`,
-      ).catch(() => undefined)
-    }
+function back() {
+  guard.request(() => {
+    editing.value = false
+    updateQuery({ id: undefined, new: undefined })
+  })
+}
+function applySearch() {
+  updateQuery({ q: search.value.trim() || undefined, page: undefined, id: undefined })
+}
+function optionalText(value: string | null) {
+  return value ?? undefined
+}
+function createProduct(body: MarketplaceProductCorrection & { slug?: string }) {
+  return corrections.create.mutateAsync({
+    nom: body.nom,
+    slug: body.slug ?? "",
+    categorieId: body.categorieId,
+    marque: optionalText(body.marque),
+    description: optionalText(body.description),
+    descriptionCourte: optionalText(body.descriptionCourte),
+    ficheTechnique: optionalText(body.ficheTechnique),
+  })
+}
+function cancelEdit() {
+  guard.request(() => {
+    editing.value = false
+    if (creating.value) back()
+  })
+}
+async function save(body: MarketplaceProductCorrection & { slug?: string }) {
+  if (!maySave.value) return
+  locked.value = true
+  let createdId: string | undefined
+  try {
+    createdId = await persistProduct(body)
+    dirty.value = false
+    editing.value = false
+    toast.success(saveMessage.value)
+  } catch (error) {
+    toast.error(apiErrorText(error, t))
+  } finally {
+    locked.value = false
   }
+  if (createdId) select(createdId)
 }
-
-const { data: listData, error: listError, refetch: refetchProducts } = useProduits(listFilters)
-const autoSelectedId = computed(() => listData.value?.pages[0]?.produits[0]?.id ?? null)
-
-const effectiveId = computed(() => {
-  if (explicitId.value !== null) return explicitId.value
-  if (isNewMode.value) return null
-  return autoSelectedId.value
-})
-
-const {
-  data: selectedProduct,
-  isPending: isProductPending,
-  error: productError,
-  refetch: refetchProduct,
-} = useProduit(computed(() => effectiveId.value))
-
-/** The header title is a section label, not a breadcrumb — it must never switch to the
- *  selected product's name. `ProductsHeroBanner` already shows the product's own name. */
-const pageTitle = computed(() => (isNewMode.value ? t("products.page.newProductTitle") : t("products.page.heading")))
-
-function selectProduct(id: number) {
-  void navigateTo({ path: route.path, query: { id: String(id) } })
+async function persistProduct(body: MarketplaceProductCorrection & { slug?: string }) {
+  if (creating.value) return (await createProduct(body)).id
+  if (!selectedId.value) throw new Error(t("catalogue.empty"))
+  await corrections.product.mutateAsync({ id: selectedId.value, body })
+  return undefined
 }
-
-function addProduct() {
-  void navigateTo({ path: route.path, query: { new: "1" } })
-}
-
-function onProductSaved(saved: ProductDetail) {
-  toast.success(
-    t(isNewMode.value ? "products.toast.saveSuccessAdd" : "products.toast.saveSuccessEdit", { name: saved.nom }),
-  )
-  if (isNewMode.value) selectProduct(saved.id)
-}
-
-function onFormCancel() {
-  if (isNewMode.value) void navigateTo({ path: route.path })
-}
-
 useSeoMeta({
-  title: () => t("products.page.seo.title"),
-  description: () => t("products.page.seo.description"),
-  ogTitle: () => t("products.page.seo.title"),
-  ogDescription: () => t("products.page.seo.description"),
-  ogType: "website",
-})
-
-useHead({
-  titleTemplate: "%s",
+  title: () => t("catalogue.title"),
+  description: () => t("catalogue.description"),
+  ogTitle: () => t("catalogue.title"),
+  ogDescription: () => t("catalogue.description"),
 })
 </script>
-
 <template>
-  <div class="flex min-h-[calc(100dvh-4rem)] flex-col gap-4 py-4 lg:h-workspace lg:min-h-0 lg:overflow-hidden">
-    <div class="flex flex-col gap-3">
-      <div class="flex flex-wrap items-center justify-between gap-3" data-testid="products-title-actions-row">
-        <AdminPageHeader :title="pageTitle" class="min-w-0 flex-1">
-          {{ t("products.page.subtitle") }}
-        </AdminPageHeader>
-        <div v-if="canCreate" class="flex w-full flex-wrap items-center gap-2 sm:ml-auto sm:w-auto sm:flex-nowrap">
-          <ProductsProductImportDialog>
-            <template #trigger>
-              <Button variant="outline" data-testid="products-product-import-button">
-                <PhUploadSimple data-icon="inline-start" aria-hidden="true" />
-                {{ t("products.productImport.button") }}
-              </Button>
-            </template>
-          </ProductsProductImportDialog>
-          <ProductsStockExportDialog :filters="filters" :total="listData?.pages[0]?.total ?? null">
-            <template #trigger>
-              <Button variant="outline" data-testid="products-export-button">
-                <PhDownloadSimple data-icon="inline-start" aria-hidden="true" />
-                {{ t("products.stockExport.button") }}
-              </Button>
-            </template>
-          </ProductsStockExportDialog>
-          <ProductsStockImportDialog>
-            <template #trigger>
-              <Button variant="outline" data-testid="products-import-button">
-                <PhUploadSimple data-icon="inline-start" aria-hidden="true" />
-                {{ t("products.stockImport.button") }}
-              </Button>
-            </template>
-          </ProductsStockImportDialog>
-          <Button
-            class="shrink-0 bg-primary text-primary-foreground hover:bg-primary"
-            data-testid="products-add-button"
-            :disabled="isNewMode"
-            @click="addProduct"
-          >
-            <PhPlus :size="16" aria-hidden="true" />
-            {{ t("products.page.newProduct") }}
-          </Button>
-        </div>
-      </div>
-      <div data-testid="products-filter-row">
-        <ProductsFilterBar
-          v-model:filters="toolbarFilters"
-          class="min-w-0 w-full"
-          :has-active-filters="hasActiveToolbarFilters"
-          @clear="clearToolbarFilters"
-        />
-      </div>
-    </div>
-
-    <div
-      class="grid min-h-0 w-full flex-1 grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-xs lg:grid-cols-[320px_1fr]"
+  <div class="flex min-w-0 flex-col gap-5 py-4" data-testid="marketplace-products-page">
+    <TeamDiscardDialog
+      :open="guard.open.value"
+      @update:open="value => !value && guard.cancel()"
+      @confirm="guard.confirm"
+    />
+    <AdminPageHeader :title="t('catalogue.title')"
+      ><p>{{ t("catalogue.description") }}</p>
+      <template #actions
+        ><Button v-if="canEdit" data-testid="catalogue-new-product" @click="updateQuery({ new: '1', id: undefined })"
+          ><Icon name="ph:plus" data-icon="inline-start" />{{ t("catalogue.new") }}</Button
+        ></template
+      ></AdminPageHeader
     >
-      <!--  Products List Rail -->
-      <div
-        class="h-[26rem] overflow-hidden border-b border-border bg-card lg:h-full lg:border-r lg:border-b-0"
-        data-testid="products-workspace-sidebar"
-      >
-        <ProductsListPanel
-          :filters="filters"
-          :selected-id="effectiveId"
-          @select="selectProduct"
-          @update:filters="filters = $event"
+    <nav class="flex flex-wrap gap-4 text-sm font-medium text-primary">
+      <NuxtLinkLocale v-if="canEdit" to="/operations?tab=marketplace-offers">{{
+        t("catalogue.offersTitle")
+      }}</NuxtLinkLocale
+      ><NuxtLinkLocale v-if="canEdit" to="/operations?tab=marketplace-catalogue">{{
+        t("catalogue.moderation")
+      }}</NuxtLinkLocale
+      ><NuxtLinkLocale v-if="canEdit" to="/operations?tab=marketplace-categories">{{
+        t("catalogue.categories")
+      }}</NuxtLinkLocale
+      ><NuxtLinkLocale to="/legacy-products">{{ t("catalogue.legacy") }}</NuxtLinkLocale>
+    </nav>
+    <CatalogueProductFilters
+      v-model:search="search"
+      :status="filters.statut"
+      :category="filters.categorieId"
+      :categories="publicCategories.data.value ?? []"
+      @filter="changes => updateQuery({ ...changes, page: undefined, id: undefined })"
+      @submit="applySearch"
+    />
+    <ApiErrorCard
+      v-if="publicCategories.error.value"
+      :error="publicCategories.error.value"
+      @retry="publicCategories.refetch()"
+    />
+    <div class="grid min-w-0 gap-5 lg:grid-cols-2">
+      <div :class="selectedId || creating ? 'hidden lg:block' : ''">
+        <CatalogueProductList
+          :products="list.data.value?.elements ?? []"
+          :loading="list.isPending.value"
+          :error="list.error.value"
+          :pagination="list.data.value?.pagination"
+          @select="select"
+          @page="page => updateQuery({ page: String(page), id: undefined })"
+          @retry="list.refetch()"
         />
       </div>
-
-      <!-- Center Workspace  -->
-      <div class="min-h-[38rem] overflow-y-auto bg-muted/35 lg:h-full lg:min-h-0" data-testid="products-detail-panel">
-        <div
-          v-if="listError && !isNewMode && effectiveId === null"
-          class="flex h-full items-center justify-center p-6 text-center"
-        >
-          <ApiErrorCard :error="listError" @retry="() => void refetchProducts()" />
-        </div>
-
-        <div v-else-if="productError" class="flex h-full items-center justify-center p-6 text-center">
-          <ApiErrorCard :error="productError" @retry="() => void refetchProduct()" />
-        </div>
-
-        <div
-          v-else-if="!isNewMode && effectiveId === null"
-          data-testid="products-detail-empty"
-          class="flex h-full items-center justify-center p-6"
-        >
-          <EmptyStateCard icon="ph:cursor-click" :text="t('products.page.empty')" />
-        </div>
-
-        <div v-else-if="!isNewMode && isProductPending" class="flex h-full items-center justify-center p-6 text-center">
-          <p data-testid="products-detail-loading" class="text-sm text-muted-foreground">
-            {{ t("products.page.loading") }}
-          </p>
-        </div>
-
-        <div v-else>
-          <ProductsDetailForm
-            :product="isNewMode ? null : (selectedProduct ?? null)"
-            @cancel="onFormCancel"
-            @saved="onProductSaved"
-          />
-        </div>
-      </div>
+      <CatalogueProductSelection
+        v-if="selectedId || creating"
+        :key="selectedId ?? 'new'"
+        :detail="detail.data.value"
+        :error="detail.error.value"
+        :loading="!!selectedId && detail.isPending.value"
+        :creating="creating"
+        :editing="editing"
+        :can-edit="canEdit"
+        :editor="editor"
+        @retry="detail.refetch()"
+        @retry-categories="categories.refetch()"
+        @dirty="dirty = $event"
+        @save="save"
+        @cancel="cancelEdit"
+        @edit="editing = true"
+        @back="back"
+      />
     </div>
   </div>
 </template>

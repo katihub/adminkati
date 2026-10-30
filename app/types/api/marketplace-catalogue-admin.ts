@@ -6,6 +6,7 @@ export type MarketplaceOfferSort = "recent" | "boutique" | "nom" | "prix_asc" | 
 export interface MarketplaceOfferFilters {
   recherche?: string
   boutiqueId?: string
+  produitId?: string
   statut?: MarketplaceOfferStatus
   categorieId?: string
   stock?: MarketplaceOfferStockLevel
@@ -41,6 +42,7 @@ export interface MarketplaceAdminOffer {
     slug: string
     statut: string
     suiviStock: boolean
+    vendeurId?: string
     vendeur: { nomLegal: string; statut: string }
   }
   /** `disponible` is null when the shop does not track its stock: it always sells. */

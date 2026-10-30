@@ -1,7 +1,7 @@
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
 import { afterEach, describe, expect, it } from "vitest"
-import ProductsPage from "@/pages/products.vue"
+import ProductsPage from "@/pages/legacy-products.vue"
 
 const backendListProduct = {
   id: 9001,

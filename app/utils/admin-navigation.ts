@@ -65,7 +65,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     id: "catalogue",
     labelKey: "admin.navigation.catalogue",
     to: adminDestinations.catalogue,
-    routeNames: ["products", "taxonomy"],
+    routeNames: ["products", "legacy-products", "taxonomy"],
     icon: "ph:book-open",
     roles: ["direction", "comptoir"],
     children: [
@@ -80,10 +80,11 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
       {
         id: "taxonomy",
         labelKey: "admin.navigation.items.taxonomy",
-        to: "/taxonomy",
-        routeNames: ["taxonomy"],
+        to: "/operations?tab=marketplace-categories",
+        routeNames: ["operations"],
+        query: { tab: "marketplace-categories" },
         icon: "ph:tree-structure",
-        roles: ["direction", "comptoir"],
+        roles: ["direction"],
       },
       {
         id: "catalogue-moderation",

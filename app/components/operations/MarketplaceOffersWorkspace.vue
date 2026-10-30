@@ -16,7 +16,7 @@ import { useMarketplaceAdminOffers } from "@/composables/useMarketplaceCatalogue
 import { useMarketplaceCategories } from "@/composables/useMarketplaceCategories"
 import { formatDayMonthYear } from "@/utils/dates"
 import { formatMontant } from "@/utils/money"
-import { routeQueryString } from "@/utils/route-query"
+import { routeQueryId, routeQueryString, routeQueryUuid } from "@/utils/route-query"
 import { storefrontMarketplaceProductUrl } from "@/utils/storefront"
 
 /* EVERY OFFER OF EVERY SHOP, FOR THE DIRECTION. The storefront shows what is
@@ -31,25 +31,60 @@ const SORTS: MarketplaceOfferSort[] = ["recent", "boutique", "nom", "prix_asc", 
 const STOCK_LEVELS: MarketplaceOfferStockLevel[] = ["rupture", "faible", "disponible"]
 const PAGE_SIZE = 50
 
-const search = ref("")
-const route = useRoute()
-const shopId = ref(routeQueryString(route.query.boutique) ?? "")
+const route = useRouter().currentRoute
+const search = ref(routeQueryString(route.value.query.q) ?? "")
+const productId = computed(() => routeQueryUuid(route.value.query.produit))
+const selectedOfferId = computed(() => routeQueryUuid(route.value.query.offre))
+function openOffer(id: string) {
+  changeQuery({ offre: id })
+}
+function closeOffer() {
+  changeQuery({ offre: undefined })
+}
+let navigation: Promise<unknown> = Promise.resolve()
+function changeQuery(changes: Record<string, string | undefined>) {
+  const apply = async () => {
+    await navigateTo({ path: route.value.path, query: { ...route.value.query, ...changes } })
+  }
+  navigation = navigation.then(apply, apply)
+}
+function choice<T extends string>(key: string, values: readonly T[], fallback: T) {
+  return computed({
+    get: () => {
+      const value = routeQueryString(route.value.query[key]) as T
+      return values.includes(value) ? value : fallback
+    },
+    set: (value: T) => changeQuery({ [key]: value || undefined, page: undefined }),
+  })
+}
+const shopId = computed({
+  get: () => routeQueryUuid(route.value.query.boutique) ?? "",
+  set: value => changeQuery({ boutique: value || undefined, page: undefined }),
+})
+const status = choice<MarketplaceOfferStatus | "">("statut", ["", ...STATUSES], "")
+const categoryId = computed({
+  get: () => routeQueryUuid(route.value.query.categorie) ?? "",
+  set: value => changeQuery({ categorie: value || undefined, page: undefined }),
+})
+const stockLevel = choice<MarketplaceOfferStockLevel | "">("stock", ["", ...STOCK_LEVELS], "")
+const sort = choice<MarketplaceOfferSort>("tri", SORTS, "recent")
+const page = computed({
+  get: () => Math.min(10000, routeQueryId(route.value.query.page) ?? 1),
+  set: value => changeQuery({ page: value === 1 ? undefined : String(value) }),
+})
+const debouncedSearch = refDebounced(search, 300)
 watch(
-  () => route.query.boutique,
+  () => route.value.query.q,
   value => {
-    shopId.value = routeQueryString(value) ?? ""
+    search.value = routeQueryString(value) ?? ""
   },
 )
-const status = ref<MarketplaceOfferStatus | "">("")
-const categoryId = ref("")
-const stockLevel = ref<MarketplaceOfferStockLevel | "">("")
-const sort = ref<MarketplaceOfferSort>("recent")
-const page = ref(1)
-const debouncedSearch = refDebounced(search, 300)
+watch(debouncedSearch, value => changeQuery({ q: value.trim() || undefined, page: undefined }))
 
 const filters = computed(() => ({
-  ...(debouncedSearch.value.trim() ? { recherche: debouncedSearch.value.trim() } : {}),
+  ...(routeQueryString(route.value.query.q) ? { recherche: routeQueryString(route.value.query.q) } : {}),
   ...(shopId.value ? { boutiqueId: shopId.value } : {}),
+  ...(productId.value ? { produitId: productId.value } : {}),
   ...(status.value ? { statut: status.value } : {}),
   ...(categoryId.value ? { categorieId: categoryId.value } : {}),
   ...(stockLevel.value ? { stock: stockLevel.value } : {}),
@@ -57,11 +92,6 @@ const filters = computed(() => ({
   page: page.value,
   taille: PAGE_SIZE,
 }))
-
-// Any new criterion starts again from the first page.
-watch([debouncedSearch, shopId, status, categoryId, stockLevel, sort], () => {
-  page.value = 1
-})
 
 const query = useMarketplaceAdminOffers(filters)
 const categoriesQuery = useMarketplaceCategories()
@@ -114,11 +144,10 @@ function productUrl(offer: MarketplaceAdminOffer) {
 
 function clearFilters() {
   search.value = ""
-  shopId.value = ""
-  status.value = ""
-  categoryId.value = ""
-  stockLevel.value = ""
-  sort.value = "recent"
+  const apply = async () => {
+    await navigateTo({ path: route.value.path, query: { tab: "marketplace-offers" } })
+  }
+  navigation = navigation.then(apply, apply)
 }
 
 function goTo(next: number) {
@@ -129,6 +158,13 @@ function goTo(next: number) {
 <template>
   <div class="flex min-h-0 flex-1 flex-col" data-testid="marketplace-offers-workspace">
     <div class="flex shrink-0 flex-col gap-3 border-t border-border bg-background px-4 py-3 sm:px-6 lg:px-10">
+      <p class="text-sm text-muted-foreground">{{ t("catalogue.offersHelp") }}</p>
+      <NuxtLinkLocale
+        v-if="productId"
+        :to="{ path: '/products', query: { id: productId } }"
+        class="text-sm font-medium text-primary"
+        >{{ t("catalogue.product") }}</NuxtLinkLocale
+      >
       <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
         <label class="relative min-w-0 flex-1 sm:max-w-md">
           <Icon
@@ -229,6 +265,11 @@ function goTo(next: number) {
     </div>
 
     <div class="min-h-0 flex-1 overflow-y-auto border-t border-border bg-muted/60 p-4 sm:p-6 lg:px-10">
+      <div v-if="selectedOfferId" class="mb-5">
+        <ClientOnly
+          ><CatalogueOfferPanel :key="selectedOfferId" :id="selectedOfferId" @close="closeOffer"
+        /></ClientOnly>
+      </div>
       <div v-if="query.isPending.value" class="space-y-2">
         <div v-for="n in 6" :key="n" class="h-14 animate-pulse rounded-lg bg-muted" />
       </div>
@@ -271,7 +312,20 @@ function goTo(next: number) {
                       <Icon name="ph:image" />
                     </div>
                     <div class="min-w-0">
-                      <p class="line-clamp-2 text-sm font-medium" :title="title(offer)">{{ title(offer) }}</p>
+                      <button
+                        type="button"
+                        class="line-clamp-2 text-left text-sm font-medium text-primary hover:underline"
+                        :title="title(offer)"
+                        :data-testid="`catalogue-offer-open-${offer.id}`"
+                        @click="openOffer(offer.id)"
+                      >
+                        {{ title(offer) }}
+                      </button>
+                      <NuxtLinkLocale
+                        :to="{ path: '/products', query: { id: offer.produit.id } }"
+                        class="text-xs text-muted-foreground hover:text-primary"
+                        >{{ t("catalogue.product") }}</NuxtLinkLocale
+                      >
                       <p class="truncate text-xs text-muted-foreground">
                         {{ offer.referenceVendeur }}
                         <template v-if="offer.produit.marque"> · {{ offer.produit.marque }}</template>
@@ -281,7 +335,14 @@ function goTo(next: number) {
                   </div>
                 </TableCell>
                 <TableCell class="min-w-40">
-                  <p class="text-sm font-medium">{{ offer.boutique.nom }}</p>
+                  <NuxtLinkLocale
+                    :to="{
+                      path: '/operations',
+                      query: { tab: 'seller-onboarding', candidature: offer.boutique.vendeurId },
+                    }"
+                    class="text-sm font-medium hover:text-primary"
+                    >{{ offer.boutique.nom }}</NuxtLinkLocale
+                  >
                   <p class="truncate text-xs text-muted-foreground">{{ offer.boutique.vendeur.nomLegal }}</p>
                 </TableCell>
                 <TableCell>

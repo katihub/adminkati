@@ -1,7 +1,7 @@
 import { mountSuspended } from "@nuxt/test-utils/runtime"
 import { getQuery } from "h3"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import ProductsPage from "@/pages/products.vue"
+import ProductsPage from "@/pages/legacy-products.vue"
 import { useProductListStore } from "@/stores/product-list"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { clearEndpoints, existsInBody, inBody, settle, stubEndpoint } from "./delivery-fixture"

@@ -3,7 +3,7 @@ import type { Role } from "@/types/session"
 import { mountSuspended } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
-import ProductsPage from "@/pages/products.vue"
+import ProductsPage from "@/pages/legacy-products.vue"
 import { useProductListStore } from "@/stores/product-list"
 
 function seedPage() {

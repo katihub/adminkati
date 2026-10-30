@@ -4,7 +4,7 @@ import { flushPromises } from "@vue/test-utils"
 import { createError, getQuery } from "h3"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import ProductsSummaryKpis from "@/components/products/SummaryKpis.vue"
-import ProductsPage from "@/pages/products.vue"
+import ProductsPage from "@/pages/legacy-products.vue"
 import { useProductListStore } from "@/stores/product-list"
 
 let idCounter = 0
