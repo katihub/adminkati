@@ -8,14 +8,21 @@ function parseOrigin(value: string): string | null {
   return new URL(value).origin
 }
 
+/** `.env` writes `NUXT_SUPABASE_URL=${SUPABASE_URL}`; resolve the reference rather than drop the value. */
+function expandReferences(value: string): string {
+  return value.replace(/\$\{(\w+)\}/g, (reference, name: string) => env[name] ?? reference)
+}
+
 function configuredOrigin(value: string | undefined): string | null {
   if (!value) return null
-  return parseOrigin(value.includes("://") ? value : `https://${value}`)
+  const expanded = expandReferences(value)
+  return parseOrigin(expanded.includes("://") ? expanded : `https://${expanded}`)
 }
 
 const productImageOrigins = [
   ...new Set(
     [
+      ...brand.imageOrigins,
       env.NUXT_API_BASE_URL,
       env.NUXT_PUBLIC_CATALOGUE_IMAGE_ORIGIN,
       env.NUXT_SUPABASE_URL,

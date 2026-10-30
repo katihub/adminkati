@@ -8,6 +8,12 @@ export const brand = {
   },
   logoPath: "/brand/katimarket-mark.png",
   storefrontUrl: "",
+  /**
+   * Where this brand's product photos are served from, allowed in the CSP's img-src even when
+   * the build sees no environment. Production builds once ran without NUXT_SUPABASE_URL, and
+   * every thumbnail in Products and Seller offers was blocked by the browser.
+   */
+  imageOrigins: ["https://supabase.katimarket.com", "https://api.katimarket.com"],
   colors: {
     navy: "#08265c",
     orange: "#ff7900",
