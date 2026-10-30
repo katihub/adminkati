@@ -52,7 +52,7 @@ const categories = computed(() => {
   if (!needle) return all
   const filterNode = (node: Node): Node | null => {
     if (node.nom.toLowerCase().includes(needle)) return node
-    const sousCategories = node.sousCategories.map(filterNode).filter((sub): sub is Node => sub !== null)
+    const sousCategories = (node.sousCategories ?? []).map(filterNode).filter((sub): sub is Node => sub !== null)
     return sousCategories.length ? ({ ...node, sousCategories } as Node) : null
   }
   return all.map(filterNode).filter((category): category is MarketplaceCategory => category !== null)
@@ -330,9 +330,9 @@ async function confirmDelete() {
                       size="sm"
                       variant="ghost"
                       class="text-destructive"
-                      :disabled="pending || accessory.produits > 0 || accessory.sousCategories.length > 0"
+                      :disabled="pending || accessory.produits > 0 || accessory.sousCategories?.length > 0"
                       :title="
-                        accessory.produits || accessory.sousCategories.length
+                        accessory.produits || accessory.sousCategories?.length
                           ? t('operations.categories.deleteBlocked')
                           : ''
                       "

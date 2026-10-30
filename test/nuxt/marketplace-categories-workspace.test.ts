@@ -111,6 +111,27 @@ async function setInput(id: string, value: string) {
 }
 
 describe("marketplace categories workspace", () => {
+  it("still shows the tree when an accessory comes without its own sousCategories", async () => {
+    const accessoryWithoutChildren = JSON.parse(JSON.stringify(TREE)) as typeof TREE
+    // No products, so the delete button really reads `sousCategories` (with products it short-circuits).
+    const accessory = accessoryWithoutChildren[0]!.sousCategories[0]!.sousCategories[0] as {
+      produits: number
+      sousCategories?: unknown
+    }
+    accessory.produits = 0
+    delete accessory.sousCategories
+    cleanups = [
+      registerEndpoint("/api/v1/marketplace/categories/administration", {
+        method: "GET",
+        handler: () => accessoryWithoutChildren,
+      }),
+    ]
+    const wrapper = await mount()
+
+    await vi.waitFor(() => expect(wrapper.find("[data-testid='category-electronique']").exists()).toBe(true))
+    expect(wrapper.text()).toContain("Accessoires pour téléphones")
+  })
+
   it("shows the tree with each node's minimum warranty, inherited or its own", async () => {
     api([])
     const wrapper = await mount()
