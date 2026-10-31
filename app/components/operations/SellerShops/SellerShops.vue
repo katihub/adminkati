@@ -52,6 +52,7 @@ function shopFields(shop: SellerReviewDetail["boutiques"][number]) {
         ><span class="text-xs text-muted-foreground">{{ shop.statut }} · {{ shop.slug }}</span>
       </div>
       <p v-if="shop.description" class="whitespace-pre-wrap text-sm">{{ shop.description }}</p>
+      <OperationsShopVisuals :shop="shop" :seller-id="seller.id" :can-remove="canViewFinance" />
       <dl class="grid gap-3 text-sm sm:grid-cols-2">
         <div v-for="[key, value] in shopFields(shop)" :key="key">
           <dt class="text-xs text-muted-foreground">{{ t(key) }}</dt>

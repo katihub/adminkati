@@ -56,6 +56,10 @@ export interface SellerReviewDetail extends SellerReviewListItem {
       villesLivraison?: string[]
       modesLivraison?: string[]
       adresseRetrait?: string | null
+      /** Published without moderation; the direction can remove them. */
+      logoUrl?: string | null
+      banniereUrl?: string | null
+      telephone?: string | null
       gestionSav?: "boutique" | "kati_service"
       suiviStock?: boolean
       pointFocal?: { id: string; nom: string } | null
