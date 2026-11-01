@@ -64,7 +64,15 @@ export interface SellerReviewDetail extends SellerReviewListItem {
       suiviStock?: boolean
       pointFocal?: { id: string; nom: string } | null
       _count?: { offres: number }
-      membres: Array<{ id: string; courriel: string; nom: string; roles: string[]; actif: boolean }>
+      /** The phone each member gave, the owner's at signup; returned to the team only. */
+      membres: Array<{
+        id: string
+        courriel: string
+        nom: string
+        telephone?: string | null
+        roles: string[]
+        actif: boolean
+      }>
     }
   >
 }

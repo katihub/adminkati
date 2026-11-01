@@ -2,6 +2,8 @@
 import type { SellerReviewDetail } from "@/types/api/marketplace-moderation"
 const { members } = defineProps<{ members: SellerReviewDetail["boutiques"][number]["membres"] }>()
 const { t } = useI18n({ useScope: "local" })
+/** A dialable number: digits and the leading plus only. */
+const dial = (phone: string) => phone.replace(/[^\d+]/g, "")
 </script>
 <template>
   <div>
@@ -10,7 +12,16 @@ const { t } = useI18n({ useScope: "local" })
     <ul v-else class="divide-y divide-border text-sm">
       <li v-for="member in members" :key="member.id" class="flex flex-col gap-1 py-2">
         <strong>{{ member.nom }}</strong
-        ><span class="break-all">{{ member.courriel }}</span
+        ><a :href="`mailto:${member.courriel}`" class="break-all underline-offset-2 hover:underline">{{
+          member.courriel
+        }}</a
+        ><a
+          v-if="member.telephone"
+          :href="`tel:${dial(member.telephone)}`"
+          class="underline-offset-2 hover:underline"
+          data-testid="shop-member-phone"
+          >{{ member.telephone }}</a
+        ><span v-else class="text-muted-foreground">{{ t("noPhone") }}</span
         ><span class="text-xs text-muted-foreground"
           >{{ member.roles.join(", ") }} · {{ t(member.actif ? "active" : "inactive") }}</span
         >
@@ -20,10 +31,17 @@ const { t } = useI18n({ useScope: "local" })
 </template>
 <i18n lang="json">
 {
-  "en": { "members": "Shop members", "none": "No member recorded.", "active": "Active", "inactive": "Inactive" },
+  "en": {
+    "members": "Shop members",
+    "none": "No member recorded.",
+    "noPhone": "No phone given",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
   "fr": {
     "members": "Membres de la boutique",
     "none": "Aucun membre enregistré.",
+    "noPhone": "Téléphone non renseigné",
     "active": "Actif",
     "inactive": "Inactif"
   }
