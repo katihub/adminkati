@@ -2,7 +2,7 @@
 
 ## Besoin
 
-Le taux de commission est fixé par vendeur (10 % par défaut). Il n'est choisi qu'à la création et reste ensuite figé : le panel l'affiche sans permettre de le changer.
+Le taux de commission est fixé par vendeur : 10 % par défaut à l’origine, 5 % pour les nouveaux vendeurs depuis le 01/11 (backend, migration `20261101120000`). Il n'est choisi qu'à la création et reste ensuite figé : le panel l'affiche sans permettre de le changer.
 
 Décision : la direction peut le modifier vendeur par vendeur. Le vendeur n'est pas prévenu par e-mail.
 
