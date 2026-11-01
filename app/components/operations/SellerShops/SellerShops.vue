@@ -33,10 +33,11 @@ function shopFields(shop: SellerReviewDetail["boutiques"][number]) {
         <dt class="text-xs text-muted-foreground">{{ t("status") }}</dt>
         <dd>{{ seller.statut }} · {{ seller.statutVerification }}</dd>
       </div>
-      <div>
-        <dt class="text-xs text-muted-foreground">{{ t("commission") }}</dt>
-        <dd>{{ seller.commissionBps / 100 }} %</dd>
-      </div>
+      <OperationsSellerCommission
+        :seller-id="seller.id"
+        :commission-bps="seller.commissionBps"
+        :can-edit="canViewFinance"
+      />
       <div v-if="seller.motifStatut">
         <dt class="text-xs text-muted-foreground">{{ t("reason") }}</dt>
         <dd>{{ seller.motifStatut }}</dd>
@@ -82,7 +83,6 @@ function shopFields(shop: SellerReviewDetail["boutiques"][number]) {
   "en": {
     "identity": "Legal identity",
     "status": "Account and KYC status",
-    "commission": "Commission rate",
     "reason": "Status reason",
     "title": "Shops and operations",
     "cities": "Cities served",
@@ -107,7 +107,6 @@ function shopFields(shop: SellerReviewDetail["boutiques"][number]) {
   "fr": {
     "identity": "Identité légale",
     "status": "Statut du compte et KYC",
-    "commission": "Taux de commission",
     "reason": "Motif du statut",
     "title": "Boutiques et exploitation",
     "cities": "Villes desservies",
