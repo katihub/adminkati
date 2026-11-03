@@ -46,3 +46,17 @@ Plan : [plans/2026-11-03-messagerie-vendeurs.md](../plans/2026-11-03-messagerie-
 - **Ordre de déploiement** : le backend d'abord, puisque sa migration crée les tables, puis le panel et le site.
 - **Pas d'alerte en dehors de l'écran** : ni e-mail, ni notification push. L'équipe repère les nouveaux messages grâce aux pastilles de l'onglet, que le panel rafraîchit toutes les 30 secondes.
 - **Accès côté boutique** : tout membre actif de la boutique peut lire et écrire, quel que soit son rôle.
+
+## Ajout : les demandes Kati d'un vendeur arrivent dans la messagerie
+
+Quand un membre actif d'une boutique, connecté sur le site, demande à Kati de transmettre une question à l'équipe :
+- la question ouvre une conversation **« Via Kati : … »** dans la **Messagerie vendeurs** de sa boutique. Elle n'apparaît pas dans « Demandes clients » ;
+- le fil Kati lui indique de retrouver la réponse dans son espace vendeur, onglet « Messagerie KATI » ;
+- la référence renvoyée commence par `MV-`, au lieu de `AS-` pour une demande client.
+
+**Comment le vendeur est reconnu :**
+- par son compte, ou par son adresse e-mail s'il n'a encore jamais ouvert son espace vendeur ;
+- s'il est membre de plusieurs boutiques, la plus ancienne est retenue ;
+- un client qui n'est membre d'aucune boutique, ou un visiteur anonyme, garde le circuit « Demandes clients ».
+
+**Code :** `BackendKati/src/assistant/demandes.service.ts` (`membreBoutique`, `versMessagerieVendeur`), avec 2 tests dans `demandes.service.spec.ts`. Les 230 tests de l'assistant sont au vert.
