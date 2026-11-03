@@ -107,6 +107,22 @@ export interface MarketplaceProductReview {
   ficheTechnique?: string | null
   ficheTechniquePdfUrl?: string | null
   proposeParBoutique: { id: string; nom: string; slug: string; vendeurId: string } | null
+  /** The photos the shop sent (proposed) or already public; approving the product publishes them. */
+  images?: ModerationImage[]
+  revisionsContenu?: Array<{ id: string; statut: string }>
+}
+
+export interface ModerationImage {
+  id: string
+  url: string
+  texteAlternatif: string | null
+  statut: "proposee" | "publiee"
+}
+
+/** What a one-click approval returns: the approved ids, and each refusal with its reason. */
+export interface ModerationBatchResult {
+  approuves: string[]
+  echecs: Array<{ id: string; message: string }>
 }
 
 export interface MarketplaceOfferReview {
@@ -132,7 +148,7 @@ export interface MarketplaceOfferReview {
   offre: {
     id: string
     referenceVendeur: string
-    produit: { id: string; nom: string; slug: string }
+    produit: { id: string; nom: string; slug: string; images?: ModerationImage[] }
     boutique: { id: string; nom: string; slug: string; vendeurId: string }
   }
 }

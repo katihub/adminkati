@@ -2,6 +2,7 @@ import type {
   MarketplaceContentReview,
   MarketplaceOfferReview,
   MarketplaceProductReview,
+  ModerationBatchResult,
   SellerReviewDetail,
   SellerReviewFilters,
   SellerReviewPage,
@@ -175,5 +176,32 @@ export function useMarketplaceCatalogueModerationMutations() {
       }),
     onSuccess: invalidate,
   })
-  return { claimProduct, decideProduct, claimOffer, decideOffer, claimContent, decideContent }
+  /* One click, one item or the whole queue: the backend claims when needed, decides, and for a
+     product also publishes the photos sent with it. One refusal never stops the others. */
+  const approveProducts = useMutation({
+    mutationFn: (produitIds: string[]) =>
+      apiWrite<ModerationBatchResult>("/marketplace/moderation/produits/approbation", {
+        method: "POST",
+        body: { produitIds },
+      }),
+    onSuccess: invalidate,
+  })
+  const approveOffers = useMutation({
+    mutationFn: (revisionIds: string[]) =>
+      apiWrite<ModerationBatchResult>("/marketplace/moderation/offres/approbation", {
+        method: "POST",
+        body: { revisionIds },
+      }),
+    onSuccess: invalidate,
+  })
+  return {
+    claimProduct,
+    decideProduct,
+    claimOffer,
+    decideOffer,
+    claimContent,
+    decideContent,
+    approveProducts,
+    approveOffers,
+  }
 }

@@ -138,6 +138,8 @@
       "offerClaimed": "Offer claimed.",
       "productDecisionSaved": "Product decision saved.",
       "offerDecisionSaved": "Offer decision saved.",
+      "photos": "Photos sent by the shop",
+      "productPhotos": "Product photos",
       "proposedProduct": "Proposed product record",
       "name": "Name",
       "slug": "Slug",

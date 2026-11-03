@@ -86,6 +86,19 @@ const queueLength = computed(
     ({ products: products.value.length, offers: offers.value.length, contents: contents.value.length })[queue.value],
 )
 const loading = computed(() => queries[queue.value].isPending.value)
+/* A product or an offer is approved in one click from the queue; a content revision still needs the claim. */
+const canApprove = computed(() =>
+  queue.value === "contents"
+    ? current.value?.statut === "en_verification"
+    : ["soumis", "soumise", "en_verification"].includes(current.value?.statut ?? ""),
+)
+const bulkIds = computed(() =>
+  queue.value === "products"
+    ? products.value.map(item => item.id)
+    : queue.value === "offers"
+      ? offers.value.map(item => item.id)
+      : [],
+)
 const error = computed(() => queries[queue.value].error.value)
 const pending = computed(() => Object.values(mutations).some(mutation => mutation.isPending.value))
 const title = computed(() =>
@@ -189,10 +202,27 @@ async function claim() {
   else await run(() => mutations.claimContent.mutateAsync(id), t("operations.catalogue.contentClaimed"))
 }
 
+/** One click: the backend claims the item if needed, approves it and, for a product, publishes its photos. */
+async function approveOne(id: string) {
+  const result =
+    queue.value === "products"
+      ? await mutations.approveProducts.mutateAsync([id])
+      : await mutations.approveOffers.mutateAsync([id])
+  if (result.echecs.length) throw new Error(result.echecs[0]!.message)
+}
+
 async function decide(decision: "approve" | "changes" | "refuse") {
   const item = current.value
   const motif = reason.value.trim()
   if (!item || (decision !== "approve" && motif.length < 5)) return
+  if (decision === "approve" && queue.value !== "contents") {
+    const success =
+      queue.value === "products"
+        ? "operations.catalogue.productDecisionSaved"
+        : "operations.catalogue.offerDecisionSaved"
+    await run(() => approveOne(item.id), t(success))
+    return
+  }
   if (queue.value === "products") {
     const backendDecision =
       decision === "approve" ? "actif" : decision === "changes" ? "modification_demandee" : "refuse"
@@ -289,6 +319,12 @@ async function decide(decision: "approve" | "changes" | "refuse") {
           <p class="mt-0.5 text-xs text-muted-foreground">
             {{ t("operations.catalogue.count", { count: queueLength }) }}
           </p>
+          <OperationsModerationBulkApprove
+            v-if="queue !== 'contents'"
+            class="mt-3"
+            :kind="queue === 'products' ? 'products' : 'offers'"
+            :ids="bulkIds"
+          />
         </div>
         <ScrollArea class="h-[calc(100%-61px)]">
           <div v-if="loading" class="space-y-2 p-3">
@@ -422,6 +458,11 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                     <dd class="font-medium">{{ selectedProduct.categorie ?? "—" }}</dd>
                   </div>
                 </dl>
+                <OperationsModerationImages
+                  class="mt-5 border-t border-border pt-4"
+                  :images="selectedProduct.images"
+                  :title="t('operations.catalogue.photos')"
+                />
                 <div class="mt-5 border-t border-border pt-4">
                   <h4 class="text-sm font-medium">{{ t("operations.catalogue.description") }}</h4>
                   <p class="mt-2 whitespace-pre-wrap text-sm leading-6 text-muted-foreground">
@@ -448,6 +489,11 @@ async function decide(decision: "approve" | "changes" | "refuse") {
                 </div>
               </section>
               <section v-if="selectedOffer && queue === 'offers'" class="rounded-lg border border-border bg-card p-5">
+                <OperationsModerationImages
+                  class="mb-5 border-b border-border pb-4"
+                  :images="selectedOffer.offre.produit.images"
+                  :title="t('operations.catalogue.productPhotos')"
+                />
                 <h3 class="font-heading font-semibold">{{ t("operations.catalogue.proposedTerms") }}</h3>
                 <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-3">
                   <div>
@@ -655,7 +701,7 @@ async function decide(decision: "approve" | "changes" | "refuse") {
               />
               <Button
                 class="mt-3 w-full"
-                :disabled="pending || current.statut !== 'en_verification'"
+                :disabled="pending || !canApprove"
                 data-testid="catalogue-approve"
                 @click="decide('approve')"
                 ><Icon name="ph:check-circle" /> {{ t("operations.catalogue.approve") }}</Button
