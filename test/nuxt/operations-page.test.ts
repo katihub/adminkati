@@ -10,6 +10,7 @@ const operationsWorkspaceStubs = {
   OperationsCustomerRequestsWorkspace: { template: '<div data-testid="operations-customer-requests-workspace" />' },
   OperationsKatiReviewWorkspace: { template: '<div data-testid="operations-kati-review-workspace" />' },
   OperationsKatiExpressWorkspace: { template: '<div data-testid="operations-kati-express-workspace" />' },
+  OperationsSellerMessagingWorkspace: { template: '<div data-testid="operations-seller-messages-workspace" />' },
   OperationsSellerOnboardingWorkspace: { template: '<div data-testid="operations-seller-onboarding-workspace" />' },
   OperationsMarketplaceCatalogueModerationWorkspace: {
     template: '<div data-testid="operations-marketplace-catalogue-workspace" />',
@@ -69,6 +70,7 @@ const workspaces = [
   "customer-requests",
   "kati-review",
   "kati-express",
+  "seller-messages",
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-offers",
@@ -134,6 +136,7 @@ describe("operations page tabs", () => {
     ["customer-requests", "/operations?tab=customer-requests"],
     ["kati-review", "/operations?tab=kati-review"],
     ["kati-express", "/operations?tab=kati-express"],
+    ["seller-messages", "/operations?tab=seller-messages"],
     ["seller-onboarding", "/operations?tab=seller-onboarding"],
     ["marketplace-catalogue", "/operations?tab=marketplace-catalogue"],
     ["marketplace-offers", "/operations?tab=marketplace-offers"],
@@ -249,6 +252,7 @@ describe("operations page tabs", () => {
       .filter(id => !id?.endsWith("-icon"))
     expect(visible).toEqual([
       "focal-shops",
+      "seller-messages",
       "seller-onboarding",
       "marketplace-catalogue",
       "marketplace-disputes",

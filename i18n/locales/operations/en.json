@@ -67,6 +67,9 @@
       "focalShops": {
         "label": "My shops"
       },
+      "sellerMessages": {
+        "label": "Seller messages"
+      },
       "focalPoints": {
         "label": "Focal points"
       },

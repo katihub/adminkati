@@ -22,6 +22,7 @@ const QUERY_TABS = [
   "customer-requests",
   "kati-review",
   "kati-express",
+  "seller-messages",
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-offers",
@@ -59,6 +60,7 @@ const COUNTER_TABS: readonly OperationsTab[] = [
 ]
 const FOCAL_TABS: readonly OperationsTab[] = [
   "focal-shops",
+  "seller-messages",
   "seller-onboarding",
   "marketplace-catalogue",
   "marketplace-disputes",
@@ -127,6 +129,12 @@ const ALL_TABS = computed(() => [
     label: t("katiExpress.tab"),
     icon: "ph:truck",
     testid: "operations-tab-kati-express",
+  },
+  {
+    value: "seller-messages",
+    label: t("operations.tabs.sellerMessages.label"),
+    icon: "ph:chats-teardrop",
+    testid: "operations-tab-seller-messages",
   },
   {
     value: "seller-onboarding",
@@ -328,6 +336,7 @@ useHead({
     <OperationsCustomerRequestsWorkspace v-else-if="activeTab === 'customer-requests'" />
     <OperationsKatiReviewWorkspace v-else-if="activeTab === 'kati-review'" />
     <OperationsKatiExpressWorkspace v-else-if="activeTab === 'kati-express'" />
+    <OperationsSellerMessagingWorkspace v-else-if="activeTab === 'seller-messages'" />
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />
     <OperationsMarketplaceOffersWorkspace v-else-if="activeTab === 'marketplace-offers'" />
