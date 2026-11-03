@@ -44,5 +44,14 @@ export function useTeamMutations() {
     onSuccess: invalidateTeam,
   })
 
-  return { update, deactivate, reactivate, hire }
+  /** Le lien « Choisir mon mot de passe », renvoyé à un membre qui ne s'est jamais connecté. */
+  const resendInvitation = useMutation<{ invitationEnvoyee: boolean }, Error, string>({
+    mutationFn: id =>
+      apiWrite<{ invitationEnvoyee: boolean }>(`/equipe/membres/${encodeURIComponent(id)}/invitation`, {
+        method: "POST",
+      }),
+    onSuccess: invalidateTeam,
+  })
+
+  return { update, deactivate, reactivate, hire, resendInvitation }
 }

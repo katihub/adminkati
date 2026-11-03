@@ -37,6 +37,7 @@ function confirmDeactivate() {
       @update:open="showDeactivateDialog = $event"
       @confirm="confirmDeactivate"
     />
+    <TeamResendInvitation v-if="member.actif && !isSelf && !member.premiereConnexionLe" :member="member" />
     <Button
       v-if="member.actif && !isSelf"
       variant="outline"
