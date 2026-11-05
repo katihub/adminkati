@@ -29,6 +29,7 @@ const { storefrontUrl } = useRuntimeConfig().public
           </a>
         </Button>
         <LanguageSwitcher />
+        <AdminNotificationBell />
         <AdminProfileMenu />
       </div>
     </div>
