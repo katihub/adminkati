@@ -196,6 +196,15 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     roles: ["direction"],
     children: [
       {
+        id: "kati-express",
+        labelKey: "admin.navigation.items.katiExpress",
+        to: "/operations?tab=kati-express",
+        routeNames: ["operations"],
+        icon: "ph:moped",
+        roles: ["direction"],
+        query: { tab: "kati-express" },
+      },
+      {
         id: "delivery-fees",
         labelKey: "admin.navigation.items.deliveryFees",
         to: "/operations?tab=delivery-fees",

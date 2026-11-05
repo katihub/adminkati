@@ -107,7 +107,13 @@ describe("admin navigation model", () => {
     expect(children("catalogue")).toEqual(["products", "taxonomy", "catalogue-moderation", "catalogue-offers"])
     expect(children("sellers")).toEqual(["seller-onboarding", "shop-agents", "seller-trust"])
     expect(children("clients")).toEqual(["customer-directory", "customer-assistance", "reported-reviews", "disputes"])
-    expect(children("logistics")).toEqual(["delivery-fees", "localities", "order-services", "refused-lines"])
+    expect(children("logistics")).toEqual([
+      "kati-express",
+      "delivery-fees",
+      "localities",
+      "order-services",
+      "refused-lines",
+    ])
     expect(children("finance")).toEqual(["cash-registers", "seller-finance", "installment-plans", "kati-points"])
     expect(children("marketing")).toEqual(["content", "site-texts", "outbound-notifications"])
     expect(children("administration")).toEqual(["team", "settings", "marketplace-pilot", "legal-closure"])
@@ -149,6 +155,7 @@ describe("admin navigation model", () => {
   it.each([
     ["seller-onboarding", "sellers"],
     ["delivery-fees", "logistics"],
+    ["kati-express", "logistics"],
     ["seller-finance", "finance"],
   ] as const)("activates only %s's business domain on its Operations deep link", (tab, expectedId) => {
     const active = adminNavigationItems.filter(item =>
