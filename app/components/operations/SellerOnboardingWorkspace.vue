@@ -301,6 +301,7 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
 
           <div class="grid gap-4 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_310px]">
             <div class="space-y-4">
+              <OperationsSellerIdentity :seller="detailQuery.data.value" />
               <section class="rounded-lg border border-border bg-card">
                 <div class="flex items-center justify-between border-b border-border p-4">
                   <h3 class="font-heading font-semibold">{{ t("operations.onboarding.documents") }}</h3>

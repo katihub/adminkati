@@ -46,6 +46,14 @@ export interface SellerDocument {
 }
 
 export interface SellerReviewDetail extends SellerReviewListItem {
+  /** Given by an individual seller at signup (5 November 2026); null for a company and for older sellers. */
+  dateNaissance?: string | null
+  lieuNaissance?: string | null
+  villeResidence?: string | null
+  quartierResidence?: string | null
+  /** A supplier or sponsor who can vouch for the seller: optional, for any seller. */
+  parrainNom?: string | null
+  parrainTelephone?: string | null
   reputations?: Array<{ scoreRisque: number; tauxLitigeBps: number; creeLe: string }>
   sanctions?: Array<{ id: string; type: string; statut: string; motif: string; commenceLe: string }>
   documents: SellerDocument[]
