@@ -15,6 +15,7 @@ import {
 import { apiErrorText } from "@/utils/api-error"
 import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
+import { isSellerFileApprovable } from "@/utils/seller-documents"
 
 const route = useRoute()
 const session = useCachedSession()
@@ -62,10 +63,7 @@ if (import.meta.server) {
 }
 const mutations = useSellerReviewMutations()
 const date = computed(() => new Intl.DateTimeFormat(locale.value, { day: "2-digit", month: "short", year: "numeric" }))
-const allDocumentsValid = computed(() => {
-  const documents = detailQuery.data.value?.documents ?? []
-  return documents.length > 0 && documents.every(document => document.statut === "valide")
-})
+const allDocumentsValid = computed(() => isSellerFileApprovable(detailQuery.data.value?.documents ?? []))
 const canDecideApplication = computed(() => {
   const status = detailQuery.data.value?.statutVerification
   return status === "soumis" || status === "en_verification"
