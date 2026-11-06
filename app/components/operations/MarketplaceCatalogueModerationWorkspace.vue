@@ -151,7 +151,29 @@ const seoRows = computed(() => {
 const textRows = computed(() => {
   const content = selectedContent.value
   if (!content) return []
+  // Name, brand and long description are only listed when the shop proposed a change (6 November 2026).
+  const general = [
+    {
+      key: "name",
+      label: t("operations.catalogue.proposedName"),
+      before: content.produit.nom,
+      after: content.nom ?? null,
+    },
+    {
+      key: "brand",
+      label: t("operations.catalogue.proposedBrand"),
+      before: content.produit.marque ?? null,
+      after: content.marque ?? null,
+    },
+    {
+      key: "description",
+      label: t("operations.catalogue.proposedDescription"),
+      before: content.produit.description ?? null,
+      after: content.description ?? null,
+    },
+  ].filter(row => row.after !== null && row.after !== row.before)
   return [
+    ...general,
     {
       key: "shortDescription",
       label: t("operations.catalogue.shortDescription"),

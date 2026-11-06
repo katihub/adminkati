@@ -182,12 +182,18 @@ export interface MarketplaceContentReview {
   descriptionCourte?: string | null
   ficheTechnique?: string | null
   ficheTechniquePdfUrl?: string | null
+  /** Proposed with the complete product sheet (6 November 2026); null: unchanged. */
+  nom?: string | null
+  marque?: string | null
+  description?: string | null
   soumisLe: string
   motifDecision: string | null
   produit: {
     id: string
     nom: string
     slug: string
+    marque?: string | null
+    description?: string | null
     metaTitre: string | null
     metaDescription: string | null
     descriptionCourte?: string | null
