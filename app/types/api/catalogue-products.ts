@@ -60,6 +60,8 @@ export interface LinkedMarketplaceOffer {
 /** BackendKati/src/marketplace/produits-administration.service.ts:11 — contenu commun, jamais les clés de stockage. */
 export interface AdminMarketplaceProduct extends Omit<AdminMarketplaceProductSummary, "offres" | "image"> {
   categorieId: string | null
+  /** Up to two other categories the product also shows in; the main one keeps the rules. */
+  categoriesSupplementaires?: string[]
   description: string | null
   descriptionCourte: string | null
   ficheTechnique: string | null
@@ -113,6 +115,7 @@ export interface MarketplaceProductCorrection {
   descriptionCourte: string | null
   ficheTechnique: string | null
   categorieId: string
+  categoriesSupplementaires: string[]
   modifieLe: string
   motif: string
 }

@@ -10,6 +10,7 @@ export const catalogueProductDraftSchema = z.object({
   nom: z.string().trim().min(2).max(240),
   marque: optionalText(1, 120),
   categorieId: z.string().uuid(),
+  autres: z.array(z.union([z.literal(""), z.string().uuid()])).max(2),
   description: optionalText(2, 10000),
   descriptionCourte: optionalText(10, 300),
   ficheTechnique: optionalText(2, 20000),

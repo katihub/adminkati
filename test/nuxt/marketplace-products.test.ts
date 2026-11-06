@@ -89,6 +89,7 @@ describe("marketplace common product editing", () => {
           descriptionCourte: null,
           ficheTechnique: null,
           categorieId: categoryId,
+          categoriesSupplementaires: [],
           modifieLe: product.modifieLe,
           motif: "Correction du catalogue",
         },
@@ -138,12 +139,49 @@ describe("marketplace common product editing", () => {
           descriptionCourte: "Description courte complète",
           ficheTechnique: null,
           categorieId: categoryId,
+          categoriesSupplementaires: [],
           modifieLe: "",
           motif: "",
           slug: "produit-cree",
         },
       ],
     ])
+  })
+})
+
+describe("the other categories of a product", () => {
+  it("adds up to two other categories, never the main one, and sends them with the correction", async () => {
+    const autre = (id: string, nom: string, ordre: number) => ({
+      ...categories[0]!,
+      id,
+      nom,
+      slug: nom.toLowerCase(),
+      ordre,
+    })
+    const reseau = "0a0a0a0a-0000-4000-8000-000000000001"
+    const stockage = "0a0a0a0a-0000-4000-8000-000000000002"
+    const wrapper = await mountSuspended(ProductForm, {
+      props: {
+        product: detail,
+        categories: [...categories, autre(reseau, "Réseau", 1), autre(stockage, "Stockage", 2)],
+        saving: false,
+        error: null,
+      },
+    })
+    wrappers.push(wrapper)
+    const premiere = wrapper.get("[data-testid='catalogue-product-other-category-1']")
+    expect(premiere.findAll("option").map(option => option.text())).toEqual(["None", "Réseau", "Stockage"])
+    expect(wrapper.get("[data-testid='catalogue-product-other-category-2']").attributes("disabled")).toBeDefined()
+    await premiere.setValue(reseau)
+    const seconde = wrapper.get("[data-testid='catalogue-product-other-category-2']")
+    expect(seconde.findAll("option").map(option => option.text())).toEqual(["None", "Stockage"])
+    await seconde.setValue(stockage)
+    await wrapper.get("[data-testid='catalogue-product-reason']").setValue("Rayons supplémentaires")
+    await wrapper.get("[data-testid='catalogue-product-save']").trigger("click")
+    expect(wrapper.emitted("save")?.[0]?.[0]).toMatchObject({
+      categorieId: categoryId,
+      categoriesSupplementaires: [reseau, stockage],
+    })
   })
 })
 

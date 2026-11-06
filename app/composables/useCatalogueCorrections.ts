@@ -20,6 +20,7 @@ export function useCatalogueCorrections() {
       nom: string
       slug: string
       categorieId: string
+      categoriesSupplementaires?: string[]
       marque?: string
       description?: string
       descriptionCourte?: string

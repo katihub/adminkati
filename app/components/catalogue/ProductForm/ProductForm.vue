@@ -22,6 +22,7 @@ const draft = reactive({
   nom: product?.nom ?? "",
   marque: product?.marque ?? "",
   categorieId: product?.categorieId ?? "",
+  autres: [product?.categoriesSupplementaires?.[0] ?? "", product?.categoriesSupplementaires?.[1] ?? ""],
   description: product?.description ?? "",
   descriptionCourte: product?.descriptionCourte ?? "",
   ficheTechnique: product?.ficheTechnique ?? "",
@@ -59,6 +60,7 @@ const fields = computed(() => [
   },
 ])
 const options = computed(() => catalogueCategoryOptions(categories, true))
+const otherCategories = () => [...new Set(draft.autres.filter(id => id && id !== draft.categorieId))]
 const valid = computed(
   () =>
     catalogueProductDraftSchema.safeParse(draft).success &&
@@ -70,14 +72,21 @@ function save() {
   if (!valid.value || saving) return
   const parsed = catalogueProductDraftSchema.safeParse(draft)
   if (!parsed.success) return
-  const { slug, motif, ...data } = parsed.data
+  const { slug, motif, autres: _autres, ...data } = parsed.data
   const nullable = Object.fromEntries(
     ["marque", "description", "descriptionCourte", "ficheTechnique"].map(key => [
       key,
       data[key as keyof typeof data] || null,
     ]),
   )
-  emit("save", { ...data, ...nullable, modifieLe: product?.modifieLe ?? "", motif, slug: product ? undefined : slug })
+  emit("save", {
+    ...data,
+    ...nullable,
+    categoriesSupplementaires: otherCategories(),
+    modifieLe: product?.modifieLe ?? "",
+    motif,
+    slug: product ? undefined : slug,
+  })
 }
 </script>
 <template>
@@ -121,6 +130,7 @@ function save() {
           <option v-for="option in options" :key="option.id" :value="option.id">{{ option.nom }}</option>
         </select></PointsOfSaleField
       >
+      <CatalogueProductOtherCategories v-model="draft.autres" :options="options" :main="draft.categorieId" />
       <PointsOfSaleField
         v-if="product"
         v-slot="{ field }"
