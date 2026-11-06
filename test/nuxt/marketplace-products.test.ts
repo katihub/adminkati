@@ -1,7 +1,7 @@
 import type { AdminMarketplaceProduct } from "@/types/api/catalogue-products"
 import type { MarketplaceCategory } from "@/types/api/marketplace-categories"
-import { mountSuspended } from "@nuxt/test-utils/runtime"
-import { afterEach, describe, expect, it } from "vitest"
+import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
+import { afterEach, describe, expect, it, vi } from "vitest"
 import ProductForm from "@/components/catalogue/ProductForm/ProductForm.vue"
 import ProductList from "@/components/catalogue/ProductList/ProductList.vue"
 
@@ -52,7 +52,11 @@ const detail: AdminMarketplaceProduct = {
 }
 
 describe("marketplace common product editing", () => {
-  afterEach(() => wrappers.splice(0).forEach(wrapper => wrapper.unmount()))
+  const cleanups: Array<() => void> = []
+  afterEach(() => {
+    wrappers.splice(0).forEach(wrapper => wrapper.unmount())
+    cleanups.splice(0).forEach(cleanup => cleanup())
+  })
 
   it("requires an audit reason of at least five characters before editing a product", async () => {
     const wrapper = await mountSuspended(ProductForm, {
@@ -118,6 +122,15 @@ describe("marketplace common product editing", () => {
   })
 
   it("validates required creation fields and emits a new slug without claiming an existing version", async () => {
+    // Every product belongs to one shop (6 November 2026): creation asks for the owner.
+    cleanups.push(
+      registerEndpoint("/api/v1/marketplace/administration/offres", () => ({
+        elements: [],
+        pagination: { page: 1, taille: 1, total: 0, pages: 1 },
+        compteurs: {},
+        boutiques: [{ id: "0a0a0a0a-0000-4000-8000-0000000000b1", nom: "NowTech", offres: 3 }],
+      })),
+    )
     const wrapper = await mountSuspended(ProductForm, {
       props: { product: null, categories, saving: false, error: null },
     })
@@ -126,6 +139,8 @@ describe("marketplace common product editing", () => {
     await wrapper.get("[data-testid='catalogue-product-name']").setValue("Produit créé")
     await wrapper.get("[data-testid='catalogue-product-category']").setValue(categoryId)
     await wrapper.get("[data-testid='catalogue-product-slug']").setValue("produit-cree")
+    await vi.waitFor(() => expect(wrapper.findAll("[data-testid='catalogue-product-owner'] option")).toHaveLength(2))
+    await wrapper.get("[data-testid='catalogue-product-owner']").setValue("0a0a0a0a-0000-4000-8000-0000000000b1")
     await wrapper.get("[data-testid='catalogue-product-short']").setValue("trop court".slice(0, 9))
     expect(wrapper.get("[data-testid='catalogue-product-save']").attributes("disabled")).toBeDefined()
     await wrapper.get("[data-testid='catalogue-product-short']").setValue("Description courte complète")
@@ -143,6 +158,7 @@ describe("marketplace common product editing", () => {
           modifieLe: "",
           motif: "",
           slug: "produit-cree",
+          boutiqueId: "0a0a0a0a-0000-4000-8000-0000000000b1",
         },
       ],
     ])

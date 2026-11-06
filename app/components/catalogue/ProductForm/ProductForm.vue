@@ -22,6 +22,7 @@ const draft = reactive({
   nom: product?.nom ?? "",
   marque: product?.marque ?? "",
   categorieId: product?.categorieId ?? "",
+  boutiqueId: "",
   autres: [product?.categoriesSupplementaires?.[0] ?? "", product?.categoriesSupplementaires?.[1] ?? ""],
   description: product?.description ?? "",
   descriptionCourte: product?.descriptionCourte ?? "",
@@ -66,13 +67,16 @@ const valid = computed(
     catalogueProductDraftSchema.safeParse(draft).success &&
     (product
       ? draft.motif.trim().length >= 5
-      : /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(draft.slug) && draft.slug.length >= 2 && draft.slug.length <= 180),
+      : Boolean(draft.boutiqueId) &&
+        /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(draft.slug) &&
+        draft.slug.length >= 2 &&
+        draft.slug.length <= 180),
 )
 function save() {
   if (!valid.value || saving) return
   const parsed = catalogueProductDraftSchema.safeParse(draft)
   if (!parsed.success) return
-  const { slug, motif, autres: _autres, ...data } = parsed.data
+  const { slug, motif, autres: _autres, boutiqueId, ...data } = parsed.data
   const nullable = Object.fromEntries(
     ["marque", "description", "descriptionCourte", "ficheTechnique"].map(key => [
       key,
@@ -86,6 +90,7 @@ function save() {
     modifieLe: product?.modifieLe ?? "",
     motif,
     slug: product ? undefined : slug,
+    ...(product ? {} : { boutiqueId }),
   })
 }
 </script>
@@ -95,6 +100,7 @@ function save() {
     <p class="text-sm text-muted-foreground">{{ t("catalogue.formHelp") }}</p>
     <ApiErrorCard v-if="error" :error="error" @retry="save" />
     <fieldset :disabled="saving" class="flex min-w-0 flex-col gap-4">
+      <CatalogueProductOwnerField v-if="!product" v-model="draft.boutiqueId" />
       <PointsOfSaleField v-if="!product" v-slot="{ field }" :label="t('catalogue.slug')"
         ><Input v-model="draft.slug" v-bind="field" maxlength="180" required data-testid="catalogue-product-slug"
       /></PointsOfSaleField>

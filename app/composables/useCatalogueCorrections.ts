@@ -21,6 +21,7 @@ export function useCatalogueCorrections() {
       slug: string
       categorieId: string
       categoriesSupplementaires?: string[]
+      boutiqueId: string
       marque?: string
       description?: string
       descriptionCourte?: string

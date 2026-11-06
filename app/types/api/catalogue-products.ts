@@ -116,6 +116,8 @@ export interface MarketplaceProductCorrection {
   ficheTechnique: string | null
   categorieId: string
   categoriesSupplementaires: string[]
+  /** The owner shop, on creation only: every product belongs to one shop. */
+  boutiqueId?: string
   modifieLe: string
   motif: string
 }

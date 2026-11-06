@@ -100,6 +100,7 @@ function createProduct(body: MarketplaceProductCorrection & { slug?: string }) {
     slug: body.slug ?? "",
     categorieId: body.categorieId,
     categoriesSupplementaires: body.categoriesSupplementaires,
+    boutiqueId: body.boutiqueId ?? "",
     marque: optionalText(body.marque),
     description: optionalText(body.description),
     descriptionCourte: optionalText(body.descriptionCourte),
