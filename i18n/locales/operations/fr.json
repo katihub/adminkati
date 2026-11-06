@@ -940,7 +940,7 @@
         "archivee": "Archivées"
       },
       "stockLevels": {
-        "rupture": "En rupture",
+        "rupture": "Hors stock",
         "faible": "Stock faible (5 ou moins)",
         "disponible": "Disponible"
       },

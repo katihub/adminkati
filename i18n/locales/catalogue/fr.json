@@ -57,7 +57,7 @@
     "allProductOffers": "Toutes les offres de ce produit",
     "price": "Prix de vente (FCFA)",
     "referencePrice": "Prix de référence (FCFA)",
-    "moq": "Quantité minimale (MOQ)",
+    "moq": "Minimum commandable",
     "warranty": "Garantie (mois)",
     "delay": "Livraison maximale (jours)",
     "stock": "Stock physique / réservé",
@@ -92,15 +92,15 @@
       "changeAll": "Disponibilité de toutes les offres",
       "statuses": {
         "en_stock": "En stock",
-        "rupture": "Rupture de stock",
+        "rupture": "Hors stock",
         "reapprovisionnement": "En réapprovisionnement"
       },
-      "help": "« Rupture » et « En réapprovisionnement » retirent l’offre de la vente sur le site et l’application, quelle que soit sa quantité.",
+      "help": "« Hors stock » : l’offre reste visible sur le site et l’application, mais ne s’achète plus. « En stock » et « En réapprovisionnement » se commandent. La boutique choisit aussi ce statut depuis son espace.",
       "helpAll": "La même disponibilité s’applique à toutes les offres de ce produit (archivées exceptées). Les quantités ne changent pas.",
       "status": "Disponibilité",
       "quantity": "Quantité en stock",
       "quantityHelp": "Pièces physiques chez le vendeur, dont {reserved} déjà réservée(s) pour des clients.",
-      "untracked": "Cette boutique ne suit pas son stock : seule la disponibilité se règle.",
+      "untracked": "Le statut remplace les quantités : seule la disponibilité se règle.",
       "reason": "Motif (visible dans l’historique)",
       "reasonPlaceholder": "Ex. : arrivage prévu la semaine prochaine",
       "reasonRequired": "Indiquez un motif d’au moins 5 caractères.",
@@ -109,7 +109,7 @@
       "save": "Enregistrer",
       "saved": "Disponibilité mise à jour.",
       "savedAllMissing": "Disponibilité mise à jour. {count} offre(s) suivie(s) sans pièce restent invendables : indiquez leur quantité.",
-      "listOut": "{count} en rupture",
+      "listOut": "{count} hors stock",
       "listRestock": "{count} en réappro."
     }
   }
