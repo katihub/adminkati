@@ -104,7 +104,13 @@ describe("admin navigation model", () => {
     const children = (id: string) => adminNavigationItems.find(item => item.id === id)?.children?.map(item => item.id)
 
     expect(children("commerce")).toEqual(["orders", "quotes"])
-    expect(children("catalogue")).toEqual(["products", "taxonomy", "catalogue-moderation", "catalogue-offers"])
+    expect(children("catalogue")).toEqual([
+      "products",
+      "taxonomy",
+      "products-to-check",
+      "catalogue-moderation",
+      "catalogue-offers",
+    ])
     expect(children("sellers")).toEqual(["seller-onboarding", "shop-agents", "seller-trust"])
     expect(children("clients")).toEqual(["customer-directory", "customer-assistance", "reported-reviews", "disputes"])
     expect(children("logistics")).toEqual([

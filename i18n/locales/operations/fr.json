@@ -75,6 +75,9 @@
       },
       "paymentGateway": {
         "label": "Passerelle de paiement"
+      },
+      "productChecks": {
+        "label": "Produits à contrôler"
       }
     },
     "common": {
@@ -712,6 +715,45 @@
       "hide": "Masquer l’avis",
       "kept": "Avis gardé publié.",
       "hidden": "Avis masqué."
+    },
+    "productChecks": {
+      "help": "Les boutiques actives publient sans attendre. Contrôlez ici ce qui vient d’être mis en ligne ou modifié : marquez-le comme vu, masquez-le s’il pose problème (cela se rétablit), demandez une correction, ou supprimez-le dans les cas graves. Les vendeurs sous surveillance restent dans l’onglet Modération.",
+      "shopFilter": "Filtrer par boutique",
+      "allShops": "Toutes les boutiques",
+      "count": "Aucun produit à contrôler | 1 produit à contrôler | {count} produits à contrôler",
+      "empty": "Rien à contrôler : tout ce que les boutiques ont publié a été vu.",
+      "new": "Nouveau",
+      "changed": "Modifié",
+      "hidden": "Masqué",
+      "noPrice": "Sans prix",
+      "variants": "{count} variantes",
+      "since": "En ligne depuis le {date}",
+      "reasonShown": "Motif communiqué : {reason}",
+      "actions": {
+        "seen": "Vu",
+        "hide": "Masquer",
+        "restore": "Rétablir",
+        "correction": "Demander une correction",
+        "delete": "Supprimer",
+        "edit": "Modifier la fiche"
+      },
+      "done": {
+        "seen": "Produit marqué comme vu",
+        "hide": "Produit masqué, la boutique est prévenue",
+        "restore": "Produit rétabli",
+        "correction": "Correction demandée à la boutique",
+        "delete": "Produit supprimé"
+      },
+      "dialog": {
+        "hide": "Masquer ce produit",
+        "correction": "Demander une correction",
+        "delete": "Supprimer ce produit",
+        "help": "« {product} » de {shop}. La boutique recevra ce motif.",
+        "reason": "Motif",
+        "reasonHelp": "3 caractères au moins. Soyez précis : la boutique saura quoi corriger.",
+        "cancel": "Annuler",
+        "confirm": "Confirmer"
+      }
     },
     "verifiedOffers": {
       "help": "Le badge « Vérifié par KatiMarket » dit au client que KatiMarket a reçu l’article de cette boutique et l’a testé. Il ne vaut que pour l’offre de cette boutique, pas pour le même produit chez les autres.",

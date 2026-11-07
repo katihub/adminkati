@@ -87,6 +87,15 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         roles: ["direction"],
       },
       {
+        id: "products-to-check",
+        labelKey: "operations.tabs.productChecks.label",
+        to: "/operations?tab=products-to-check",
+        routeNames: ["operations"],
+        icon: "ph:eye",
+        roles: ["direction", "point_focal"],
+        query: { tab: "products-to-check" },
+      },
+      {
         id: "catalogue-moderation",
         labelKey: "admin.navigation.items.catalogueModeration",
         to: "/operations?tab=marketplace-catalogue",

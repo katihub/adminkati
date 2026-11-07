@@ -75,6 +75,9 @@
       },
       "paymentGateway": {
         "label": "Payment gateway"
+      },
+      "productChecks": {
+        "label": "Products to check"
       }
     },
     "common": {
@@ -712,6 +715,45 @@
       "hide": "Hide review",
       "kept": "Review kept published.",
       "hidden": "Review hidden."
+    },
+    "productChecks": {
+      "help": "Active shops publish without waiting. Check here what was just put online or changed: mark it seen, hide it if something is wrong (it can be restored), ask for a correction, or delete it in serious cases. Sellers under watch stay in the Moderation tab.",
+      "shopFilter": "Filter by shop",
+      "allShops": "All shops",
+      "count": "No product to check | 1 product to check | {count} products to check",
+      "empty": "Nothing to check: everything shops published has been seen.",
+      "new": "New",
+      "changed": "Changed",
+      "hidden": "Hidden",
+      "noPrice": "No price",
+      "variants": "{count} variants",
+      "since": "Online since {date}",
+      "reasonShown": "Reason sent: {reason}",
+      "actions": {
+        "seen": "Seen",
+        "hide": "Hide",
+        "restore": "Restore",
+        "correction": "Ask for a correction",
+        "delete": "Delete",
+        "edit": "Edit the product"
+      },
+      "done": {
+        "seen": "Product marked as seen",
+        "hide": "Product hidden, the shop is notified",
+        "restore": "Product restored",
+        "correction": "Correction asked from the shop",
+        "delete": "Product deleted"
+      },
+      "dialog": {
+        "hide": "Hide this product",
+        "correction": "Ask for a correction",
+        "delete": "Delete this product",
+        "help": "“{product}” from {shop}. The shop will receive this reason.",
+        "reason": "Reason",
+        "reasonHelp": "At least 3 characters. Be precise: the shop will know what to fix.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
     },
     "verifiedOffers": {
       "help": "The \"Verified by KatiMarket\" badge tells customers KatiMarket received this shop’s item and tested it. It applies to this shop’s offer only, not to the same product at other shops.",

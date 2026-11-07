@@ -29,6 +29,7 @@ export const operationsDomainByTab: Readonly<Partial<Record<string, AdminDomain>
   "customer-requests": "clients",
   "seller-onboarding": "sellers",
   "marketplace-catalogue": "catalogue",
+  "products-to-check": "catalogue",
   "marketplace-offers": "catalogue",
   "marketplace-categories": "catalogue",
   "kati-express": "logistics",

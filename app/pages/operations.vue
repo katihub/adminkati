@@ -25,6 +25,7 @@ const QUERY_TABS = [
   "seller-messages",
   "seller-onboarding",
   "marketplace-catalogue",
+  "products-to-check",
   "marketplace-offers",
   "marketplace-categories",
   "delivery-fees",
@@ -62,6 +63,7 @@ const FOCAL_TABS: readonly OperationsTab[] = [
   "focal-shops",
   "seller-messages",
   "seller-onboarding",
+  "products-to-check",
   "marketplace-catalogue",
   "marketplace-disputes",
   "shop-agents",
@@ -141,6 +143,12 @@ const ALL_TABS = computed(() => [
     label: t("admin.navigation.items.sellerOnboarding"),
     icon: "ph:storefront",
     testid: "operations-tab-seller-onboarding",
+  },
+  {
+    value: "products-to-check",
+    label: t("operations.tabs.productChecks.label"),
+    icon: "ph:eye",
+    testid: "operations-tab-products-to-check",
   },
   {
     value: "marketplace-catalogue",
@@ -338,6 +346,7 @@ useHead({
     <OperationsKatiExpressWorkspace v-else-if="activeTab === 'kati-express'" />
     <OperationsSellerMessagingWorkspace v-else-if="activeTab === 'seller-messages'" />
     <OperationsSellerOnboardingWorkspace v-else-if="activeTab === 'seller-onboarding'" />
+    <OperationsProductsToCheckWorkspace v-else-if="activeTab === 'products-to-check'" />
     <OperationsMarketplaceCatalogueModerationWorkspace v-else-if="activeTab === 'marketplace-catalogue'" />
     <OperationsMarketplaceOffersWorkspace v-else-if="activeTab === 'marketplace-offers'" />
     <OperationsMarketplaceCategoriesWorkspace v-else-if="activeTab === 'marketplace-categories'" />

@@ -109,6 +109,7 @@ export const apiQueryKeys = {
     products: [...marketplaceModeration, "produits"] as const,
     offers: [...marketplaceModeration, "offres"] as const,
     contents: [...marketplaceModeration, "contenus-produits"] as const,
+    productChecks: [...marketplaceModeration, "produits-a-controler"] as const,
   },
   reportedReviews: { all: reportedReviews },
   marketplaceQuotes: {

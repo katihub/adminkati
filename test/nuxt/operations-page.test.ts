@@ -254,6 +254,7 @@ describe("operations page tabs", () => {
       "focal-shops",
       "seller-messages",
       "seller-onboarding",
+      "products-to-check",
       "marketplace-catalogue",
       "marketplace-disputes",
       "shop-agents",
