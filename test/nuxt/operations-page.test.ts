@@ -252,6 +252,7 @@ describe("operations page tabs", () => {
       .filter(id => !id?.endsWith("-icon"))
     expect(visible).toEqual([
       "focal-shops",
+      "kati-express",
       "seller-messages",
       "seller-onboarding",
       "products-to-check",

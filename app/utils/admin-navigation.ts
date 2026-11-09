@@ -156,18 +156,10 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     id: "clients",
     labelKey: "admin.navigation.clients",
     to: adminDestinations.clients,
-    routeNames: ["users", "assistant", "comptes"],
+    routeNames: ["users", "assistant"],
     icon: "ph:users",
-    roles: ["direction", "comptoir", "point_focal"],
+    roles: ["direction", "comptoir"],
     children: [
-      {
-        id: "user-accounts",
-        labelKey: "admin.navigation.items.userAccounts",
-        to: "/comptes",
-        routeNames: ["comptes"],
-        icon: "ph:key",
-        roles: ["direction", "point_focal"],
-      },
       {
         id: "customer-directory",
         labelKey: "admin.navigation.items.customerDirectory",
@@ -344,7 +336,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     id: "administration",
     labelKey: "admin.navigation.administration",
     to: adminDestinations.administration,
-    routeNames: ["team"],
+    routeNames: ["team", "comptes"],
     icon: "ph:gear-six",
     children: [
       {
@@ -353,6 +345,15 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/team",
         routeNames: ["team"],
         icon: "ph:users-three",
+      },
+      /* Customer and seller accounts, next to the team (9 November 2026). */
+      {
+        id: "user-accounts",
+        labelKey: "admin.navigation.items.userAccounts",
+        to: "/comptes",
+        routeNames: ["comptes"],
+        icon: "ph:key",
+        roles: ["direction", "point_focal"],
       },
       {
         id: "settings",

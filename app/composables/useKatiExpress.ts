@@ -1,3 +1,4 @@
+import type { courierRegistrationBody } from "@/utils/courier-registration"
 import type { MaybeRefOrGetter } from "vue"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { computed, toValue } from "vue"
@@ -50,6 +51,25 @@ export interface KatiExpressCourier {
   aEncaisserFcfa: number
   especesNonRemisesFcfa: number
   villes: string[]
+  /** Registered by a focal point and not yet checked by the direction: no cash (9 November 2026). */
+  aVerifier?: boolean
+  courriel?: string | null
+  dateNaissance?: string | null
+  lieuNaissance?: string | null
+  villeResidence?: string | null
+  quartierResidence?: string | null
+  parrainNom?: string | null
+  parrainLien?: string | null
+  parrainTelephone?: string | null
+  villeLivraison?: string | null
+  quartiersLivraison?: string[]
+  immatriculation?: string | null
+}
+
+/** The storefront's active cities and neighbourhoods, readable by the whole team. */
+export interface PublicLocality {
+  ville: string
+  quartiers: Array<{ id: string; nom: string }>
 }
 
 export interface KatiExpressSuggestion {
@@ -82,7 +102,11 @@ export interface KatiExpressSuggestions {
 
 const KEY = ["v1", "marketplace", "kati-express"] as const
 
-export function useKatiExpressBoard(filters: MaybeRefOrGetter<{ file: KatiExpressQueue; ville?: string }>) {
+export function useKatiExpressBoard(
+  filters: MaybeRefOrGetter<{ file: KatiExpressQueue; ville?: string }>,
+  /** The dispatch board belongs to the direction: a focal point only sees its couriers. */
+  enabled: MaybeRefOrGetter<boolean> = true,
+) {
   const api = useApiFetch()
   const query = computed(() => {
     const value = toValue(filters)
@@ -92,6 +116,7 @@ export function useKatiExpressBoard(filters: MaybeRefOrGetter<{ file: KatiExpres
     queryKey: computed(() => [...KEY, "expeditions", query.value]),
     queryFn: () => api("/marketplace/kati-express/expeditions", { query: query.value }),
     refetchInterval: 60_000,
+    enabled: computed(() => toValue(enabled)),
   })
 }
 
@@ -122,6 +147,55 @@ export function useKatiExpressAssign() {
       api(`/marketplace/expeditions/${encodeURIComponent(expeditionId)}/affectation`, {
         method: "POST",
         body: { agentId },
+      }),
+    onSuccess: () => client.invalidateQueries({ queryKey: KEY }),
+  })
+}
+
+/** The cities and neighbourhoods a courier can be registered in. */
+export function usePublicLocalities() {
+  const api = useApiFetch()
+  return useQuery<PublicLocality[]>({
+    queryKey: ["v1", "marketplace", "localites", "publiques"],
+    queryFn: () => api("/marketplace/localites"),
+    staleTime: 5 * 60_000,
+  })
+}
+
+/** One form registers the team member, the courier and the invitation (9 November 2026). */
+export function useRegisterCourier() {
+  const api = useApiWrite()
+  const client = useQueryClient()
+  return useMutation({
+    mutationFn: (body: ReturnType<typeof courierRegistrationBody>) =>
+      api<{ id: string; nom: string; aVerifier: boolean; invitationEnvoyee: boolean }>(
+        "/marketplace/kati-express/livreurs",
+        {
+          method: "POST",
+          body,
+        },
+      ),
+    onSuccess: () => client.invalidateQueries({ queryKey: KEY }),
+  })
+}
+
+/** The neighbourhoods a courier delivers in. */
+export function useCourierDistricts() {
+  const api = useApiWrite()
+  const client = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      id,
+      villeLivraison,
+      quartiersLivraison,
+    }: {
+      id: string
+      villeLivraison: string
+      quartiersLivraison: string[]
+    }) =>
+      api(`/marketplace/kati-express/livreurs/${encodeURIComponent(id)}/quartiers`, {
+        method: "PATCH",
+        body: { villeLivraison, quartiersLivraison },
       }),
     onSuccess: () => client.invalidateQueries({ queryKey: KEY }),
   })

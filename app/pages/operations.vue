@@ -61,6 +61,7 @@ const COUNTER_TABS: readonly OperationsTab[] = [
 ]
 const FOCAL_TABS: readonly OperationsTab[] = [
   "focal-shops",
+  "kati-express",
   "seller-messages",
   "seller-onboarding",
   "products-to-check",

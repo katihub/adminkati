@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// fallow-ignore-file complexity -- one declarative screen: the dispatch board, or the couriers alone for a focal point
 import type { KatiExpressQueue } from "@/composables/useKatiExpress"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { useKatiExpressBoard } from "@/composables/useKatiExpress"
@@ -11,10 +12,19 @@ import { useKatiExpressBoard } from "@/composables/useKatiExpress"
  * in view, so a choice is never made blind.
  */
 const { t } = useI18n()
+/* The dispatch board belongs to the direction; a focal point registers and sees its couriers (9 November 2026). */
+const session = useCachedSession()
+const focalOnly = computed(() => {
+  const roles = session.value?.roles ?? []
+  return roles.includes("point_focal") && !roles.includes("direction")
+})
 const queue = ref<KatiExpressQueue>("a_attribuer")
 const city = ref("")
 const selectedId = ref<string | null>(null)
-const board = useKatiExpressBoard(() => ({ file: queue.value, ville: city.value }))
+const board = useKatiExpressBoard(
+  () => ({ file: queue.value, ville: city.value }),
+  () => !focalOnly.value,
+)
 const QUEUES: KatiExpressQueue[] = ["a_attribuer", "en_cours", "terminees"]
 const selected = computed(() => board.data.value?.elements.find(shipment => shipment.id === selectedId.value) ?? null)
 const tabs = computed(() =>
@@ -29,7 +39,14 @@ watch([queue, city], () => {
 })
 </script>
 <template>
-  <div class="flex min-h-0 flex-1 flex-col" data-testid="kati-express-workspace">
+  <div
+    v-if="focalOnly"
+    class="min-h-0 flex-1 overflow-y-auto border-t border-border bg-muted/60 p-4 sm:p-6 lg:px-10"
+    data-testid="kati-express-workspace"
+  >
+    <div class="mx-auto max-w-2xl"><OperationsKatiExpressCouriers /></div>
+  </div>
+  <div v-else class="flex min-h-0 flex-1 flex-col" data-testid="kati-express-workspace">
     <div
       class="flex shrink-0 flex-col gap-3 border-t border-border bg-background px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10"
     >

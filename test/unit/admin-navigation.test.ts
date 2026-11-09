@@ -77,8 +77,8 @@ describe("admin navigation visibility", () => {
     expect(idsFor(null)).toEqual(["administration"])
   })
 
-  it("gives a KATI focal point its shops, the user accounts and the team directory, but no dashboard", () => {
-    expect(idsFor(sessionWith("point_focal"))).toEqual(["focal", "clients", "administration"])
+  it("gives a KATI focal point its shops and the administration (team directory, user accounts), but no dashboard", () => {
+    expect(idsFor(sessionWith("point_focal"))).toEqual(["focal", "administration"])
   })
 
   it("adds the focal point's shops to a counter who also holds the role", () => {
@@ -112,13 +112,7 @@ describe("admin navigation model", () => {
       "catalogue-offers",
     ])
     expect(children("sellers")).toEqual(["seller-onboarding", "shop-agents", "seller-trust"])
-    expect(children("clients")).toEqual([
-      "user-accounts",
-      "customer-directory",
-      "customer-assistance",
-      "reported-reviews",
-      "disputes",
-    ])
+    expect(children("clients")).toEqual(["customer-directory", "customer-assistance", "reported-reviews", "disputes"])
     expect(children("logistics")).toEqual([
       "kati-express",
       "delivery-fees",
@@ -128,7 +122,13 @@ describe("admin navigation model", () => {
     ])
     expect(children("finance")).toEqual(["cash-registers", "seller-finance", "installment-plans", "kati-points"])
     expect(children("marketing")).toEqual(["content", "site-texts", "outbound-notifications"])
-    expect(children("administration")).toEqual(["team", "settings", "marketplace-pilot", "legal-closure"])
+    expect(children("administration")).toEqual([
+      "team",
+      "user-accounts",
+      "settings",
+      "marketplace-pilot",
+      "legal-closure",
+    ])
   })
 
   it("matches an operations child against its exact tab", () => {
