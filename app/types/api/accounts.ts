@@ -1,5 +1,6 @@
 /** A customer or seller account, as the team sees it to help someone get back in (9 November 2026). */
-export type AccountAction = "lien" | "confirmer" | "lien_a_transmettre" | "temporaire"
+/** `creer_acces`: the sign-in account that could never be created (9 November 2026). */
+export type AccountAction = "creer_acces" | "lien" | "confirmer" | "lien_a_transmettre" | "temporaire"
 
 export interface AccountShop {
   id: string

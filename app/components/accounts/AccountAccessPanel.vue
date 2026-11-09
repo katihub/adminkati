@@ -41,6 +41,7 @@ const secret = computed(() => result.value?.lien ?? result.value?.motDePasse ?? 
 const kindLabel = (kind: "client" | "seller") => (kind === "client" ? t("kind.client") : t("kind.seller"))
 const actionLabel = (action: AccountAction) =>
   ({
+    creer_acces: t("actions.creer_acces"),
     lien: t("actions.lien"),
     confirmer: t("actions.confirmer"),
     lien_a_transmettre: t("actions.lien_a_transmettre"),
@@ -48,13 +49,20 @@ const actionLabel = (action: AccountAction) =>
   })[action]
 const actionHelp = (action: AccountAction) =>
   ({
+    creer_acces: t("help.creer_acces", { email }),
     lien: t("help.lien", { email }),
     confirmer: t("help.confirmer", { email }),
     lien_a_transmettre: t("help.lien_a_transmettre", { email }),
     temporaire: t("help.temporaire", { email }),
   })[action]
 const doneLabel = (done: AccountActionResult) =>
-  done.dejaConfirme ? t("done.alreadyConfirmed") : done.action === "confirmer" ? t("done.confirmer") : t("done.lien")
+  done.dejaConfirme
+    ? t("done.alreadyConfirmed")
+    : done.action === "creer_acces"
+      ? t("done.creer_acces")
+      : done.action === "confirmer"
+        ? t("done.confirmer")
+        : t("done.lien")
 
 function open(action: AccountAction) {
   chosen.value = action
@@ -139,7 +147,7 @@ async function copy() {
           v-for="action in actions"
           :key="action"
           size="sm"
-          :variant="action === 'lien' ? 'default' : 'outline'"
+          :variant="action === 'lien' || action === 'creer_acces' ? 'default' : 'outline'"
           :class="action === 'temporaire' ? 'text-destructive' : undefined"
           :data-testid="`account-action-${action}`"
           @click="open(action)"
@@ -200,7 +208,7 @@ async function copy() {
     "title": "Accès au compte",
     "loading": "Chargement du compte…",
     "kind": { "client": "Client", "seller": "Vendeur" },
-    "noLogin": "Aucun compte de connexion pour cette adresse : la personne doit d’abord créer son accès sur le site.",
+    "noLogin": "Aucun compte de connexion pour cette adresse. Si la création a échoué à l’inscription, créez l’accès : la personne recevra un e-mail pour choisir son mot de passe.",
     "email": "E-mail :",
     "confirmed": "confirmé",
     "notConfirmed": "non confirmé",
@@ -209,12 +217,14 @@ async function copy() {
     "banned": "Compte bloqué.",
     "shops": "Boutiques : {shops}",
     "actions": {
+      "creer_acces": "Créer l’accès",
       "lien": "Envoyer un lien de réinitialisation",
       "confirmer": "Confirmer l’e-mail",
       "lien_a_transmettre": "Copier un lien à transmettre",
       "temporaire": "Mot de passe temporaire"
     },
     "help": {
+      "creer_acces": "Le compte de connexion de {email} sera créé, e-mail déjà confirmé, et la personne recevra un e-mail KatiMarket pour choisir son mot de passe (lien valable une heure). Elle retrouvera sa boutique en se connectant.",
       "lien": "Un e-mail KatiMarket part vers {email}, avec un lien valable une heure. La personne choisit elle-même son mot de passe.",
       "confirmer": "L’adresse {email} sera marquée confirmée : la personne pourra se connecter sans l’e-mail de confirmation. Elle en sera prévenue.",
       "lien_a_transmettre": "Un lien de réinitialisation pour {email} s’affichera une seule fois, à transmettre par WhatsApp ou SMS. Valable une heure, un seul usage. La personne en sera prévenue par e-mail.",
@@ -232,6 +242,7 @@ async function copy() {
     "copyFailed": "Copie impossible : sélectionnez le texte.",
     "close": "Fermer",
     "done": {
+      "creer_acces": "Accès créé : l’e-mail pour choisir le mot de passe est parti",
       "lien": "Lien de réinitialisation envoyé par e-mail",
       "confirmer": "E-mail confirmé : la personne peut se connecter",
       "alreadyConfirmed": "Cet e-mail était déjà confirmé"
@@ -241,7 +252,7 @@ async function copy() {
     "title": "Account access",
     "loading": "Loading the account…",
     "kind": { "client": "Customer", "seller": "Seller" },
-    "noLogin": "No sign-in account for this address: the person must first create their access on the site.",
+    "noLogin": "No sign-in account for this address. If it failed at sign-up, create the access: the person will receive an e-mail to choose a password.",
     "email": "E-mail:",
     "confirmed": "confirmed",
     "notConfirmed": "not confirmed",
@@ -250,12 +261,14 @@ async function copy() {
     "banned": "Account blocked.",
     "shops": "Shops: {shops}",
     "actions": {
+      "creer_acces": "Create the access",
       "lien": "Send a reset link",
       "confirmer": "Confirm the e-mail",
       "lien_a_transmettre": "Copy a link to pass on",
       "temporaire": "Temporary password"
     },
     "help": {
+      "creer_acces": "The sign-in account of {email} will be created, e-mail already confirmed, and the person will receive a KatiMarket e-mail to choose a password (link valid for one hour). They will find their shop when signing in.",
       "lien": "A KatiMarket e-mail goes to {email} with a link valid for one hour. The person chooses their own password.",
       "confirmer": "{email} will be marked confirmed: the person can sign in without the confirmation e-mail. They will be told.",
       "lien_a_transmettre": "A reset link for {email} will be shown once, to pass on by WhatsApp or SMS. Valid for one hour, single use. The person will be told by e-mail.",
@@ -273,6 +286,7 @@ async function copy() {
     "copyFailed": "Copy failed: select the text.",
     "close": "Close",
     "done": {
+      "creer_acces": "Access created: the e-mail to choose a password has been sent",
       "lien": "Reset link sent by e-mail",
       "confirmer": "E-mail confirmed: the person can sign in",
       "alreadyConfirmed": "This e-mail was already confirmed"

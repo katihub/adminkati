@@ -43,6 +43,35 @@ describe("account access panel", () => {
     wrapper.unmount()
   })
 
+  it("offers to create the access when the sign-in account could never be created", async () => {
+    const created: unknown[] = []
+    cleanups = [
+      registerEndpoint("/api/v1/comptes/detail", {
+        method: "GET",
+        handler: () => ({ ...ACCOUNT, auth: null, actions: ["creer_acces"] }),
+      }),
+      registerEndpoint("/api/v1/comptes/creer-acces", {
+        method: "POST",
+        handler: async event => {
+          created.push(await readBody(event))
+          return { action: "creer_acces" }
+        },
+      }),
+    ]
+    const wrapper = await mountSuspended(AccountAccessPanel, {
+      props: { email: "vendeur@test.cm" },
+      attachTo: document.body,
+    })
+    await flushPromises()
+    await vi.waitFor(() => expect(wrapper.find("[data-testid='account-no-login']").exists()).toBe(true))
+    expect(wrapper.find("[data-testid='account-action-lien']").exists()).toBe(false)
+    await wrapper.get("[data-testid='account-action-creer_acces']").trigger("click")
+    await vi.waitFor(() => expect(document.querySelector("[data-testid='account-action-confirm']")).not.toBeNull())
+    document.querySelector<HTMLButtonElement>("[data-testid='account-action-confirm']")!.click()
+    await vi.waitFor(() => expect(created).toEqual([{ courriel: "vendeur@test.cm" }]))
+    wrapper.unmount()
+  })
+
   it("asks a reason before a link to pass on, then shows it once", async () => {
     const bodies: unknown[] = []
     cleanups = [

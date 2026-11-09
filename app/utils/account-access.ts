@@ -4,11 +4,18 @@ import type { AccountAction, AccountDetail } from "@/types/api/accounts"
  * HELPING A CUSTOMER OR A SELLER BACK INTO THEIR ACCOUNT (9 November 2026).
  * The backend decides who may do what; these helpers only shape the panel.
  */
-export const ACCOUNT_ACTIONS: readonly AccountAction[] = ["lien", "confirmer", "lien_a_transmettre", "temporaire"]
+export const ACCOUNT_ACTIONS: readonly AccountAction[] = [
+  "creer_acces",
+  "lien",
+  "confirmer",
+  "lien_a_transmettre",
+  "temporaire",
+]
 
 /** The API path of an action. */
 export function accountActionPath(action: AccountAction): string {
   return {
+    creer_acces: "/comptes/creer-acces",
     lien: "/comptes/lien-reinitialisation",
     confirmer: "/comptes/confirmer-courriel",
     lien_a_transmettre: "/comptes/lien-a-transmettre",

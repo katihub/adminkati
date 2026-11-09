@@ -18,6 +18,7 @@ const auth = {
 describe("account access", () => {
   it("maps each action to its endpoint", () => {
     expect(accountActionPath("lien")).toBe("/comptes/lien-reinitialisation")
+    expect(accountActionPath("creer_acces")).toBe("/comptes/creer-acces")
     expect(accountActionPath("temporaire")).toBe("/comptes/mot-de-passe-temporaire")
   })
 
