@@ -46,7 +46,8 @@
         "outboundNotifications": "Notifications",
         "team": "Équipe et rôles",
         "marketplacePilot": "Déploiements",
-        "legalClosure": "Clôture juridique"
+        "legalClosure": "Clôture juridique",
+        "userAccounts": "Comptes utilisateurs"
       }
     },
     "profile": {

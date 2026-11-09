@@ -156,10 +156,18 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     id: "clients",
     labelKey: "admin.navigation.clients",
     to: adminDestinations.clients,
-    routeNames: ["users", "assistant"],
+    routeNames: ["users", "assistant", "comptes"],
     icon: "ph:users",
-    roles: ["direction", "comptoir"],
+    roles: ["direction", "comptoir", "point_focal"],
     children: [
+      {
+        id: "user-accounts",
+        labelKey: "admin.navigation.items.userAccounts",
+        to: "/comptes",
+        routeNames: ["comptes"],
+        icon: "ph:key",
+        roles: ["direction", "point_focal"],
+      },
       {
         id: "customer-directory",
         labelKey: "admin.navigation.items.customerDirectory",

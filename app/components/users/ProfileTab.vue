@@ -8,6 +8,9 @@ const { detail, name } = defineProps<{
 }>()
 
 const { t } = useI18n()
+/* Helping the customer back in (9 November 2026): the direction only; the counter reads the directory. */
+const session = useCachedSession()
+const canManageAccess = computed(() => session.value?.roles.includes("direction") ?? false)
 const profileMetadata = computed(() =>
   [detail.profil?.telephone, detail.profil?.ville, detail.profil?.comptoirPrefere].filter((value): value is string =>
     Boolean(value),
@@ -28,5 +31,6 @@ const profileMetadata = computed(() =>
       <UsersProfileDetails v-if="detail.profil" :profile="detail.profil" />
       <UsersAddressList :addresses="detail.adresses" />
     </PeopleProfileCard>
+    <AccountsAccountAccessPanel v-if="canManageAccess && detail.client.courriel" :email="detail.client.courriel" />
   </div>
 </template>
