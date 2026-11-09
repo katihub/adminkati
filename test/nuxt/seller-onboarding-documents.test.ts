@@ -1,5 +1,6 @@
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
+import { readBody } from "h3"
 import { afterEach, describe, expect, it, vi } from "vitest"
 import SellerOnboardingWorkspace from "@/components/operations/SellerOnboardingWorkspace.vue"
 
@@ -57,6 +58,38 @@ afterEach(() => {
 })
 
 describe("seller onboarding documents", () => {
+  it("withdraws a submitted application with its reason, after a confirmation (10 November 2026)", async () => {
+    const bodies: unknown[] = []
+    cleanups = [
+      registerEndpoint("/api/v1/vendeurs", {
+        method: "GET",
+        handler: () => ({ total: 1, page: 1, taille: 25, pages: 1, elements: [seller] }),
+      }),
+      registerEndpoint("/api/v1/vendeurs/seller-1", {
+        method: "GET",
+        handler: () => ({ ...seller, documents, boutiques: [{ ...seller.boutiques[0], membres: [] }] }),
+      }),
+      registerEndpoint("/api/v1/vendeurs/seller-1/retrait", {
+        method: "POST",
+        handler: async event => {
+          bodies.push(await readBody(event))
+          return { id: "seller-1", statutVerification: "retiree" }
+        },
+      }),
+    ]
+    const wrapper = await mountSuspended(SellerOnboardingWorkspace)
+    await flushPromises()
+    await vi.waitFor(() => expect(wrapper.find("[data-testid='seller-withdraw']").exists()).toBe(true))
+
+    // Sans motif, rien ne part.
+    expect(wrapper.get("[data-testid='seller-withdraw-start']").attributes("disabled")).toBeDefined()
+    await wrapper.get("#seller-decision-reason").setValue("Candidature en double")
+    await wrapper.get("[data-testid='seller-withdraw-start']").trigger("click")
+    await wrapper.get("[data-testid='seller-withdraw-confirm']").trigger("click")
+    await vi.waitFor(() => expect(bodies).toEqual([{ motif: "Candidature en double" }]))
+    wrapper.unmount()
+  })
+
   it("opens an uploaded document's file and says when a document has none", async () => {
     let requested = ""
     cleanups = [

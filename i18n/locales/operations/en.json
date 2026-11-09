@@ -244,7 +244,8 @@
         "reviewing": "Under review",
         "changesRequested": "Changes requested",
         "approved": "Approved",
-        "refused": "Rejected"
+        "refused": "Rejected",
+        "withdrawn": "Withdrawn"
       },
       "documentStatus": {
         "submitted": "Submitted",
@@ -255,7 +256,13 @@
       },
       "openFile": "Open file",
       "scanClean": "scanned, no threat",
-      "legacyKey": "Document imported by storage key, no uploaded file."
+      "legacyKey": "Document imported by storage key, no uploaded file.",
+      "withdraw": "Withdraw the application",
+      "withdrawHelp": "For a duplicate, abandoned or to-redo application: it leaves the list, the shop name and e-mail are freed for a new sign-up. Nothing is erased. The reason above is required.",
+      "withdrawConfirm": "Withdraw this application from the list?",
+      "withdrawYes": "Yes, withdraw",
+      "withdrawn": "Application withdrawn: the name and e-mail are freed",
+      "cancel": "Cancel"
     },
     "disputes": {
       "search": "Case number, customer, store…",

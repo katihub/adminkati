@@ -1,6 +1,6 @@
 import type { SellerDocumentStatus } from "../../app/types/api/marketplace-moderation"
 import { describe, expect, it } from "vitest"
-import { isSellerFileApprovable } from "../../app/utils/seller-documents"
+import { canWithdrawSellerApplication, isSellerFileApprovable } from "../../app/utils/seller-documents"
 
 const piece = (type: string, statut: SellerDocumentStatus, creeLe: string) => ({ type, statut, creeLe })
 
@@ -52,5 +52,16 @@ describe("seller file approval", () => {
 
   it("never allows approving an empty file", () => {
     expect(isSellerFileApprovable([])).toBe(false)
+  })
+})
+
+describe("withdrawing an application", () => {
+  it("is possible until approval, never for an approved or already withdrawn one", () => {
+    expect(
+      ["brouillon", "soumis", "en_verification", "modification_demandee", "refuse"].every(canWithdrawSellerApplication),
+    ).toBe(true)
+    expect(canWithdrawSellerApplication("approuve")).toBe(false)
+    expect(canWithdrawSellerApplication("retiree")).toBe(false)
+    expect(canWithdrawSellerApplication(undefined)).toBe(false)
   })
 })

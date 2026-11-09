@@ -5,6 +5,8 @@ export type SellerVerificationStatus =
   | "approuve"
   | "modification_demandee"
   | "refuse"
+  /** Withdrawn by the team (10 November 2026): out of the list, name and e-mail freed. */
+  | "retiree"
 
 export type SellerStatus = "inactif" | "actif" | "sous_surveillance" | "suspendu" | "exclu"
 export type SellerDocumentStatus = "soumis" | "en_verification" | "valide" | "refuse" | "expire"

@@ -64,6 +64,12 @@ export function useSellerReviewMutations() {
       }),
     onSuccess: (_data, variables) => invalidate(variables.sellerId),
   })
+  /** Withdraw a non-approved application: out of the list, name and e-mail freed, nothing erased. */
+  const withdrawApplication = useMutation({
+    mutationFn: ({ sellerId, motif }: { sellerId: string; motif: string }) =>
+      apiWrite(`/vendeurs/${encodeURIComponent(sellerId)}/retrait`, { method: "POST", body: { motif } }),
+    onSuccess: (_data, variables) => invalidate(variables.sellerId),
+  })
   const decideApplication = useMutation({
     mutationFn: ({
       sellerId,
@@ -80,7 +86,7 @@ export function useSellerReviewMutations() {
       }),
     onSuccess: (_data, variables) => invalidate(variables.sellerId),
   })
-  return { claimDocument, decideDocument, decideApplication }
+  return { claimDocument, decideDocument, decideApplication, withdrawApplication }
 }
 
 export function useMarketplaceProductReviews() {

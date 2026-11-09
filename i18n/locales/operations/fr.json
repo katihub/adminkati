@@ -244,7 +244,8 @@
         "reviewing": "En vérification",
         "changesRequested": "Modification demandée",
         "approved": "Approuvé",
-        "refused": "Refusé"
+        "refused": "Refusé",
+        "withdrawn": "Retirée"
       },
       "documentStatus": {
         "submitted": "Soumis",
@@ -255,7 +256,13 @@
       },
       "openFile": "Ouvrir le fichier",
       "scanClean": "analysé, aucune menace",
-      "legacyKey": "Document repris par clé de stockage, sans fichier déposé."
+      "legacyKey": "Document repris par clé de stockage, sans fichier déposé.",
+      "withdraw": "Retirer la candidature",
+      "withdrawHelp": "Pour une candidature en double, abandonnée ou à refaire : elle quitte la liste, le nom de la boutique et l’adresse e-mail sont libérés pour une nouvelle inscription. Rien n’est effacé. Le motif ci-dessus est obligatoire.",
+      "withdrawConfirm": "Retirer cette candidature de la liste ?",
+      "withdrawYes": "Oui, retirer",
+      "withdrawn": "Candidature retirée : le nom et l’adresse sont libérés",
+      "cancel": "Annuler"
     },
     "disputes": {
       "search": "N° de dossier, client, boutique…",

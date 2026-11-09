@@ -15,7 +15,7 @@ import {
 import { apiErrorText } from "@/utils/api-error"
 import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
-import { isSellerFileApprovable } from "@/utils/seller-documents"
+import { canWithdrawSellerApplication, isSellerFileApprovable } from "@/utils/seller-documents"
 
 const route = useRoute()
 const session = useCachedSession()
@@ -68,8 +68,11 @@ const canDecideApplication = computed(() => {
   const status = detailQuery.data.value?.statutVerification
   return status === "soumis" || status === "en_verification"
 })
+const canWithdraw = computed(() => canWithdrawSellerApplication(detailQuery.data.value?.statutVerification))
+const confirmingWithdrawal = ref(false)
 const pending = computed(
   () =>
+    mutations.withdrawApplication.isPending.value ||
     mutations.claimDocument.isPending.value ||
     mutations.decideDocument.isPending.value ||
     mutations.decideApplication.isPending.value,
@@ -82,6 +85,7 @@ const verificationLabelKeys: Record<string, string> = {
   approuve: "operations.onboarding.status.approved",
   modification_demandee: "operations.onboarding.status.changesRequested",
   refuse: "operations.onboarding.status.refused",
+  retiree: "operations.onboarding.status.withdrawn",
 }
 const documentLabelKeys: Record<string, string> = {
   soumis: "operations.onboarding.documentStatus.submitted",
@@ -147,6 +151,16 @@ async function decideDocument(documentId: string, decision: "valide" | "refuse")
     decision === "valide" ? t("operations.onboarding.documentValidated") : t("operations.onboarding.documentRefused"),
   )
   selectedDocumentId.value = null
+}
+
+/* Withdraw the application (10 November 2026): it leaves the list, its shop name and e-mail are freed. */
+async function withdrawApplication() {
+  const sellerId = effectiveId.value
+  const motif = reason.value.trim()
+  if (!sellerId || !canWithdraw.value || motif.length < 5) return
+  confirmingWithdrawal.value = false
+  await run(() => mutations.withdrawApplication.mutateAsync({ sellerId, motif }), t("operations.onboarding.withdrawn"))
+  if (explicitId.value) await navigateTo({ query: { ...route.query, candidature: undefined } })
 }
 
 async function decideApplication(decision: "approuve" | "modification_demandee" | "refuse") {
@@ -451,6 +465,38 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
                 @click="decideApplication('refuse')"
                 >{{ t("operations.onboarding.refuseApplication") }}</Button
               >
+              <div v-if="canWithdraw" class="mt-4 border-t border-border pt-3" data-testid="seller-withdraw">
+                <p class="text-xs text-muted-foreground">{{ t("operations.onboarding.withdrawHelp") }}</p>
+                <Button
+                  v-if="!confirmingWithdrawal"
+                  class="mt-2 w-full text-destructive"
+                  variant="ghost"
+                  :disabled="pending || reason.trim().length < 5"
+                  data-testid="seller-withdraw-start"
+                  @click="confirmingWithdrawal = true"
+                  ><Icon name="ph:archive" /> {{ t("operations.onboarding.withdraw") }}</Button
+                >
+                <div v-else class="mt-2 grid gap-2">
+                  <p class="text-sm font-medium text-destructive">{{ t("operations.onboarding.withdrawConfirm") }}</p>
+                  <div class="flex gap-2">
+                    <Button
+                      class="flex-1"
+                      variant="outline"
+                      :disabled="pending"
+                      @click="confirmingWithdrawal = false"
+                      >{{ t("operations.onboarding.cancel") }}</Button
+                    >
+                    <Button
+                      class="flex-1"
+                      variant="destructive"
+                      :disabled="pending"
+                      data-testid="seller-withdraw-confirm"
+                      @click="withdrawApplication"
+                      >{{ t("operations.onboarding.withdrawYes") }}</Button
+                    >
+                  </div>
+                </div>
+              </div>
             </section>
           </div>
         </div>
