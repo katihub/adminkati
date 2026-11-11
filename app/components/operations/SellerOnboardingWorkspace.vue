@@ -194,8 +194,8 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
 
     <div class="grid min-h-0 flex-1 grid-cols-1 border-t border-border bg-card lg:grid-cols-[310px_minmax(0,1fr)]">
       <aside
-        class="flex h-full min-h-0 flex-col overflow-hidden border-r border-border bg-card"
-        :class="explicitId ? 'hidden lg:block' : 'block'"
+        class="h-full min-h-0 flex-col overflow-hidden border-r border-border bg-card"
+        :class="explicitId ? 'hidden lg:flex' : 'flex'"
       >
         <div class="border-b border-border px-4 py-3">
           <h2 class="font-heading text-sm font-semibold">{{ t("operations.onboarding.applications") }}</h2>
