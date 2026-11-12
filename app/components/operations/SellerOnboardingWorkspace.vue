@@ -93,9 +93,11 @@ if (import.meta.server) {
 }
 const mutations = useSellerReviewMutations()
 const allDocumentsValid = computed(() => isSellerFileApprovable(detailQuery.data.value?.documents ?? []))
+/* A file awaiting changes can be decided too (13 November 2026): when its pieces in force are all
+   valid, nothing is left for the seller to do, and the team must not be stuck behind the status. */
 const canDecideApplication = computed(() => {
   const status = detailQuery.data.value?.statutVerification
-  return status === "soumis" || status === "en_verification"
+  return status === "soumis" || status === "en_verification" || status === "modification_demandee"
 })
 const canWithdraw = computed(() => canWithdrawSellerApplication(detailQuery.data.value?.statutVerification))
 const confirmingWithdrawal = ref(false)

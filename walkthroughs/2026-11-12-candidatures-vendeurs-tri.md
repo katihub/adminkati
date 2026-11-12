@@ -50,3 +50,11 @@ Plan : `plans/2026-11-12-candidatures-vendeurs-tri.md`.
 - **BackendKati** : `suivi-candidatures.spec.ts` (10 tests : onglets, tri, compteurs, pièces, dossier complété, effacement à la décision, historique, fiche) ; `vendeurs-point-focal.spec.ts` adapté. 94 tests du module vendeurs au vert.
 - **adminkati** : `seller-applications.test.ts` (5 tests) et `seller-onboarding-tabs.test.ts` (3 tests : onglets et cartes, fiche, dossier suivant). Les tests existants de l'écran restent au vert.
 - **Non vérifié** : la migration n'a pas été jouée sur une vraie base (Docker n'était pas lancé), et l'écran n'a pas été ouvert dans un navigateur.
+
+## Correctif du 13 novembre 2026 : dossiers bloqués en « Modification demandée »
+
+- **Le défaut** : refuser une ancienne pièce après le dépôt d'une nouvelle mettait le dossier en « Modification demandée » ; la nouvelle pièce validée, il y restait, et l'écran ne proposait plus aucune décision.
+- **Backend** : après chaque décision sur une pièce, le statut suit les pièces en vigueur. Une pièce en vigueur refusée met le dossier en attente du vendeur ; plus aucune, et un dossier mis en attente par une pièce (sans motif de dossier) repasse en « Soumis », dans « À traiter », marqué « Complété ». Refuser une version déjà remplacée ne bloque plus rien.
+- **Migration** `20261113090000_dossiers_vendeurs_debloques` : remet dans « À traiter » les dossiers déjà bloqués de cette façon.
+- **Panel** : un dossier en « Modification demandée » peut aussi être approuvé, refusé ou renvoyé au vendeur.
+- **Inchangé, par décision** : l'approbation n'exige que les pièces déposées validées, pas les cinq pièces obligatoires.

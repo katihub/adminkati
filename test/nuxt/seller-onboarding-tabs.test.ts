@@ -217,4 +217,40 @@ describe("seller onboarding tabs", () => {
     await vi.waitFor(() => expect(useRouter().currentRoute.value.query.candidature).toBe("seller-2"))
     wrapper.unmount()
   })
+
+  it("approves a file awaiting changes whose new identity document is valid (13 November 2026)", async () => {
+    const stuck = {
+      ...detail,
+      statutVerification: "modification_demandee",
+      documents: [{ ...documents[0], statut: "valide" }, documents[1]],
+    }
+    const approvals: string[] = []
+    cleanups = [
+      registerEndpoint("/api/v1/vendeurs", {
+        method: "GET",
+        handler: () => ({
+          total: 1,
+          page: 1,
+          taille: 50,
+          pages: 1,
+          elements: [{ ...completed, statutVerification: "modification_demandee" }],
+        }),
+      }),
+      registerEndpoint("/api/v1/vendeurs/seller-1", { method: "GET", handler: () => stuck }),
+      registerEndpoint("/api/v1/vendeurs/seller-1/decision-dossier", {
+        method: "POST",
+        handler: () => {
+          approvals.push("seller-1")
+          return { id: "seller-1", statutVerification: "approuve" }
+        },
+      }),
+    ]
+    const wrapper = await mountSuspended(SellerOnboardingWorkspace)
+    await vi.waitFor(() => expect(wrapper.find("#seller-decision-reason").exists()).toBe(true))
+    const approve = wrapper.findAll("button").find(button => /Approve and activate|Approuver/.test(button.text()))
+    expect(approve?.attributes("disabled")).toBeUndefined()
+    await approve!.trigger("click")
+    await vi.waitFor(() => expect(approvals).toEqual(["seller-1"]))
+    wrapper.unmount()
+  })
 })
