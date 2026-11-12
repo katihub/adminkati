@@ -2,13 +2,14 @@
 import { computed, ref } from "vue"
 import { Button } from "@/components/ui/button"
 import { useAnnonceMutations, useAnnonces } from "@/composables/useAnnonces"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 
 const { t } = useI18n()
 const { data, isPending, error, refetch } = useAnnonces()
 const { create, update, reorder } = useAnnonceMutations()
 const session = useCachedSession()
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 const texte = ref("")
 const editingId = ref<number | null>(null)
 const draft = ref("")

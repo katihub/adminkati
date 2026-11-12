@@ -34,10 +34,14 @@ function roleText(role: TeamRole) {
   "en": {
     "title": "Roles and access",
     "description": "Highlighted roles belong to the selected member. Each role keeps its own scope.",
-    "notice": "Only direction can change access. Your own roles cannot be changed here; the backend remains the authority for every action.",
+    "notice": "The direction and the KatiMarket manager change access; only the direction gives or removes the direction and manager roles. Your own roles cannot be changed here; the backend remains the authority for every action.",
     "direction": {
       "title": "Direction",
       "description": "Administration, financial decisions, content publication, team access and platform settings."
+    },
+    "gestionnaire": {
+      "title": "KatiMarket manager",
+      "description": "Everything the direction does, except money going out (seller withdrawals, refunds, till closing, a seller's commission, instalment settings), the audit, and the direction and manager roles."
     },
     "comptoir": {
       "title": "Counter",
@@ -59,10 +63,14 @@ function roleText(role: TeamRole) {
   "fr": {
     "title": "Rôles et accès",
     "description": "Les rôles surlignés sont ceux du membre sélectionné. Chaque rôle conserve son périmètre.",
-    "notice": "Seule la direction modifie les accès. Vos propres rôles ne sont pas modifiables ici ; le backend contrôle chaque action.",
+    "notice": "La direction et le gestionnaire KatiMarket modifient les accès ; seule la direction donne ou retire les rôles direction et gestionnaire. Vos propres rôles ne sont pas modifiables ici ; le backend contrôle chaque action.",
     "direction": {
       "title": "Direction",
       "description": "Administration, décisions financières, publication des contenus, accès de l’équipe et paramètres de la plateforme."
+    },
+    "gestionnaire": {
+      "title": "Gestionnaire KatiMarket",
+      "description": "Tout ce que fait la direction, sauf l’argent qui sort (retraits des vendeurs, remboursements, clôture de caisse, commission d’un vendeur, réglages du paiement échelonné), l’audit, et les rôles direction et gestionnaire."
     },
     "comptoir": {
       "title": "Comptoir",

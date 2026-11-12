@@ -1,8 +1,9 @@
 <script setup lang="ts">
-// fallow-ignore-file complexity -- one declarative screen: the dispatch board, or the couriers alone for a focal point
 import type { KatiExpressQueue } from "@/composables/useKatiExpress"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { useKatiExpressBoard } from "@/composables/useKatiExpress"
+// fallow-ignore-file complexity -- one declarative screen: the dispatch board, or the couriers alone for a focal point
+import { isAdministration } from "@/utils/administration"
 
 /**
  * KATI EXPRESS, THE MARKETPLACE'S DELIVERY SERVICE: who delivers what.
@@ -16,7 +17,7 @@ const { t } = useI18n()
 const session = useCachedSession()
 const focalOnly = computed(() => {
   const roles = session.value?.roles ?? []
-  return roles.includes("point_focal") && !roles.includes("direction")
+  return roles.includes("point_focal") && !isAdministration(roles)
 })
 const queue = ref<KatiExpressQueue>("a_attribuer")
 const city = ref("")

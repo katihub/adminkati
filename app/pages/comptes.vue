@@ -10,7 +10,7 @@ import { apiErrorText } from "@/utils/api-error"
 /* USER ACCOUNTS (9 November 2026): find a customer or a seller, see their
    sign-in state, and help them back in. The direction for every account; a
    focal point for the members of its shops. Team accounts stay in Team. */
-definePageMeta({ layout: "admin", roles: ["direction", "point_focal"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "point_focal"] })
 defineI18nRoute({ paths: { en: "/comptes", fr: "/comptes" } })
 
 const { t } = useI18n({ useScope: "local" })

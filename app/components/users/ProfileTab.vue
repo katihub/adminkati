@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CustomerAccountDetail } from "@/types/api/clients"
 import { computed } from "vue"
+import { isAdministration } from "@/utils/administration"
 
 const { detail, name } = defineProps<{
   detail: CustomerAccountDetail
@@ -10,7 +11,7 @@ const { detail, name } = defineProps<{
 const { t } = useI18n()
 /* Helping the customer back in (9 November 2026): the direction only; the counter reads the directory. */
 const session = useCachedSession()
-const canManageAccess = computed(() => session.value?.roles.includes("direction") ?? false)
+const canManageAccess = computed(() => isAdministration(session.value?.roles))
 const profileMetadata = computed(() =>
   [detail.profil?.telephone, detail.profil?.ville, detail.profil?.comptoirPrefere].filter((value): value is string =>
     Boolean(value),

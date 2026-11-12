@@ -4,6 +4,7 @@ import type { ApiStatistiquesApercu } from "@/types/api/statistiques"
 import { computed, ref } from "vue"
 import CustomerSearchRequests from "@/components/stats/CustomerSearchRequests/CustomerSearchRequests.vue"
 import { prefetchApi } from "@/composables/useApi"
+import { isAdministration } from "@/utils/administration"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 
 definePageMeta({ layout: "admin", team: true })
@@ -19,7 +20,7 @@ const { t } = useI18n({ useScope: "local" })
 const { periode } = usePeriode()
 const queryClient = useNuxtApp().$queryClient
 const session = useCachedSession(queryClient)
-const canViewCustomerSearches = computed(() => session.value?.roles.includes("direction") ?? false)
+const canViewCustomerSearches = computed(() => isAdministration(session.value?.roles))
 const heading = computed(() => (session.value?.nom ? t("greeting", { name: session.value.nom }) : t("heading")))
 
 // A KATI focal point has no dashboard here: its work starts with the shops it was assigned.

@@ -13,6 +13,7 @@ import {
   useDemandeAssistance,
   useDemandesAssistance,
 } from "@/composables/useDemandesAssistance"
+import { isAdministration } from "@/utils/administration"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { parseAssistantRequestStatus } from "@/utils/assistant-requests"
 import { routeQueryString } from "@/utils/route-query"
@@ -23,7 +24,7 @@ const route = useRoute()
 const queryClient = useNuxtApp().$queryClient
 const session = useCachedSession()
 /** The backend refuses the fiche to comptoir with a 403; the switch is not offered to them at all. */
-const canSaveFiche = computed(() => session.value?.roles.includes("direction") ?? false)
+const canSaveFiche = computed(() => isAdministration(session.value?.roles))
 
 /**
  * The URL is the whole workspace state. The email that alerts the team links

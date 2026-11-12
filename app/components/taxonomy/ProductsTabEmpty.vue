@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import { Button } from "@/components/ui/button"
+import { isAdministration } from "@/utils/administration"
 import { stateBlockClass } from "@/utils/state-block"
 
 defineProps<{
@@ -11,7 +12,7 @@ defineProps<{
 
 const { t } = useI18n()
 const session = useCachedSession()
-const canAdd = computed(() => session.value?.roles.includes("direction") ?? false)
+const canAdd = computed(() => isAdministration(session.value?.roles))
 </script>
 
 <template>

@@ -29,7 +29,8 @@ function parseOutcome(body: unknown): { requestId: string; field: ProductCopyFie
 export default defineEventHandler(async event => {
   const session = await ensureFreshSession(event)
   if (!session) throw createError({ statusCode: 401, statusMessage: "Authentication required" })
-  if (!session.user.roles.includes("direction")) throw createError({ statusCode: 403, statusMessage: "Forbidden" })
+  if (!session.user.roles.some(role => role === "direction" || role === "gestionnaire"))
+    throw createError({ statusCode: 403, statusMessage: "Forbidden" })
 
   const outcome = parseOutcome(await readBody(event))
   const occurredAt = Date.now()

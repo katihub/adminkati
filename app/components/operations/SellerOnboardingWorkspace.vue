@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// fallow-ignore-file complexity -- declarative onboarding workspace with list, document and decision states
 import type { SellerApplicationTab, SellerReviewFilters } from "@/types/api/marketplace-moderation"
 import { computed, onBeforeUnmount, ref, watch } from "vue"
 import { toast } from "vue-sonner"
@@ -12,6 +11,8 @@ import {
   useSellerReviewList,
   useSellerReviewMutations,
 } from "@/composables/useMarketplaceModeration"
+// fallow-ignore-file complexity -- declarative onboarding workspace with list, document and decision states
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
@@ -26,7 +27,7 @@ import { canWithdrawSellerApplication, isSellerFileApprovable } from "@/utils/se
 
 const route = useRoute()
 const session = useCachedSession()
-const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
+const isDirection = computed(() => isAdministration(session.value?.roles))
 const { t } = useI18n()
 /* The tab, the search and the page live in the address (12 November 2026): a reload or a shared link
    lands on the same list. Changing the tab or the search goes back to the first page. */

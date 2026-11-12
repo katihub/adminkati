@@ -30,7 +30,7 @@ const mutation = useQuoteMutations()
 const open = ref(false)
 const errorMessage = ref("")
 const isPending = computed(() => mutation.archive.isPending.value)
-const ARCHIVE_ROLES = new Set<string>(["direction", "comptoir"])
+const ARCHIVE_ROLES = new Set<string>(["direction", "gestionnaire", "comptoir"])
 const canArchive = computed(
   () => quote.statut !== "commande" && (session.value?.roles ?? []).some(role => ARCHIVE_ROLES.has(role)),
 )

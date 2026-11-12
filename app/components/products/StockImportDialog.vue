@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { useStockImportRun } from "@/composables/useStockImportRun"
 import { stockImportSetupSchema } from "@/schemas/stock-import"
+import { isAdministration } from "@/utils/administration"
 import {
   buildStockImportErrorCsv,
   buildStockImportTemplate,
@@ -24,7 +25,7 @@ import { stockImportHeading } from "@/utils/stock-import-heading"
 const open = defineModel<boolean>("open", { default: false })
 const { t } = useI18n()
 const session = useCachedSession()
-const allowed = computed(() => session.value?.roles.includes("direction") ?? false)
+const allowed = computed(() => isAdministration(session.value?.roles))
 const runner = useStockImportRun()
 const heading = computed(() =>
   stockImportHeading({

@@ -17,6 +17,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { useStockExport } from "@/composables/useStockExport"
+import { isAdministration } from "@/utils/administration"
 import { formatNumber } from "@/utils/format"
 import { STOCK_EXPORT_MAX_ROWS, exportVolume } from "@/utils/stock-export"
 import { stockExportHeading } from "@/utils/stock-export-heading"
@@ -26,7 +27,7 @@ const props = defineProps<{ filters: ProductListQuery; total: number | null }>()
 const open = defineModel<boolean>("open", { default: false })
 const { t, locale } = useI18n()
 const session = useCachedSession()
-const allowed = computed(() => session.value?.roles.includes("direction") ?? false)
+const allowed = computed(() => isAdministration(session.value?.roles))
 const { pending, error, exporter } = useStockExport()
 const heading = computed(() => {
   const base = stockExportHeading({ pending: pending.value, failed: Boolean(error.value), total: props.total })

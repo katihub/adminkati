@@ -9,6 +9,7 @@ import { useProductCopySuggestions } from "@/composables/useProductCopySuggestio
 import { useCreateProduit, useUpdateProduit, useUploadProduitImage } from "@/composables/useProduitMutations"
 import { produitCreateSchema, produitUpdateSchema } from "@/schemas/produit"
 import { useAiGenerationStore } from "@/stores/ai-generation"
+import { isAdministration } from "@/utils/administration"
 import {
   buildProductCopyDraft,
   hasEnoughProductContext,
@@ -88,7 +89,7 @@ watch(
 
 const historyCount = computed(() => product.value?.historique?.length ?? 0)
 const session = useCachedSession()
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 /** Comptoir is read-only, so its Stock tab has no action bar at all. */
 /** Only staff who may adjust stock get the edit button on the Overview stock field. */
 const stockEditProductId = computed(() => (canWrite.value ? product.value?.id : undefined))

@@ -265,6 +265,7 @@
       "rolesHelp": "The direction always writes and publishes. Tick the roles that may also write and submit a text; only the direction publishes.",
       "roles": {
         "direction": "Direction",
+        "gestionnaire": "KatiMarket manager",
         "comptoir": "Counter",
         "preparation": "Preparation",
         "livreur": "Courier",

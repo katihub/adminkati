@@ -132,6 +132,16 @@ describe("admin navigation model", () => {
     ])
   })
 
+  it("shows the KatiMarket manager the direction's menu, without the audit or seller finance (12 November 2026)", () => {
+    const allIds = (session: PublicSession) =>
+      visibleAdminNavigationItems(session).flatMap(item => [item.id, ...(item.children ?? []).map(child => child.id)])
+    const direction = allIds(sessionWith("direction"))
+    const manager = allIds(sessionWith("gestionnaire"))
+    expect(manager).not.toContain("audit")
+    expect(manager).not.toContain("seller-finance")
+    expect(direction.filter(id => id !== "audit" && id !== "seller-finance")).toEqual(manager)
+  })
+
   it("keeps the audit to the direction alone (12 November 2026)", () => {
     const audit = adminNavigationItems
       .find(item => item.id === "administration")

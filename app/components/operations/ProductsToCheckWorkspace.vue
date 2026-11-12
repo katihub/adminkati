@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// fallow-ignore-file complexity -- one declarative screen: the products to check and the reason dialog
 import type { ProductCheckAction, ProductCheckItem } from "@/types/api/marketplace-product-check"
 import { computed, ref } from "vue"
 import { Badge } from "@/components/ui/badge"
@@ -17,6 +16,8 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea"
 import { useProductCheckAction, useProductChecks } from "@/composables/useProductChecks"
 import { useToastAction } from "@/composables/useToastAction"
+// fallow-ignore-file complexity -- one declarative screen: the products to check and the reason dialog
+import { isAdministration } from "@/utils/administration"
 import { productCheckActions, productCheckLowestPrice, productCheckNeedsReason } from "@/utils/product-check"
 
 /* CHECK AFTER, NOT BEFORE (7 November 2026). A shop whose seller is active puts
@@ -150,7 +151,7 @@ async function confirm() {
                 @click="act(product, chosen)"
                 >{{ t(`operations.productChecks.actions.${chosen}`) }}</Button
               >
-              <Button v-if="roles.includes('direction')" size="sm" variant="ghost" as-child>
+              <Button v-if="isAdministration(roles)" size="sm" variant="ghost" as-child>
                 <NuxtLinkLocale :to="{ path: '/products', query: { id: product.id } }">{{
                   t("operations.productChecks.actions.edit")
                 }}</NuxtLinkLocale>

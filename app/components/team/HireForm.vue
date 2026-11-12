@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { TeamRole } from "@/types/api/equipe"
 import type { Comptoir } from "@/types/api/vitrine"
+import { computed } from "vue"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { TEAM_PHONE_PLACEHOLDER } from "@/composables/useTeamPhone"
 import { TEAM_ROLES } from "@/types/api/equipe"
+import { assignableTeamRoles } from "@/utils/administration"
 
 const { comptoirs, pending, submitted, errorMessage, courrielError, nomError, rolesError, telephoneError } =
   defineProps<{
@@ -27,6 +29,9 @@ const roles = defineModel<TeamRole[]>("roles", { required: true })
 const selectedComptoirs = defineModel<string[]>("selectedComptoirs", { required: true })
 
 const { t } = useI18n()
+/* Only the direction gives the direction and KatiMarket manager roles (12 November 2026). */
+const session = useCachedSession()
+const assignableRoles = computed(() => assignableTeamRoles(TEAM_ROLES, session.value?.roles))
 
 /** Les messages ne s'affichent qu'après une tentative : un formulaire vide n'est pas une faute. */
 function fieldError(message: string) {
@@ -83,7 +88,7 @@ function toggleRole(role: TeamRole) {
       </legend>
       <div class="flex flex-wrap gap-2">
         <button
-          v-for="role in TEAM_ROLES"
+          v-for="role in assignableRoles"
           :key="role"
           type="button"
           data-testid="team-hire-role"

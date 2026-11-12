@@ -5,6 +5,7 @@ import type { CaisseDetail } from "@/types/api/caisse"
 import { computed } from "vue"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { useTeamRoster } from "@/composables/useTeamRoster"
+import { canMoveMoney } from "@/utils/administration"
 import { canCountCaisse, countDisabledReason, validateDisabledReason } from "@/utils/caisse-duty"
 import { resolveMemberName } from "@/utils/resolve-member-name"
 
@@ -14,12 +15,16 @@ const { t } = useI18n()
 const { members } = useTeamRoster()
 const session = useCachedSession()
 
-const showCount = computed(() => caisse.statut === "ouverte" || caisse.statut === "litige")
+/* Closing a till (count, validate) stays with the direction and the counter, not the KatiMarket manager. */
+const closesTills = computed(
+  () => canMoveMoney(session.value?.roles) || Boolean(session.value?.roles.includes("comptoir")),
+)
+const showCount = computed(() => closesTills.value && (caisse.statut === "ouverte" || caisse.statut === "litige"))
 const canCount = computed(() => (session.value ? canCountCaisse(caisse, session.value.membreId) : false))
 const countReason = computed(() => (session.value ? countDisabledReason(caisse, session.value.membreId) : null))
 
 /** `ouverte` is rejected by the backend outright — nothing to validate yet. */
-const showValidate = computed(() => caisse.statut === "comptee" || caisse.statut === "litige")
+const showValidate = computed(() => closesTills.value && (caisse.statut === "comptee" || caisse.statut === "litige"))
 const validateReason = computed(() => validateDisabledReason(caisse, session.value?.membreId ?? ""))
 const canValidate = computed(() => validateReason.value === null)
 

@@ -30,6 +30,7 @@
     },
     "roles": {
       "direction": "Direction",
+      "gestionnaire": "KatiMarket manager",
       "comptoir": "Counter",
       "preparation": "Preparation",
       "livreur": "Delivery",

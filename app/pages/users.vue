@@ -7,11 +7,12 @@ import { prefetchApi } from "@/composables/useApi"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { useCustomerMutations } from "@/composables/useCustomerMutations"
 import { prefetchCustomers, useCustomer, useCustomers } from "@/composables/useCustomers"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { routeQueryString, routeQueryUuid } from "@/utils/route-query"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "comptoir"] })
 
 defineI18nRoute({
   paths: {
@@ -25,7 +26,7 @@ const route = useRoute()
 const queryClient = useNuxtApp().$queryClient
 const session = useCachedSession()
 /** Le comptoir consulte l'annuaire ; seule la direction change un statut (`@Roles(direction)`). */
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 
 function customerStatus(value: unknown): CustomerStatus | undefined {
   const status = routeQueryString(value)

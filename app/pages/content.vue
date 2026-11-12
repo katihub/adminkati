@@ -11,12 +11,13 @@ import { useBanniereMutations } from "@/composables/useBanniereMutations"
 import { prefetchBannieres, useBannieres } from "@/composables/useBannieres"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { POINTS_VENTE_PATH } from "@/composables/usePointsVente"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { filterBanners } from "@/utils/banner-filters"
 import { routeQueryId } from "@/utils/route-query"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "comptoir"] })
 
 defineI18nRoute({
   paths: {
@@ -69,7 +70,7 @@ const tabs = computed(() => [
 ])
 
 const session = useCachedSession()
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 
 /** Both chips start present (empty/unset), inline, rather than needing a trip through
  *  the "+" menu on first load — the same pattern the `Filters` docs' own example uses

@@ -3,6 +3,7 @@ import { computed, ref } from "vue"
 import { Button } from "@/components/ui/button"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { useDeleteProduitFiche } from "@/composables/useProduitMutations"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 
 /**
@@ -36,7 +37,7 @@ const {
 
 const { t } = useI18n()
 const session = useCachedSession()
-const estDirection = computed(() => (session.value?.roles ?? []).includes("direction"))
+const estDirection = computed(() => isAdministration(session.value?.roles))
 
 const erreur = ref("")
 

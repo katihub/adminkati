@@ -4,6 +4,7 @@ import { computed, ref, watch } from "vue"
 import { Button } from "@/components/ui/button"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { useOrderMutations } from "@/composables/useOrderMutations"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { isOrderInPerimetre, moneyPerimetre } from "@/utils/comptoirs"
 import { productNamesBySlug } from "@/utils/order-confirm-conflict"
@@ -37,14 +38,14 @@ const hasTransitions = computed(() => eligibleTransitions(order.statut, roles.va
 const inPerimetre = computed(() => isOrderInPerimetre(moneyPerimetre(session.value), order.comptoir))
 const canCollect = computed(
   () =>
-    (roles.value.includes("direction") || roles.value.includes("comptoir")) &&
+    (isAdministration(roles.value) || roles.value.includes("comptoir")) &&
     inPerimetre.value &&
     (order.resteAPayer ?? 0) > 0,
 )
 const showsOutOfPerimetreNotice = computed(
   () =>
     !inPerimetre.value &&
-    (roles.value.includes("direction") || roles.value.includes("comptoir")) &&
+    (isAdministration(roles.value) || roles.value.includes("comptoir")) &&
     (order.resteAPayer ?? 0) > 0,
 )
 
@@ -59,7 +60,7 @@ const canAssignLivreur = computed(
   () =>
     order.modeRemise === "domicile" &&
     LIVREUR_STATUTS.includes(order.statut) &&
-    (roles.value.includes("direction") || roles.value.includes("comptoir")),
+    (isAdministration(roles.value) || roles.value.includes("comptoir")),
 )
 
 const livreurOpen = ref(false)

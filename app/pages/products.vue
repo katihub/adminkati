@@ -4,10 +4,11 @@ import type { MarketplaceCategory } from "@/types/api/marketplace-categories"
 import { useQuery } from "@tanstack/vue-query"
 import { toast } from "vue-sonner"
 import { Button } from "@/components/ui/button"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { routeQueryId, routeQueryString, routeQueryUuid } from "@/utils/route-query"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "comptoir"] })
 defineI18nRoute({ paths: { en: "/products", fr: "/produits" } })
 const { t } = useI18n()
 const route = useRoute()
@@ -15,7 +16,7 @@ const localePath = useLocalePath()
 if (routeQueryId(route.query.id))
   await navigateTo({ path: localePath("/legacy-products"), query: { id: String(route.query.id) } }, { replace: true })
 const session = useCachedSession()
-const canEdit = computed(() => session.value?.roles.includes("direction") ?? false)
+const canEdit = computed(() => isAdministration(session.value?.roles))
 const selectedId = computed(() => routeQueryUuid(route.query.id))
 const creating = computed(() => route.query.new === "1" && canEdit.value)
 const editing = ref(false)

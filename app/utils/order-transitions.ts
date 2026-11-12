@@ -17,17 +17,17 @@ export const ORDER_TRANSITIONS: Readonly<Record<StatutCommande, readonly StatutC
 
 /** Mirrors the equipe entries in `machine-etats.ts:65-76` in the backend. */
 export const ORDER_TRANSITION_RIGHTS: Readonly<Record<StatutCommande, readonly Role[]>> = {
-  soumise: ["comptoir", "direction"],
-  confirmee: ["comptoir", "direction"],
-  refusee: ["comptoir", "direction"],
+  soumise: ["comptoir", "direction", "gestionnaire"],
+  confirmee: ["comptoir", "direction", "gestionnaire"],
+  refusee: ["comptoir", "direction", "gestionnaire"],
   // Le livreur y revient depuis `en_remise` : c'est l'échec de livraison,
   // l'absence du client, et c'est lui qui est devant la porte fermée.
-  en_preparation: ["comptoir", "preparation", "livreur", "direction"],
-  prete_au_retrait: ["comptoir", "preparation", "direction"],
-  en_remise: ["comptoir", "direction"],
-  retour_ouvert: ["comptoir", "direction"],
-  annulation_demandee: ["comptoir", "direction"],
-  annulee: ["direction"],
+  en_preparation: ["comptoir", "preparation", "livreur", "direction", "gestionnaire"],
+  prete_au_retrait: ["comptoir", "preparation", "direction", "gestionnaire"],
+  en_remise: ["comptoir", "direction", "gestionnaire"],
+  retour_ouvert: ["comptoir", "direction", "gestionnaire"],
+  annulation_demandee: ["comptoir", "direction", "gestionnaire"],
+  annulee: ["direction", "gestionnaire"],
   /**
    * CLORE REVIENT À QUI REMET, ET LA PRÉPARATION NE REMET RIEN.
    *
@@ -38,7 +38,7 @@ export const ORDER_TRANSITION_RIGHTS: Readonly<Record<StatutCommande, readonly R
    * lui a retiré (`machine-etats.ts`) ; il garde tout le reste de son travail,
    * `en_preparation` et `prete_au_retrait` compris.
    */
-  close: ["comptoir", "livreur", "direction"],
+  close: ["comptoir", "livreur", "direction", "gestionnaire"],
 }
 
 export function eligibleTransitions(status: StatutCommande, roles: readonly Role[]): StatutCommande[] {

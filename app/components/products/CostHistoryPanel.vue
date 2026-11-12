@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import { useProductCosts } from "@/composables/useProductCosts"
+import { isAdministration } from "@/utils/administration"
 import { formatDateCourte } from "@/utils/dates"
 import { formatMontant } from "@/utils/money"
 
@@ -8,7 +9,7 @@ const { productId } = defineProps<{ productId: number }>()
 
 const { locale, t } = useI18n()
 const session = useCachedSession()
-const canManage = computed(() => session.value?.roles.includes("direction") ?? false)
+const canManage = computed(() => isAdministration(session.value?.roles))
 const costsQuery = useProductCosts(() => productId, canManage)
 const entries = computed(() => costsQuery.data.value ?? [])
 /* The template only unwraps top-level refs: `costsQuery.error` was a Ref object there, always

@@ -20,7 +20,7 @@ export const POINTS_VENTE_PATH = "/vitrine/administration/points-vente"
  * (`vitrine.controller.ts:443`). A `preparation` or `livreur` session asking for
  * the counters gets a 403, so the query stays disabled rather than firing one.
  */
-const COMPTOIR_READERS: readonly Role[] = ["direction", "comptoir"]
+const COMPTOIR_READERS: readonly Role[] = ["direction", "gestionnaire", "comptoir"]
 
 /** Every counter, closed ones included, in display order. No pagination: a shop has a handful. */
 export function usePointsVente(enabled: MaybeRefOrGetter<boolean> = true) {

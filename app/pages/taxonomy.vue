@@ -24,12 +24,13 @@ import { Button } from "@/components/ui/button"
 import { prefetchApi } from "@/composables/useApi"
 import { useTaxonomy } from "@/composables/useTaxonomy"
 import { useTaxonomyMutations } from "@/composables/useTaxonomyMutations"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { buildCategoryTree, filterCategoryTree, sortCategoryTree } from "@/utils/category-tree"
 import { sortBrands, sortDepartments } from "@/utils/taxonomy-table"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "comptoir"] })
 
 defineI18nRoute({
   paths: {
@@ -45,7 +46,7 @@ const activeTab = ref(
 )
 const queryClient = useNuxtApp().$queryClient
 const session = useCachedSession()
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 
 if (import.meta.server)
   await prefetchApi<TaxonomieResponse>(queryClient, apiQueryKeys.taxonomy.all, "/catalogue/administration/taxonomie")

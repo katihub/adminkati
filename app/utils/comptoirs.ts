@@ -45,7 +45,7 @@ function perimetre(
 export function readingPerimetre(
   session: Pick<PublicSession, "roles" | "comptoirs"> | null | undefined,
 ): string[] | null {
-  return perimetre(session, ["direction", "preparation"])
+  return perimetre(session, ["direction", "gestionnaire", "preparation"])
 }
 
 /**
@@ -56,7 +56,7 @@ export function readingPerimetre(
 export function moneyPerimetre(
   session: Pick<PublicSession, "roles" | "comptoirs"> | null | undefined,
 ): string[] | null {
-  return perimetre(session, ["direction"])
+  return perimetre(session, ["direction", "gestionnaire"])
 }
 
 /**

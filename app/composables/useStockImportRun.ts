@@ -8,6 +8,7 @@ import type {
 import { useQueryClient } from "@tanstack/vue-query"
 import { useEventListener } from "@vueuse/core"
 import { computed, onScopeDispose, ref } from "vue"
+import { isAdministration } from "@/utils/administration"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { classifyStockImportError } from "@/utils/stock-import-errors"
 import { stockImportStage } from "@/utils/stock-import-stage"
@@ -136,7 +137,7 @@ export function useStockImportRun() {
   }
   async function review(input: Omit<StockImportSubmission, "includeChanged">) {
     if (state.value === "previewing" || state.value === "submitting") return
-    if (!session.value?.roles.includes("direction")) return
+    if (!isAdministration(session.value?.roles)) return
     applyKey = undefined
     await runPreview({ ...input, includeChanged: false })
   }

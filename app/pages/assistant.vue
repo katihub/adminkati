@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "admin",
-  roles: ["direction", "comptoir"],
+  roles: ["direction", "gestionnaire", "comptoir"],
   middleware: to =>
     navigateTo(
       {

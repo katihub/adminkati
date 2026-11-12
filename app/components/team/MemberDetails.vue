@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { useComptoirs } from "@/composables/usePointsVente"
 import { isTeamPhoneValid, TEAM_PHONE_PLACEHOLDER } from "@/composables/useTeamPhone"
 import { TEAM_ROLES } from "@/types/api/equipe"
+import { assignableTeamRoles } from "@/utils/administration"
 import { buildTeamMemberUpdate } from "@/utils/team-member-update"
 
 const props = defineProps<{
@@ -27,9 +28,11 @@ const selectedComptoirs = ref<string[]>([])
 const roles = ref<TeamRole[]>([])
 const { comptoirs } = useComptoirs()
 const errorMessage = ref<string | null>(null)
-const teamRoles: readonly TeamRole[] = TEAM_ROLES
+/* Only the direction gives the direction and KatiMarket manager roles (12 November 2026). */
+const session = useCachedSession()
+const teamRoles = computed<readonly TeamRole[]>(() => assignableTeamRoles(TEAM_ROLES, session.value?.roles))
 const roleOptions = computed(() =>
-  teamRoles.map(role => ({
+  teamRoles.value.map(role => ({
     id: role,
     label: t(`team.roles.${role}`),
   })),
@@ -68,7 +71,7 @@ const dirty = computed(
 watch(dirty, value => emit("dirty", value), { immediate: true })
 
 function updateRoles(value: string[]) {
-  roles.value = value.filter((role): role is TeamRole => teamRoles.includes(role as TeamRole))
+  roles.value = value.filter((role): role is TeamRole => teamRoles.value.includes(role as TeamRole))
 }
 
 function removeItemLabel(name: string) {

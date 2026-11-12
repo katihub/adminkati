@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { TeamMember } from "@/types/api/equipe"
 import { computed } from "vue"
+import { isAdministration } from "@/utils/administration"
 
 const { member } = defineProps<{ member: TeamMember | null }>()
 
 const { t } = useI18n()
-const isDirection = computed(() => member?.roles.includes("direction") ?? false)
+const isDirection = computed(() => isAdministration(member?.roles))
 </script>
 
 <template>

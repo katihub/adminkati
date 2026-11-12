@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useInstallmentMutations } from "@/composables/useInstallmentPlans"
 import { useToastAction } from "@/composables/useToastAction"
+import { canMoveMoney } from "@/utils/administration"
 import { formatMontant } from "@/utils/money"
 
 const props = defineProps<{ plan: InstallmentPlan }>()
@@ -18,8 +19,14 @@ const run = useToastAction()
 const action = ref<"failure" | "refund" | null>(null)
 
 const canFail = computed(() => IN_PROGRESS.has(props.plan.statut) && !props.plan.commande)
+/* Refunds stay with the direction: the KatiMarket manager follows the plan, not the money. */
+const session = useCachedSession()
 const canRefund = computed(
-  () => props.plan.statut === "annule_defaillance" && !props.plan.rembourse && props.plan.montantVerseFcfa > 0,
+  () =>
+    canMoveMoney(session.value?.roles) &&
+    props.plan.statut === "annule_defaillance" &&
+    !props.plan.rembourse &&
+    props.plan.montantVerseFcfa > 0,
 )
 // Fees paid but no order yet: the conversion failed after the money arrived.
 const canRetry = computed(

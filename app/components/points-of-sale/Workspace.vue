@@ -12,6 +12,7 @@ import { useCachedSession } from "@/composables/useCachedSession"
 import { usePointOfSaleActive } from "@/composables/usePointOfSaleActive"
 import { usePointOfSaleDelete } from "@/composables/usePointOfSaleDelete"
 import { usePointsVente, usePointVenteMutations } from "@/composables/usePointsVente"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import {
   customerDetailsText,
@@ -29,7 +30,7 @@ const route = useRoute()
 // Same gate as `GET administration/points-vente`: comptoir reads the counters it gives customers
 // over the phone; only direction writes, which the backend enforces on every write route anyway.
 const session = useCachedSession()
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 
 const { data, isPending, error, refetch } = usePointsVente()
 /** A non-array success (an outage page, a shape change) reads as "no data", not as a crash. */

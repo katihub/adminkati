@@ -265,6 +265,7 @@
       "rolesHelp": "La direction rédige et publie toujours. Cochez les rôles qui peuvent aussi rédiger et soumettre un texte ; seule la direction publie.",
       "roles": {
         "direction": "Direction",
+        "gestionnaire": "Gestionnaire KatiMarket",
         "comptoir": "Comptoir",
         "preparation": "Préparation",
         "livreur": "Livreur",

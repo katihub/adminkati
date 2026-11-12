@@ -9,9 +9,10 @@ import { prefetchApi } from "@/composables/useApi"
 import { useProduit } from "@/composables/useProduit"
 import { prefetchProduits, useProduits } from "@/composables/useProduits"
 import { useProductListStore } from "@/stores/product-list"
+import { isAdministration } from "@/utils/administration"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "comptoir"] })
 
 defineI18nRoute({
   paths: {
@@ -24,7 +25,7 @@ const { t } = useI18n()
 const route = useRoute()
 const session = useCachedSession()
 /** The backend restricts product creation to `direction`; `comptoir` can only read. */
-const canCreate = computed(() => session.value?.roles.includes("direction") ?? false)
+const canCreate = computed(() => isAdministration(session.value?.roles))
 
 const productList = useProductListStore()
 const filters = computed({

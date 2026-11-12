@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useOrderMutations } from "@/composables/useOrderMutations"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { ORDER_PAYMENT_ACTION_SEVERITY } from "@/utils/order-transition-actions"
 
@@ -53,7 +54,7 @@ const submitError = ref("")
 const mutation = useOrderMutations()
 const isPending = computed(() => mutation.collectPayment.isPending.value)
 const canCollect = computed(
-  () => (roles.includes("direction") || roles.includes("comptoir")) && inPerimetre && (remaining ?? 0) > 0,
+  () => (isAdministration(roles) || roles.includes("comptoir")) && inPerimetre && (remaining ?? 0) > 0,
 )
 const isPrimary = computed(() => ORDER_PAYMENT_ACTION_SEVERITY[status] === "primary")
 const amountText = computed(() => String(amount.value ?? ""))

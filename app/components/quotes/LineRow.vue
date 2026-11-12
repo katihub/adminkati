@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { TableCell, TableRow } from "@/components/ui/table"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { useProduit } from "@/composables/useProduit"
+import { isAdministration } from "@/utils/administration"
 import { formatMontant } from "@/utils/money"
 import { productImageUrl } from "@/utils/product-image-url"
 
@@ -23,7 +24,7 @@ const runtimeConfig = useRuntimeConfig()
 const session = useCachedSession()
 const canViewProduct = computed(() => {
   const roles = session.value?.roles ?? []
-  return roles.includes("direction") || roles.includes("comptoir")
+  return isAdministration(roles) || roles.includes("comptoir")
 })
 
 const { data: product } = useProduit(

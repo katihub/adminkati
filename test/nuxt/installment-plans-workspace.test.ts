@@ -1,7 +1,7 @@
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
 import { readBody } from "h3"
-import { afterEach, describe, expect, it } from "vitest"
+import { afterEach, beforeEach, describe, expect, it } from "vitest"
 import InstallmentPlansWorkspace from "@/components/operations/InstallmentPlansWorkspace.vue"
 
 type Command = { method: string; path: string; body?: unknown }
@@ -112,6 +112,17 @@ async function mount() {
   await flushPromises()
 }
 
+/* The refunds and the settings are the direction's: these tests run as the direction (12 November 2026). */
+beforeEach(() => {
+  useNuxtApp().$queryClient.setQueryData(["v1", "moi"], {
+    userId: "u1",
+    membreId: "m1",
+    nom: "Direction",
+    courriel: "direction@example.com",
+    roles: ["direction"],
+  })
+})
+
 describe("installment plans workspace", () => {
   it("switches the mode on and caps the open plans per customer", async () => {
     const commands: Command[] = []
@@ -190,5 +201,22 @@ describe("installment plans workspace", () => {
       path: "remboursement",
       body: { note: "Espèces au comptoir, reçu 42" },
     })
+  })
+
+  it("lets the KatiMarket manager follow the plans and read the settings, without refunding or editing (12 November 2026)", async () => {
+    useNuxtApp().$queryClient.setQueryData(["v1", "moi"], {
+      userId: "u2",
+      membreId: "m2",
+      nom: "Gestionnaire",
+      courriel: "gestionnaire@example.com",
+      roles: ["gestionnaire"],
+    })
+    api([], [{ ...PLAN, statut: "annule_defaillance" }])
+    await mount()
+    expect(byTestId("installment-plan-PE-4F7KM3")).not.toBeNull()
+    expect(byTestId("installment-plan-refund-PE-4F7KM3")).toBeNull()
+    expect(byTestId("installments-save-settings")).toBeNull()
+    expect((byTestId("installments-active") as HTMLInputElement).disabled).toBe(true)
+    expect(byTestId("installment-rule-edit-c2")).toBeNull()
   })
 })

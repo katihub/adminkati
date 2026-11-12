@@ -15,7 +15,7 @@ import { apiQueryKeys } from "@/utils/api-query-keys"
 import { readingPerimetre, selectableComptoirs } from "@/utils/comptoirs"
 import { toDateRangeFilterValue, toOrderDateRange } from "@/utils/order-date-range"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir", "preparation", "livreur"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "comptoir", "preparation", "livreur"] })
 
 defineI18nRoute({
   paths: {

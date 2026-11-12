@@ -5,6 +5,7 @@ import { toast } from "vue-sonner"
 import { useCachedSession } from "@/composables/useCachedSession"
 import { useCatalogueMutations, useCatalogueProposal, useCatalogueProposals } from "@/composables/useCatalogue"
 import { useTaxonomy } from "@/composables/useTaxonomy"
+import { isAdministration } from "@/utils/administration"
 import { apiErrorText, toApiError } from "@/utils/api-error"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 
@@ -17,7 +18,7 @@ const route = useRoute()
 const router = useRouter()
 const queryClient = useNuxtApp().$queryClient
 const session = useCachedSession()
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 
 type QueryValue = string | (string | null)[] | null | undefined
 

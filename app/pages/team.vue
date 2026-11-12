@@ -17,6 +17,7 @@ import { useCachedSession } from "@/composables/useCachedSession"
 import { prefetchTeam, useTeam, useTeamMember } from "@/composables/useTeam"
 import { useTeamMutations } from "@/composables/useTeamMutations"
 import { isTeamRole } from "@/types/api/equipe"
+import { canManageMember, isAdministration } from "@/utils/administration"
 import { apiErrorText } from "@/utils/api-error"
 import { apiQueryKeys } from "@/utils/api-query-keys"
 import { routeQueryString, routeQueryUuid } from "@/utils/route-query"
@@ -231,7 +232,7 @@ const members = computed(() => teamQuery.data.value?.pages.flatMap(page => page.
 const autoSelectedId = computed(() => (autoSelectionDismissed.value ? null : (members.value[0]?.id ?? null)))
 const effectiveId = computed(() => selectedId.value ?? autoSelectedId.value)
 const memberDetailQuery = useTeamMember(effectiveId)
-const canWrite = computed(() => session.value?.roles.includes("direction") ?? false)
+const canWrite = computed(() => isAdministration(session.value?.roles))
 const isSelf = computed(() => Boolean(effectiveId.value && effectiveId.value === session.value?.membreId))
 const { update, deactivate, reactivate } = useTeamMutations()
 const saving = computed(() => update.isPending.value)
@@ -374,7 +375,7 @@ useHead({
           :selected="Boolean(effectiveId)"
           :is-pending="memberDetailQuery.isPending.value"
           :error="memberDetailQuery.error.value"
-          :can-manage="canWrite"
+          :can-manage="canWrite && canManageMember(session?.roles, memberDetailQuery.data.value?.roles ?? [])"
           :is-self="isSelf"
           :saving="saving"
           :lifecycle-pending="lifecyclePending"

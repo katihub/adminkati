@@ -4,6 +4,7 @@ import { computed, onScopeDispose, ref, watch } from "vue"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { useAiGenerationStore } from "@/stores/ai-generation"
+import { isAdministration } from "@/utils/administration"
 
 type Indicator = "loading" | "ready" | "error"
 
@@ -54,7 +55,7 @@ function openFromNotice() {
   store.setPanelOpen(true)
 }
 
-const canGenerate = computed(() => session.value?.roles.includes("direction") ?? false)
+const canGenerate = computed(() => isAdministration(session.value?.roles))
 const indicator = computed<Indicator | null>(() => {
   if (status.value === "loading") return "loading"
   if (!unread.value) return null

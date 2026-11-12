@@ -1,4 +1,5 @@
 import type { ProductCheckAction, ProductCheckItem } from "@/types/api/marketplace-product-check"
+import { isAdministration } from "./administration"
 
 /**
  * WHAT THE TEAM CAN DO WITH A PRODUCT TO CHECK (7 November 2026).
@@ -10,7 +11,7 @@ export function productCheckActions(
   roles: readonly string[],
 ): ProductCheckAction[] {
   const actions: ProductCheckAction[] = ["seen", product.statut === "suspendu" ? "restore" : "hide", "correction"]
-  if (roles.includes("direction")) actions.push("delete")
+  if (isAdministration(roles)) actions.push("delete")
   return actions
 }
 

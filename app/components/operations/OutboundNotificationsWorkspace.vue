@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// fallow-ignore-file complexity -- declarative admin workspace with mutually exclusive loading, empty and list states
 import type { OutboundNotificationStatus } from "@/types/api/notifications"
 import { computed, ref, watch } from "vue"
 import { Button } from "@/components/ui/button"
@@ -9,6 +8,8 @@ import {
   useOutboundNotificationsSummary,
 } from "@/composables/useOutboundNotifications"
 import { OUTBOUND_NOTIFICATION_STATUSES } from "@/types/api/notifications"
+// fallow-ignore-file complexity -- declarative admin workspace with mutually exclusive loading, empty and list states
+import { isAdministration } from "@/utils/administration"
 
 const STATUS_CLASSES: Record<OutboundNotificationStatus, string> = {
   en_attente: "bg-sky-100 text-sky-800",
@@ -19,7 +20,7 @@ const STATUS_CLASSES: Record<OutboundNotificationStatus, string> = {
 
 const { t, locale } = useI18n()
 const session = useCachedSession()
-const canManage = computed(() => session.value?.roles.includes("direction") ?? false)
+const canManage = computed(() => isAdministration(session.value?.roles))
 const status = ref<OutboundNotificationStatus | undefined>()
 const page = ref(1)
 watch(status, () => (page.value = 1))

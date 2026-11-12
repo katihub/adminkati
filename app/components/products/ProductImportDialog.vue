@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useProductImportRun } from "@/composables/useProductImportRun"
+import { isAdministration } from "@/utils/administration"
 import {
   buildProductImportErrorCsv,
   buildProductImportTemplate,
@@ -20,7 +21,7 @@ import {
 const open = defineModel<boolean>("open", { default: false })
 const { t } = useI18n()
 const session = useCachedSession()
-const allowed = computed(() => session.value?.roles.includes("direction") ?? false)
+const allowed = computed(() => isAdministration(session.value?.roles))
 const runner = useProductImportRun()
 const file = ref<File | null>(null)
 const fileError = ref("")

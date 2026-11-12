@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue"
+import { canMoveMoney, isAdministration } from "@/utils/administration"
 
-definePageMeta({ layout: "admin", roles: ["direction", "comptoir", "point_focal"] })
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire", "comptoir", "point_focal"] })
 
 defineI18nRoute({
   paths: {
@@ -13,7 +14,7 @@ defineI18nRoute({
 const { t } = useI18n()
 const route = useRoute()
 const session = useCachedSession()
-const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
+const isDirection = computed(() => isAdministration(session.value?.roles))
 
 const QUERY_TABS = [
   "focal-shops",
@@ -80,6 +81,8 @@ const allowedTabs = computed<ReadonlySet<OperationsTab>>(() => {
     ...(roles.includes("point_focal") ? FOCAL_TABS : []),
   ])
   if (!roles.includes("point_focal")) allowed.delete("focal-shops")
+  // Seller finance is where withdrawals are paid: the direction alone, not the KatiMarket manager.
+  if (!canMoveMoney(roles)) allowed.delete("seller-finance")
   return allowed
 })
 const defaultTab = computed<OperationsTab>(() =>

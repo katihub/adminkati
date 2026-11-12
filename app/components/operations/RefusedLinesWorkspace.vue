@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// fallow-ignore-file complexity -- one declarative screen: the refused lines, their refund dialog and payout states
 import type { RefusedLine, RefusedLineFilter, RefundStatus } from "@/types/api/marketplace-catalogue-quality"
 import { computed, ref } from "vue"
 import { Badge } from "@/components/ui/badge"
@@ -17,6 +16,8 @@ import { Label } from "@/components/ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { useRefusedLineRefunds, useRefusedLines } from "@/composables/useCatalogueQuality"
 import { useToastAction } from "@/composables/useToastAction"
+// fallow-ignore-file complexity -- one declarative screen: the refused lines, their refund dialog and payout states
+import { canMoveMoney } from "@/utils/administration"
 
 /* LINES REFUSED BY SHOPS WITHOUT STOCK TRACKING. The shop did not have the
    item: the line left the order, the delivery collects less, and the part of
@@ -47,14 +48,23 @@ const STATUS_KEYS: Record<RefundStatus, string> = {
   verification_requise: "operations.refusedLines.statusCheck",
 }
 
+/* Refunds stay with the direction: the KatiMarket manager sees the lines, not the money buttons. */
+const session = useCachedSession()
+const movesMoney = computed(() => canMoveMoney(session.value?.roles))
+
 function canRefund(line: RefusedLine) {
   const status = line.remboursementPsp?.statut
-  return !line.rembourseLe && line.remboursementDuFcfa >= 100 && (!status || status === "prepare" || status === "echec")
+  return (
+    movesMoney.value &&
+    !line.rembourseLe &&
+    line.remboursementDuFcfa >= 100 &&
+    (!status || status === "prepare" || status === "echec")
+  )
 }
 
 function canReconcile(line: RefusedLine) {
   const status = line.remboursementPsp?.statut
-  return !line.rembourseLe && (status === "soumis" || status === "verification_requise")
+  return movesMoney.value && !line.rembourseLe && (status === "soumis" || status === "verification_requise")
 }
 
 function openRefund(line: RefusedLine) {

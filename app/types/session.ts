@@ -1,5 +1,5 @@
 /** Postgres enum `role`, mirrored from ../NowTech-backend-/prisma/schema.prisma:256-263. */
-export type Role = "direction" | "comptoir" | "preparation" | "livreur" | "point_focal"
+export type Role = "direction" | "gestionnaire" | "comptoir" | "preparation" | "livreur" | "point_focal"
 
 export interface PublicSession {
   userId: string

@@ -5,11 +5,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useInstallmentMutations, useInstallmentSettings } from "@/composables/useInstallmentPlans"
 import { useToastAction } from "@/composables/useToastAction"
+import { canMoveMoney } from "@/utils/administration"
 
 const { t } = useI18n()
 const { settings } = useInstallmentSettings()
 const { updateSettings } = useInstallmentMutations()
 const run = useToastAction()
+/* The settings are the direction's to change; the KatiMarket manager reads them. */
+const session = useCachedSession()
+const canEdit = computed(() => canMoveMoney(session.value?.roles))
 const general = reactive({ active: false, maxPlans: 3 })
 const maxPlansError = computed(() =>
   Number.isInteger(general.maxPlans) && general.maxPlans >= 1 && general.maxPlans <= 20
@@ -42,7 +46,13 @@ function save() {
     <ApiErrorCard v-else-if="settings.error.value" :error="settings.error.value" @retry="settings.refetch()" />
     <form v-else class="mt-4 flex flex-wrap items-end gap-4" @submit.prevent="save">
       <label class="flex items-center gap-2 text-sm">
-        <input v-model="general.active" type="checkbox" class="size-4" data-testid="installments-active" />
+        <input
+          v-model="general.active"
+          type="checkbox"
+          class="size-4"
+          :disabled="!canEdit"
+          data-testid="installments-active"
+        />
         {{ t("operations.installments.active") }}
       </label>
       <div class="grid gap-1.5">
@@ -54,10 +64,12 @@ function save() {
           min="1"
           max="20"
           class="w-28"
+          :disabled="!canEdit"
           data-testid="installments-max-plans"
         />
       </div>
       <Button
+        v-if="canEdit"
         type="submit"
         :disabled="updateSettings.isPending.value || Boolean(maxPlansError)"
         data-testid="installments-save-settings"

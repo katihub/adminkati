@@ -1,7 +1,7 @@
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime"
 import { flushPromises } from "@vue/test-utils"
 import { getQuery, readBody } from "h3"
-import { afterEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import RefusedLinesWorkspace from "@/components/operations/RefusedLinesWorkspace.vue"
 import VerifiedOffersWorkspace from "@/components/operations/VerifiedOffersWorkspace.vue"
 
@@ -171,6 +171,17 @@ describe("verified offers workspace", () => {
       { method: "POST", path: "o1", body: { verifiee: false } },
     ])
     wrapper.unmount()
+  })
+})
+
+/* The refunds and the settings are the direction's: these tests run as the direction (12 November 2026). */
+beforeEach(() => {
+  useNuxtApp().$queryClient.setQueryData(["v1", "moi"], {
+    userId: "u1",
+    membreId: "m1",
+    nom: "Direction",
+    courriel: "direction@example.com",
+    roles: ["direction"],
   })
 })
 

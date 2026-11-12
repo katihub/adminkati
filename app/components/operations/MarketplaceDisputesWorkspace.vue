@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// fallow-ignore-file complexity -- declarative dispute workspace with explicit workflow states
 import type { MarketplaceReturnFilters, MarketplaceReturnStatus } from "@/types/api/marketplace-operations"
 import { computed, ref, watch } from "vue"
 import { Badge } from "@/components/ui/badge"
@@ -11,6 +10,8 @@ import {
   useMarketplaceReturnMutations,
   useMarketplaceReturns,
 } from "@/composables/useMarketplaceOperations"
+// fallow-ignore-file complexity -- declarative dispute workspace with explicit workflow states
+import { isAdministration } from "@/utils/administration"
 import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
 
@@ -140,7 +141,7 @@ function reimburseReturn() {
 }
 
 const session = useCachedSession()
-const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
+const isDirection = computed(() => isAdministration(session.value?.roles))
 const exporting = ref(false)
 const exportError = ref(false)
 

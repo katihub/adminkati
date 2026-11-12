@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useCachedSession } from "@/composables/useCachedSession"
+import { isAdministration } from "@/utils/administration"
 import { getInitials } from "@/utils/initials"
 
 const { locale, t } = useI18n()
@@ -25,7 +26,7 @@ const session = useCachedSession(queryClient)
 const displayName = computed(() => session.value?.nom || t("admin.profile.name"))
 const displayEmail = computed(() => session.value?.courriel || t("admin.profile.identity"))
 const initials = computed(() => getInitials(session.value?.nom) || t("admin.profile.initials"))
-const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
+const isDirection = computed(() => isAdministration(session.value?.roles))
 
 const isDark = computed({
   get: () => colorMode.preference === "dark" || (colorMode.preference === "system" && colorMode.value === "dark"),

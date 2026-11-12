@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import type { InstallmentRule } from "@/types/api/installment-plans"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import OperationsInstallmentRuleForm from "@/components/operations/installment/RuleForm.vue"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useInstallmentSettings } from "@/composables/useInstallmentPlans"
+import { canMoveMoney } from "@/utils/administration"
 import { formatMontant } from "@/utils/money"
 
 const { t, locale } = useI18n()
 const { rules } = useInstallmentSettings()
 const editing = ref<string | null>(null)
+/* The rules are the direction's to change; the KatiMarket manager reads them. */
+const session = useCachedSession()
+const canEdit = computed(() => canMoveMoney(session.value?.roles))
 
 const summary = (rule: InstallmentRule) =>
   t("operations.installments.rule.summary", {
@@ -51,6 +55,7 @@ function toggle(id: string) {
           </span>
           <span class="text-xs text-muted-foreground">{{ summary(category.regle) }}</span>
           <Button
+            v-if="canEdit"
             size="sm"
             variant="outline"
             :data-testid="`installment-rule-edit-${category.id}`"

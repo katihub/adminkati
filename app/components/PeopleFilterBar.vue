@@ -65,6 +65,7 @@ const fields = computed(() => {
     searchField("team"),
     selectField("role", t("team.filterBar.roleLabel"), t("team.filterBar.roleOperatorIs"), PhUsersThree, [
       { value: "direction", label: t("team.roles.direction") },
+      { value: "gestionnaire", label: t("team.roles.gestionnaire") },
       { value: "comptoir", label: t("team.roles.comptoir") },
       { value: "preparation", label: t("team.roles.preparation") },
       { value: "livreur", label: t("team.roles.livreur") },

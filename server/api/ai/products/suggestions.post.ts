@@ -236,7 +236,8 @@ export default defineEventHandler(async (event): Promise<ProductCopySuggestionRe
   }
 
   try {
-    if (!session.user.roles.includes("direction")) throw new ProductCopyError("forbidden")
+    if (!session.user.roles.some(role => role === "direction" || role === "gestionnaire"))
+      throw new ProductCopyError("forbidden")
 
     const request = parseRequest(await readBody(event), configuredImageProfile(config.aiProductCopyDefaultImageProfile))
     trail.language = request.language

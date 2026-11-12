@@ -23,7 +23,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.pilotage,
     routeNames: ["index"],
     icon: "ph:chart-donut",
-    roles: ["direction", "comptoir", "preparation", "livreur"],
+    roles: ["direction", "gestionnaire", "comptoir", "preparation", "livreur"],
   },
   {
     id: "focal",
@@ -39,7 +39,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.commerce,
     routeNames: ["orders"],
     icon: "ph:shopping-bag",
-    roles: ["direction", "comptoir", "preparation", "livreur"],
+    roles: ["direction", "gestionnaire", "comptoir", "preparation", "livreur"],
     children: [
       {
         id: "orders",
@@ -47,7 +47,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/orders",
         routeNames: ["orders"],
         icon: "ph:receipt",
-        roles: ["direction", "comptoir", "preparation", "livreur"],
+        roles: ["direction", "gestionnaire", "comptoir", "preparation", "livreur"],
         query: { quote: false },
       },
       {
@@ -56,7 +56,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/orders?quote=1",
         routeNames: ["orders"],
         icon: "ph:file-text",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
         query: { quote: true },
       },
     ],
@@ -67,7 +67,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.catalogue,
     routeNames: ["products", "legacy-products", "taxonomy"],
     icon: "ph:book-open",
-    roles: ["direction", "comptoir"],
+    roles: ["direction", "gestionnaire", "comptoir"],
     children: [
       {
         id: "products",
@@ -75,7 +75,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/products",
         routeNames: ["products"],
         icon: "ph:cube",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
       },
       {
         id: "taxonomy",
@@ -84,7 +84,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         routeNames: ["operations"],
         query: { tab: "marketplace-categories" },
         icon: "ph:tree-structure",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
       },
       {
         id: "products-to-check",
@@ -92,7 +92,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=products-to-check",
         routeNames: ["operations"],
         icon: "ph:eye",
-        roles: ["direction", "point_focal"],
+        roles: ["direction", "gestionnaire", "point_focal"],
         query: { tab: "products-to-check" },
       },
       {
@@ -101,7 +101,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=marketplace-catalogue",
         routeNames: ["operations"],
         icon: "ph:checks",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
         query: { tab: "marketplace-catalogue" },
       },
       {
@@ -110,7 +110,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=marketplace-offers",
         routeNames: ["operations"],
         icon: "ph:package",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "marketplace-offers" },
       },
     ],
@@ -121,7 +121,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.sellers,
     routeNames: [],
     icon: "ph:storefront",
-    roles: ["direction", "comptoir"],
+    roles: ["direction", "gestionnaire", "comptoir"],
     children: [
       {
         id: "seller-onboarding",
@@ -129,7 +129,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=seller-onboarding",
         routeNames: ["operations"],
         icon: "ph:storefront",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "seller-onboarding" },
       },
       {
@@ -138,7 +138,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=shop-agents",
         routeNames: ["operations"],
         icon: "ph:user-check",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "shop-agents" },
       },
       {
@@ -147,7 +147,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=seller-trust",
         routeNames: ["operations"],
         icon: "ph:shield-check",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
         query: { tab: "seller-trust" },
       },
     ],
@@ -158,7 +158,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.clients,
     routeNames: ["users", "assistant"],
     icon: "ph:users",
-    roles: ["direction", "comptoir"],
+    roles: ["direction", "gestionnaire", "comptoir"],
     children: [
       {
         id: "customer-directory",
@@ -166,7 +166,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/users",
         routeNames: ["users"],
         icon: "ph:address-book",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
       },
       {
         id: "customer-assistance",
@@ -174,7 +174,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/assistant",
         routeNames: ["assistant"],
         icon: "ph:headset",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
       },
       {
         id: "reported-reviews",
@@ -182,7 +182,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=reported-reviews",
         routeNames: ["operations"],
         icon: "ph:star",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "reported-reviews" },
       },
       {
@@ -191,7 +191,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=marketplace-disputes",
         routeNames: ["operations"],
         icon: "ph:warning",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
         query: { tab: "marketplace-disputes" },
       },
     ],
@@ -202,7 +202,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.logistics,
     routeNames: [],
     icon: "ph:truck",
-    roles: ["direction"],
+    roles: ["direction", "gestionnaire"],
     children: [
       {
         id: "kati-express",
@@ -210,7 +210,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=kati-express",
         routeNames: ["operations"],
         icon: "ph:moped",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "kati-express" },
       },
       {
@@ -219,7 +219,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=delivery-fees",
         routeNames: ["operations"],
         icon: "ph:truck",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "delivery-fees" },
       },
       {
@@ -228,7 +228,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=localities",
         routeNames: ["operations"],
         icon: "ph:map-pin",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "localities" },
       },
       {
@@ -237,7 +237,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=order-services",
         routeNames: ["operations"],
         icon: "ph:shield-plus",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "order-services" },
       },
       {
@@ -246,7 +246,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=refused-lines",
         routeNames: ["operations"],
         icon: "ph:receipt-x",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "refused-lines" },
       },
     ],
@@ -257,7 +257,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.finance,
     routeNames: ["caisse"],
     icon: "ph:wallet",
-    roles: ["direction"],
+    roles: ["direction", "gestionnaire"],
     children: [
       {
         id: "cash-registers",
@@ -265,7 +265,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=cash-registers",
         routeNames: ["operations"],
         icon: "ph:cash-register",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "cash-registers" },
       },
       {
@@ -283,7 +283,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=installment-plans",
         routeNames: ["operations"],
         icon: "ph:calendar-check",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "installment-plans" },
       },
       {
@@ -292,7 +292,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=kati-points",
         routeNames: ["operations"],
         icon: "ph:coins",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "kati-points" },
       },
     ],
@@ -303,7 +303,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     to: adminDestinations.marketing,
     routeNames: ["content", "site-texts"],
     icon: "ph:megaphone",
-    roles: ["direction", "comptoir"],
+    roles: ["direction", "gestionnaire", "comptoir"],
     children: [
       {
         id: "content",
@@ -311,7 +311,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/content",
         routeNames: ["content"],
         icon: "ph:image",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
       },
       {
         id: "site-texts",
@@ -319,7 +319,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/site-texts",
         routeNames: ["site-texts"],
         icon: "ph:article",
-        roles: ["direction", "comptoir"],
+        roles: ["direction", "gestionnaire", "comptoir"],
       },
       {
         id: "outbound-notifications",
@@ -327,7 +327,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=outbound-notifications",
         routeNames: ["operations"],
         icon: "ph:bell",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "outbound-notifications" },
       },
     ],
@@ -353,7 +353,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/comptes",
         routeNames: ["comptes"],
         icon: "ph:key",
-        roles: ["direction", "point_focal"],
+        roles: ["direction", "gestionnaire", "point_focal"],
       },
       {
         id: "audit",
@@ -369,7 +369,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/settings",
         routeNames: ["settings"],
         icon: "ph:sliders-horizontal",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
       },
       {
         id: "marketplace-pilot",
@@ -377,7 +377,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=marketplace-pilot",
         routeNames: ["operations"],
         icon: "ph:flag-banner",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "marketplace-pilot" },
       },
       {
@@ -386,7 +386,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         to: "/operations?tab=legal-closure",
         routeNames: ["operations"],
         icon: "ph:seal-check",
-        roles: ["direction"],
+        roles: ["direction", "gestionnaire"],
         query: { tab: "legal-closure" },
       },
     ],

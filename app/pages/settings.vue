@@ -3,7 +3,8 @@ import type { AdministrativeSystemStatus } from "@/types/api/administration"
 import { useQuery } from "@tanstack/vue-query"
 import { computed } from "vue"
 import { Skeleton } from "@/components/ui/skeleton"
-definePageMeta({ layout: "admin", roles: ["direction"] })
+import { isAdministration } from "@/utils/administration"
+definePageMeta({ layout: "admin", roles: ["direction", "gestionnaire"] })
 defineI18nRoute({ paths: { en: "/settings", fr: "/parametres" } })
 const { t } = useI18n({ useScope: "local" })
 const session = useCachedSession()
@@ -11,7 +12,7 @@ const api = useApiFetch()
 const query = useQuery<AdministrativeSystemStatus>({
   queryKey: ["v1", "administration", "systeme"],
   queryFn: () => api("/administration/systeme"),
-  enabled: computed(() => session.value?.roles.includes("direction") ?? false),
+  enabled: computed(() => isAdministration(session.value?.roles)),
 })
 useSeoMeta({
   title: () => t("title"),
