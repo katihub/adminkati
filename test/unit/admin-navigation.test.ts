@@ -125,10 +125,18 @@ describe("admin navigation model", () => {
     expect(children("administration")).toEqual([
       "team",
       "user-accounts",
+      "audit",
       "settings",
       "marketplace-pilot",
       "legal-closure",
     ])
+  })
+
+  it("keeps the audit to the direction alone (12 November 2026)", () => {
+    const audit = adminNavigationItems
+      .find(item => item.id === "administration")
+      ?.children?.find(item => item.id === "audit")
+    expect(audit?.roles).toEqual(["direction"])
   })
 
   it("matches an operations child against its exact tab", () => {

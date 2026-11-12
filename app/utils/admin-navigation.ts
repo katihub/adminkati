@@ -336,7 +336,7 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
     id: "administration",
     labelKey: "admin.navigation.administration",
     to: adminDestinations.administration,
-    routeNames: ["team", "comptes"],
+    routeNames: ["team", "comptes", "audit"],
     icon: "ph:gear-six",
     children: [
       {
@@ -354,6 +354,14 @@ export const adminNavigationItems: readonly AdminNavigationItem[] = [
         routeNames: ["comptes"],
         icon: "ph:key",
         roles: ["direction", "point_focal"],
+      },
+      {
+        id: "audit",
+        labelKey: "admin.navigation.items.audit",
+        to: "/audit",
+        routeNames: ["audit"],
+        icon: "ph:list-magnifying-glass",
+        roles: ["direction"],
       },
       {
         id: "settings",

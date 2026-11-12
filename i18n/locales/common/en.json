@@ -47,7 +47,8 @@
         "team": "Team and roles",
         "marketplacePilot": "Rollouts",
         "legalClosure": "Legal closure",
-        "userAccounts": "User accounts"
+        "userAccounts": "User accounts",
+        "audit": "Audit"
       }
     },
     "profile": {
