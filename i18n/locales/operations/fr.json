@@ -262,7 +262,11 @@
       "withdrawConfirm": "Retirer cette candidature de la liste ?",
       "withdrawYes": "Oui, retirer",
       "withdrawn": "Candidature retirée : le nom et l’adresse sont libérés",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "newSinceRefusal": "Nouveau",
+      "previousVersions": "{count} version remplacée | {count} versions remplacées",
+      "previousFile": "Dossier précédent",
+      "nextFile": "Dossier suivant"
     },
     "disputes": {
       "search": "N° de dossier, client, boutique…",

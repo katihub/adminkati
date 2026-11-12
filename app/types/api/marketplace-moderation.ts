@@ -30,6 +30,13 @@ export interface SellerReviewListItem {
   motifStatut: string | null
   creeLe: string
   boutiques: SellerShopSummary[]
+  /** Set by the backend since 12 November 2026; absent from an older backend. */
+  approuveLe?: string | null
+  derniereSoumissionLe?: string | null
+  /** A document was uploaded while the file awaited changes: the team sees it was completed. */
+  resoumis?: boolean
+  nombrePieces?: number
+  piecesAVerifier?: number
 }
 
 export interface SellerDocument {
@@ -57,6 +64,11 @@ export interface SellerReviewDetail extends SellerReviewListItem {
   parrainNom?: string | null
   parrainTelephone?: string | null
   reputations?: Array<{ scoreRisque: number; tauxLitigeBps: number; creeLe: string }>
+  /** The required documents, by the same rule as the seller space (12 November 2026). */
+  exigences?: SellerFileRequirement[]
+  piecesManquantes?: number
+  /** The file's history, read from the audit journal, most recent first. */
+  historique?: SellerFileEvent[]
   sanctions?: Array<{ id: string; type: string; statut: string; motif: string; commenceLe: string }>
   documents: SellerDocument[]
   boutiques: Array<
@@ -93,12 +105,39 @@ export interface SellerReviewPage {
   taille: number
   pages: number
   elements: SellerReviewListItem[]
+  /** How many files each tab holds, for the current search (12 November 2026). */
+  compteurs?: Partial<Record<SellerApplicationTab, number>>
+}
+
+export type SellerApplicationTab = "a_traiter" | "attente_vendeur" | "sans_piece" | "valides" | "refuses" | "retires"
+
+export type SellerRequirementState = "valide" | "en_attente" | "refuse" | "expire" | "manquant"
+
+export interface SellerFileRequirement {
+  type: string
+  libelle: string
+  aide: string
+  obligatoire: boolean
+  multiple: boolean
+  etat: SellerRequirementState
+  motif: string | null
+  nombre: number
+}
+
+export interface SellerFileEvent {
+  action: string
+  le: string
+  acteur: string
+  par: string | null
+  typePiece: string | null
+  motif: string | null
 }
 
 export interface SellerReviewFilters {
   q?: string
   statut?: SellerStatus
   verification?: SellerVerificationStatus
+  onglet?: SellerApplicationTab
   page?: number
   taille?: number
 }

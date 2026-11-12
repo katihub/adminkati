@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // fallow-ignore-file complexity -- declarative onboarding workspace with list, document and decision states
-import type { SellerReviewFilters, SellerVerificationStatus } from "@/types/api/marketplace-moderation"
-import { computed, ref, watch } from "vue"
+import type { SellerApplicationTab, SellerReviewFilters } from "@/types/api/marketplace-moderation"
+import { computed, onBeforeUnmount, ref, watch } from "vue"
 import { toast } from "vue-sonner"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -15,18 +15,42 @@ import {
 import { apiErrorText } from "@/utils/api-error"
 import { downloadBlob } from "@/utils/download-file"
 import { routeQueryString } from "@/utils/route-query"
+import {
+  applicationAfterDecision,
+  groupSellerDocuments,
+  neighbourApplications,
+  parsePage,
+  parseSellerApplicationTab,
+} from "@/utils/seller-applications"
 import { canWithdrawSellerApplication, isSellerFileApprovable } from "@/utils/seller-documents"
 
 const route = useRoute()
 const session = useCachedSession()
 const isDirection = computed(() => session.value?.roles.includes("direction") ?? false)
-const { locale, t } = useI18n()
-const search = ref("")
-const verification = ref<SellerVerificationStatus | undefined>()
-const page = ref(1)
-watch([search, verification], () => {
-  page.value = 1
+const { t } = useI18n()
+/* The tab, the search and the page live in the address (12 November 2026): a reload or a shared link
+   lands on the same list. Changing the tab or the search goes back to the first page. */
+const tab = computed(() => parseSellerApplicationTab(routeQueryString(route.query.onglet)))
+const page = computed(() => parsePage(routeQueryString(route.query.page)))
+const search = ref(routeQueryString(route.query.q) ?? "")
+let searchTimer: ReturnType<typeof setTimeout> | undefined
+watch(search, value => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(() => {
+    const q = value.trim()
+    if (q === (routeQueryString(route.query.q) ?? "")) return
+    void navigateTo({ query: { ...route.query, q: q || undefined, page: undefined } }, { replace: true })
+  }, 300)
 })
+onBeforeUnmount(() => clearTimeout(searchTimer))
+
+function setTab(value: SellerApplicationTab) {
+  void navigateTo({ query: { ...route.query, onglet: value, page: undefined, candidature: undefined } })
+}
+
+function setPage(value: number) {
+  void navigateTo({ query: { ...route.query, page: value > 1 ? String(value) : undefined } })
+}
 const reason = ref("")
 const selectedDocumentId = ref<string | null>(null)
 const openingDocumentId = ref<string | null>(null)
@@ -48,21 +72,25 @@ async function openDocument(document: { id: string; nomFichier?: string | null }
   }
 }
 const explicitId = computed(() => routeQueryString(route.query.candidature) ?? null)
-const filters = computed<SellerReviewFilters>(() => ({
-  ...(search.value.trim() ? { q: search.value.trim() } : {}),
-  ...(verification.value ? { verification: verification.value } : {}),
-  taille: 50,
-  page: page.value,
-}))
+const filters = computed<SellerReviewFilters>(() => {
+  const q = routeQueryString(route.query.q)?.trim()
+  return { ...(q ? { q } : {}), onglet: tab.value, taille: 50, page: page.value }
+})
 const listQuery = useSellerReviewList(filters)
 const effectiveId = computed(() => explicitId.value ?? listQuery.data.value?.elements[0]?.id ?? null)
 const detailQuery = useSellerReviewDetail(effectiveId)
+const listIds = computed(() => listQuery.data.value?.elements.map(seller => seller.id) ?? [])
+const neighbours = computed(() => neighbourApplications(listIds.value, effectiveId.value))
+const requirements = computed(() => detailQuery.data.value?.exigences ?? [])
+const documentLabelsByType = computed<Record<string, string>>(() =>
+  Object.fromEntries(requirements.value.map(requirement => [requirement.type, requirement.libelle])),
+)
+const documentGroups = computed(() => groupSellerDocuments(detailQuery.data.value?.documents ?? [], requirements.value))
 if (import.meta.server) {
   await listQuery.suspense().catch(() => undefined) // The query owns the rendered error state.
   if (effectiveId.value) await detailQuery.suspense().catch(() => undefined)
 }
 const mutations = useSellerReviewMutations()
-const date = computed(() => new Intl.DateTimeFormat(locale.value, { day: "2-digit", month: "short", year: "numeric" }))
 const allDocumentsValid = computed(() => isSellerFileApprovable(detailQuery.data.value?.documents ?? []))
 const canDecideApplication = computed(() => {
   const status = detailQuery.data.value?.statutVerification
@@ -87,26 +115,12 @@ const verificationLabelKeys: Record<string, string> = {
   refuse: "operations.onboarding.status.refused",
   retiree: "operations.onboarding.status.withdrawn",
 }
-const documentLabelKeys: Record<string, string> = {
-  soumis: "operations.onboarding.documentStatus.submitted",
-  en_verification: "operations.onboarding.documentStatus.reviewing",
-  valide: "operations.onboarding.documentStatus.validated",
-  refuse: "operations.onboarding.documentStatus.refused",
-  expire: "operations.onboarding.documentStatus.expired",
-}
 const verificationLabels = computed<Record<string, string>>(() =>
   Object.fromEntries(Object.entries(verificationLabelKeys).map(([status, key]) => [status, t(key)])),
-)
-const documentLabels = computed<Record<string, string>>(() =>
-  Object.fromEntries(Object.entries(documentLabelKeys).map(([status, key]) => [status, t(key)])),
 )
 
 function verificationLabel(status: string) {
   return verificationLabels.value[status] ?? status
-}
-
-function documentLabel(status: string) {
-  return documentLabels.value[status] ?? status
 }
 
 watch(effectiveId, () => {
@@ -115,11 +129,11 @@ watch(effectiveId, () => {
 })
 
 function selectSeller(id: string) {
-  void navigateTo({ path: route.path, query: { tab: "seller-onboarding", candidature: id } })
+  void navigateTo({ path: route.path, query: { ...route.query, tab: "seller-onboarding", candidature: id } })
 }
 
 function clearSelection() {
-  void navigateTo({ path: route.path, query: { tab: "seller-onboarding" } })
+  void navigateTo({ path: route.path, query: { ...route.query, tab: "seller-onboarding", candidature: undefined } })
 }
 
 async function run(action: () => Promise<unknown>, success: string) {
@@ -127,8 +141,10 @@ async function run(action: () => Promise<unknown>, success: string) {
     await action()
     reason.value = ""
     toast.success(success)
+    return true
   } catch (error) {
     toast.error(apiErrorText(error, t))
+    return false
   }
 }
 
@@ -167,10 +183,16 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
   const sellerId = effectiveId.value
   const motif = reason.value.trim()
   if (!sellerId || !canDecideApplication.value || (decision !== "approuve" && motif.length < 5)) return
-  await run(
+  // The next file is chosen before the decision: once decided, this one may leave the tab.
+  const nextId = applicationAfterDecision(listIds.value, sellerId)
+  const done = await run(
     () => mutations.decideApplication.mutateAsync({ sellerId, decision, ...(motif ? { motif } : {}) }),
     decision === "approuve" ? t("operations.onboarding.sellerActivated") : t("operations.onboarding.decisionSaved"),
   )
+  if (done) {
+    if (nextId) selectSeller(nextId)
+    else clearSelection()
+  }
 }
 </script>
 
@@ -185,11 +207,13 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
           />
           <Input v-model="search" class="pl-9 text-sm" :placeholder="t('operations.onboarding.search')" />
         </label>
-        <select v-model="verification" class="h-9 rounded-md border border-input bg-background px-3 text-sm">
-          <option :value="undefined">{{ t("operations.onboarding.allStatuses") }}</option>
-          <option v-for="(key, status) in verificationLabelKeys" :key="status" :value="status">{{ t(key) }}</option>
-        </select>
       </div>
+      <OperationsSellerApplicationTabs
+        class="mt-3"
+        :model-value="tab"
+        :counts="listQuery.data.value?.compteurs"
+        @update:model-value="setTab"
+      />
     </div>
 
     <div class="grid min-h-0 flex-1 grid-cols-1 border-t border-border bg-card lg:grid-cols-[310px_minmax(0,1fr)]">
@@ -216,30 +240,15 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
           <div v-else-if="!listQuery.data.value?.elements.length" class="p-8 text-center text-sm text-muted-foreground">
             {{ t("operations.onboarding.empty") }}
           </div>
-          <button
+          <OperationsSellerApplicationCard
             v-for="seller in listQuery.data.value?.elements ?? []"
             v-else
             :key="seller.id"
-            type="button"
-            class="flex w-full flex-col gap-1 border-b border-border px-4 py-3 text-left transition-colors hover:bg-muted/50"
-            :class="
-              seller.id === effectiveId ? 'border-l-4 border-l-primary bg-muted' : 'border-l-4 border-l-transparent'
-            "
-            @click="selectSeller(seller.id)"
-          >
-            <span class="flex w-full items-start justify-between gap-2"
-              ><strong class="truncate text-sm font-medium">{{ seller.nomLegal }}</strong
-              ><Badge class="shrink-0 border-0 px-2 py-0 text-[10px]">{{
-                verificationLabel(seller.statutVerification)
-              }}</Badge></span
-            >
-            <span class="truncate text-xs text-muted-foreground">{{
-              seller.boutiques.map(item => item.nom).join(", ")
-            }}</span>
-            <span class="text-[11px] text-muted-foreground">{{
-              t("operations.onboarding.receivedOn", { date: date.format(new Date(seller.creeLe)) })
-            }}</span>
-          </button>
+            :seller="seller"
+            :selected="seller.id === effectiveId"
+            :status-label="verificationLabel(seller.statutVerification)"
+            @select="selectSeller"
+          />
         </ScrollArea>
         <nav
           v-if="(listQuery.data.value?.pages ?? 1) > 1"
@@ -250,7 +259,7 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
             size="icon"
             :aria-label="t('operations.focal.previous')"
             :disabled="page <= 1 || listQuery.isFetching.value"
-            @click="page--"
+            @click="setPage(page - 1)"
             ><Icon name="ph:caret-left"
           /></Button>
           <span class="text-xs">{{ page }} / {{ listQuery.data.value?.pages }}</span>
@@ -259,7 +268,7 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
             size="icon"
             :aria-label="t('operations.focal.next')"
             :disabled="page >= (listQuery.data.value?.pages ?? 1) || listQuery.isFetching.value"
-            @click="page++"
+            @click="setPage(page + 1)"
             ><Icon name="ph:caret-right"
           /></Button>
         </nav>
@@ -305,15 +314,38 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
                 {{ detailQuery.data.value.boutiques.map(item => item.nom).join(", ") }}
               </p>
             </div>
-            <div class="text-right text-xs text-muted-foreground">
-              <p>{{ t("operations.onboarding.niu") }} : {{ detailQuery.data.value.niu ?? "—" }}</p>
-              <p>{{ t("operations.onboarding.rccm") }} : {{ detailQuery.data.value.rccm ?? "—" }}</p>
+            <div class="flex items-center gap-3">
+              <div class="text-right text-xs text-muted-foreground">
+                <p>{{ t("operations.onboarding.niu") }} : {{ detailQuery.data.value.niu ?? "—" }}</p>
+                <p>{{ t("operations.onboarding.rccm") }} : {{ detailQuery.data.value.rccm ?? "—" }}</p>
+              </div>
+              <div class="flex gap-1">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  :aria-label="t('operations.onboarding.previousFile')"
+                  :disabled="!neighbours.previous"
+                  data-testid="seller-file-previous"
+                  @click="neighbours.previous && selectSeller(neighbours.previous)"
+                  ><Icon name="ph:caret-up"
+                /></Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  :aria-label="t('operations.onboarding.nextFile')"
+                  :disabled="!neighbours.next"
+                  data-testid="seller-file-next"
+                  @click="neighbours.next && selectSeller(neighbours.next)"
+                  ><Icon name="ph:caret-down"
+                /></Button>
+              </div>
             </div>
           </header>
 
           <div class="grid gap-4 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_310px]">
             <div class="space-y-4">
               <OperationsSellerIdentity :seller="detailQuery.data.value" />
+              <OperationsSellerFileChecklist :requirements="requirements" />
               <section class="rounded-lg border border-border bg-card">
                 <div class="flex items-center justify-between border-b border-border p-4">
                   <h3 class="font-heading font-semibold">{{ t("operations.onboarding.documents") }}</h3>
@@ -328,89 +360,55 @@ async function decideApplication(decision: "approuve" | "modification_demandee" 
                   {{ t("operations.onboarding.noDocuments") }}
                 </div>
                 <ul v-else class="divide-y divide-border">
-                  <li
-                    v-for="document in detailQuery.data.value.documents"
-                    :key="document.id"
-                    class="grid gap-3 p-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
-                  >
-                    <div>
-                      <div class="flex flex-wrap items-center gap-2">
-                        <strong class="text-sm">{{ document.type }}</strong
-                        ><Badge variant="outline" class="text-[10px]">{{ documentLabel(document.statut) }}</Badge>
-                      </div>
-                      <p class="mt-1 text-xs text-muted-foreground">
-                        {{ t("operations.onboarding.submittedOn", { date: date.format(new Date(document.creeLe)) })
-                        }}<template v-if="document.expireLe">
-                          ·
-                          {{
-                            t("operations.onboarding.expiresOn", { date: date.format(new Date(document.expireLe)) })
-                          }}</template
-                        >
-                      </p>
-                      <p v-if="document.nomFichier" class="mt-1 text-xs text-muted-foreground">
-                        {{ document.nomFichier }}
-                        <template v-if="document.statutAnalyse === 'saine'">
-                          · {{ t("operations.onboarding.scanClean") }}</template
-                        >
-                      </p>
-                      <p v-else class="mt-1 text-xs text-muted-foreground">
-                        {{ t("operations.onboarding.legacyKey") }}
-                      </p>
-                      <p v-if="document.motifDecision" class="mt-2 text-xs text-destructive">
-                        {{ document.motifDecision }}
-                      </p>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                      <Button
-                        v-if="document.typeMime && document.statutAnalyse !== 'infectee'"
-                        size="sm"
-                        variant="ghost"
-                        :disabled="openingDocumentId === document.id"
-                        :data-testid="`seller-document-open-${document.id}`"
-                        @click="openDocument(document)"
-                        ><Icon name="ph:file-arrow-down" /> {{ t("operations.onboarding.openFile") }}</Button
-                      >
-                      <Button
-                        v-if="document.statut === 'soumis'"
-                        size="sm"
-                        variant="outline"
-                        :disabled="pending"
-                        @click="claimDocument(document.id)"
-                        >{{ t("operations.onboarding.claim") }}</Button
-                      >
-                      <Button
-                        v-if="document.statut === 'en_verification'"
-                        size="sm"
-                        variant="outline"
-                        @click="selectedDocumentId = document.id"
-                        >{{ t("operations.onboarding.decide") }}</Button
-                      >
-                    </div>
-                    <div
-                      v-if="selectedDocumentId === document.id"
-                      class="grid gap-2 rounded-md bg-muted p-3 sm:col-span-2"
-                    >
-                      <label class="text-xs font-medium">{{ t("operations.onboarding.refusalReason") }}</label>
-                      <textarea
-                        v-model="reason"
-                        rows="3"
-                        class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      />
-                      <div class="flex justify-end gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          :disabled="pending || reason.trim().length < 5"
-                          @click="decideDocument(document.id, 'refuse')"
-                          >{{ t("operations.onboarding.refuse") }}</Button
-                        ><Button size="sm" :disabled="pending" @click="decideDocument(document.id, 'valide')">{{
-                          t("operations.onboarding.validate")
-                        }}</Button>
-                      </div>
-                    </div>
-                  </li>
+                  <template v-for="group in documentGroups" :key="group.type">
+                    <OperationsSellerDocumentRow
+                      v-for="document in group.current"
+                      :key="document.id"
+                      v-model:reason="reason"
+                      :document="document"
+                      :label="documentLabelsByType[document.type] ?? document.type"
+                      :is-new="group.isNew && document.id === group.current[0]?.id"
+                      :pending="pending"
+                      :opening="openingDocumentId === document.id"
+                      :selected="selectedDocumentId === document.id"
+                      @open="openDocument(document)"
+                      @claim="claimDocument(document.id)"
+                      @decide="selectedDocumentId = document.id"
+                      @refuse="decideDocument(document.id, 'refuse')"
+                      @validate="decideDocument(document.id, 'valide')"
+                    />
+                    <li v-if="group.previous.length" class="px-4 py-2">
+                      <details :data-testid="`seller-document-previous-${group.type}`">
+                        <summary class="cursor-pointer text-xs text-muted-foreground">
+                          {{ t("operations.onboarding.previousVersions", { count: group.previous.length }) }}
+                        </summary>
+                        <ul class="mt-2 divide-y divide-border rounded-md border border-border">
+                          <OperationsSellerDocumentRow
+                            v-for="document in group.previous"
+                            :key="document.id"
+                            v-model:reason="reason"
+                            replaced
+                            :document="document"
+                            :label="documentLabelsByType[document.type] ?? document.type"
+                            :pending="pending"
+                            :opening="openingDocumentId === document.id"
+                            :selected="selectedDocumentId === document.id"
+                            @open="openDocument(document)"
+                            @claim="claimDocument(document.id)"
+                            @decide="selectedDocumentId = document.id"
+                            @refuse="decideDocument(document.id, 'refuse')"
+                            @validate="decideDocument(document.id, 'valide')"
+                          />
+                        </ul>
+                      </details>
+                    </li>
+                  </template>
                 </ul>
               </section>
+              <OperationsSellerFileHistory
+                :events="detailQuery.data.value.historique ?? []"
+                :document-labels="documentLabelsByType"
+              />
 
               <OperationsSellerShops :seller="detailQuery.data.value" :can-view-finance="isDirection" />
             </div>

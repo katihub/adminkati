@@ -262,7 +262,11 @@
       "withdrawConfirm": "Withdraw this application from the list?",
       "withdrawYes": "Yes, withdraw",
       "withdrawn": "Application withdrawn: the name and e-mail are freed",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "newSinceRefusal": "New",
+      "previousVersions": "{count} replaced version | {count} replaced versions",
+      "previousFile": "Previous file",
+      "nextFile": "Next file"
     },
     "disputes": {
       "search": "Case number, customer, store…",
