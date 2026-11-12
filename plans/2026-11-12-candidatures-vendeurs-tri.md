@@ -14,7 +14,7 @@ Sur l'écran **Candidatures vendeurs**, l'équipe :
 
 | Onglet | Dossiers | Tri |
 |---|---|---|
-| **À traiter** (par défaut) | brouillon, soumis ou en vérification, avec au moins une pièce | dernier dépôt, le plus ancien d'abord |
+| **À traiter** (par défaut) | brouillon, soumis ou en vérification avec au moins une pièce ; approuvé avec une pièce à vérifier | dernier dépôt, le plus ancien d'abord |
 | **Attente vendeur** | modification demandée | dernière modification, la plus récente d'abord |
 | **Sans pièce** | brouillon, soumis ou en vérification, sans aucune pièce | inscription, la plus ancienne d'abord |
 | **Validés** | approuvé | dernière modification |
@@ -27,7 +27,7 @@ Chaque onglet affiche son compteur ; la recherche et le périmètre du point foc
 
 - nombre de pièces, et le nombre à vérifier ; **Aucune pièce** sinon ;
 - badge **Complété** quand le vendeur a déposé une pièce alors que son dossier attendait une modification ;
-- badge **Déjà validé** quand un vendeur approuvé a déposé une nouvelle pièce (renouvellement) ;
+- badge **Déjà validé** quand un vendeur approuvé a une pièce à vérifier (renouvellement) ;
 - date du **dernier dépôt** en premier, date d'inscription ensuite.
 
 ### Fiche du dossier
@@ -49,9 +49,9 @@ Deux colonnes sur `vendeurs` :
 
 La migration remplit ces colonnes pour les dossiers existants à partir des documents.
 
-## Hors périmètre
+## Un vendeur validé reste validé (décidé le 12 novembre 2026)
 
-Le passage d'un vendeur **approuvé** à `soumis` quand il dépose une pièce n'est pas modifié ici : le badge **Déjà validé** le signale seulement. Ce comportement bloque les retraits d'argent (`finance-vendeur.service.ts`, qui exige `approuve`) : décision à prendre séparément.
+Déposer, faire vérifier ou se voir refuser une pièce ne fait plus repasser un vendeur **approuvé** en `soumis`, `en_verification` ou `modification_demandee` : cela bloquait ses retraits d'argent (`finance-vendeur.service.ts` exige `approuve`) et le rendait inactif à la levée d'une sanction. La pièce attend l'équipe dans l'onglet **À traiter** (badge **Déjà validé**). Une migration rend leur statut aux vendeurs déjà touchés : approuvés au moins une fois et toujours actifs ou sous surveillance.
 
 ## Étapes
 

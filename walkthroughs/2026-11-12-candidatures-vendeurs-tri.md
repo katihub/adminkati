@@ -5,7 +5,7 @@ Plan : `plans/2026-11-12-candidatures-vendeurs-tri.md`.
 ## Résultat
 
 - **Onglets avec compteurs** (Réseau commercial → Candidatures vendeurs), à la place du menu de statut :
-  - **À traiter** (ouvert par défaut) : dossiers non tranchés qui contiennent au moins une pièce, le dépôt le plus ancien en premier ;
+  - **À traiter** (ouvert par défaut) : dossiers non tranchés qui contiennent au moins une pièce, et vendeurs validés avec une pièce à vérifier ; le dépôt le plus ancien en premier ;
   - **Attente vendeur** : modification demandée ;
   - **Sans pièce** : dossiers non tranchés sans aucune pièce, l'inscription la plus ancienne en premier ;
   - **Validés**, **Refusés**, **Retirés** : les plus récemment modifiés en premier.
@@ -13,7 +13,7 @@ Plan : `plans/2026-11-12-candidatures-vendeurs-tri.md`.
 - **Carte de la liste** :
   - « 3 pièces · 1 à vérifier », ou **Aucune pièce** en rouge ;
   - badge **Complété** quand le vendeur a déposé une pièce alors que son dossier attendait une modification ;
-  - badge **Déjà validé** quand un vendeur approuvé dépose une nouvelle pièce ;
+  - badge **Déjà validé** quand un vendeur approuvé a une pièce à vérifier ;
   - « Dernier dépôt 11 nov. · inscrit le 2 nov. ».
 - **Fiche du dossier** :
   - **Pièces requises** : l'état de chaque pièce (valide, à vérifier, refusée, expirée, manquante) et « x/5 obligatoires valides » ;
@@ -27,9 +27,11 @@ Plan : `plans/2026-11-12-candidatures-vendeurs-tri.md`.
 - Migration `20261112090000_suivi_candidatures` : `vendeurs.derniere_soumission_le` et `vendeurs.resoumis`, remplies pour les dossiers existants à partir des documents.
 - `derniere_soumission_le` est posée à chaque dépôt (inscription comprise) ; `resoumis` passe à vrai quand une pièce arrive sur un dossier en `modification_demandee`, et repasse à faux à la décision sur le dossier ou au retrait.
 
-## Non modifié
+## Un vendeur validé reste validé
 
-Un vendeur **approuvé** qui dépose une pièce repasse toujours en `soumis` (comportement existant) ; le badge **Déjà validé** le signale. Ce passage bloque ses retraits d'argent (`finance-vendeur.service.ts` exige `approuve`) : à décider séparément.
+- Déposer, faire vérifier ou se voir refuser une pièce ne fait plus repasser un vendeur **approuvé** en `soumis`, `en_verification` ou `modification_demandee`. Ses retraits d'argent ne sont plus bloqués, et la levée d'une sanction ne le rend plus inactif.
+- Sa pièce apparaît dans **À traiter** avec le badge **Déjà validé** ; une pièce refusée lui est signalée dans son espace, son dossier reste validé.
+- Migration `20261112100000_vendeurs_valides_restent_valides` : les vendeurs déjà touchés (approuvés au moins une fois, toujours actifs ou sous surveillance, mais remis en `soumis`, `en_verification` ou `modification_demandee`) retrouvent le statut `approuve`.
 
 ## Fichiers
 

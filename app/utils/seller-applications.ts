@@ -29,15 +29,14 @@ export function parsePage(value: string | null | undefined): number {
   return Number.isFinite(page) && page > 1 ? page : 1
 }
 
-const UNDECIDED = ["brouillon", "soumis", "en_verification"]
-
 /** What the list card signals about an application. */
 export function sellerApplicationBadges(seller: SellerReviewListItem) {
   return {
     /** The seller sent a document while the file awaited changes. */
     completed: seller.resoumis === true,
-    /** An approved seller sent a new document: a renewal, not a new application. */
-    renewal: Boolean(seller.approuveLe) && UNDECIDED.includes(seller.statutVerification),
+    /** An approved seller sent a document that waits for the team: a renewal, not a new application.
+        The seller stays approved meanwhile (12 November 2026). */
+    renewal: seller.statutVerification === "approuve" && (seller.piecesAVerifier ?? 0) > 0,
   }
 }
 

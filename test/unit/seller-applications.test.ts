@@ -46,13 +46,13 @@ describe("seller applications", () => {
   it("flags a completed file and a renewal by an approved seller", () => {
     const base = { statutVerification: "soumis" } as SellerReviewListItem
     expect(sellerApplicationBadges({ ...base, resoumis: true })).toEqual({ completed: true, renewal: false })
-    expect(sellerApplicationBadges({ ...base, approuveLe: "2026-10-01T00:00:00Z" })).toEqual({
-      completed: false,
-      renewal: true,
-    })
-    expect(
-      sellerApplicationBadges({ ...base, statutVerification: "approuve", approuveLe: "2026-10-01T00:00:00Z" }).renewal,
-    ).toBe(false)
+    const approved = {
+      ...base,
+      statutVerification: "approuve",
+      approuveLe: "2026-10-01T00:00:00Z",
+    } as SellerReviewListItem
+    expect(sellerApplicationBadges({ ...approved, piecesAVerifier: 1 })).toEqual({ completed: false, renewal: true })
+    expect(sellerApplicationBadges({ ...approved, piecesAVerifier: 0 }).renewal).toBe(false)
   })
 
   it("keeps the latest document of a type in force and marks it new after a refusal", () => {
