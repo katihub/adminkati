@@ -36,14 +36,17 @@ const offer = (id: string, overrides: Record<string, unknown> = {}) => ({
     suiviStock: true,
     vendeur: { nomLegal: "NowTech Center SARL", statut: "actif" },
   },
-  stock: { suivi: true, quantite: 25, reservee: 0, disponible: 25 },
+  stock: { suivi: true, quantiteRenseignee: true, quantite: 25, reservee: 0, disponible: 25 },
   ...overrides,
 })
 
 const PAGE = {
   elements: [
     offer("o1"),
-    offer("o2", { statut: "brouillon", stock: { suivi: true, quantite: 0, reservee: 0, disponible: 0 } }),
+    offer("o2", {
+      statut: "brouillon",
+      stock: { suivi: false, quantiteRenseignee: false, quantite: 0, reservee: 0, disponible: null },
+    }),
     offer("o3", {
       boutique: {
         id: secondShopId,
@@ -53,7 +56,7 @@ const PAGE = {
         suiviStock: false,
         vendeur: { nomLegal: "Awa Mballa", statut: "actif" },
       },
-      stock: { suivi: false, quantite: 0, reservee: 0, disponible: null },
+      stock: { suivi: false, quantiteRenseignee: false, quantite: 0, reservee: 0, disponible: null },
     }),
   ],
   pagination: { page: 1, taille: 50, total: 120, pages: 3 },
@@ -110,8 +113,10 @@ describe("marketplace offers workspace", () => {
     expect(wrapper.get("[data-testid='marketplace-offers-counter-publiee']").text()).toContain("118")
     expect(wrapper.get("[data-testid='marketplace-offer-status-o2']").text()).toBe("Drafts")
     expect(wrapper.get("[data-testid='marketplace-offer-stock-o1']").text()).toBe("25")
-    expect(wrapper.get("[data-testid='marketplace-offer-stock-o2']").classes()).toContain("text-destructive")
+    expect(wrapper.get("[data-testid='marketplace-offer-stock-o2']").text()).toBe("Quantity not entered")
     expect(wrapper.get("[data-testid='marketplace-offer-stock-o3']").text()).toBe("Not tracked")
+    expect(wrapper.get("[data-testid='marketplace-offer-o1']").text()).toContain("Quantity tracking")
+    expect(wrapper.get("[data-testid='marketplace-offer-o3']").text()).toContain("Manual status")
     expect(wrapper.get("[data-testid='marketplace-offers-shop']").text()).toContain("NowTech (119)")
 
     await wrapper.get("[data-testid='marketplace-offers-shop']").setValue(firstShopId)

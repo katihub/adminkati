@@ -126,6 +126,8 @@ function statusVariant(value: MarketplaceOfferStatus) {
 }
 
 function stockLabel(offer: MarketplaceAdminOffer) {
+  if (offer.boutique.suiviStock && !offer.stock.quantiteRenseignee)
+    return t("operations.marketplaceOffers.stockUnspecified")
   if (offer.stock.disponible === null) return t("operations.marketplaceOffers.stockNotTracked")
   return count.value.format(offer.stock.disponible)
 }
@@ -344,6 +346,15 @@ function goTo(next: number) {
                     >{{ offer.boutique.nom }}</NuxtLinkLocale
                   >
                   <p class="truncate text-xs text-muted-foreground">{{ offer.boutique.vendeur.nomLegal }}</p>
+                  <Badge variant="outline" class="mt-1">
+                    {{
+                      t(
+                        offer.boutique.suiviStock
+                          ? "operations.marketplaceOffers.quantityTracking"
+                          : "operations.marketplaceOffers.manualStatus",
+                      )
+                    }}
+                  </Badge>
                 </TableCell>
                 <TableCell>
                   <Badge :variant="statusVariant(offer.statut)" :data-testid="`marketplace-offer-status-${offer.id}`">{{

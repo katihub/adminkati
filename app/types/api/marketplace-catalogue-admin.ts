@@ -47,8 +47,8 @@ export interface MarketplaceAdminOffer {
   }
   /** Set by the team: anything but `en_stock` takes the offer off sale (`disponible` is then 0). */
   statutStock?: "en_stock" | "rupture" | "reapprovisionnement"
-  /** `disponible` is null when the shop does not track its stock: it always sells. */
-  stock: { suivi: boolean; quantite: number; reservee: number; disponible: number | null }
+  /** `disponible` is null when the offer still follows its manual status. */
+  stock: { suivi: boolean; quantiteRenseignee: boolean; quantite: number; reservee: number; disponible: number | null }
 }
 
 export interface MarketplaceAdminOfferPage {

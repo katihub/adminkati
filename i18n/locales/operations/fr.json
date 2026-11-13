@@ -1018,6 +1018,9 @@
         "published": "Publiée le"
       },
       "stockNotTracked": "Non suivi",
+      "stockUnspecified": "Quantité non renseignée",
+      "quantityTracking": "Suivi des quantités",
+      "manualStatus": "Statut manuel",
       "verified": "Vérifié par KatiMarket",
       "open": "Ouvrir",
       "openOnStorefront": "Voir « {offer} » sur la vitrine",
