@@ -79,6 +79,7 @@ export type ReactivateTeamMemberResult = TeamMember
 export interface HireTeamMemberInput {
   courriel: string
   nom: string
+  motDePasse: string
   roles: TeamRole[]
   telephone?: string
   /** Omitted, or empty, hires someone on the whole shop. */
@@ -93,4 +94,13 @@ export interface HireTeamMemberInput {
  */
 export interface HireTeamMemberResult extends TeamMember {
   invitationEnvoyee: boolean
+  motDePasseDefini?: boolean
+}
+
+export interface UpdateTeamMemberPasswordInput {
+  motDePasse: string
+}
+
+export interface UpdateTeamMemberPasswordResult {
+  motDePasseModifie: true
 }

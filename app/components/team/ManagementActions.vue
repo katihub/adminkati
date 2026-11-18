@@ -29,6 +29,7 @@ function confirmDeactivate() {
 
 <template>
   <div data-testid="team-management-actions" class="flex flex-wrap items-center justify-end gap-2">
+    <TeamPasswordDialog v-if="member.actif" :member="member" />
     <TeamDeactivateDialog
       v-if="member.actif && !isSelf"
       :name="member.nom"

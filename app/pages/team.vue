@@ -297,7 +297,9 @@ function requestReactivate() {
  * le salarié a reçu son lien.
  */
 function announceHire(member: HireTeamMemberResult) {
-  if (member.invitationEnvoyee) toast.success(t("team.toast.hired", { name: member.nom }))
+  if (member.motDePasseDefini === true) toast.success(t("team.toast.hiredWithPassword", { name: member.nom }))
+  else if (member.motDePasseDefini === false) toast.warning(t("team.toast.hiredWithoutPassword", { name: member.nom }))
+  else if (member.invitationEnvoyee) toast.success(t("team.toast.hired", { name: member.nom }))
   else toast.warning(t("team.toast.hiredWithoutInvitation", { name: member.nom }))
 }
 

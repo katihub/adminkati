@@ -66,6 +66,8 @@ async function openAndFillRequiredFields() {
   await openDialog()
   await fill("team-hire-email", "essai@nowtech.local")
   await fill("team-hire-name", "Essai Embauche")
+  await fill("team-hire-password", "MotDePasse-2026")
+  await fill("team-hire-password-confirmation", "MotDePasse-2026")
   await pickRole("comptoir")
 }
 
@@ -103,10 +105,17 @@ describe("team hire dialog", () => {
     await openDialog()
     await fill("team-hire-email", "  Essai@NowTech.local  ")
     await fill("team-hire-name", "  Essai Embauche  ")
+    await fill("team-hire-password", "MotDePasse-2026")
+    await fill("team-hire-password-confirmation", "MotDePasse-2026")
     await pickRole("comptoir")
     await submit()
 
-    expect(body).toEqual({ courriel: "essai@nowtech.local", nom: "Essai Embauche", roles: ["comptoir"] })
+    expect(body).toEqual({
+      courriel: "essai@nowtech.local",
+      nom: "Essai Embauche",
+      motDePasse: "MotDePasse-2026",
+      roles: ["comptoir"],
+    })
 
     cleanup()
     wrapper.unmount()
@@ -157,6 +166,8 @@ describe("team hire dialog", () => {
     await openDialog()
     await fill("team-hire-email", "essai@nowtech.local")
     await fill("team-hire-name", "Essai Embauche")
+    await fill("team-hire-password", "MotDePasse-2026")
+    await fill("team-hire-password-confirmation", "MotDePasse-2026")
     await pickRole("comptoir")
     await pickRole("livreur")
     await fill("team-hire-phone", "+237 677 00 00 01")
@@ -166,6 +177,7 @@ describe("team hire dialog", () => {
     expect(body).toEqual({
       courriel: "essai@nowtech.local",
       nom: "Essai Embauche",
+      motDePasse: "MotDePasse-2026",
       roles: ["comptoir", "livreur"],
       telephone: "+237 677 00 00 01",
       comptoirs: ["Akwa"],
@@ -219,10 +231,38 @@ describe("team hire dialog", () => {
     await openDialog()
     await fill("team-hire-email", "essai@nowtech.local")
     await fill("team-hire-name", "Essai Embauche")
+    await fill("team-hire-password", "MotDePasse-2026")
+    await fill("team-hire-password-confirmation", "MotDePasse-2026")
     await submit()
 
     expect(calls).toBe(0)
     expect(query("team-hire-roles-error")).not.toBeNull()
+
+    cleanup()
+    wrapper.unmount()
+  })
+
+  it("refuses mismatched passwords before any request leaves", async () => {
+    let calls = 0
+    const cleanup = registerEndpoint(MEMBERS_PATH, {
+      method: "POST",
+      handler: () => {
+        calls += 1
+        return hired()
+      },
+    })
+
+    const wrapper = await mountSuspended(TeamHireDialog, { attachTo: document.body })
+    await openDialog()
+    await fill("team-hire-email", "essai@nowtech.local")
+    await fill("team-hire-name", "Essai Embauche")
+    await fill("team-hire-password", "MotDePasse-2026")
+    await fill("team-hire-password-confirmation", "Different-2026")
+    await pickRole("comptoir")
+    await submit()
+
+    expect(calls).toBe(0)
+    expect(query("team-hire-password-confirmation-error")?.textContent).toContain("match")
 
     cleanup()
     wrapper.unmount()
@@ -265,6 +305,24 @@ describe("team hire dialog", () => {
     expect(query("team-hire-result-title")?.textContent?.trim()).toBe("Invitation not sent")
     expect(query("team-hire-result-body")?.textContent).toContain("tell them yourself")
     expect(query("team-hire-result-body")?.textContent).toContain("essai@nowtech.local")
+
+    cleanup()
+    wrapper.unmount()
+  })
+
+  it("reports a password setup failure without pretending an invitation was expected", async () => {
+    const cleanup = registerEndpoint(MEMBERS_PATH, {
+      method: "POST",
+      handler: () => hired({ invitationEnvoyee: false, motDePasseDefini: false }),
+    })
+
+    const wrapper = await mountSuspended(TeamHireDialog, { attachTo: document.body })
+    await openAndFillRequiredFields()
+    await submit()
+
+    expect(query("team-hire-result-title")?.textContent?.trim()).toBe("Password not configured")
+    expect(query("team-hire-result-body")?.textContent).toContain("Change it from their record")
+    expect(query("team-hire-result-body")?.textContent).not.toContain("invitation")
 
     cleanup()
     wrapper.unmount()

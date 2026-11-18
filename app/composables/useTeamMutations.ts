@@ -4,6 +4,8 @@ import type {
   HireTeamMemberResult,
   ReactivateTeamMemberResult,
   TeamMember,
+  UpdateTeamMemberPasswordInput,
+  UpdateTeamMemberPasswordResult,
   UpdateTeamMemberInput,
 } from "@/types/api/equipe"
 import { useMutation, useQueryClient } from "@tanstack/vue-query"
@@ -53,5 +55,17 @@ export function useTeamMutations() {
     onSuccess: invalidateTeam,
   })
 
-  return { update, deactivate, reactivate, hire, resendInvitation }
+  const updatePassword = useMutation<
+    UpdateTeamMemberPasswordResult,
+    Error,
+    { id: string; input: UpdateTeamMemberPasswordInput }
+  >({
+    mutationFn: ({ id, input }) =>
+      apiWrite<UpdateTeamMemberPasswordResult>(`/equipe/membres/${encodeURIComponent(id)}/mot-de-passe`, {
+        method: "PUT",
+        body: input,
+      }),
+  })
+
+  return { update, deactivate, reactivate, hire, resendInvitation, updatePassword }
 }

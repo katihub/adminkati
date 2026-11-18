@@ -98,12 +98,14 @@
     "hire": {
       "trigger": "Hire",
       "title": "Register a team member",
-      "description": "The account is created, then an invitation goes out by email: that message is what lets the new member choose a password.",
+      "description": "Create the team account and choose the password the member will use to sign in.",
       "email": "Email address",
       "emailPlaceholder": "first.last{'@'}katihub.local",
       "name": "Name",
       "namePlaceholder": "First and last name",
       "roles": "Roles",
+      "password": "Password",
+      "passwordConfirmation": "Confirm password",
       "phone": "Phone (optional)",
       "phoneHint": "Cameroonian mobile number, as +237 6XX XX XX XX (spaces included).",
       "cancel": "Cancel",
@@ -115,11 +117,17 @@
         "email": "Enter a valid email address.",
         "name": "The name is between 2 and 80 characters.",
         "roles": "Pick at least one role.",
+        "password": "Use between 8 and 200 characters.",
+        "passwordConfirmation": "The two passwords must match.",
         "phone": "A Cameroonian mobile number is expected, as +237 6XX XX XX XX."
       },
       "result": {
         "heading": "Member registered",
         "description": "The account now exists in the team directory.",
+        "passwordTitle": "Password configured",
+        "passwordBody": "The account for {email} is ready. Share the password through a secure channel.",
+        "passwordFailedTitle": "Password not configured",
+        "passwordFailedBody": "The member is registered, but their password could not be configured. Change it from their record before sharing access to {email}.",
         "sentTitle": "Invitation sent",
         "sentBody": "Invitation sent to {email}. The link it carries lets them choose a password.",
         "notSentTitle": "Invitation not sent",
@@ -133,6 +141,8 @@
       "confirm": "Deactivate member"
     },
     "toast": {
+      "hiredWithPassword": "{name} is registered and their password is configured.",
+      "hiredWithoutPassword": "{name} is registered, but their password could not be configured.",
       "hired": "{name} is registered, their invitation went out.",
       "hiredWithoutInvitation": "{name} is registered, but the invitation did not go out.",
       "updated": "Team member updated.",

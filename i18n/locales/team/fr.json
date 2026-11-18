@@ -98,12 +98,14 @@
     "hire": {
       "trigger": "Embaucher",
       "title": "Inscrire un membre de l’équipe",
-      "description": "Le compte est créé, puis une invitation part par courriel : c’est ce message qui laisse le salarié choisir son mot de passe.",
+      "description": "Créez le compte de l’équipe et choisissez le mot de passe que le membre utilisera pour se connecter.",
       "email": "Adresse e-mail",
       "emailPlaceholder": "prenom.nom{'@'}katihub.local",
       "name": "Nom",
       "namePlaceholder": "Prénom et nom",
       "roles": "Rôles",
+      "password": "Mot de passe",
+      "passwordConfirmation": "Confirmer le mot de passe",
       "phone": "Téléphone (facultatif)",
       "phoneHint": "Numéro mobile camerounais, au format +237 6XX XX XX XX (espaces compris).",
       "cancel": "Annuler",
@@ -115,11 +117,17 @@
         "email": "Saisissez une adresse e-mail valide.",
         "name": "Le nom fait entre 2 et 80 caractères.",
         "roles": "Choisissez au moins un rôle.",
+        "password": "Utilisez entre 8 et 200 caractères.",
+        "passwordConfirmation": "Les deux mots de passe doivent être identiques.",
         "phone": "Numéro camerounais mobile attendu, au format +237 6XX XX XX XX."
       },
       "result": {
         "heading": "Membre inscrit",
         "description": "Le compte existe désormais dans l’annuaire de l’équipe.",
+        "passwordTitle": "Mot de passe configuré",
+        "passwordBody": "Le compte {email} est prêt. Transmettez le mot de passe par un canal sécurisé.",
+        "passwordFailedTitle": "Mot de passe non configuré",
+        "passwordFailedBody": "Le membre est inscrit, mais son mot de passe n’a pas pu être configuré. Modifiez-le depuis sa fiche avant de lui transmettre l’accès à {email}.",
         "sentTitle": "Invitation envoyée",
         "sentBody": "Invitation envoyée à {email}. Le lien qu’elle contient lui permet de choisir son mot de passe.",
         "notSentTitle": "Invitation non partie",
@@ -133,6 +141,8 @@
       "confirm": "Désactiver le membre"
     },
     "toast": {
+      "hiredWithPassword": "{name} est inscrit et son mot de passe est configuré.",
+      "hiredWithoutPassword": "{name} est inscrit, mais son mot de passe n’a pas pu être configuré.",
       "hired": "{name} est inscrit, son invitation est partie.",
       "hiredWithoutInvitation": "{name} est inscrit, mais l’invitation n’est pas partie.",
       "updated": "Membre mis à jour.",

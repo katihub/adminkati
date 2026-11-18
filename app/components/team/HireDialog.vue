@@ -37,6 +37,8 @@ const open = ref(false)
 const courriel = ref("")
 const nom = ref("")
 const telephone = ref("")
+const password = ref("")
+const passwordConfirmation = ref("")
 const selectedComptoirs = ref<string[]>([])
 const roles = ref<TeamRole[]>([])
 const submitted = ref(false)
@@ -52,13 +54,29 @@ const nomError = computed(() => {
   return length >= 2 && length <= 80 ? "" : t("team.hire.errors.name")
 })
 const rolesError = computed(() => (roles.value.length > 0 ? "" : t("team.hire.errors.roles")))
+const passwordError = computed(() =>
+  password.value.length >= 8 && password.value.length <= 200 ? "" : t("team.hire.errors.password"),
+)
+const passwordConfirmationError = computed(() =>
+  passwordConfirmation.value === password.value ? "" : t("team.hire.errors.passwordConfirmation"),
+)
 const telephoneError = computed(() => (isTeamPhoneValid(telephone.value) ? "" : t("team.hire.errors.phone")))
-const isValid = computed(() => !courrielError.value && !nomError.value && !rolesError.value && !telephoneError.value)
+const isValid = computed(
+  () =>
+    !courrielError.value &&
+    !nomError.value &&
+    !passwordError.value &&
+    !passwordConfirmationError.value &&
+    !rolesError.value &&
+    !telephoneError.value,
+)
 
 function reset() {
   courriel.value = ""
   nom.value = ""
   telephone.value = ""
+  password.value = ""
+  passwordConfirmation.value = ""
   selectedComptoirs.value = []
   roles.value = []
   submitted.value = false
@@ -70,23 +88,26 @@ watch(open, isOpen => {
   if (isOpen) reset()
 })
 
+function buildHireInput(): HireTeamMemberInput {
+  const phone = telephone.value.trim()
+  // Une liste vide vaut « toute la boutique » : ne rien envoyer dit la même
+  // chose et laisse le backend garder son propre défaut.
+  return {
+    courriel: courriel.value.trim().toLowerCase(),
+    nom: nom.value.trim(),
+    motDePasse: password.value,
+    roles: [...roles.value],
+    ...(phone ? { telephone: phone } : {}),
+    ...(selectedComptoirs.value.length > 0 ? { comptoirs: [...selectedComptoirs.value] } : {}),
+  }
+}
+
 function submit() {
   submitted.value = true
   errorMessage.value = ""
   if (!isValid.value || pending.value) return
 
-  const phone = telephone.value.trim()
-  // Une liste vide vaut « toute la boutique » : ne rien envoyer dit la même
-  // chose et laisse le backend garder son propre défaut.
-  const input: HireTeamMemberInput = {
-    courriel: courriel.value.trim().toLowerCase(),
-    nom: nom.value.trim(),
-    roles: [...roles.value],
-    ...(phone ? { telephone: phone } : {}),
-    ...(selectedComptoirs.value.length > 0 ? { comptoirs: [...selectedComptoirs.value] } : {}),
-  }
-
-  hire.mutate(input, {
+  hire.mutate(buildHireInput(), {
     onSuccess: member => {
       result.value = member
       emit("hired", member)
@@ -129,6 +150,8 @@ function openRecord() {
         v-model:courriel="courriel"
         v-model:nom="nom"
         v-model:telephone="telephone"
+        v-model:password="password"
+        v-model:password-confirmation="passwordConfirmation"
         v-model:roles="roles"
         v-model:selected-comptoirs="selectedComptoirs"
         :comptoirs="comptoirs"
@@ -137,6 +160,8 @@ function openRecord() {
         :error-message="errorMessage"
         :courriel-error="courrielError"
         :nom-error="nomError"
+        :password-error="passwordError"
+        :password-confirmation-error="passwordConfirmationError"
         :roles-error="rolesError"
         :telephone-error="telephoneError"
         @submit="submit"

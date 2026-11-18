@@ -8,23 +8,37 @@ import { TEAM_PHONE_PLACEHOLDER } from "@/composables/useTeamPhone"
 import { TEAM_ROLES } from "@/types/api/equipe"
 import { assignableTeamRoles } from "@/utils/administration"
 
-const { comptoirs, pending, submitted, errorMessage, courrielError, nomError, rolesError, telephoneError } =
-  defineProps<{
-    comptoirs: Comptoir[]
-    pending: boolean
-    submitted: boolean
-    errorMessage: string
-    courrielError: string
-    nomError: string
-    rolesError: string
-    telephoneError: string
-  }>()
+const {
+  comptoirs,
+  pending,
+  submitted,
+  errorMessage,
+  courrielError,
+  nomError,
+  passwordError,
+  passwordConfirmationError,
+  rolesError,
+  telephoneError,
+} = defineProps<{
+  comptoirs: Comptoir[]
+  pending: boolean
+  submitted: boolean
+  errorMessage: string
+  courrielError: string
+  nomError: string
+  passwordError: string
+  passwordConfirmationError: string
+  rolesError: string
+  telephoneError: string
+}>()
 const emit = defineEmits<{
   submit: []
 }>()
 const courriel = defineModel<string>("courriel", { required: true })
 const nom = defineModel<string>("nom", { required: true })
 const telephone = defineModel<string>("telephone", { required: true })
+const password = defineModel<string>("password", { required: true })
+const passwordConfirmation = defineModel<string>("passwordConfirmation", { required: true })
 const roles = defineModel<TeamRole[]>("roles", { required: true })
 const selectedComptoirs = defineModel<string[]>("selectedComptoirs", { required: true })
 
@@ -110,6 +124,45 @@ function toggleRole(role: TeamRole) {
         {{ rolesError }}
       </p>
     </fieldset>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="space-y-2">
+        <Label for="team-hire-password">{{ t("team.hire.password") }}</Label>
+        <Input
+          id="team-hire-password"
+          :model-value="password"
+          data-testid="team-hire-password"
+          type="password"
+          autocomplete="new-password"
+          :disabled="pending"
+          :aria-invalid="fieldError(passwordError) ? true : undefined"
+          @update:model-value="password = String($event)"
+        />
+        <p v-if="fieldError(passwordError)" class="text-xs text-destructive" data-testid="team-hire-password-error">
+          {{ passwordError }}
+        </p>
+      </div>
+      <div class="space-y-2">
+        <Label for="team-hire-password-confirmation">{{ t("team.hire.passwordConfirmation") }}</Label>
+        <Input
+          id="team-hire-password-confirmation"
+          :model-value="passwordConfirmation"
+          data-testid="team-hire-password-confirmation"
+          type="password"
+          autocomplete="new-password"
+          :disabled="pending"
+          :aria-invalid="fieldError(passwordConfirmationError) ? true : undefined"
+          @update:model-value="passwordConfirmation = String($event)"
+        />
+        <p
+          v-if="fieldError(passwordConfirmationError)"
+          class="text-xs text-destructive"
+          data-testid="team-hire-password-confirmation-error"
+        >
+          {{ passwordConfirmationError }}
+        </p>
+      </div>
+    </div>
 
     <div class="space-y-2">
       <Label for="team-hire-phone">{{ t("team.hire.phone") }}</Label>
